@@ -11,7 +11,7 @@ import java.util.List;
 
 @ApiModel
 @CriteriaQuery
-public class RepositoryDetailsQuery {
+public class RepositoryPageQuery {
         @ApiProperty(name ="orderParams",desc = "排序参数")
         @OrderField
         private List<OrderParam> orderParams = Orders.instance().asc("id").get();
@@ -25,7 +25,6 @@ public class RepositoryDetailsQuery {
 
         @ApiProperty(name ="repositoryId",desc = "知识库id")
         private String repositoryId ;
-
         public List<OrderParam> getOrderParams() {
             return orderParams;
         }

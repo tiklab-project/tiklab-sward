@@ -4,7 +4,6 @@ import com.doublekit.dal.jpa.builder.deletelist.condition.DeleteCondition;
 import com.doublekit.dal.jpa.builder.deletelist.conditionbuilder.DeleteBuilders;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.repository.dao.RepositoryDao;
-import com.doublekit.wiki.repository.dao.RepositoryDetailsDao;
 import com.doublekit.wiki.repository.entity.RepositoryPo;
 import com.doublekit.wiki.repository.model.Repository;
 import com.doublekit.wiki.repository.model.RepositoryQuery;
@@ -33,8 +32,7 @@ public class RepositoryServiceImpl implements RepositoryService {
     @Autowired
     JoinQuery joinQuery;
 
-    @Autowired
-    RepositoryDetailsDao repositoryDetailsDao;
+
 
     @Autowired
     CategoryDao categoryDao;
@@ -59,7 +57,7 @@ public class RepositoryServiceImpl implements RepositoryService {
         //删除相关联的目录和内容
         DeleteCondition deleteCondition = DeleteBuilders.instance().eq("repositoryId", id).get();
 
-        repositoryDetailsDao.deleteRepositoryDetails(deleteCondition);
+        //repositoryPageDao.deleteRepositoryDetails(deleteCondition);
         categoryDao.deleteCategory(deleteCondition);
 
         repositoryDao.deleteRepository(id);

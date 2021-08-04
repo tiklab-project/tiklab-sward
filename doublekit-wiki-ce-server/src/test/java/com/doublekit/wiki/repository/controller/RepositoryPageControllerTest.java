@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.doublekit.common.Result;
 import com.doublekit.apibox.client.mock.JMockit;
 import com.doublekit.wiki.config.TestConfig;
-import com.doublekit.wiki.repository.model.RepositoryDetails;
+import com.doublekit.wiki.repository.model.RepositoryPage;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,9 +39,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @Rollback(false)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class RepositoryDetailsControllerTest {
+public class RepositoryPageControllerTest {
 
-    private static Logger logger = LoggerFactory.getLogger(RepositoryDetailsControllerTest.class);
+    private static Logger logger = LoggerFactory.getLogger(RepositoryPageControllerTest.class);
 
     static String id;
 
@@ -56,15 +56,15 @@ public class RepositoryDetailsControllerTest {
     }
 
     @Test
-    public void test01ForSaveRepositoryDetails() {
-        RepositoryDetails repositoryDetails = JMockit.mock(RepositoryDetails.class);
+    public void test01ForSaveRepositoryPage() {
+        RepositoryPage repositoryPage = JMockit.mock(RepositoryPage.class);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(repositoryDetails));
+        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(repositoryPage));
         MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.setAll(paramMap);
         try {
             MvcResult mvcResult = mockMvc.perform(
-                                post("/repositoryDetails/createRepositoryDetails")
+                                post("/repositoryPage/createRepositoryPage")
                                 .params(multiValueMap)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -83,16 +83,16 @@ public class RepositoryDetailsControllerTest {
     }
 
     @Test
-    public void test02ForUpdateRepositoryDetails(){
-        RepositoryDetails repositoryDetails = JMockit.mock(RepositoryDetails.class);
-        repositoryDetails.setId(id);
+    public void test02ForUpdateRepositoryPage(){
+        RepositoryPage repositoryPage = JMockit.mock(RepositoryPage.class);
+        repositoryPage.setId(id);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(repositoryDetails));
+        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(repositoryPage));
         MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.setAll(paramMap);
         try {
             MvcResult mvcResult = mockMvc.perform(
-                                post("/repositoryDetails/updateRepositoryDetails")
+                                post("/repositoryPage/updateRepositoryPage")
                                 .params(multiValueMap)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -110,10 +110,10 @@ public class RepositoryDetailsControllerTest {
     }
 
     @Test
-    public void test03ForFindRepositoryDetails() {
+    public void test03ForFindRepositoryPage() {
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/repositoryDetails/findRepositoryDetails")
+                    post("/repositoryPage/findRepositoryPage")
                             .param("id",id)
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
@@ -131,10 +131,10 @@ public class RepositoryDetailsControllerTest {
     }
 
     @Test
-    public void test04ForFindAllRepositoryDetails() {
+    public void test04ForFindAllRepositoryPage() {
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/repositoryDetails/findAllRepositoryDetails")
+                    post("/repositoryPage/findAllRepositoryPage")
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
             )
@@ -151,10 +151,10 @@ public class RepositoryDetailsControllerTest {
     }
 
     @Test
-    public void test05ForDeleteRepositoryDetails(){
+    public void test05ForDeleteRepositoryPage(){
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/repositoryDetails/deleteRepositoryDetails")
+                    post("/repositoryPage/deleteRepositoryPage")
                             .param("id",id)
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)

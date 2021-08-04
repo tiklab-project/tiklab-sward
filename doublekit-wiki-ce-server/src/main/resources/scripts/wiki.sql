@@ -14,12 +14,12 @@ CREATE TABLE wiki_category(
         sort int
 );
 
-CREATE TABLE wiki_repository_detail(
+CREATE TABLE wiki_repository_page(
         id VARCHAR(32) PRIMARY KEY,
         name VARCHAR(64) NOT NULL,
         repository_id VARCHAR(32) NOT NULL,
+        type_id VARCHAR(32) NOT NULL,
         category_id VARCHAR (32) ,
         details VARCHAR(320)
-
-
 );
+

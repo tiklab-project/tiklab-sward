@@ -8,10 +8,10 @@ import com.doublekit.wiki.category.model.CategoryQuery;
 import com.doublekit.common.Pagination;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.join.join.JoinQuery;
-import com.doublekit.wiki.repository.dao.RepositoryDetailsDao;
-import com.doublekit.wiki.repository.entity.RepositoryDetailsPo;
-import com.doublekit.wiki.repository.model.RepositoryDetails;
-import com.doublekit.wiki.repository.model.RepositoryDetailsQuery;
+import com.doublekit.wiki.repository.dao.RepositoryPageDao;
+import com.doublekit.wiki.repository.entity.RepositoryPagePo;
+import com.doublekit.wiki.repository.model.RepositoryPage;
+import com.doublekit.wiki.repository.model.RepositoryPageQuery;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,8 @@ public class CategoryServiceImpl implements CategoryService {
     JoinQuery joinQuery;
 
     @Autowired
-    RepositoryDetailsDao repositoryDetailsDao;
+    RepositoryPageDao repositoryPageDao;
+
 
     @Override
     public String createCategory(@NotNull @Valid Category category) {
@@ -128,7 +129,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categoryList = this.findCategoryList(categoryQuery);
 
         //查找并设置分类下面的接口
-        findCategoryMethodList(categoryList,repostMap);
+       findCategoryMethodList(categoryList,repostMap);
 
         //查询以及目录
         List<Category> topCategoryList = findTopCategoryList(categoryList);
@@ -173,7 +174,8 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
     }
-    /**
+
+  /**
      * 查询 知识库相关的内容
      * @param categoryList
      * @return
@@ -181,16 +183,17 @@ public class CategoryServiceImpl implements CategoryService {
     List<Category> findCategoryMethodList(List<Category> categoryList,Map<String, Object> repostoryMap){
 
         List<Category> categorys = categoryList.stream().map(category -> {
-            RepositoryDetailsQuery repositoryDetails = new RepositoryDetailsQuery();
-            repositoryDetails.setCategoryId(category.getId());
-            List<RepositoryDetailsPo> repositoryDetailsList = repositoryDetailsDao.findRepositoryDetailsList(repositoryDetails);
-            List<RepositoryDetails> repositoryDetails1 = BeanMapper.mapList(repositoryDetailsList, RepositoryDetails.class);
+            RepositoryPageQuery repositoryPageQuery = new RepositoryPageQuery();
+            repositoryPageQuery.setCategoryId(category.getId());
+            List<RepositoryPagePo> repositoryDetailsList = repositoryPageDao.findRepositoryPageList(repositoryPageQuery);
+            List<RepositoryPage> repositoryPages = BeanMapper.mapList(repositoryDetailsList, RepositoryPage.class);
             //内容直接在知识库下面没有放入目录下面
-            if (CollectionUtils.isNotEmpty(repositoryDetails1)){
-                List<RepositoryDetails> collect = repositoryDetails1.stream().filter(a -> ObjectUtils.isEmpty(a.getCategoryId())).collect(Collectors.toList());
+            if (CollectionUtils.isNotEmpty(repositoryPages)){
+                List<RepositoryPage> collect = repositoryPages.stream().filter(a -> ObjectUtils.isEmpty(a.getCategoryId())).collect(Collectors.toList());
+
                 repostoryMap.put("repositoryDetails",collect) ;
             }
-            category.setRepositoryDetails(repositoryDetails1);
+            category.setRepositoryPage(repositoryPages);
             return category;
         }).collect(Collectors.toList());
 

@@ -8,7 +8,7 @@ import com.doublekit.beans.annotation.Mappings;
 import com.doublekit.common.BaseModel;
 import com.doublekit.join.annotation.Join;
 import com.doublekit.join.annotation.JoinField;
-import com.doublekit.wiki.repository.model.RepositoryDetails;
+import com.doublekit.wiki.repository.model.RepositoryPage;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class Category extends BaseModel{
     private List<Category> children = new ArrayList<>();
 
     @ApiProperty(name="categoryMethod",desc="")
-    private List<RepositoryDetails> repositoryDetails=new ArrayList<>();
+    private List<RepositoryPage> repositoryPage=new ArrayList<>();
 
     public java.lang.String getId() {
         return id;
@@ -92,11 +92,11 @@ public class Category extends BaseModel{
         this.children = children;
     }
 
-    public List<RepositoryDetails> getRepositoryDetails() {
-        return repositoryDetails;
+    public List<RepositoryPage> getRepositoryPage() {
+        return repositoryPage;
     }
 
-    public void setRepositoryDetails(List<RepositoryDetails> repositoryDetails) {
-        this.repositoryDetails = repositoryDetails;
+    public void setRepositoryPage(List<RepositoryPage> repositoryPage) {
+        this.repositoryPage = repositoryPage;
     }
 }
