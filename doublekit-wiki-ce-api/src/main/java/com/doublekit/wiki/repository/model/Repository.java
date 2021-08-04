@@ -1,0 +1,67 @@
+package com.doublekit.wiki.repository.model;
+
+import com.doublekit.apibox.annotation.ApiModel;
+import com.doublekit.apibox.annotation.ApiProperty;
+import com.doublekit.beans.annotation.Mapper;
+import com.doublekit.common.BaseModel;
+
+import javax.validation.constraints.NotNull;
+
+@ApiModel
+@Mapper
+public class Repository extends BaseModel{
+
+    @ApiProperty(name="id",desc="id")
+    private java.lang.String id;
+
+    @NotNull
+    @ApiProperty(name="name",desc="name",required = true)
+    private java.lang.String name;
+
+    @NotNull
+    @ApiProperty(name="typeId",desc="typeId",required = true)
+    private java.lang.String typeId;
+
+    @NotNull
+    @ApiProperty(name="master",desc="master",required = true)
+    private java.lang.String master;
+
+    @ApiProperty(name="desc",desc="desc")
+    private java.lang.String desc;
+
+    public java.lang.String getId() {
+        return id;
+    }
+
+    public void setId(java.lang.String id) {
+        this.id = id;
+    }
+    public java.lang.String getName() {
+        return name;
+    }
+
+    public void setName(java.lang.String name) {
+        this.name = name;
+    }
+    public java.lang.String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(java.lang.String typeId) {
+        this.typeId = typeId;
+    }
+    public java.lang.String getMaster() {
+        return master;
+    }
+
+    public void setMaster(java.lang.String master) {
+        this.master = master;
+    }
+    public java.lang.String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(java.lang.String desc) {
+        this.desc = desc;
+    }
+}

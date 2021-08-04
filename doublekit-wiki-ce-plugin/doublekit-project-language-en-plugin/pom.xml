@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.doublekit</groupId>
+        <artifactId>doublekit-wiki-ce-plugin</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>doublekit-project-language-en-plugin</artifactId>
+    <name>${project.artifactId}</name>
+
+    <dependencies>
+        <!--common-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--spring-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>hamcrest-core</artifactId>
+                    <groupId>org.hamcrest</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--doublekit-->
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-web-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-framework-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-dal-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-rpc-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-dfs-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-dcs-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-dss-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-codegen</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-apibox-client</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>
+
