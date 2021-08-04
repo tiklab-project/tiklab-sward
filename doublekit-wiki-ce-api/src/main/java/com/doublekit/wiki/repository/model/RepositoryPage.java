@@ -27,7 +27,7 @@ public class RepositoryPage extends BaseModel{
     private java.lang.String repositoryId;
 
     @NotNull
-    @ApiProperty(name="categoryId",desc="categoryId",required = true)
+    @ApiProperty(name="categoryId",desc="categoryId")
     private java.lang.String categoryId;
 
     @ApiProperty(name="details",desc="details")

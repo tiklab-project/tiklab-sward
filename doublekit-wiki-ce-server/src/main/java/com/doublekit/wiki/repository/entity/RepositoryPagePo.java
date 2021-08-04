@@ -27,7 +27,7 @@ public class RepositoryPagePo implements Serializable {
     private String repositoryId;
 
     //目录id
-    @Column(name = "category_id",length = 32,notNull = true)
+    @Column(name = "category_id",length = 32)
     private String categoryId;
 
     //内容
