@@ -18,7 +18,7 @@
     </properties>
 
     <modules>
-        <module>doublekit-project-language-en-plugin</module>
+        <module>doublekit-wiki-language-en-plugin</module>
     </modules>
 </project>
 

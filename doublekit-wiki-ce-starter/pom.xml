@@ -57,7 +57,7 @@
                         </artifactItem>
                         <artifactItem>
                             <groupId>com.doublekit</groupId>
-                            <artifactId>doublekit-project-language-en-plugin</artifactId>
+                            <artifactId>doublekit-wiki-language-en-plugin</artifactId>
                             <version>${project.version}</version>
                         </artifactItem>
                     </artifactItems>
