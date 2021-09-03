@@ -76,5 +76,5 @@ public interface CategoryService {
      * @param categoryQuery
      * @return
      */
-    Map findCategoryListTree(CategoryQuery categoryQuery);
+    List findCategoryListTree(CategoryQuery categoryQuery);
 }

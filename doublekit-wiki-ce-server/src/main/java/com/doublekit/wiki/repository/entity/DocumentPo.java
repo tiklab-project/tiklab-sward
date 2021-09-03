@@ -34,6 +34,9 @@ public class DocumentPo implements Serializable {
     @Column(name = "details")
     private String details;
 
+    private java.lang.String formatType="document";
+
+
     public String getId() {
         return id;
     }
@@ -80,5 +83,13 @@ public class DocumentPo implements Serializable {
 
     public void setTypeId(String typeId) {
         this.typeId = typeId;
+    }
+
+    public String getFormatType() {
+        return formatType;
+    }
+
+    public void setFormatType(String formatType) {
+        this.formatType = formatType;
     }
 }

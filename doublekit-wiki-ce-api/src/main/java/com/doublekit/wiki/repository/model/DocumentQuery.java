@@ -56,7 +56,8 @@ public class DocumentQuery {
             return repositoryId;
         }
 
-        public void setRepositoryId(String repositoryId) {
+        public DocumentQuery setRepositoryId(String repositoryId) {
             this.repositoryId = repositoryId;
+            return this;
         }
 }

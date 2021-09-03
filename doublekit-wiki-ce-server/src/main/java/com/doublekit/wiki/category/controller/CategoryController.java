@@ -89,9 +89,8 @@ public class CategoryController {
     @RequestMapping(path = "/findCategoryListTree",method = RequestMethod.POST)
     @ApiMethod(name = "findCategoryListTree",desc = "条件查询目录树")
     @ApiParam(name = "categoryQuery",desc = "categoryQuery",required = true)
-    public Result<Map> findCategoryListTree(@RequestBody @Valid @NotNull CategoryQuery categoryQuery){
-        Map<String,Object> categoryListTree = categoryService.findCategoryListTree(categoryQuery);
-
+    public Result<List> findCategoryListTree(@RequestBody @Valid @NotNull CategoryQuery categoryQuery){
+        List categoryListTree = categoryService.findCategoryListTree(categoryQuery);
         return Result.ok(categoryListTree);
     }
 

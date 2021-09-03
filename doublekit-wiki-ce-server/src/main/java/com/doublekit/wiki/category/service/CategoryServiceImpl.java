@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void updateCategory(@NotNull @Valid Category category) {
         CategoryPo categoryPo = BeanMapper.map(category, CategoryPo.class);
-
+        if (ObjectUtils.isEmpty(category.getParentCategory())){
+            categoryPo.setParentCategoryId("");
+        }
         categoryDao.updateCategory(categoryPo);
     }
 
@@ -124,17 +127,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Map findCategoryListTree(CategoryQuery categoryQuery) {
-
-        Map<String, Object> repostMap = new HashMap<>();
+    public List<Object> findCategoryListTree(CategoryQuery categoryQuery) {
+        ArrayList<Object> objects = new ArrayList<>();
         //查询符合条件的所有目录
         List<Category> categoryList = this.findCategoryList(categoryQuery);
 
+        List<DocumentPo> documentList = documentDao.findDocumentList(new DocumentQuery().setRepositoryId(categoryQuery.getRepositoryId()));
         //查找并设置分类下面的接口
-       findCategoryMethodList(categoryList,repostMap);
+        List<Category> categoryMethodList = findCategoryMethodList(categoryList);
 
+        //查询没在目录下main的文档
+        List<DocumentPo> collect = documentList.stream().filter(a -> ObjectUtils.isEmpty(a.getCategoryId())).collect(Collectors.toList());
         //查询以及目录
-        List<Category> topCategoryList = findTopCategoryList(categoryList);
+        List<Category> topCategoryList = findTopCategoryList(categoryMethodList);
 
         //查找并设置子分类列表
         if(topCategoryList != null){
@@ -142,9 +147,11 @@ public class CategoryServiceImpl implements CategoryService {
                 setChildren(categoryList,topCategory);
             }
         }
-        repostMap.put("topCategoryList",topCategoryList);
-        return repostMap;
+        objects.add(topCategoryList);
+        objects.add(collect);
+        return objects;
     }
+
 
 
     /**
@@ -182,19 +189,13 @@ public class CategoryServiceImpl implements CategoryService {
      * @param categoryList
      * @return
      */
-    List<Category> findCategoryMethodList(List<Category> categoryList,Map<String, Object> repostoryMap){
+    List<Category> findCategoryMethodList(List<Category> categoryList){
 
         List<Category> categorys = categoryList.stream().map(category -> {
             DocumentQuery documentQuery = new DocumentQuery();
             documentQuery.setCategoryId(category.getId());
             List<DocumentPo> repositoryDetailsList = documentDao.findDocumentList(documentQuery);
             List<Document> documents = BeanMapper.mapList(repositoryDetailsList, Document.class);
-            //内容直接在知识库下面没有放入目录下面
-            if (CollectionUtils.isNotEmpty(documents)){
-                List<Document> collect = documents.stream().filter(a -> ObjectUtils.isEmpty(a.getCategory())).collect(Collectors.toList());
-
-                repostoryMap.put("repositoryDetails",collect) ;
-            }
             category.setDocuments(documents);
             return category;
         }).collect(Collectors.toList());

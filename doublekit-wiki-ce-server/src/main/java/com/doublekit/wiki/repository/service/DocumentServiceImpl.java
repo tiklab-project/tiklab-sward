@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.ObjectUtils;
 
 /**
 * DocumentServiceImpl
@@ -38,8 +39,11 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public void updateDocument(@NotNull @Valid Document document) {
-        DocumentPo documentPo = BeanMapper.map(document, DocumentPo.class);
 
+        DocumentPo documentPo = BeanMapper.map(document, DocumentPo.class);
+        if (ObjectUtils.isEmpty(document.getCategory())){
+            documentPo.setCategoryId("");
+        }
         documentDao.updateDocument(documentPo);
     }
 
