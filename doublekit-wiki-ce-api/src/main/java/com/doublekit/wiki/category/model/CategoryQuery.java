@@ -20,6 +20,10 @@ public class CategoryQuery {
         @PageField
         private PageParam pageParam = new PageParam();
 
+        @ApiProperty(name ="repositoryId",desc = "空间id")
+        @QueryField(type = QueryTypeEnum.equal)
+        private String repositoryId;
+
         public List<OrderParam> getOrderParams() {
             return orderParams;
         }
@@ -34,5 +38,13 @@ public class CategoryQuery {
 
         public void setPageParam(PageParam pageParam) {
             this.pageParam = pageParam;
+        }
+
+        public String getRepositoryId() {
+            return repositoryId;
+        }
+
+        public void setRepositoryId(String repositoryId) {
+            this.repositoryId = repositoryId;
         }
 }

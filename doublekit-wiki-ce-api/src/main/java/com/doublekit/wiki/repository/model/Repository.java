@@ -3,12 +3,19 @@ package com.doublekit.wiki.repository.model;
 import com.doublekit.apibox.annotation.ApiModel;
 import com.doublekit.apibox.annotation.ApiProperty;
 import com.doublekit.beans.annotation.Mapper;
+import com.doublekit.beans.annotation.Mapping;
+import com.doublekit.beans.annotation.Mappings;
 import com.doublekit.common.BaseModel;
+import com.doublekit.join.annotation.Join;
+import com.doublekit.join.annotation.JoinField;
+import com.doublekit.user.user.model.User;
+import com.doublekit.wiki.category.model.Category;
 
 import javax.validation.constraints.NotNull;
 
 @ApiModel
 @Mapper
+@Join
 public class Repository extends BaseModel{
 
     @ApiProperty(name="id",desc="id")
@@ -18,13 +25,17 @@ public class Repository extends BaseModel{
     @ApiProperty(name="name",desc="name",required = true)
     private java.lang.String name;
 
-    @NotNull
+    //@NotNull
     @ApiProperty(name="typeId",desc="typeId",required = true)
-    private java.lang.String typeId;
+    private java.lang.String typeId="1";
 
     @NotNull
-    @ApiProperty(name="master",desc="master",required = true)
-    private java.lang.String master;
+    @ApiProperty(name="master",desc="负责人",eg="@selectOne")
+    @Mappings({
+            @Mapping(source = "master.id",target = "master")
+    })
+    @JoinField(id = "id")
+    private User master;
 
     @ApiProperty(name="desc",desc="desc")
     private java.lang.String desc;
@@ -50,18 +61,20 @@ public class Repository extends BaseModel{
     public void setTypeId(java.lang.String typeId) {
         this.typeId = typeId;
     }
-    public java.lang.String getMaster() {
-        return master;
-    }
 
-    public void setMaster(java.lang.String master) {
-        this.master = master;
-    }
     public java.lang.String getDesc() {
         return desc;
     }
 
     public void setDesc(java.lang.String desc) {
         this.desc = desc;
+    }
+
+    public User getMaster() {
+        return master;
+    }
+
+    public void setMaster(User master) {
+        this.master = master;
     }
 }

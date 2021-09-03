@@ -11,7 +11,7 @@ import java.util.List;
 
 @ApiModel
 @CriteriaQuery
-public class RepositoryQuery {
+public class DocumentAttachQuery {
         @ApiProperty(name ="orderParams",desc = "排序参数")
         @OrderField
         private List<OrderParam> orderParams = Orders.instance().asc("id").get();
@@ -19,10 +19,6 @@ public class RepositoryQuery {
         @ApiProperty(name ="pageParam",desc = "分页参数")
         @PageField
         private PageParam pageParam = new PageParam();
-
-        @ApiProperty(name ="name",desc = "名字，模糊匹配")
-        @QueryField(type = QueryTypeEnum.like)
-        private String name;
 
         public List<OrderParam> getOrderParams() {
             return orderParams;
@@ -38,13 +34,5 @@ public class RepositoryQuery {
 
         public void setPageParam(PageParam pageParam) {
             this.pageParam = pageParam;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
         }
 }

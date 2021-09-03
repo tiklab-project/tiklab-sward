@@ -2,6 +2,11 @@ package com.doublekit.wiki.repository.service;
 
 import com.doublekit.common.Pagination;
 
+import com.doublekit.join.annotation.FindAll;
+import com.doublekit.join.annotation.FindList;
+import com.doublekit.join.annotation.FindOne;
+import com.doublekit.join.annotation.Provider;
+import com.doublekit.wiki.category.model.Category;
 import com.doublekit.wiki.repository.model.Repository;
 import com.doublekit.wiki.repository.model.RepositoryQuery;
 
@@ -12,6 +17,7 @@ import java.util.List;
 /**
 * RepositoryService
 */
+@Provider(model = Repository.class)
 public interface RepositoryService {
 
     /**
@@ -33,8 +39,10 @@ public interface RepositoryService {
     */
     void deleteRepository(@NotNull String id);
 
+    @FindOne
     Repository findOne(@NotNull String id);
 
+    @FindList
     List<Repository> findList(List<String> idList);
 
     /**
@@ -48,6 +56,7 @@ public interface RepositoryService {
     * 查找所有
     * @return
     */
+    @FindAll
     List<Repository> findAllRepository();
 
     /**

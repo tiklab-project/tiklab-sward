@@ -8,8 +8,8 @@ import com.doublekit.dal.jpa.mapper.annotation.Table;
 
 import java.io.Serializable;
 
-@Table(name="wiki_repository_page")
-public class RepositoryPagePo implements Serializable {
+@Table(name="wiki_document")
+public class DocumentPo implements Serializable {
 
     @Id
     @GeneratorValue
@@ -21,7 +21,7 @@ public class RepositoryPagePo implements Serializable {
     private String name;
     //知识库类别
     @Column(name = "type_id",length = 32,notNull = true)
-    private String typeId;
+    private String typeId="text";
     //知识库id
     @Column(name = "repository_id",length = 32,notNull = true)
     private String repositoryId;
@@ -31,7 +31,7 @@ public class RepositoryPagePo implements Serializable {
     private String categoryId;
 
     //内容
-    @Column(name = "description",length = 64)
+    @Column(name = "details")
     private String details;
 
     public String getId() {

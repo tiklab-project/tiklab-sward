@@ -8,7 +8,8 @@ import com.doublekit.beans.annotation.Mappings;
 import com.doublekit.common.BaseModel;
 import com.doublekit.join.annotation.Join;
 import com.doublekit.join.annotation.JoinField;
-import com.doublekit.wiki.repository.model.RepositoryPage;
+import com.doublekit.wiki.repository.model.Document;
+import com.doublekit.wiki.repository.model.Repository;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -22,13 +23,17 @@ public class Category extends BaseModel{
     @ApiProperty(name="id",desc="id")
     private java.lang.String id;
 
-    @NotNull
+    //@NotNull
     @ApiProperty(name="name",desc="name",required = true)
     private java.lang.String name;
 
-    @NotNull
-    @ApiProperty(name="repositoryId",desc="repositoryId",required = true)
-    private java.lang.String repositoryId;
+   // @NotNull
+    @ApiProperty(name="repository",desc="空间",eg="@selectOne")
+    @Mappings({
+            @Mapping(source = "repository.id",target = "repositoryId")
+    })
+    @JoinField(id = "id")
+    private Repository repository;
 
     @ApiProperty(name="parentCategory",desc="上级分类",eg="@selectOne")
     @Mappings({
@@ -43,8 +48,11 @@ public class Category extends BaseModel{
     @ApiProperty(name="children",desc="下级目录列表")
     private List<Category> children = new ArrayList<>();
 
-    @ApiProperty(name="categoryMethod",desc="")
-    private List<RepositoryPage> repositoryPage=new ArrayList<>();
+   @ApiProperty(name="categoryMethod",desc="")
+    private List<Document> documents=new ArrayList<>();
+
+   @ApiProperty(name="formatType",desc="格式类型  category 目录  document 文档")
+    private java.lang.String formatType="category";
 
     public java.lang.String getId() {
         return id;
@@ -60,12 +68,13 @@ public class Category extends BaseModel{
     public void setName(java.lang.String name) {
         this.name = name;
     }
-    public java.lang.String getRepositoryId() {
-        return repositoryId;
+
+    public Repository getRepository() {
+        return repository;
     }
 
-    public void setRepositoryId(java.lang.String repositoryId) {
-        this.repositoryId = repositoryId;
+    public void setRepository(Repository repository) {
+        this.repository = repository;
     }
 
     public Category getParentCategory() {
@@ -92,11 +101,19 @@ public class Category extends BaseModel{
         this.children = children;
     }
 
-    public List<RepositoryPage> getRepositoryPage() {
-        return repositoryPage;
+    public List<Document> getDocuments() {
+        return documents;
     }
 
-    public void setRepositoryPage(List<RepositoryPage> repositoryPage) {
-        this.repositoryPage = repositoryPage;
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
+    }
+
+    public String getFormatType() {
+        return formatType;
+    }
+
+    public void setFormatType(String formatType) {
+        this.formatType = formatType;
     }
 }

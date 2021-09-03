@@ -11,7 +11,7 @@ import java.util.List;
 
 @ApiModel
 @CriteriaQuery
-public class RepositoryPageQuery {
+public class DocumentQuery {
         @ApiProperty(name ="orderParams",desc = "排序参数")
         @OrderField
         private List<OrderParam> orderParams = Orders.instance().asc("id").get();
@@ -21,10 +21,13 @@ public class RepositoryPageQuery {
         private PageParam pageParam = new PageParam();
 
         @ApiProperty(name ="categoryId",desc = "目录id")
-        private String categoryId ;
+        @QueryField(type = QueryTypeEnum.equal)
+        private String categoryId;
 
-        @ApiProperty(name ="repositoryId",desc = "知识库id")
-        private String repositoryId ;
+        @ApiProperty(name ="repositoryId",desc = "空间id")
+        @QueryField(type = QueryTypeEnum.equal)
+        private String repositoryId;
+
         public List<OrderParam> getOrderParams() {
             return orderParams;
         }
@@ -41,19 +44,19 @@ public class RepositoryPageQuery {
             this.pageParam = pageParam;
         }
 
-    public String getCategoryId() {
-        return categoryId;
-    }
+        public String getCategoryId() {
+            return categoryId;
+        }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
-    }
+        public void setCategoryId(String categoryId) {
+            this.categoryId = categoryId;
+        }
 
-    public String getRepositoryId() {
-        return repositoryId;
-    }
+        public String getRepositoryId() {
+            return repositoryId;
+        }
 
-    public void setRepositoryId(String repositoryId) {
-        this.repositoryId = repositoryId;
-    }
+        public void setRepositoryId(String repositoryId) {
+            this.repositoryId = repositoryId;
+        }
 }

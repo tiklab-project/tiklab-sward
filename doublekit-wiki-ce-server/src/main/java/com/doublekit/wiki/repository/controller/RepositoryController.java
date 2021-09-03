@@ -25,9 +25,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/repository")
-@Api(name = "RepositoryController",desc = "RepositoryController")
+@Api(name = "RepositoryController",desc = "")
 public class RepositoryController {
-
+    //
     private static Logger logger = LoggerFactory.getLogger(RepositoryController.class);
 
     @Autowired
@@ -47,6 +47,7 @@ public class RepositoryController {
     @ApiParam(name = "repository",desc = "repository",required = true)
     public Result<Void> updateRepository(@RequestBody @NotNull @Valid Repository repository){
         repositoryService.updateRepository(repository);
+
 
         return Result.ok();
     }

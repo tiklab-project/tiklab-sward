@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.doublekit.common.Result;
 import com.doublekit.apibox.client.mock.JMockit;
 import com.doublekit.wiki.config.TestConfig;
-import com.doublekit.wiki.repository.model.RepositoryPage;
+import com.doublekit.wiki.repository.model.DocumentAttach;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,9 +39,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @Rollback(false)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class RepositoryPageControllerTest {
+public class DocumentAttachControllerTest {
 
-    private static Logger logger = LoggerFactory.getLogger(RepositoryPageControllerTest.class);
+    private static Logger logger = LoggerFactory.getLogger(DocumentAttachControllerTest.class);
 
     static String id;
 
@@ -56,15 +56,15 @@ public class RepositoryPageControllerTest {
     }
 
     @Test
-    public void test01ForSaveRepositoryPage() {
-        RepositoryPage repositoryPage = JMockit.mock(RepositoryPage.class);
+    public void test01ForSaveDocumentAttach() {
+        DocumentAttach documentAttach = JMockit.mock(DocumentAttach.class);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(repositoryPage));
+        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(documentAttach));
         MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.setAll(paramMap);
         try {
             MvcResult mvcResult = mockMvc.perform(
-                                post("/repositoryPage/createRepositoryPage")
+                                post("/documentAttach/createDocumentAttach")
                                 .params(multiValueMap)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -83,16 +83,16 @@ public class RepositoryPageControllerTest {
     }
 
     @Test
-    public void test02ForUpdateRepositoryPage(){
-        RepositoryPage repositoryPage = JMockit.mock(RepositoryPage.class);
-        repositoryPage.setId(id);
+    public void test02ForUpdateDocumentAttach(){
+        DocumentAttach documentAttach = JMockit.mock(DocumentAttach.class);
+        documentAttach.setId(id);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(repositoryPage));
+        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(documentAttach));
         MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
         multiValueMap.setAll(paramMap);
         try {
             MvcResult mvcResult = mockMvc.perform(
-                                post("/repositoryPage/updateRepositoryPage")
+                                post("/documentAttach/updateDocumentAttach")
                                 .params(multiValueMap)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -110,10 +110,10 @@ public class RepositoryPageControllerTest {
     }
 
     @Test
-    public void test03ForFindRepositoryPage() {
+    public void test03ForFindDocumentAttach() {
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/repositoryPage/findRepositoryPage")
+                    post("/documentAttach/findDocumentAttach")
                             .param("id",id)
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
@@ -131,10 +131,10 @@ public class RepositoryPageControllerTest {
     }
 
     @Test
-    public void test04ForFindAllRepositoryPage() {
+    public void test04ForFindAllDocumentAttach() {
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/repositoryPage/findAllRepositoryPage")
+                    post("/documentAttach/findAllDocumentAttach")
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
             )
@@ -151,10 +151,10 @@ public class RepositoryPageControllerTest {
     }
 
     @Test
-    public void test05ForDeleteRepositoryPage(){
+    public void test05ForDeleteDocumentAttach(){
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/repositoryPage/deleteRepositoryPage")
+                    post("/documentAttach/deleteDocumentAttach")
                             .param("id",id)
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)

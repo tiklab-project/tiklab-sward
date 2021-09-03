@@ -8,10 +8,10 @@ import com.doublekit.wiki.category.model.CategoryQuery;
 import com.doublekit.common.Pagination;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.join.join.JoinQuery;
-import com.doublekit.wiki.repository.dao.RepositoryPageDao;
-import com.doublekit.wiki.repository.entity.RepositoryPagePo;
-import com.doublekit.wiki.repository.model.RepositoryPage;
-import com.doublekit.wiki.repository.model.RepositoryPageQuery;
+import com.doublekit.wiki.repository.dao.DocumentDao;
+import com.doublekit.wiki.repository.entity.DocumentPo;
+import com.doublekit.wiki.repository.model.Document;
+import com.doublekit.wiki.repository.model.DocumentQuery;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
     JoinQuery joinQuery;
 
     @Autowired
-    RepositoryPageDao repositoryPageDao;
+    DocumentDao documentDao;
 
 
     @Override
@@ -58,6 +58,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(@NotNull String id) {
+        //删除下面相关联的目录和文档
+        
         categoryDao.deleteCategory(id);
     }
 
@@ -183,17 +185,17 @@ public class CategoryServiceImpl implements CategoryService {
     List<Category> findCategoryMethodList(List<Category> categoryList,Map<String, Object> repostoryMap){
 
         List<Category> categorys = categoryList.stream().map(category -> {
-            RepositoryPageQuery repositoryPageQuery = new RepositoryPageQuery();
-            repositoryPageQuery.setCategoryId(category.getId());
-            List<RepositoryPagePo> repositoryDetailsList = repositoryPageDao.findRepositoryPageList(repositoryPageQuery);
-            List<RepositoryPage> repositoryPages = BeanMapper.mapList(repositoryDetailsList, RepositoryPage.class);
+            DocumentQuery documentQuery = new DocumentQuery();
+            documentQuery.setCategoryId(category.getId());
+            List<DocumentPo> repositoryDetailsList = documentDao.findDocumentList(documentQuery);
+            List<Document> documents = BeanMapper.mapList(repositoryDetailsList, Document.class);
             //内容直接在知识库下面没有放入目录下面
-            if (CollectionUtils.isNotEmpty(repositoryPages)){
-                List<RepositoryPage> collect = repositoryPages.stream().filter(a -> ObjectUtils.isEmpty(a.getCategoryId())).collect(Collectors.toList());
+            if (CollectionUtils.isNotEmpty(documents)){
+                List<Document> collect = documents.stream().filter(a -> ObjectUtils.isEmpty(a.getCategory())).collect(Collectors.toList());
 
                 repostoryMap.put("repositoryDetails",collect) ;
             }
-            category.setRepositoryPage(repositoryPages);
+            category.setDocuments(documents);
             return category;
         }).collect(Collectors.toList());
 

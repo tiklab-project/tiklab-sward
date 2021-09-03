@@ -25,7 +25,7 @@ public class CategoryPo implements Serializable {
     private String repositoryId;
 
     //上一级id
-    @Column(name = "parent_category_id",length = 32,notNull = true)
+    @Column(name = "parent_category_id",length = 32)
     private String parentCategoryId;
 
     //描述
