@@ -1,13 +1,18 @@
 package com.doublekit.wiki.repository.service;
 
+import com.doublekit.wiki.repository.dao.CommentDao;
 import com.doublekit.wiki.repository.dao.DocumentDao;
+import com.doublekit.wiki.repository.entity.CommentPo;
 import com.doublekit.wiki.repository.entity.DocumentPo;
+import com.doublekit.wiki.repository.model.CommentQuery;
 import com.doublekit.wiki.repository.model.Document;
 import com.doublekit.wiki.repository.model.DocumentQuery;
 
 import com.doublekit.common.Pagination;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.join.join.JoinQuery;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.lucene.util.CollectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +34,9 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     JoinQuery joinQuery;
+
+    @Autowired
+    CommentDao commentDao;
 
     @Override
     public String createDocument(@NotNull @Valid Document document) {
@@ -55,8 +63,11 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public Document findOne(String id) {
         DocumentPo documentPo = documentDao.findDocument(id);
-
+        List<CommentPo> commentList = commentDao.findCommentList(new CommentQuery().setDocumentId(id));
         Document document = BeanMapper.map(documentPo, Document.class);
+        if (CollectionUtils.isNotEmpty(commentList)){
+            document.setCommentNumber(commentList.size());
+        }
         return document;
     }
 

@@ -30,3 +30,23 @@ CREATE TABLE wiki_document_attach(
         sort int
 );
 
+CREATE TABLE wiki_document_template(
+        id VARCHAR(32) PRIMARY KEY,
+        name VARCHAR(32) NOT NULL,
+        description VARCHAR (64),
+        details longtext,
+        sort int
+);
+CREATE TABLE wiki_comment(
+        id VARCHAR(32) PRIMARY KEY,
+        document_id VARCHAR(32) NOT NULL,
+        parent_comment_id VARCHAR (32),
+        first_one_comment_id varchar(32),
+        details longtext,
+        user varchar(32),
+        aim_at_user varchar(32),
+        create_time timestamp,
+        update_time timestamp
+);
+
+

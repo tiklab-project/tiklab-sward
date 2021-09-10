@@ -46,6 +46,10 @@ public class Document extends BaseModel{
     @ApiProperty(name="details",desc="details")
     private java.lang.String details;
 
+    //评论条数
+    @ApiProperty(name="commentNumber",desc="评论条数")
+    private java.lang.Integer commentNumber;
+
 
     @ApiProperty(name="formatType",desc="格式类型  category 目录  document 文档")
     private java.lang.String formatType="document";
@@ -102,5 +106,13 @@ public class Document extends BaseModel{
 
     public void setFormatType(String formatType) {
         this.formatType = formatType;
+    }
+
+    public Integer getCommentNumber() {
+        return commentNumber;
+    }
+
+    public void setCommentNumber(Integer commentNumber) {
+        this.commentNumber = commentNumber;
     }
 }
