@@ -48,5 +48,13 @@ CREATE TABLE wiki_comment(
         create_time timestamp,
         update_time timestamp
 );
+CREATE TABLE wiki_like(
+        id VARCHAR(32) PRIMARY KEY,
+        to_whom_id varchar (32) not null,
+        like_user varchar(32) not null,
+        like_type varchar(8) not null,
+        create_time timestamp
+);
+
 
 

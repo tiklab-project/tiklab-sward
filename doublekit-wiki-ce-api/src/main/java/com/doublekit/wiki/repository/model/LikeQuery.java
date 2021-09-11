@@ -11,7 +11,7 @@ import java.util.List;
 
 @ApiModel
 @CriteriaQuery
-public class CommentQuery {
+public class LikeQuery {
         @ApiProperty(name ="orderParams",desc = "排序参数")
         @OrderField
         private List<OrderParam> orderParams = Orders.instance().asc("id").get();
@@ -20,11 +20,17 @@ public class CommentQuery {
         @PageField
         private PageParam pageParam = new PageParam();
 
-        @ApiProperty(name ="documentId",desc = "文档id")
+        @ApiProperty(name ="toWhomId",desc = "id")
         @QueryField(type = QueryTypeEnum.like)
-        private String documentId;
+        private String toWhomId;
 
+        @ApiProperty(name ="likeType",desc = "点赞类型")
+        @QueryField(type = QueryTypeEnum.like)
+        private String likeType;
 
+        @ApiProperty(name ="likeUser",desc = "点赞人")
+        @QueryField(type = QueryTypeEnum.like)
+        private String likeUser;
 
         public List<OrderParam> getOrderParams() {
             return orderParams;
@@ -42,13 +48,27 @@ public class CommentQuery {
             this.pageParam = pageParam;
         }
 
-        public String getDocumentId() {
-            return documentId;
+        public String getToWhomId() {
+            return toWhomId;
         }
 
-        public CommentQuery setDocumentId(String documentId) {
-            this.documentId = documentId;
-            return this;
+        public void setToWhomId(String toWhomId) {
+            this.toWhomId = toWhomId;
         }
 
+        public String getLikeType() {
+                return likeType;
+            }
+
+            public void setLikeType(String likeType) {
+                this.likeType = likeType;
+            }
+
+        public String getLikeUser() {
+            return likeUser;
+        }
+
+        public void setLikeUser(String likeUser) {
+            this.likeUser = likeUser;
+        }
 }

@@ -3,14 +3,19 @@ package com.doublekit.wiki.repository.service;
 import com.doublekit.user.auth.passport.context.TicketContext;
 import com.doublekit.user.auth.passport.context.TicketHolder;
 import com.doublekit.user.auth.passport.model.Ticket;
+import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.repository.dao.CommentDao;
+import com.doublekit.wiki.repository.dao.LikeDao;
 import com.doublekit.wiki.repository.entity.CommentPo;
+import com.doublekit.wiki.repository.entity.LikePo;
 import com.doublekit.wiki.repository.model.Comment;
 import com.doublekit.wiki.repository.model.CommentQuery;
 
 import com.doublekit.common.Pagination;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.join.join.JoinQuery;
+import com.doublekit.wiki.repository.model.Like;
+import com.doublekit.wiki.repository.model.LikeQuery;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.lucene.util.CollectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +42,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     JoinQuery joinQuery;
+
+    @Autowired
+    LikeDao likeDao;
 
     @Override
     public String createComment(@NotNull @Valid Comment comment) {
@@ -107,6 +115,7 @@ public class CommentServiceImpl implements CommentService {
 
         joinQuery.queryList(commentList);
 
+        findLike(commentList);
         List<Comment> fistOneComment = findComment(commentList);
 
         return fistOneComment;
@@ -126,6 +135,7 @@ public class CommentServiceImpl implements CommentService {
         pg.setDataList(commentList);
         return pg;
     }
+
 
     /**
      * 查询用户（创建人）id
@@ -151,5 +161,31 @@ public class CommentServiceImpl implements CommentService {
             }
         return collect;
         }
+
+
+    /**
+     *查询点赞
+     * @param
+     */
+    public void findLike(List<Comment> commentList){
+        for (Comment comment:commentList){
+            LikeQuery likeQuery = new LikeQuery();
+            likeQuery.setToWhomId(comment.getId());
+            likeQuery.setLikeType("com");
+            //查询点赞数
+            List<LikePo> likeList = likeDao.findLikeList(likeQuery);
+            if (CollectionUtils.isNotEmpty(likeList)){
+                List<Like> likes = BeanMapper.mapList(likeList, Like.class);
+                joinQuery.queryList(likes);
+                List<User> userList = likes.stream().map(Like::getLikeUser).collect(Collectors.toList());
+                //取点赞人名字
+                List<String> collect = userList.stream().map(User::getName).collect(Collectors.toList());
+                //点赞数
+                comment.setLikenumInt(likeList.size());
+                //点赞人
+                comment.setLikeUserList(collect);
+            }
+        }
+    }
 
 }

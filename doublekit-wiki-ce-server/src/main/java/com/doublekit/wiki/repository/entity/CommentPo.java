@@ -36,7 +36,7 @@ public class CommentPo implements Serializable {
     @Column(name = "user")
     private String user;
 
-    //用户
+    //对谁的评论
     @Column(name = "aim_at_user")
     private String aimAtUser;
 
@@ -118,4 +118,5 @@ public class CommentPo implements Serializable {
     public void setAimAtUser(String aimAtUser) {
         this.aimAtUser = aimAtUser;
     }
+
 }

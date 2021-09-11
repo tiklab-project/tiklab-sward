@@ -56,13 +56,17 @@ public class Comment extends BaseModel{
     })
     @JoinField(id = "id")
     private User aimAtUser;
+
     //第一层评论id
     @ApiProperty(name="firstOneCommentId",desc="第一层评论id")
     private java.lang.String firstOneCommentId;
 
-
+    @ApiProperty(name="likenumInt",desc="点赞数")
+    private java.lang.Integer likenumInt;
 
     private List<Comment> commentList;
+
+    private List<String> likeUserList;
 
     public java.lang.String getId() {
         return id;
@@ -141,5 +145,21 @@ public class Comment extends BaseModel{
 
     public void setFirstOneCommentId(String firstOneCommentId) {
         this.firstOneCommentId = firstOneCommentId;
+    }
+
+    public Integer getLikenumInt() {
+        return likenumInt;
+    }
+
+    public void setLikenumInt(Integer likenumInt) {
+        this.likenumInt = likenumInt;
+    }
+
+    public List<String> getLikeUserList() {
+        return likeUserList;
+    }
+
+    public void setLikeUserList(List<String> likeUserList) {
+        this.likeUserList = likeUserList;
     }
 }

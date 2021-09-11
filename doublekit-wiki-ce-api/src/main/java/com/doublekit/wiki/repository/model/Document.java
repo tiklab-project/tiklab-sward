@@ -11,6 +11,7 @@ import com.doublekit.join.annotation.JoinField;
 import com.doublekit.wiki.category.model.Category;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @ApiModel
 @Mapper
@@ -50,9 +51,14 @@ public class Document extends BaseModel{
     @ApiProperty(name="commentNumber",desc="评论条数")
     private java.lang.Integer commentNumber;
 
-
     @ApiProperty(name="formatType",desc="格式类型  category 目录  document 文档")
     private java.lang.String formatType="document";
+
+    @ApiProperty(name="likenumInt",desc="点赞数")
+    private java.lang.Integer likenumInt;
+
+    @ApiProperty(name="likeUserList",desc="点赞人")
+    private List<String> likeUserList;
 
     public java.lang.String getId() {
         return id;
@@ -114,5 +120,21 @@ public class Document extends BaseModel{
 
     public void setCommentNumber(Integer commentNumber) {
         this.commentNumber = commentNumber;
+    }
+
+    public Integer getLikenumInt() {
+        return likenumInt;
+    }
+
+    public void setLikenumInt(Integer likenumInt) {
+        this.likenumInt = likenumInt;
+    }
+
+    public List<String> getLikeUserList() {
+        return likeUserList;
+    }
+
+    public void setLikeUserList(List<String> likeUserList) {
+        this.likeUserList = likeUserList;
     }
 }

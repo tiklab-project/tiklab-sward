@@ -55,7 +55,7 @@ public class DocumentController {
 
 
     @RequestMapping(path="/deleteDocument",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteDocument",desc = "")
+    @ApiMethod(name = "deleteDocument",desc = "通过id删除文档")
     @ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteDocument(@NotNull String id){
         documentService.deleteDocument(id);
@@ -65,7 +65,7 @@ public class DocumentController {
 
 
     @RequestMapping(path="/findDocument",method = RequestMethod.POST)
-    @ApiMethod(name = "findDocument",desc = "findDocument")
+    @ApiMethod(name = "findDocument",desc = "通过id查询文档")
     @ApiParam(name = "id",desc = "id",required = true)
     public Result<Document> findDocument(@NotNull String id){
         Document document = documentService.findDocument(id);

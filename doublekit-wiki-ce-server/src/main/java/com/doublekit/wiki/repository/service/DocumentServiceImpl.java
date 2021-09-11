@@ -1,12 +1,13 @@
 package com.doublekit.wiki.repository.service;
 
+import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.repository.dao.CommentDao;
 import com.doublekit.wiki.repository.dao.DocumentDao;
+import com.doublekit.wiki.repository.dao.LikeDao;
 import com.doublekit.wiki.repository.entity.CommentPo;
 import com.doublekit.wiki.repository.entity.DocumentPo;
-import com.doublekit.wiki.repository.model.CommentQuery;
-import com.doublekit.wiki.repository.model.Document;
-import com.doublekit.wiki.repository.model.DocumentQuery;
+import com.doublekit.wiki.repository.entity.LikePo;
+import com.doublekit.wiki.repository.model.*;
 
 import com.doublekit.common.Pagination;
 import com.doublekit.beans.BeanMapper;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.ObjectUtils;
@@ -37,6 +39,9 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     CommentDao commentDao;
+
+    @Autowired
+    LikeDao likeDao;
 
     @Override
     public String createDocument(@NotNull @Valid Document document) {
@@ -63,11 +68,15 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public Document findOne(String id) {
         DocumentPo documentPo = documentDao.findDocument(id);
+        //查询该文档的所有评论
         List<CommentPo> commentList = commentDao.findCommentList(new CommentQuery().setDocumentId(id));
+
         Document document = BeanMapper.map(documentPo, Document.class);
         if (CollectionUtils.isNotEmpty(commentList)){
+            //添加评论数
             document.setCommentNumber(commentList.size());
         }
+        findLike(document);
         return document;
     }
 
@@ -121,5 +130,25 @@ public class DocumentServiceImpl implements DocumentService {
 
         pg.setDataList(documentList);
         return pg;
+    }
+
+    /**
+     *查询点赞
+     * @param
+     */
+    public void findLike( Document document){
+        LikeQuery likeQuery = new LikeQuery();
+        likeQuery.setToWhomId(document.getId());
+        likeQuery.setLikeType("doc");
+        List<LikePo> likeList = likeDao.findLikeList(likeQuery);
+        if (CollectionUtils.isNotEmpty(likeList)){
+            List<Like> likes = BeanMapper.mapList(likeList, Like.class);
+            joinQuery.queryList(likes);
+            List<User> userList = likes.stream().map(Like::getLikeUser).collect(Collectors.toList());
+            //取点赞人名字
+            List<String> collect = userList.stream().map(User::getName).collect(Collectors.toList());
+            document.setLikenumInt(likeList.size());
+            document.setLikeUserList(collect);
+        }
     }
 }
