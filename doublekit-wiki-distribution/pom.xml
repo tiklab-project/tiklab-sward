@@ -5,21 +5,21 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.doublekit</groupId>
-        <artifactId>doublekit-wiki-ce</artifactId>
+        <artifactId>doublekit-wiki</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>doublekit-wiki-ce-distribution</artifactId>
+    <artifactId>doublekit-wiki-distribution</artifactId>
     <name>${project.artifactId}</name>
 
     <dependencies>
         <dependency>
             <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-wiki-ce-server</artifactId>
+            <artifactId>doublekit-wiki-server</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-wiki-ce-ui</artifactId>
+            <artifactId>doublekit-wiki-ui</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

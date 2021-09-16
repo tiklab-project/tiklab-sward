@@ -5,16 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.doublekit</groupId>
-        <artifactId>doublekit-wiki-ce</artifactId>
+        <artifactId>doublekit-wiki</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>doublekit-wiki-ce-plugin</artifactId>
+    <artifactId>doublekit-wiki-plugin</artifactId>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
 
     <properties>
         <doublekit.version>1.0.0-SNAPSHOT</doublekit.version>
-        <app.home>${project.basedir}/../../doublekit-wiki-ce-starter</app.home>
+        <app.home>${project.basedir}/../../doublekit-wiki-starter</app.home>
     </properties>
 
     <modules>

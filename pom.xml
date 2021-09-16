@@ -9,18 +9,18 @@
         <artifactId>doublekit-dependencies</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>doublekit-wiki-ce</artifactId>
+    <artifactId>doublekit-wiki</artifactId>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
 
     <modules>
-        <module>doublekit-wiki-ce-api</module>
-        <module>doublekit-wiki-ce-server</module>
-        <module>doublekit-wiki-ce-ui</module>
-        <module>doublekit-wiki-ce-plugin</module>
-        <module>doublekit-wiki-ce-distribution</module>
-        <module>doublekit-wiki-ce-starter</module>
+        <module>doublekit-wiki-api</module>
+        <module>doublekit-wiki-server</module>
+        <module>doublekit-wiki-plugin</module>
+        <module>doublekit-wiki-ui</module>
+        <module>doublekit-wiki-distribution</module>
+        <module>doublekit-wiki-starter</module>
     </modules>
 
     <properties>
