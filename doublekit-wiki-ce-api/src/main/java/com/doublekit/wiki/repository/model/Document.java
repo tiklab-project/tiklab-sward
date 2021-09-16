@@ -60,6 +60,9 @@ public class Document extends BaseModel{
     @ApiProperty(name="likeUserList",desc="点赞人")
     private List<String> likeUserList;
 
+    @ApiProperty(name="isLike",desc="查询人是否点赞")
+    private  java.lang.String isLike;
+
     public java.lang.String getId() {
         return id;
     }
@@ -136,5 +139,13 @@ public class Document extends BaseModel{
 
     public void setLikeUserList(List<String> likeUserList) {
         this.likeUserList = likeUserList;
+    }
+
+    public String getIsLike() {
+        return isLike;
+    }
+
+    public void setIsLike(String isLike) {
+        this.isLike = isLike;
     }
 }

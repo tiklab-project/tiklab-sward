@@ -39,7 +39,7 @@ public interface DocumentService {
     void deleteDocument(@NotNull String id);
 
     @FindOne
-    Document findOne(@NotNull String id);
+    Document findOne(@NotNull String id,String type);
 
     @FindList
     List<Document> findList(List<String> idList);
@@ -47,9 +47,10 @@ public interface DocumentService {
     /**
     * 查找
     * @param id
+     * @param type  分享出去后调用的查询接口  （跳过ticket验证）
     * @return
     */
-    Document findDocument(@NotNull String id);
+    Document findDocument(@NotNull String id,String type);
 
     /**
     * 查找所有

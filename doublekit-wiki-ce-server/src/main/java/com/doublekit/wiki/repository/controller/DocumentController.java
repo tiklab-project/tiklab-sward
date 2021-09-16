@@ -68,7 +68,7 @@ public class DocumentController {
     @ApiMethod(name = "findDocument",desc = "通过id查询文档")
     @ApiParam(name = "id",desc = "id",required = true)
     public Result<Document> findDocument(@NotNull String id){
-        Document document = documentService.findDocument(id);
+        Document document = documentService.findDocument(id,null);
 
         return Result.ok(document);
     }
@@ -101,4 +101,13 @@ public class DocumentController {
         return Result.ok(pagination);
     }
 
+    @RequestMapping(path="/view",method = RequestMethod.POST)
+    @ApiMethod(name = "view",desc = "通过id查询文档(用于分享后查询)")
+    @ApiParam(name = "id",desc = "id",required = true)
+    public Result<Document> view(@NotNull String id){
+        String type="view";
+        Document document = documentService.findDocument(id,type);
+
+        return Result.ok(document);
+    }
 }

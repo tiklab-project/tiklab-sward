@@ -107,7 +107,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> findCommentList(CommentQuery commentQuery) {
+    public List<Comment> findCommentList(CommentQuery commentQuery,String type) {
         List<CommentPo> commentPoList = commentDao.findCommentList(commentQuery);
 
 
@@ -115,7 +115,7 @@ public class CommentServiceImpl implements CommentService {
 
         joinQuery.queryList(commentList);
 
-        findLike(commentList);
+        findLike(commentList,type);
         List<Comment> fistOneComment = findComment(commentList);
 
         return fistOneComment;
@@ -167,7 +167,7 @@ public class CommentServiceImpl implements CommentService {
      *查询点赞
      * @param
      */
-    public void findLike(List<Comment> commentList){
+    public void findLike(List<Comment> commentList,String type){
         for (Comment comment:commentList){
             LikeQuery likeQuery = new LikeQuery();
             likeQuery.setToWhomId(comment.getId());
@@ -175,6 +175,17 @@ public class CommentServiceImpl implements CommentService {
             //查询点赞数
             List<LikePo> likeList = likeDao.findLikeList(likeQuery);
             if (CollectionUtils.isNotEmpty(likeList)){
+                if ("view".equals(type)){
+                    comment.setIsLike("false");
+                }else {
+                    //根据用户id判断该用户是否点赞了
+                    List<LikePo> collect1 = likeList.stream().filter(a -> findCreatUser().equals(a.getLikeUser())).collect(Collectors.toList());
+                    if (CollectionUtils.isNotEmpty(collect1)){
+                        comment.setIsLike("true");
+                    }else {
+                        comment.setIsLike("false");
+                    }
+                }
                 List<Like> likes = BeanMapper.mapList(likeList, Like.class);
                 joinQuery.queryList(likes);
                 List<User> userList = likes.stream().map(Like::getLikeUser).collect(Collectors.toList());
@@ -184,6 +195,8 @@ public class CommentServiceImpl implements CommentService {
                 comment.setLikenumInt(likeList.size());
                 //点赞人
                 comment.setLikeUserList(collect);
+            }else {
+                comment.setIsLike("false");
             }
         }
     }

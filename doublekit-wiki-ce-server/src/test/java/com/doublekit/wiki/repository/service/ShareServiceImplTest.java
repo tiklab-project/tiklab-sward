@@ -1,6 +1,6 @@
 package com.doublekit.wiki.repository.service;
 
-import com.doublekit.wiki.repository.model.Document;
+import com.doublekit.wiki.repository.model.Share;
 import com.doublekit.apibox.client.mock.JMockit;
 import com.doublekit.wiki.config.TestConfig;
 import org.junit.FixMethodOrder;
@@ -24,48 +24,48 @@ import static org.junit.Assert.assertNotNull;
 @Transactional
 @Rollback(false)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class DocumentServiceImplTest {
+public class ShareServiceImplTest {
 
-    private static Logger logger = LoggerFactory.getLogger(DocumentServiceImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(ShareServiceImplTest.class);
 
     @Autowired
-    DocumentService documentService;
+    ShareService shareService;
 
     static String id;
 
     @Test
-    public void test01ForSaveDocument() {
-        Document document = JMockit.mock(Document.class);
+    public void test01ForSaveShare() {
+        Share share = JMockit.mock(Share.class);
 
-        id = documentService.createDocument(document);
+        id = shareService.createShare(share);
 
         assertNotNull(id);
     }
 
     @Test
-    public void test02ForUpdateDocument(){
-        Document document = JMockit.mock(Document.class);
-        document.setId(id);
+    public void test02ForUpdateShare(){
+        Share share = JMockit.mock(Share.class);
+        share.setId(id);
 
-        documentService.updateDocument(document);
+        shareService.updateShare(share);
     }
 
     @Test
-    public void test03ForFindDocument() {
-        Document document = documentService.findDocument(id,null);
+    public void test03ForFindShare() {
+        Share share = shareService.findShare(id);
 
-        assertNotNull(document);
+        assertNotNull(share);
     }
 
     @Test
-    public void test04ForFindAllDocument() {
-        List<Document> documentList = documentService.findAllDocument();
+    public void test04ForFindAllShare() {
+        List<Share> shareList = shareService.findAllShare();
 
-        assertNotNull(documentList);
+        assertNotNull(shareList);
     }
 
     @Test
-    public void test05ForDeleteDocument(){
-        documentService.deleteDocument(id);
+    public void test05ForDeleteShare(){
+        shareService.deleteShare(id);
     }
 }

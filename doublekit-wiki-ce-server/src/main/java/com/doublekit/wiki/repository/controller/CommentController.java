@@ -81,7 +81,7 @@ public class CommentController {
     @ApiMethod(name = "findCommentList",desc = "根据查询对象查询评论")
     @ApiParam(name = "commentQuery",desc = "commentQuery",required = true)
     public Result<List<Comment>> findCommentList(@RequestBody @Valid @NotNull CommentQuery commentQuery){
-        List<Comment> commentList = commentService.findCommentList(commentQuery);
+        List<Comment> commentList = commentService.findCommentList(commentQuery,null);
 
         return Result.ok(commentList);
     }
@@ -95,5 +95,14 @@ public class CommentController {
         return Result.ok(pagination);
     }
 
+    @RequestMapping(path = "/view",method = RequestMethod.POST)
+    @ApiMethod(name = "view",desc = "根据查询对象查询评论（转发后查看）")
+    @ApiParam(name = "commentQuery",desc = "commentQuery",required = true)
+    public Result<List<Comment>> view(@RequestBody @Valid @NotNull CommentQuery commentQuery){
+        String type="view";
+        List<Comment> commentList = commentService.findCommentList(commentQuery,type);
+
+        return Result.ok(commentList);
+    }
 
 }

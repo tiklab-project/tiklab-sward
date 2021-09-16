@@ -56,5 +56,13 @@ CREATE TABLE wiki_like(
         create_time timestamp
 );
 
+CREATE TABLE wiki_share(
+        id VARCHAR(32) PRIMARY KEY,
+        document_id VARCHAR(32) NOT NULL,
+        share_link  varchar(64) not null,
+        auth_code varchar(6),
+        create_time timestamp
+);
+
 
 

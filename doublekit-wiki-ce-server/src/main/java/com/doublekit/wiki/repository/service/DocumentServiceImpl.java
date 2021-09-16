@@ -1,5 +1,8 @@
 package com.doublekit.wiki.repository.service;
 
+import com.doublekit.user.auth.passport.context.TicketContext;
+import com.doublekit.user.auth.passport.context.TicketHolder;
+import com.doublekit.user.auth.passport.model.Ticket;
 import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.repository.dao.CommentDao;
 import com.doublekit.wiki.repository.dao.DocumentDao;
@@ -66,7 +69,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Document findOne(String id) {
+    public Document findOne(String id,String type) {
         DocumentPo documentPo = documentDao.findDocument(id);
         //查询该文档的所有评论
         List<CommentPo> commentList = commentDao.findCommentList(new CommentQuery().setDocumentId(id));
@@ -76,7 +79,8 @@ public class DocumentServiceImpl implements DocumentService {
             //添加评论数
             document.setCommentNumber(commentList.size());
         }
-        findLike(document);
+        findLike(document,type);
+
         return document;
     }
 
@@ -89,8 +93,8 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Document findDocument(@NotNull String id) {
-        Document document = findOne(id);
+    public Document findDocument(@NotNull String id,String type) {
+        Document document = findOne(id,type);
 
         joinQuery.queryOne(document);
         return document;
@@ -136,12 +140,24 @@ public class DocumentServiceImpl implements DocumentService {
      *查询点赞
      * @param
      */
-    public void findLike( Document document){
+    public void findLike( Document document,String type){
         LikeQuery likeQuery = new LikeQuery();
         likeQuery.setToWhomId(document.getId());
         likeQuery.setLikeType("doc");
         List<LikePo> likeList = likeDao.findLikeList(likeQuery);
         if (CollectionUtils.isNotEmpty(likeList)){
+            //view  是分享出去后访问的
+            if ("view".equals(type)){
+                document.setIsLike("false");
+            }else {
+                //根据用户id判断该用户是否点赞了
+                List<LikePo> collect1 = likeList.stream().filter(a -> findCreatUser().equals(a.getLikeUser())).collect(Collectors.toList());
+                if (CollectionUtils.isNotEmpty(collect1)){
+                    document.setIsLike("true");
+                }else {
+                    document.setIsLike("false");
+                }
+            }
             List<Like> likes = BeanMapper.mapList(likeList, Like.class);
             joinQuery.queryList(likes);
             List<User> userList = likes.stream().map(Like::getLikeUser).collect(Collectors.toList());
@@ -149,6 +165,18 @@ public class DocumentServiceImpl implements DocumentService {
             List<String> collect = userList.stream().map(User::getName).collect(Collectors.toList());
             document.setLikenumInt(likeList.size());
             document.setLikeUserList(collect);
+        }else {
+            document.setIsLike("false");
         }
+    }
+
+    /**
+     * 查询用户（创建人）id
+     * @param
+     */
+    public String findCreatUser(){
+        String ticketId = TicketHolder.get();
+        Ticket ticket = TicketContext.get(ticketId);
+        return ticket.getUserId();
     }
 }
