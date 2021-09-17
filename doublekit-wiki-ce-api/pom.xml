@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.doublekit</groupId>
-        <artifactId>doublekit-wiki</artifactId>
+        <artifactId>doublekit-wiki-ce</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>doublekit-wiki-api</artifactId>
+    <artifactId>doublekit-wiki-ce-api</artifactId>
     <name>${project.artifactId}</name>
 
     <dependencies>
