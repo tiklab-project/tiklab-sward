@@ -2,6 +2,14 @@ package com.doublekit.wiki.repository.service;
 
 import com.doublekit.dal.jpa.builder.deletelist.condition.DeleteCondition;
 import com.doublekit.dal.jpa.builder.deletelist.conditionbuilder.DeleteBuilders;
+import com.doublekit.dss.client.DssClient;
+import com.doublekit.privilege.prjprivilege.service.DmPrjRoleService;
+import com.doublekit.user.auth.passport.context.TicketContext;
+import com.doublekit.user.auth.passport.context.TicketHolder;
+import com.doublekit.user.auth.passport.model.Ticket;
+import com.doublekit.user.user.model.DmUser;
+import com.doublekit.user.user.model.User;
+import com.doublekit.user.user.service.DmUserService;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.repository.dao.DocumentDao;
 import com.doublekit.wiki.repository.dao.RepositoryDao;
@@ -39,11 +47,33 @@ public class RepositoryServiceImpl implements RepositoryService {
     @Autowired
     DocumentDao documentDao;
 
+    @Autowired
+    DmUserService dmUserService;
+
+    @Autowired
+    DmPrjRoleService dmPrjRoleService;
+
+    @Autowired
+    DssClient dssClient;
+
     @Override
     public String createRepository(@NotNull @Valid Repository repository) {
         RepositoryPo repositoryPo = BeanMapper.map(repository, RepositoryPo.class);
 
-        return repositoryDao.createRepository(repositoryPo);
+        String id = repositoryDao.createRepository(repositoryPo);
+        //初始化项目成员
+        DmUser dmUser = new DmUser();
+        dmUser.setDomainId(id);
+        dmUser.setUser(new User().setId(findCreatUser()));
+        dmUserService.createDmUser(dmUser);
+
+        //初始化项目权限
+        dmPrjRoleService.initDmPrjRoles(id,findCreatUser());
+
+        //构建索引
+        Repository entity = findRepository(id);
+        dssClient.save(entity);
+        return id;
     }
 
     @Override
@@ -125,5 +155,14 @@ public class RepositoryServiceImpl implements RepositoryService {
         return pg;
     }
 
+    /**
+     * 查询用户（创建人）id
+     * @param
+     */
+    public String findCreatUser(){
+        String ticketId = TicketHolder.get();
+        Ticket ticket = TicketContext.get(ticketId);
+        return ticket.getUserId();
+    }
 
 }

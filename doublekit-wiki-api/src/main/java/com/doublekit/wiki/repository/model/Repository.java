@@ -6,6 +6,10 @@ import com.doublekit.beans.annotation.Mapper;
 import com.doublekit.beans.annotation.Mapping;
 import com.doublekit.beans.annotation.Mappings;
 import com.doublekit.common.BaseModel;
+import com.doublekit.dss.annotation.Index;
+import com.doublekit.dss.annotation.IndexField;
+import com.doublekit.dss.annotation.IndexId;
+import com.doublekit.dss.annotation.IndexQueryField;
 import com.doublekit.join.annotation.Join;
 import com.doublekit.join.annotation.JoinField;
 import com.doublekit.user.user.model.User;
@@ -16,13 +20,18 @@ import javax.validation.constraints.NotNull;
 @ApiModel
 @Mapper
 @Join
+@Index
 public class Repository extends BaseModel{
 
     @ApiProperty(name="id",desc="id")
+    @IndexField
+    @IndexId
     private java.lang.String id;
 
     @NotNull
     @ApiProperty(name="name",desc="name",required = true)
+    @IndexField
+    @IndexQueryField
     private java.lang.String name;
 
     //@NotNull
