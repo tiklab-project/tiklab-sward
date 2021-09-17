@@ -17,8 +17,8 @@
     <modules>
         <module>doublekit-wiki-ce-api</module>
         <module>doublekit-wiki-ce-server</module>
-        <module>doublekit-wiki-ce-ui</module>
         <module>doublekit-wiki-ce-plugin</module>
+        <module>doublekit-wiki-ce-ui</module>
         <module>doublekit-wiki-ce-distribution</module>
         <module>doublekit-wiki-ce-starter</module>
     </modules>
