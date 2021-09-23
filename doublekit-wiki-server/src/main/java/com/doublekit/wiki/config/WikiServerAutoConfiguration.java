@@ -2,7 +2,7 @@ package com.doublekit.wiki.config;
 
 
 import com.doublekit.apibox.client.annotation.EnableApiboxClient;
-import com.doublekit.datafly.starter.annotation.EnableDatafly;
+import com.doublekit.datafly.starter.annotation.EnableDataFly;
 import com.doublekit.flow.annotation.EnableFlowServer;
 import com.doublekit.form.annotation.EnableFormServer;
 import com.doublekit.message.annotation.EnableMessageServer;
@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Configuration;
 @EnablePluginServer
 @EnableToolkitServer
 @EnableApiboxClient
-@EnableDatafly(location={
+@EnableDataFly(location={
         "scripts/wiki.sql"
 })
 @ComponentScan({"com.doublekit.wiki"})
