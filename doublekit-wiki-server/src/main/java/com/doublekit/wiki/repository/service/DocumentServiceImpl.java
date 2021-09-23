@@ -1,8 +1,11 @@
 package com.doublekit.wiki.repository.service;
 
-import com.doublekit.user.auth.passport.context.TicketContext;
-import com.doublekit.user.auth.passport.context.TicketHolder;
-import com.doublekit.user.auth.passport.model.Ticket;
+import com.doublekit.beans.BeanMapper;
+import com.doublekit.common.Pagination;
+import com.doublekit.eam.common.Ticket;
+import com.doublekit.eam.common.TicketContext;
+import com.doublekit.eam.common.TicketHolder;
+import com.doublekit.join.JoinTemplate;
 import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.repository.dao.CommentDao;
 import com.doublekit.wiki.repository.dao.DocumentDao;
@@ -11,22 +14,16 @@ import com.doublekit.wiki.repository.entity.CommentPo;
 import com.doublekit.wiki.repository.entity.DocumentPo;
 import com.doublekit.wiki.repository.entity.LikePo;
 import com.doublekit.wiki.repository.model.*;
-
-import com.doublekit.common.Pagination;
-import com.doublekit.beans.BeanMapper;
-import com.doublekit.join.join.JoinQuery;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.lucene.util.CollectionUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.util.ObjectUtils;
 
 /**
 * DocumentServiceImpl
@@ -38,7 +35,7 @@ public class DocumentServiceImpl implements DocumentService {
     DocumentDao documentDao;
 
     @Autowired
-    JoinQuery joinQuery;
+    JoinTemplate joinTemplate;
 
     @Autowired
     CommentDao commentDao;
@@ -96,7 +93,7 @@ public class DocumentServiceImpl implements DocumentService {
     public Document findDocument(@NotNull String id,String type) {
         Document document = findOne(id,type);
 
-        joinQuery.queryOne(document);
+        joinTemplate.queryOne(document);
         return document;
     }
 
@@ -106,7 +103,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         List<Document> documentList =  BeanMapper.mapList(documentPoList,Document.class);
 
-        joinQuery.queryList(documentList);
+        joinTemplate.queryList(documentList);
         return documentList;
     }
 
@@ -116,7 +113,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         List<Document> documentList = BeanMapper.mapList(documentPoList,Document.class);
 
-        joinQuery.queryList(documentList);
+        joinTemplate.queryList(documentList);
 
         return documentList;
     }
@@ -130,7 +127,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         List<Document> documentList = BeanMapper.mapList(pagination.getDataList(),Document.class);
 
-        joinQuery.queryList(documentList);
+        joinTemplate.queryList(documentList);
 
         pg.setDataList(documentList);
         return pg;
@@ -159,7 +156,7 @@ public class DocumentServiceImpl implements DocumentService {
                 }
             }
             List<Like> likes = BeanMapper.mapList(likeList, Like.class);
-            joinQuery.queryList(likes);
+            joinTemplate.queryList(likes);
             List<User> userList = likes.stream().map(Like::getLikeUser).collect(Collectors.toList());
             //取点赞人名字
             List<String> collect = userList.stream().map(User::getName).collect(Collectors.toList());

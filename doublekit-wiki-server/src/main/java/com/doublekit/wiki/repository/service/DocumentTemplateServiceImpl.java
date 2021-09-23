@@ -1,21 +1,19 @@
 package com.doublekit.wiki.repository.service;
 
+import com.doublekit.beans.BeanMapper;
+import com.doublekit.common.Pagination;
+import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.repository.dao.DocumentTemplateDao;
 import com.doublekit.wiki.repository.entity.DocumentTemplatePo;
 import com.doublekit.wiki.repository.model.DocumentTemplate;
 import com.doublekit.wiki.repository.model.DocumentTemplateQuery;
-
-import com.doublekit.common.Pagination;
-import com.doublekit.beans.BeanMapper;
-import com.doublekit.join.join.JoinQuery;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-
-import org.springframework.beans.BeanUtils;
 
 /**
 * DocumentTemplateServiceImpl
@@ -27,7 +25,7 @@ public class DocumentTemplateServiceImpl implements DocumentTemplateService {
     DocumentTemplateDao documentTemplateDao;
 
     @Autowired
-    JoinQuery joinQuery;
+    JoinTemplate joinTemplate;
 
     @Override
     public String createDocumentTemplate(@NotNull @Valid DocumentTemplate documentTemplate) {
@@ -68,7 +66,7 @@ public class DocumentTemplateServiceImpl implements DocumentTemplateService {
     public DocumentTemplate findDocumentTemplate(@NotNull String id) {
         DocumentTemplate documentTemplate = findOne(id);
 
-        joinQuery.queryOne(documentTemplate);
+        joinTemplate.queryOne(documentTemplate);
         return documentTemplate;
     }
 
@@ -78,7 +76,7 @@ public class DocumentTemplateServiceImpl implements DocumentTemplateService {
 
         List<DocumentTemplate> documentTemplateList =  BeanMapper.mapList(documentTemplatePoList,DocumentTemplate.class);
 
-        joinQuery.queryList(documentTemplateList);
+        joinTemplate.queryList(documentTemplateList);
         return documentTemplateList;
     }
 
@@ -88,7 +86,7 @@ public class DocumentTemplateServiceImpl implements DocumentTemplateService {
 
         List<DocumentTemplate> documentTemplateList = BeanMapper.mapList(documentTemplatePoList,DocumentTemplate.class);
 
-        joinQuery.queryList(documentTemplateList);
+        joinTemplate.queryList(documentTemplateList);
 
         return documentTemplateList;
     }
@@ -102,7 +100,7 @@ public class DocumentTemplateServiceImpl implements DocumentTemplateService {
 
         List<DocumentTemplate> documentTemplateList = BeanMapper.mapList(pagination.getDataList(),DocumentTemplate.class);
 
-        joinQuery.queryList(documentTemplateList);
+        joinTemplate.queryList(documentTemplateList);
 
         pg.setDataList(documentTemplateList);
         return pg;

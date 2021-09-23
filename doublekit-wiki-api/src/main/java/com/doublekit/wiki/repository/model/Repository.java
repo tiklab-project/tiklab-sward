@@ -18,7 +18,6 @@ import com.doublekit.wiki.category.model.Category;
 import javax.validation.constraints.NotNull;
 
 @ApiModel
-@Mapper
 @Join
 @Index
 public class Repository extends BaseModel{

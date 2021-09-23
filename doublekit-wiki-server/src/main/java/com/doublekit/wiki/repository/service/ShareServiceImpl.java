@@ -1,28 +1,23 @@
 package com.doublekit.wiki.repository.service;
 
+import com.doublekit.beans.BeanMapper;
+import com.doublekit.common.Pagination;
+import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.repository.dao.ShareDao;
 import com.doublekit.wiki.repository.entity.SharePo;
 import com.doublekit.wiki.repository.model.Share;
 import com.doublekit.wiki.repository.model.ShareQuery;
-
-import com.doublekit.common.Pagination;
-import com.doublekit.beans.BeanMapper;
-import com.doublekit.join.join.JoinQuery;
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 /**
 * ShareServiceImpl
@@ -34,7 +29,7 @@ public class ShareServiceImpl implements ShareService {
     ShareDao shareDao;
 
     @Autowired
-    JoinQuery joinQuery;
+    JoinTemplate joinTemplate;
 
     @Override
     public String createShare(@NotNull @Valid Share share) {
@@ -75,7 +70,7 @@ public class ShareServiceImpl implements ShareService {
     public Share findShare(@NotNull String id) {
         Share share = findOne(id);
 
-        joinQuery.queryOne(share);
+        joinTemplate.queryOne(share);
         return share;
     }
 
@@ -85,7 +80,7 @@ public class ShareServiceImpl implements ShareService {
 
         List<Share> shareList = BeanMapper.mapList(sharePoList, Share.class);
 
-        joinQuery.queryList(shareList);
+        joinTemplate.queryList(shareList);
         return shareList;
     }
 
@@ -95,7 +90,7 @@ public class ShareServiceImpl implements ShareService {
 
         List<Share> shareList = BeanMapper.mapList(sharePoList, Share.class);
 
-        joinQuery.queryList(shareList);
+        joinTemplate.queryList(shareList);
 
         return shareList;
     }
@@ -109,7 +104,7 @@ public class ShareServiceImpl implements ShareService {
 
         List<Share> shareList = BeanMapper.mapList(pagination.getDataList(), Share.class);
 
-        joinQuery.queryList(shareList);
+        joinTemplate.queryList(shareList);
 
         pg.setDataList(shareList);
         return pg;

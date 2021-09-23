@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <!-- 应用名称：和统一配置中的项目代码保持一致（小写） -->
-    <property name="APP_NAME" value="doublekit-platform"/>
+    <property name="APP_NAME" value="doublekit-pcs"/>
     <!--在没有定义${LOG_HOME}系统变量的时候，可以设置此本地变量。提交测试、上线时，要将其注释掉，使用系统变量。-->
     <property name="LOG_HOME" value="${user.home}/data/applogs/${APP_NAME}" />
     <!--日志文件保留天数-->

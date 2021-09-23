@@ -1,33 +1,31 @@
 package com.doublekit.wiki.repository.service;
 
+import com.doublekit.beans.BeanMapper;
+import com.doublekit.common.Pagination;
 import com.doublekit.dal.jpa.builder.deletelist.condition.DeleteCondition;
 import com.doublekit.dal.jpa.builder.deletelist.conditionbuilder.DeleteBuilders;
 import com.doublekit.dss.client.DssClient;
+import com.doublekit.eam.common.Ticket;
+import com.doublekit.eam.common.TicketContext;
+import com.doublekit.eam.common.TicketHolder;
+import com.doublekit.join.JoinTemplate;
 import com.doublekit.privilege.prjprivilege.service.DmPrjRoleService;
-import com.doublekit.user.auth.passport.context.TicketContext;
-import com.doublekit.user.auth.passport.context.TicketHolder;
-import com.doublekit.user.auth.passport.model.Ticket;
-import com.doublekit.user.user.model.DmUser;
+import com.doublekit.user.dmuser.model.DmUser;
+import com.doublekit.user.dmuser.service.DmUserService;
 import com.doublekit.user.user.model.User;
-import com.doublekit.user.user.service.DmUserService;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.repository.dao.DocumentDao;
 import com.doublekit.wiki.repository.dao.RepositoryDao;
 import com.doublekit.wiki.repository.entity.RepositoryPo;
 import com.doublekit.wiki.repository.model.Repository;
 import com.doublekit.wiki.repository.model.RepositoryQuery;
-
-import com.doublekit.common.Pagination;
-import com.doublekit.beans.BeanMapper;
-import com.doublekit.join.join.JoinQuery;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-
-import org.springframework.beans.BeanUtils;
 
 /**
 * RepositoryServiceImpl
@@ -39,7 +37,7 @@ public class RepositoryServiceImpl implements RepositoryService {
     RepositoryDao repositoryDao;
 
     @Autowired
-    JoinQuery joinQuery;
+    JoinTemplate joinTemplate;
 
     @Autowired
     CategoryDao categoryDao;
@@ -115,7 +113,7 @@ public class RepositoryServiceImpl implements RepositoryService {
     public Repository findRepository(@NotNull String id) {
         Repository repository = findOne(id);
 
-        joinQuery.queryOne(repository);
+        joinTemplate.queryOne(repository);
         return repository;
     }
 
@@ -125,7 +123,7 @@ public class RepositoryServiceImpl implements RepositoryService {
 
         List<Repository> repositoryList =  BeanMapper.mapList(repositoryPoList,Repository.class);
 
-        joinQuery.queryList(repositoryList);
+        joinTemplate.queryList(repositoryList);
         return repositoryList;
     }
 
@@ -135,7 +133,7 @@ public class RepositoryServiceImpl implements RepositoryService {
 
         List<Repository> repositoryList = BeanMapper.mapList(repositoryPoList,Repository.class);
 
-        joinQuery.queryList(repositoryList);
+        joinTemplate.queryList(repositoryList);
 
         return repositoryList;
     }
@@ -149,7 +147,7 @@ public class RepositoryServiceImpl implements RepositoryService {
 
         List<Repository> repositoryList = BeanMapper.mapList(pagination.getDataList(),Repository.class);
 
-        joinQuery.queryList(repositoryList);
+        joinTemplate.queryList(repositoryList);
 
         pg.setDataList(repositoryList);
         return pg;

@@ -1,25 +1,23 @@
 package com.doublekit.wiki.repository.service;
 
-import com.doublekit.user.auth.passport.context.TicketContext;
-import com.doublekit.user.auth.passport.context.TicketHolder;
-import com.doublekit.user.auth.passport.model.Ticket;
+import com.doublekit.beans.BeanMapper;
+import com.doublekit.common.Pagination;
+import com.doublekit.eam.common.Ticket;
+import com.doublekit.eam.common.TicketContext;
+import com.doublekit.eam.common.TicketHolder;
+import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.repository.dao.LikeDao;
 import com.doublekit.wiki.repository.entity.LikePo;
 import com.doublekit.wiki.repository.model.Like;
 import com.doublekit.wiki.repository.model.LikeQuery;
-
-import com.doublekit.common.Pagination;
-import com.doublekit.beans.BeanMapper;
-import com.doublekit.join.join.JoinQuery;
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-
-import org.springframework.beans.BeanUtils;
 
 /**
 * LikeServiceImpl
@@ -31,7 +29,7 @@ public class LikeServiceImpl implements LikeService {
     LikeDao likeDao;
 
     @Autowired
-    JoinQuery joinQuery;
+    JoinTemplate joinTemplate;
 
     @Override
     public String createLike(@NotNull @Valid Like like) {
@@ -81,7 +79,7 @@ public class LikeServiceImpl implements LikeService {
     public Like findLike(@NotNull String id) {
         Like like = findOne(id);
 
-        joinQuery.queryOne(like);
+        joinTemplate.queryOne(like);
         return like;
     }
 
@@ -91,7 +89,7 @@ public class LikeServiceImpl implements LikeService {
 
         List<Like> likeList =  BeanMapper.mapList(likePoList,Like.class);
 
-        joinQuery.queryList(likeList);
+        joinTemplate.queryList(likeList);
         return likeList;
     }
 
@@ -101,7 +99,7 @@ public class LikeServiceImpl implements LikeService {
 
         List<Like> likeList = BeanMapper.mapList(likePoList,Like.class);
 
-        joinQuery.queryList(likeList);
+        joinTemplate.queryList(likeList);
 
         return likeList;
     }
@@ -115,7 +113,7 @@ public class LikeServiceImpl implements LikeService {
 
         List<Like> likeList = BeanMapper.mapList(pagination.getDataList(),Like.class);
 
-        joinQuery.queryList(likeList);
+        joinTemplate.queryList(likeList);
 
         pg.setDataList(likeList);
         return pg;

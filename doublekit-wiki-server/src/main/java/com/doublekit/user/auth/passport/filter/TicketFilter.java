@@ -1,13 +1,13 @@
 package com.doublekit.user.auth.passport.filter;
 
 import com.doublekit.common.exception.DarthException;
-import com.doublekit.user.auth.passport.model.Ticket;
-import com.doublekit.user.auth.passport.service.AuthService;
-import com.doublekit.user.auth.passport.service.AuthServiceFactory;
-import com.doublekit.user.auth.setting.support.AuthConfigContext;
+import com.doublekit.eam.authenticator.provider.Authenticator;
+import com.doublekit.eam.common.Ticket;
+import com.doublekit.eam.setting.support.AuthConfigContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -21,14 +21,15 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
-@Component
+@Component("TicketFilterExt")
 @Order(2)
 public class TicketFilter implements Filter {
 
     public static final Logger logger = LoggerFactory.getLogger(TicketFilter.class);
 
     @Autowired
-    AuthServiceFactory authServiceFactory;
+    @Qualifier("AuthenticatorProxy")
+    Authenticator authenticator;
 
     //排除url列表
     private static String[] staticTypes = {
@@ -102,8 +103,7 @@ public class TicketFilter implements Filter {
 
             //验证ticket
             String authType = AuthConfigContext.getAuthConfig().getAuthType();
-            AuthService authService = authServiceFactory.create(authType);
-            Ticket ticket = authService.valid(ticketId);
+            Ticket ticket = authenticator.valid(ticketId);
             if(ticket == null){
                 throw new DarthException(1001, String.format("requestURI:%s,ticket invalid.",requestURI));
             }

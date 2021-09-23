@@ -1,31 +1,26 @@
 package com.doublekit.wiki.category.service;
 
+import com.doublekit.beans.BeanMapper;
+import com.doublekit.common.Pagination;
+import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.category.entity.CategoryPo;
 import com.doublekit.wiki.category.model.Category;
 import com.doublekit.wiki.category.model.CategoryQuery;
-
-import com.doublekit.common.Pagination;
-import com.doublekit.beans.BeanMapper;
-import com.doublekit.join.join.JoinQuery;
 import com.doublekit.wiki.repository.dao.DocumentDao;
 import com.doublekit.wiki.repository.entity.DocumentPo;
 import com.doublekit.wiki.repository.model.Document;
 import com.doublekit.wiki.repository.model.DocumentQuery;
-import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.util.ObjectUtils;
 
 /**
 * CategoryServiceImpl
@@ -37,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryDao categoryDao;
 
     @Autowired
-    JoinQuery joinQuery;
+    JoinTemplate joinTemplate;
 
     @Autowired
     DocumentDao documentDao;
@@ -86,7 +81,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Category findCategory(@NotNull String id) {
         Category category = findOne(id);
 
-        joinQuery.queryOne(category);
+        joinTemplate.queryOne(category);
         return category;
     }
 
@@ -96,7 +91,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<Category> categoryList =  BeanMapper.mapList(categoryPoList,Category.class);
 
-        joinQuery.queryList(categoryList);
+        joinTemplate.queryList(categoryList);
         return categoryList;
     }
 
@@ -106,7 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<Category> categoryList = BeanMapper.mapList(categoryPoList,Category.class);
 
-        joinQuery.queryList(categoryList);
+        joinTemplate.queryList(categoryList);
 
         return categoryList;
     }
@@ -120,7 +115,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<Category> categoryList = BeanMapper.mapList(pagination.getDataList(),Category.class);
 
-        joinQuery.queryList(categoryList);
+        joinTemplate.queryList(categoryList);
 
         pg.setDataList(categoryList);
         return pg;

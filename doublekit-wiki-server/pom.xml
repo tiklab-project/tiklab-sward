@@ -40,7 +40,8 @@
         <!--doublekit-->
         <dependency>
             <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-framework-spring-boot-starter</artifactId>
+            <artifactId>doublekit-beans-spring-boot-starter</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.doublekit</groupId>
@@ -64,12 +65,54 @@
         </dependency>
         <dependency>
             <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-codegen</artifactId>
-            <scope>test</scope>
+            <artifactId>doublekit-dsl-spring-boot-starter</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-apibox-client</artifactId>
+            <artifactId>doublekit-message-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-codegen</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--pcs-->
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-pcs-user-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-pcs-eam-authenticator</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-pcs-privilege-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-pcs-form-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-pcs-flow-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-pcs-plugin-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-pcs-toolkit-server</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.doublekit</groupId>
@@ -78,38 +121,7 @@
         </dependency>
         <dependency>
             <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-platform-user-server</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-platform-privilege-server</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-platform-form-server</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-platform-flow-server</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-platform-message-server</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-platform-plugin-server</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-platform-toolkit-server</artifactId>
-            <version>${project.version}</version>
+            <artifactId>doublekit-apibox-client</artifactId>
         </dependency>
     </dependencies>
 </project>
