@@ -1,4 +1,4 @@
-package com.doublekit.user.auth.passport.filter;
+package com.doublekit.eam.authenticator.filter;
 
 import com.doublekit.common.exception.DarthException;
 import com.doublekit.eam.authenticator.provider.Authenticator;

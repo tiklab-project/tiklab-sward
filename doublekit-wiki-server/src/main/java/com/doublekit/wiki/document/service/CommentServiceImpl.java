@@ -185,12 +185,14 @@ public class CommentServiceImpl implements CommentService {
                 List<Like> likes = BeanMapper.mapList(likeList, Like.class);
                 joinTemplate.queryList(likes);
                 List<User> userList = likes.stream().map(Like::getLikeUser).collect(Collectors.toList());
-                //取点赞人名字
-                List<String> collect = userList.stream().map(User::getName).collect(Collectors.toList());
-                //点赞数
-                comment.setLikenumInt(likeList.size());
-                //点赞人
-                comment.setLikeUserList(collect);
+                if (CollectionUtils.isNotEmpty(userList)){
+                    //取点赞人名字
+                    List<String> collect = userList.stream().map(User::getName).collect(Collectors.toList());
+                    //点赞数
+                    comment.setLikenumInt(likeList.size());
+                    //点赞人
+                    comment.setLikeUserList(collect);
+                }
             }else {
                 comment.setIsLike("false");
             }
