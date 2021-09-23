@@ -1,6 +1,7 @@
 package com.doublekit.wiki.repository.entity;
 
 
+import com.doublekit.beans.annotation.Mapper;
 import com.doublekit.dal.jpa.mapper.annotation.Column;
 import com.doublekit.dal.jpa.mapper.annotation.GeneratorValue;
 import com.doublekit.dal.jpa.mapper.annotation.Id;
