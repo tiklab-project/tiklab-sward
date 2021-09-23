@@ -14,7 +14,7 @@ import com.doublekit.user.dmuser.model.DmUser;
 import com.doublekit.user.dmuser.service.DmUserService;
 import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.category.dao.CategoryDao;
-import com.doublekit.wiki.repository.dao.DocumentDao;
+import com.doublekit.wiki.document.dao.DocumentDao;
 import com.doublekit.wiki.repository.dao.RepositoryDao;
 import com.doublekit.wiki.repository.entity.RepositoryPo;
 import com.doublekit.wiki.repository.model.Repository;
