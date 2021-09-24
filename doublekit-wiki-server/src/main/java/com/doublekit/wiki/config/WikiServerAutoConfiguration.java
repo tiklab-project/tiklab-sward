@@ -1,14 +1,14 @@
 package com.doublekit.wiki.config;
 
 
-import com.doublekit.datafly.starter.annotation.EnableDataFly;
+import com.doublekit.datafly.starter.annotation.DataFly;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableDataFly(location={
+@DataFly(locations={
         "scripts/wiki.sql"
 })
 @ComponentScan({"com.doublekit.wiki"})
