@@ -114,9 +114,15 @@
             <artifactId>doublekit-pcs-toolkit-server</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!--other-->
         <dependency>
             <groupId>com.doublekit</groupId>
             <artifactId>doublekit-wiki-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-project-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
