@@ -3,6 +3,7 @@ package com.doublekit.wiki.config;
 import com.doublekit.gateway.core.config.RouterConfig;
 import com.doublekit.gateway.core.config.RouterConfigBuilder;
 import com.doublekit.gateway.core.filter.GatewayFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -15,14 +16,18 @@ public class GatewayFilterAutoConfiguration {
     @Value("${gateway.project.address}")
     String projectAddress;
 
+    @Autowired
+    RestTemplate restTemplate;
+
     @Bean
-    public FilterRegistrationBean gatewayFilter(RestTemplate restTemplate,RouterConfig routerConfig) {
+    public FilterRegistrationBean gatewayFilterRegistration(RouterConfig routerConfig) {
         GatewayFilter gatewayFilter = new GatewayFilter();
-        gatewayFilter.setRestTemplate(restTemplate);
         gatewayFilter.setRouterConfig(routerConfig);
+        gatewayFilter.setRestTemplate(restTemplate);
 
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(gatewayFilter);
+        registration.setName("gatewayFilter");
         registration.addUrlPatterns("/*");
         registration.setOrder(1);
         return registration;
