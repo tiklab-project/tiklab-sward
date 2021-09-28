@@ -42,7 +42,12 @@ public class TicketFilterAutoConfiguration {
                         "/",
                         "/passport/login",
                         "/passport/logout",
-                        "/passport/valid"
+                        "/passport/valid",
+                        "/auth/valid",
+                        "/document/view",
+                        "/comment/view",
+                        "/share/verifyAuthCode",
+                        "/share/judgeAuthCode"
                 })
                 .ignorePreUrls(new String[]{
                         "/apis/list",
