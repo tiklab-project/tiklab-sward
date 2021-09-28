@@ -1,4 +1,4 @@
-package com.doublekit.wiki.gateway;
+package com.doublekit.wiki.config;
 
 import com.doublekit.gateway.core.config.RouterConfig;
 import com.doublekit.gateway.core.config.RouterConfigBuilder;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class GatewayAutoConfiguration {
+public class GatewayFilterAutoConfiguration {
 
     @Value("${gateway.project.address}")
     String projectAddress;
