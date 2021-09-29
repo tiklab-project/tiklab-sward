@@ -36,7 +36,7 @@ public class GatewayFilterAutoConfiguration {
     @Bean
     public RouterConfig routerConfig(){
         return RouterConfigBuilder.instance()
-                .route("project",projectAddress)
+                .route("wiki",projectAddress)
                 .get();
     }
 }

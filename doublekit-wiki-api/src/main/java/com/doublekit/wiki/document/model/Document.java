@@ -43,8 +43,12 @@ public class Document extends BaseModel{
     @JoinField(id = "id")
     private Category category;
 
+
     @ApiProperty(name="details",desc="details")
     private java.lang.String details;
+
+    @ApiProperty(name="workitemId",desc="事项id")
+        private java.lang.String workitemId;
 
     //评论条数
     @ApiProperty(name="commentNumber",desc="评论条数")
@@ -146,5 +150,13 @@ public class Document extends BaseModel{
 
     public void setIsLike(String isLike) {
         this.isLike = isLike;
+    }
+
+    public String getWorkitemId() {
+        return workitemId;
+    }
+
+    public void setWorkitemId(String workitemId) {
+        this.workitemId = workitemId;
     }
 }

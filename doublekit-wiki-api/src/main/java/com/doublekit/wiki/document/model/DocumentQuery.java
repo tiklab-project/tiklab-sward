@@ -28,6 +28,10 @@ public class DocumentQuery {
         @QueryField(type = QueryTypeEnum.equal)
         private String repositoryId;
 
+        @ApiProperty(name ="workitem_id",desc = "事项id")
+        @QueryField(type = QueryTypeEnum.equal)
+        private String workitemId;
+
         public List<OrderParam> getOrderParams() {
             return orderParams;
         }
@@ -59,5 +63,13 @@ public class DocumentQuery {
         public DocumentQuery setRepositoryId(String repositoryId) {
             this.repositoryId = repositoryId;
             return this;
+        }
+
+        public String getWorkitemId() {
+            return workitemId;
+        }
+
+        public void setWorkitemId(String workitemId) {
+            this.workitemId = workitemId;
         }
 }

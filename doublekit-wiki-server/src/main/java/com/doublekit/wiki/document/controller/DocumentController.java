@@ -53,7 +53,6 @@ public class DocumentController {
         return Result.ok();
     }
 
-
     @RequestMapping(path="/deleteDocument",method = RequestMethod.POST)
     @ApiMethod(name = "deleteDocument",desc = "通过id删除文档")
     @ApiParam(name = "id",desc = "id",required = true)

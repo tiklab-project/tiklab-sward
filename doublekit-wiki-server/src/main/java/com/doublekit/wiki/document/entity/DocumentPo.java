@@ -27,6 +27,10 @@ public class DocumentPo implements Serializable {
     @Column(name = "repository_id",length = 32,notNull = true)
     private String repositoryId;
 
+    //文档id
+    @Column(name = "workitem_id",length = 32)
+    private String workitemId;
+
     //目录id
     @Column(name = "category_id",length = 32)
     private String categoryId;
@@ -92,5 +96,13 @@ public class DocumentPo implements Serializable {
 
     public void setFormatType(String formatType) {
         this.formatType = formatType;
+    }
+
+    public String getWorkitemId() {
+        return workitemId;
+    }
+
+    public void setWorkitemId(String workitemId) {
+        this.workitemId = workitemId;
     }
 }
