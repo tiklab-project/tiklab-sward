@@ -1,9 +1,9 @@
 package com.doublekit.wiki.config;
 
-import com.doublekit.eam.authenticator.config.EamTicketConfig;
-import com.doublekit.eam.authenticator.config.EamTicketConfigBuilder;
-import com.doublekit.eam.authenticator.filter.EamTicketFilter;
-import com.doublekit.eam.authenticator.provider.Authenticator;
+import com.doublekit.eam.client.config.EamTicketConfig;
+import com.doublekit.eam.client.config.EamTicketConfigBuilder;
+import com.doublekit.eam.client.filter.EamTicketFilter;
+import com.doublekit.eam.client.provider.Authenticator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
