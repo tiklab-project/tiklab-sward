@@ -1,11 +1,10 @@
 package com.doublekit.wiki.config;
 
-import com.doublekit.eam.client.config.EamTicketConfig;
-import com.doublekit.eam.client.config.EamTicketConfigBuilder;
-import com.doublekit.eam.client.filter.EamTicketFilter;
-import com.doublekit.eam.client.provider.Authenticator;
+import com.doublekit.eam.client.auth.Authenticator;
+import com.doublekit.eam.client.config.TicketConfig;
+import com.doublekit.eam.client.config.TicketConfigBuilder;
+import com.doublekit.eam.client.filter.TicketFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,12 +13,11 @@ import org.springframework.context.annotation.Configuration;
 public class TicketFilterAutoConfiguration {
 
     @Autowired
-    @Qualifier("AuthenticatorProxy")
     Authenticator authenticator;
 
     @Bean
-    public FilterRegistrationBean ticketFilterRegistration(EamTicketConfig ticketConfig) {
-        EamTicketFilter ticketFilter = new EamTicketFilter();
+    public FilterRegistrationBean ticketFilterRegistration(TicketConfig ticketConfig) {
+        TicketFilter ticketFilter = new TicketFilter();
         ticketFilter.setTicketConfig(ticketConfig);
         ticketFilter.setAuthenticator(authenticator);
 
@@ -32,8 +30,8 @@ public class TicketFilterAutoConfiguration {
     }
 
     @Bean
-    public EamTicketConfig ticketConfig(){
-        return EamTicketConfigBuilder.instance()
+    public TicketConfig ticketConfig(){
+        return TicketConfigBuilder.instance()
                 .ignoreTypes(new String[]{
                         ".ico",
                         ".jpg",
