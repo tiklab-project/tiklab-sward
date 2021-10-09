@@ -47,9 +47,6 @@ public class Document extends BaseModel{
     @ApiProperty(name="details",desc="details")
     private java.lang.String details;
 
-    @ApiProperty(name="workitemId",desc="事项id")
-        private java.lang.String workitemId;
-
     //评论条数
     @ApiProperty(name="commentNumber",desc="评论条数")
     private java.lang.Integer commentNumber;
@@ -65,6 +62,9 @@ public class Document extends BaseModel{
 
     @ApiProperty(name="isLike",desc="查询人是否点赞")
     private  java.lang.String isLike;
+
+    @ApiProperty(name="isRele",desc="是否关联事项")
+    private  java.lang.Boolean isRele;
 
     public java.lang.String getId() {
         return id;
@@ -152,11 +152,11 @@ public class Document extends BaseModel{
         this.isLike = isLike;
     }
 
-    public String getWorkitemId() {
-        return workitemId;
+    public Boolean getRele() {
+        return isRele;
     }
 
-    public void setWorkitemId(String workitemId) {
-        this.workitemId = workitemId;
+    public void setRele(Boolean rele) {
+        isRele = rele;
     }
 }

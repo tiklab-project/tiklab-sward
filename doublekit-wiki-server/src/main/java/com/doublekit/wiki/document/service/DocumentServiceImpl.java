@@ -2,10 +2,11 @@ package com.doublekit.wiki.document.service;
 
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
-import com.doublekit.eam.common.Ticket;
-import com.doublekit.eam.common.TicketContext;
-import com.doublekit.eam.common.TicketHolder;
+import com.doublekit.eam.server.common.Ticket;
+import com.doublekit.eam.server.common.TicketContext;
+import com.doublekit.eam.server.common.TicketHolder;
 import com.doublekit.join.JoinTemplate;
+import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.document.dao.CommentDao;
 import com.doublekit.wiki.document.dao.DocumentDao;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 /**
 * DocumentServiceImpl
 */
+@Exporter
 @Service
 public class DocumentServiceImpl implements DocumentService {
 
@@ -42,6 +44,9 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     LikeDao likeDao;
+/*
+    @Autowired
+    private WorkItemDocumentController workItemDocumentController;*/
 
     @Override
     public String createDocument(@NotNull @Valid Document document) {
@@ -60,8 +65,11 @@ public class DocumentServiceImpl implements DocumentService {
         documentDao.updateDocument(documentPo);
     }
 
+
     @Override
     public void deleteDocument(@NotNull String id) {
+        //删除事项的关联
+   //     workItemDocumentController.delete(id);
         documentDao.deleteDocument(id);
     }
 
@@ -95,6 +103,14 @@ public class DocumentServiceImpl implements DocumentService {
 
         joinTemplate.queryOne(document);
         return document;
+    }
+
+    @Override
+    public Document findDocumentById(@NotNull String id) {
+        DocumentPo documentPo = documentDao.findDocument(id);
+        Document document = BeanMapper.map(documentPo, Document.class);
+        joinTemplate.queryOne(document);
+        return document ;
     }
 
     @Override
@@ -132,6 +148,8 @@ public class DocumentServiceImpl implements DocumentService {
         pg.setDataList(documentList);
         return pg;
     }
+
+
 
     /**
      *查询点赞
@@ -171,7 +189,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     /**
-     * 查询用户（创建人）id
+     * 查询登录用户（创建人）id
      * @param
      */
     public String findCreatUser(){

@@ -18,7 +18,6 @@
         <module>doublekit-wiki-api</module>
         <module>doublekit-wiki-server</module>
         <module>doublekit-wiki-ui</module>
-        <module>doublekit-wiki-plugin</module>
         <module>doublekit-wiki-distribution</module>
         <module>doublekit-wiki-starter</module>
     </modules>

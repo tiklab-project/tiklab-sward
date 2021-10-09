@@ -17,7 +17,6 @@ CREATE TABLE wiki_category(
 CREATE TABLE wiki_document(
         id VARCHAR(32) PRIMARY KEY,
         name VARCHAR(64) NOT NULL,
-        workitem_id varchar (32),
         repository_id VARCHAR(32) NOT NULL,
         type_id VARCHAR(32) NOT NULL,
         category_id VARCHAR (32) ,

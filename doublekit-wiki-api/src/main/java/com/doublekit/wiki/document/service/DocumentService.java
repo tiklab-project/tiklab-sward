@@ -53,6 +53,13 @@ public interface DocumentService {
     Document findDocument(@NotNull String id,String type);
 
     /**
+     * 查找
+     * @param id
+     * @return
+     */
+     Document findDocumentById(@NotNull String id);
+
+    /**
     * 查找所有
     * @return
     */

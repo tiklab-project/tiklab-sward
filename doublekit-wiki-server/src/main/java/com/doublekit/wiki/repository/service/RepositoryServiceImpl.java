@@ -5,9 +5,9 @@ import com.doublekit.common.Pagination;
 import com.doublekit.dal.jpa.builder.deletelist.condition.DeleteCondition;
 import com.doublekit.dal.jpa.builder.deletelist.conditionbuilder.DeleteBuilders;
 import com.doublekit.dss.client.DssClient;
-import com.doublekit.eam.common.Ticket;
-import com.doublekit.eam.common.TicketContext;
-import com.doublekit.eam.common.TicketHolder;
+import com.doublekit.eam.server.common.Ticket;
+import com.doublekit.eam.server.common.TicketContext;
+import com.doublekit.eam.server.common.TicketHolder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.privilege.prjprivilege.service.DmPrjRoleService;
 import com.doublekit.user.dmuser.model.DmUser;
@@ -62,7 +62,7 @@ public class RepositoryServiceImpl implements RepositoryService {
         //初始化项目成员
         DmUser dmUser = new DmUser();
         dmUser.setDomainId(id);
-        dmUser.setUser(new User().setId(findCreatUser()));
+       // dmUser.setUser(new User().setId(findCreatUser()));
         dmUserService.createDmUser(dmUser);
 
         //初始化项目权限

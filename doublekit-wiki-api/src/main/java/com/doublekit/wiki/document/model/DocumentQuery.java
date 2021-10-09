@@ -1,5 +1,6 @@
 package com.doublekit.wiki.document.model;
 
+import com.doublekit.common.BaseModel;
 import com.doublekit.dal.jpa.criteria.annotation.*;
 import com.doublekit.dal.jpa.criteria.model.OrderParam;
 import com.doublekit.dal.jpa.criteria.model.Orders;
@@ -7,11 +8,12 @@ import com.doublekit.dal.jpa.criteria.model.PageParam;
 import com.doublekit.apibox.annotation.ApiModel;
 import com.doublekit.apibox.annotation.ApiProperty;
 
+import java.io.Serializable;
 import java.util.List;
 
 @ApiModel
 @CriteriaQuery
-public class DocumentQuery {
+public class DocumentQuery implements Serializable {
         @ApiProperty(name ="orderParams",desc = "排序参数")
         @OrderField
         private List<OrderParam> orderParams = Orders.instance().asc("id").get();
@@ -28,9 +30,13 @@ public class DocumentQuery {
         @QueryField(type = QueryTypeEnum.equal)
         private String repositoryId;
 
-        @ApiProperty(name ="workitem_id",desc = "事项id")
+        @ApiProperty(name ="name",desc = "文档名字")
+        @QueryField(type = QueryTypeEnum.like)
+        private String name;
+
+        @ApiProperty(name ="id",desc = "文档id")
         @QueryField(type = QueryTypeEnum.equal)
-        private String workitemId;
+        private String id;
 
         public List<OrderParam> getOrderParams() {
             return orderParams;
@@ -65,11 +71,19 @@ public class DocumentQuery {
             return this;
         }
 
-        public String getWorkitemId() {
-            return workitemId;
+        public String getName() {
+            return name;
         }
 
-        public void setWorkitemId(String workitemId) {
-            this.workitemId = workitemId;
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
         }
 }

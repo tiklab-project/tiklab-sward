@@ -53,6 +53,7 @@ public class DocumentController {
         return Result.ok();
     }
 
+
     @RequestMapping(path="/deleteDocument",method = RequestMethod.POST)
     @ApiMethod(name = "deleteDocument",desc = "通过id删除文档")
     @ApiParam(name = "id",desc = "id",required = true)
@@ -100,13 +101,14 @@ public class DocumentController {
         return Result.ok(pagination);
     }
 
-    @RequestMapping(path="/view",method = RequestMethod.POST)
-    @ApiMethod(name = "view",desc = "通过id查询文档(用于分享后查询)")
+    @RequestMapping(path="/findDocumentById",method = RequestMethod.POST)
+    @ApiMethod(name = "findDocumentById",desc = "通过id查询")
     @ApiParam(name = "id",desc = "id",required = true)
-    public Result<Document> view(@NotNull String id){
-        String type="view";
-        Document document = documentService.findDocument(id,type);
+    public Result<Document> findDocumentById(@NotNull String id){
+        Document document = documentService.findDocumentById(id);
 
         return Result.ok(document);
     }
+
+
 }
