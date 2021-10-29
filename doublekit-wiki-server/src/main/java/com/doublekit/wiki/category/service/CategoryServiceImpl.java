@@ -133,7 +133,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         //查询没在目录下main的文档
         List<DocumentPo> collect = documentList.stream().filter(a -> ObjectUtils.isEmpty(a.getCategoryId())).collect(Collectors.toList());
-        //查询以及目录
+        //查询一级目录
         List<Category> topCategoryList = findTopCategoryList(categoryMethodList);
 
         //查找并设置子分类列表
@@ -166,7 +166,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @param parentCaegory
      */
     void setChildren(List<Category> matchCategoryList,Category parentCaegory){
-        List<Category> childCategoryList = matchCategoryList.stream()
+          List<Category> childCategoryList = matchCategoryList.stream()
                 .filter(category -> (category.getParentCategory() != null && category.getParentCategory().getId() != null && category.getParentCategory().getId().equals(parentCaegory.getId())))
                 .collect(Collectors.toList());
 
