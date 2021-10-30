@@ -19,6 +19,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,14 +49,20 @@ public class ImportDateServiceImpl implements ImportDateService {
     @Autowired
     CategoryDao categoryDao;
 
+    @Value("${unzip.path}")
+    String unzipAddress;
+
+
     @Override
     public String importConfluenceDate(InputStream inputStream) {
         BufferedReader unZIP=null;
         try {
-            unZIP = new UncompressUtil().unZIP(inputStream);
+            unZIP = new UncompressUtil().unZIP(inputStream,unzipAddress);
           //  创建SAXReader 对象
             SAXReader saxReader = new SAXReader();
-            Document document = saxReader.read(new ClassPathResource("unzip/entities.xml").getFile());
+            //new ClassPathResource(unzipAddress+"/entities.xml").getFile();
+            String path=unzipAddress+"/entities.xml";
+            Document document = saxReader.read(new File(path));
             //获取根节点元素对象
             Element rootElement = document.getRootElement();
             //获取二级节点

@@ -38,10 +38,10 @@ public class UncompressUtil {
      * @throws RuntimeException 解压失败会抛出运行时异常
 
      */
-    public BufferedReader unZIP(InputStream InputStream) throws IOException {
-        String property = System.getProperty("user.dir");
-        String all = property.replaceAll("\\\\", "/");
-        String path =  all+"/doublekit-wiki-server/src/main/resources/unzip";
+    public BufferedReader unZIP(InputStream InputStream,String path) throws IOException {
+       // String property = System.getProperty("user.dir");
+       // String all = property.replaceAll("\\\\", "/");
+       // String path =  all+"/doublekit-wiki-server/src/main/resources/unzip";
         ZipInputStream zipInputStream = new ZipInputStream(InputStream);
         ZipEntry entry=null;
         File file=null;
