@@ -2,9 +2,9 @@ package com.doublekit.wiki.document.service;
 
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
-import com.doublekit.eam.server.common.Ticket;
-import com.doublekit.eam.server.common.TicketContext;
-import com.doublekit.eam.server.common.TicketHolder;
+import com.doublekit.eam.common.Ticket;
+import com.doublekit.eam.common.TicketContext;
+import com.doublekit.eam.common.TicketHolder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.user.user.model.User;
