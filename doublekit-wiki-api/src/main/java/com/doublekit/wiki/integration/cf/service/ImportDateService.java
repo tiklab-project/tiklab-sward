@@ -1,4 +1,4 @@
-package com.doublekit.wiki.trilImport.service;
+package com.doublekit.wiki.integration.cf.service;
 
 import java.io.InputStream;
 

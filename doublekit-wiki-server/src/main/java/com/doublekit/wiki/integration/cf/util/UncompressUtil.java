@@ -1,4 +1,4 @@
-package com.doublekit.wiki.trilImport.util;
+package com.doublekit.wiki.integration.cf.util;
 
 import org.springframework.util.ObjectUtils;
 

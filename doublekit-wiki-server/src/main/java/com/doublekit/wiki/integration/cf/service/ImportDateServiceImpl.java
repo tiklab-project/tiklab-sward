@@ -1,18 +1,16 @@
-package com.doublekit.wiki.trilImport.service;
+package com.doublekit.wiki.integration.cf.service;
 
 
 import com.alibaba.fastjson.JSON;
 import com.doublekit.dal.jpa.JpaTemplate;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.category.entity.CategoryEntity;
-import com.doublekit.wiki.category.model.Category;
 import com.doublekit.wiki.document.dao.DocumentDao;
 import com.doublekit.wiki.document.entity.DocumentEntity;
 import com.doublekit.wiki.repository.dao.RepositoryDao;
 import com.doublekit.wiki.repository.entity.RepositoryEntity;
-import com.doublekit.wiki.trilImport.util.UncompressUtil;
+import com.doublekit.wiki.integration.cf.util.UncompressUtil;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;

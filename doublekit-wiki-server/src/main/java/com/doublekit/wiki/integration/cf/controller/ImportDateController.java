@@ -1,11 +1,11 @@
-package com.doublekit.wiki.trilImport.controller;
+package com.doublekit.wiki.integration.cf.controller;
 
 import com.doublekit.apibox.annotation.Api;
 import com.doublekit.apibox.annotation.ApiMethod;
 import com.doublekit.apibox.annotation.ApiParam;
 import com.doublekit.common.Result;
 import com.doublekit.common.exception.DarthException;
-import com.doublekit.wiki.trilImport.service.ImportDateService;
+import com.doublekit.wiki.integration.cf.service.ImportDateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
