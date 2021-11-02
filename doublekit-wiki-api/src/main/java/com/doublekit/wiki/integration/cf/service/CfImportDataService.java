@@ -2,7 +2,7 @@ package com.doublekit.wiki.integration.cf.service;
 
 import java.io.InputStream;
 
-public interface CfImportDateService {
+public interface CfImportDataService {
 
 
     /**
@@ -10,5 +10,5 @@ public interface CfImportDateService {
      * @param inputStream
      * @return
      */
-    String   importConfluenceDate(InputStream inputStream);
+    String   importConfluenceData(InputStream inputStream);
 }

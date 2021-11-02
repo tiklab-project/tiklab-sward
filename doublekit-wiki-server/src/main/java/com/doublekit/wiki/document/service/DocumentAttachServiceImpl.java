@@ -2,6 +2,7 @@ package com.doublekit.wiki.document.service;
 
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
+import com.doublekit.common.PaginationBuilder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.document.dao.DocumentAttachDao;
 import com.doublekit.wiki.document.entity.DocumentAttachEntity;
@@ -93,16 +94,13 @@ public class DocumentAttachServiceImpl implements DocumentAttachService {
 
     @Override
     public Pagination<DocumentAttach> findDocumentAttachPage(DocumentAttachQuery documentAttachQuery) {
-        Pagination<DocumentAttach> pg = new Pagination<>();
 
         Pagination<DocumentAttachEntity>  pagination = documentAttachDao.findDocumentAttachPage(documentAttachQuery);
-        BeanUtils.copyProperties(pagination,pg);
 
         List<DocumentAttach> documentAttachList = BeanMapper.mapList(pagination.getDataList(),DocumentAttach.class);
 
         joinTemplate.queryList(documentAttachList);
 
-        pg.setDataList(documentAttachList);
-        return pg;
+        return PaginationBuilder.build(pagination,documentAttachList);
     }
 }

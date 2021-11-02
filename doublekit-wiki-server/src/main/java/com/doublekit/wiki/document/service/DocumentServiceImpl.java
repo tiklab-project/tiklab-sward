@@ -2,6 +2,7 @@ package com.doublekit.wiki.document.service;
 
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
+import com.doublekit.common.PaginationBuilder;
 import com.doublekit.eam.common.Ticket;
 import com.doublekit.eam.common.TicketContext;
 import com.doublekit.eam.common.TicketHolder;
@@ -136,17 +137,14 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public Pagination<Document> findDocumentPage(DocumentQuery documentQuery) {
-        Pagination<Document> pg = new Pagination<>();
 
         Pagination<DocumentEntity>  pagination = documentDao.findDocumentPage(documentQuery);
-        BeanUtils.copyProperties(pagination,pg);
 
         List<Document> documentList = BeanMapper.mapList(pagination.getDataList(),Document.class);
 
         joinTemplate.queryList(documentList);
 
-        pg.setDataList(documentList);
-        return pg;
+        return PaginationBuilder.build(pagination,documentList);
     }
 
 

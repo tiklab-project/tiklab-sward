@@ -2,6 +2,7 @@ package com.doublekit.wiki.document.service;
 
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
+import com.doublekit.common.PaginationBuilder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.document.dao.ShareDao;
 import com.doublekit.wiki.document.entity.ShareEntity;
@@ -97,17 +98,14 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public Pagination<Share> findSharePage(ShareQuery shareQuery) {
-        Pagination<Share> pg = new Pagination<>();
 
         Pagination<ShareEntity> pagination = shareDao.findSharePage(shareQuery);
-        BeanUtils.copyProperties(pagination, pg);
 
         List<Share> shareList = BeanMapper.mapList(pagination.getDataList(), Share.class);
 
         joinTemplate.queryList(shareList);
 
-        pg.setDataList(shareList);
-        return pg;
+        return PaginationBuilder.build(pagination,shareList);
     }
 
     @Override

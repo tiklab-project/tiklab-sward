@@ -2,6 +2,7 @@ package com.doublekit.wiki.category.service;
 
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
+import com.doublekit.common.PaginationBuilder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.category.entity.CategoryEntity;
@@ -108,17 +109,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Pagination<Category> findCategoryPage(CategoryQuery categoryQuery) {
-        Pagination<Category> pg = new Pagination<>();
 
         Pagination<CategoryEntity>  pagination = categoryDao.findCategoryPage(categoryQuery);
-        BeanUtils.copyProperties(pagination,pg);
 
         List<Category> categoryList = BeanMapper.mapList(pagination.getDataList(),Category.class);
 
         joinTemplate.queryList(categoryList);
 
-        pg.setDataList(categoryList);
-        return pg;
+        return PaginationBuilder.build(pagination,categoryList);
     }
 
     @Override

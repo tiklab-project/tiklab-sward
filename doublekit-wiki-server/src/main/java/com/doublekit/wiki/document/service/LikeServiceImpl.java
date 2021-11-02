@@ -2,6 +2,7 @@ package com.doublekit.wiki.document.service;
 
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
+import com.doublekit.common.PaginationBuilder;
 import com.doublekit.eam.common.Ticket;
 import com.doublekit.eam.common.TicketContext;
 import com.doublekit.eam.common.TicketHolder;
@@ -106,17 +107,14 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public Pagination<Like> findLikePage(LikeQuery likeQuery) {
-        Pagination<Like> pg = new Pagination<>();
 
         Pagination<LikeEntity>  pagination = likeDao.findLikePage(likeQuery);
-        BeanUtils.copyProperties(pagination,pg);
 
         List<Like> likeList = BeanMapper.mapList(pagination.getDataList(),Like.class);
 
         joinTemplate.queryList(likeList);
 
-        pg.setDataList(likeList);
-        return pg;
+        return PaginationBuilder.build(pagination,likeList);
     }
 
 

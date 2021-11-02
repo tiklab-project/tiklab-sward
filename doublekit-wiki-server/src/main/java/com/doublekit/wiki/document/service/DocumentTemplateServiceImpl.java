@@ -2,6 +2,7 @@ package com.doublekit.wiki.document.service;
 
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
+import com.doublekit.common.PaginationBuilder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.document.dao.DocumentTemplateDao;
 import com.doublekit.wiki.document.entity.DocumentTemplateEntity;
@@ -93,16 +94,13 @@ public class DocumentTemplateServiceImpl implements DocumentTemplateService {
 
     @Override
     public Pagination<DocumentTemplate> findDocumentTemplatePage(DocumentTemplateQuery documentTemplateQuery) {
-        Pagination<DocumentTemplate> pg = new Pagination<>();
 
         Pagination<DocumentTemplateEntity>  pagination = documentTemplateDao.findDocumentTemplatePage(documentTemplateQuery);
-        BeanUtils.copyProperties(pagination,pg);
 
         List<DocumentTemplate> documentTemplateList = BeanMapper.mapList(pagination.getDataList(),DocumentTemplate.class);
 
         joinTemplate.queryList(documentTemplateList);
 
-        pg.setDataList(documentTemplateList);
-        return pg;
+        return PaginationBuilder.build(pagination,documentTemplateList);
     }
 }

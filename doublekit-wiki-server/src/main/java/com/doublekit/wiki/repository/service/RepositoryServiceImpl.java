@@ -2,6 +2,7 @@ package com.doublekit.wiki.repository.service;
 
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
+import com.doublekit.common.PaginationBuilder;
 import com.doublekit.dal.jpa.builder.deletelist.condition.DeleteCondition;
 import com.doublekit.dal.jpa.builder.deletelist.conditionbuilder.DeleteBuilders;
 import com.doublekit.dss.client.DssClient;
@@ -140,17 +141,14 @@ public class RepositoryServiceImpl implements RepositoryService {
 
     @Override
     public Pagination<Repository> findRepositoryPage(RepositoryQuery repositoryQuery) {
-        Pagination<Repository> pg = new Pagination<>();
 
         Pagination<RepositoryEntity>  pagination = repositoryDao.findRepositoryPage(repositoryQuery);
-        BeanUtils.copyProperties(pagination,pg);
 
         List<Repository> repositoryList = BeanMapper.mapList(pagination.getDataList(),Repository.class);
 
         joinTemplate.queryList(repositoryList);
 
-        pg.setDataList(repositoryList);
-        return pg;
+        return PaginationBuilder.build(pagination,repositoryList);
     }
 
     /**

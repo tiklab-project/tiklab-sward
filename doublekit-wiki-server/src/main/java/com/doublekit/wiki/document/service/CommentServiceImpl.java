@@ -2,6 +2,7 @@ package com.doublekit.wiki.document.service;
 
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
+import com.doublekit.common.PaginationBuilder;
 import com.doublekit.eam.common.Ticket;
 import com.doublekit.eam.common.TicketContext;
 import com.doublekit.eam.common.TicketHolder;
@@ -119,17 +120,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Pagination<Comment> findCommentPage(CommentQuery commentQuery) {
-        Pagination<Comment> pg = new Pagination<>();
 
         Pagination<CommentEntity>  pagination = commentDao.findCommentPage(commentQuery);
-        BeanUtils.copyProperties(pagination,pg);
 
         List<Comment> commentList = BeanMapper.mapList(pagination.getDataList(),Comment.class);
 
         joinTemplate.queryList(commentList);
 
-        pg.setDataList(commentList);
-        return pg;
+        return PaginationBuilder.build(pagination,commentList);
     }
 
 

@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CfImportDateServiceImpl implements CfImportDateService {
+public class CfImportDataServiceImpl implements CfImportDataService {
 
     @Autowired
     JpaTemplate jpaTemplate;
@@ -51,7 +51,7 @@ public class CfImportDateServiceImpl implements CfImportDateService {
 
 
     @Override
-    public String importConfluenceDate(InputStream inputStream) {
+    public String importConfluenceData(InputStream inputStream) {
         BufferedReader unZIP=null;
         try {
             unZIP = new UncompressUtil().unZIP(inputStream,unzipAddress);
