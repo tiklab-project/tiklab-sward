@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ImportDateServiceImpl implements ImportDateService {
+public class CfImportDateServiceImpl implements CfImportDateService {
 
     @Autowired
     JpaTemplate jpaTemplate;

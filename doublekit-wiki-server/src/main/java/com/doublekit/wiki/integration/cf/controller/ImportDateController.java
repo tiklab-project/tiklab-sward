@@ -5,7 +5,7 @@ import com.doublekit.apibox.annotation.ApiMethod;
 import com.doublekit.apibox.annotation.ApiParam;
 import com.doublekit.common.Result;
 import com.doublekit.common.exception.DarthException;
-import com.doublekit.wiki.integration.cf.service.ImportDateService;
+import com.doublekit.wiki.integration.cf.service.CfImportDateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +21,7 @@ import java.io.InputStream;
 @Api(name = "ImportDateController",desc = "导入第三方数据数据")
 public class ImportDateController {
     @Autowired
-    ImportDateService importDateService;
+    CfImportDateService cfImportDateService;
 
 
     @RequestMapping(path="/importConfluenceDate",method = RequestMethod.POST)
@@ -34,7 +34,7 @@ public class ImportDateController {
         }else {
             try {
                 InputStream inputStream = uploadFile.getInputStream();
-                String date = importDateService.importConfluenceDate(inputStream);
+                String date = cfImportDateService.importConfluenceDate(inputStream);
                 return Result.ok(date);
             } catch (IOException e) {
                 e.printStackTrace();

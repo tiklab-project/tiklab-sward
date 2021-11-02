@@ -2,7 +2,7 @@ package com.doublekit.wiki.integration.cf.service;
 
 import java.io.InputStream;
 
-public interface ImportDateService {
+public interface CfImportDateService {
 
 
     /**
