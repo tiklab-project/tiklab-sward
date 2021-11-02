@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Table(name="wiki_comment")
-public class CommentPo implements Serializable {
+public class CommentEntity implements Serializable {
 
     @Id
     @GeneratorValue

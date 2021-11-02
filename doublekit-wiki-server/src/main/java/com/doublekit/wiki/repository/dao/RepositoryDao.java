@@ -1,7 +1,7 @@
 package com.doublekit.wiki.repository.dao;
 
 import com.doublekit.common.Pagination;
-import com.doublekit.wiki.repository.entity.RepositoryPo;
+import com.doublekit.wiki.repository.entity.RepositoryEntity;
 import com.doublekit.wiki.repository.model.RepositoryQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
 import com.doublekit.dal.jpa.builder.deletelist.condition.*;
@@ -25,19 +25,19 @@ public class RepositoryDao{
 
     /**
      * 创建
-     * @param repositoryPo
+     * @param repositoryEntity
      * @return
      */
-    public String createRepository(RepositoryPo repositoryPo) {
-        return jpaTemplate.save(repositoryPo,String.class);
+    public String createRepository(RepositoryEntity repositoryEntity) {
+        return jpaTemplate.save(repositoryEntity,String.class);
     }
 
     /**
      * 更新
-     * @param repositoryPo
+     * @param repositoryEntity
      */
-    public void updateRepository(RepositoryPo repositoryPo){
-        jpaTemplate.update(repositoryPo);
+    public void updateRepository(RepositoryEntity repositoryEntity){
+        jpaTemplate.update(repositoryEntity);
     }
 
     /**
@@ -45,11 +45,11 @@ public class RepositoryDao{
      * @param id
      */
     public void deleteRepository(String id){
-        jpaTemplate.delete(RepositoryPo.class,id);
+        jpaTemplate.delete(RepositoryEntity.class,id);
     }
 
     public void deleteRepository(DeleteCondition deleteCondition){
-        jpaTemplate.delete(RepositoryPo.class,deleteCondition);
+        jpaTemplate.delete(RepositoryEntity.class,deleteCondition);
     }
 
     /**
@@ -57,27 +57,27 @@ public class RepositoryDao{
      * @param id
      * @return
      */
-    public RepositoryPo findRepository(String id){
-        return jpaTemplate.findOne(RepositoryPo.class,id);
+    public RepositoryEntity findRepository(String id){
+        return jpaTemplate.findOne(RepositoryEntity.class,id);
     }
 
     /**
     * findAllRepository
     * @return
     */
-    public List<RepositoryPo> findAllRepository() {
-        return jpaTemplate.findAll(RepositoryPo.class);
+    public List<RepositoryEntity> findAllRepository() {
+        return jpaTemplate.findAll(RepositoryEntity.class);
     }
 
-    public List<RepositoryPo> findRepositoryList(List<String> idList) {
-        return jpaTemplate.findList(RepositoryPo.class,idList);
+    public List<RepositoryEntity> findRepositoryList(List<String> idList) {
+        return jpaTemplate.findList(RepositoryEntity.class,idList);
     }
 
-    public List<RepositoryPo> findRepositoryList(RepositoryQuery repositoryQuery) {
-        return jpaTemplate.findList(RepositoryPo.class,repositoryQuery);
+    public List<RepositoryEntity> findRepositoryList(RepositoryQuery repositoryQuery) {
+        return jpaTemplate.findList(RepositoryEntity.class,repositoryQuery);
     }
 
-    public Pagination<RepositoryPo> findRepositoryPage(RepositoryQuery repositoryQuery) {
-        return jpaTemplate.findPage(RepositoryPo.class,repositoryQuery);
+    public Pagination<RepositoryEntity> findRepositoryPage(RepositoryQuery repositoryQuery) {
+        return jpaTemplate.findPage(RepositoryEntity.class,repositoryQuery);
     }
 }

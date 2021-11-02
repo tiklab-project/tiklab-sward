@@ -3,7 +3,7 @@ package com.doublekit.wiki.doument.codegen;
 import com.doublekit.codegen.CodeGeneratorTemplate;
 import com.doublekit.codegen.config.ModuleGeneratorConfig;
 import com.doublekit.codegen.config.ProjectGeneratorConfig;
-import com.doublekit.wiki.document.entity.LikePo;
+import com.doublekit.wiki.document.entity.LikeEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class LikeCodeGeneratorTest extends CodeGeneratorTemplate {
     protected ModuleGeneratorConfig getModuleGeneratorConfig() {
         ModuleGeneratorConfig config = new ModuleGeneratorConfig();
         config.setProjectGeneratorConfig(projectGeneratorConfig);
-        config.setEntity(LikePo.class);
+        config.setEntity(LikeEntity.class);
         config.setPkg("com.doublekit.wiki.repository");
         config.setModel("Like");
         return config;

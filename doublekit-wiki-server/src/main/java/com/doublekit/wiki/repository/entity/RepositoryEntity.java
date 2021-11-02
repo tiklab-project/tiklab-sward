@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 @Table(name="wiki_repository")
-public class RepositoryPo implements Serializable {
+public class RepositoryEntity implements Serializable {
 
     @Id
     @GeneratorValue

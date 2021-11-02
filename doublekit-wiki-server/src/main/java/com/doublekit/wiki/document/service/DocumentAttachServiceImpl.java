@@ -4,7 +4,7 @@ import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.document.dao.DocumentAttachDao;
-import com.doublekit.wiki.document.entity.DocumentAttachPo;
+import com.doublekit.wiki.document.entity.DocumentAttachEntity;
 import com.doublekit.wiki.document.model.DocumentAttach;
 import com.doublekit.wiki.document.model.DocumentAttachQuery;
 import org.springframework.beans.BeanUtils;
@@ -29,16 +29,16 @@ public class DocumentAttachServiceImpl implements DocumentAttachService {
 
     @Override
     public String createDocumentAttach(@NotNull @Valid DocumentAttach documentAttach) {
-        DocumentAttachPo documentAttachPo = BeanMapper.map(documentAttach, DocumentAttachPo.class);
+        DocumentAttachEntity documentAttachEntity = BeanMapper.map(documentAttach, DocumentAttachEntity.class);
 
-        return documentAttachDao.createDocumentAttach(documentAttachPo);
+        return documentAttachDao.createDocumentAttach(documentAttachEntity);
     }
 
     @Override
     public void updateDocumentAttach(@NotNull @Valid DocumentAttach documentAttach) {
-        DocumentAttachPo documentAttachPo = BeanMapper.map(documentAttach, DocumentAttachPo.class);
+        DocumentAttachEntity documentAttachEntity = BeanMapper.map(documentAttach, DocumentAttachEntity.class);
 
-        documentAttachDao.updateDocumentAttach(documentAttachPo);
+        documentAttachDao.updateDocumentAttach(documentAttachEntity);
     }
 
     @Override
@@ -48,17 +48,17 @@ public class DocumentAttachServiceImpl implements DocumentAttachService {
 
     @Override
     public DocumentAttach findOne(String id) {
-        DocumentAttachPo documentAttachPo = documentAttachDao.findDocumentAttach(id);
+        DocumentAttachEntity documentAttachEntity = documentAttachDao.findDocumentAttach(id);
 
-        DocumentAttach documentAttach = BeanMapper.map(documentAttachPo, DocumentAttach.class);
+        DocumentAttach documentAttach = BeanMapper.map(documentAttachEntity, DocumentAttach.class);
         return documentAttach;
     }
 
     @Override
     public List<DocumentAttach> findList(List<String> idList) {
-        List<DocumentAttachPo> documentAttachPoList =  documentAttachDao.findDocumentAttachList(idList);
+        List<DocumentAttachEntity> documentAttachEntityList =  documentAttachDao.findDocumentAttachList(idList);
 
-        List<DocumentAttach> documentAttachList =  BeanMapper.mapList(documentAttachPoList,DocumentAttach.class);
+        List<DocumentAttach> documentAttachList =  BeanMapper.mapList(documentAttachEntityList,DocumentAttach.class);
         return documentAttachList;
     }
 
@@ -72,9 +72,9 @@ public class DocumentAttachServiceImpl implements DocumentAttachService {
 
     @Override
     public List<DocumentAttach> findAllDocumentAttach() {
-        List<DocumentAttachPo> documentAttachPoList =  documentAttachDao.findAllDocumentAttach();
+        List<DocumentAttachEntity> documentAttachEntityList =  documentAttachDao.findAllDocumentAttach();
 
-        List<DocumentAttach> documentAttachList =  BeanMapper.mapList(documentAttachPoList,DocumentAttach.class);
+        List<DocumentAttach> documentAttachList =  BeanMapper.mapList(documentAttachEntityList,DocumentAttach.class);
 
         joinTemplate.queryList(documentAttachList);
         return documentAttachList;
@@ -82,9 +82,9 @@ public class DocumentAttachServiceImpl implements DocumentAttachService {
 
     @Override
     public List<DocumentAttach> findDocumentAttachList(DocumentAttachQuery documentAttachQuery) {
-        List<DocumentAttachPo> documentAttachPoList = documentAttachDao.findDocumentAttachList(documentAttachQuery);
+        List<DocumentAttachEntity> documentAttachEntityList = documentAttachDao.findDocumentAttachList(documentAttachQuery);
 
-        List<DocumentAttach> documentAttachList = BeanMapper.mapList(documentAttachPoList,DocumentAttach.class);
+        List<DocumentAttach> documentAttachList = BeanMapper.mapList(documentAttachEntityList,DocumentAttach.class);
 
         joinTemplate.queryList(documentAttachList);
 
@@ -95,7 +95,7 @@ public class DocumentAttachServiceImpl implements DocumentAttachService {
     public Pagination<DocumentAttach> findDocumentAttachPage(DocumentAttachQuery documentAttachQuery) {
         Pagination<DocumentAttach> pg = new Pagination<>();
 
-        Pagination<DocumentAttachPo>  pagination = documentAttachDao.findDocumentAttachPage(documentAttachQuery);
+        Pagination<DocumentAttachEntity>  pagination = documentAttachDao.findDocumentAttachPage(documentAttachQuery);
         BeanUtils.copyProperties(pagination,pg);
 
         List<DocumentAttach> documentAttachList = BeanMapper.mapList(pagination.getDataList(),DocumentAttach.class);

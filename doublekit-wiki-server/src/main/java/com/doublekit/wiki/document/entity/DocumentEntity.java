@@ -10,7 +10,7 @@ import com.doublekit.dal.jpa.mapper.annotation.Table;
 import java.io.Serializable;
 
 @Table(name="wiki_document")
-public class DocumentPo implements Serializable {
+public class DocumentEntity implements Serializable {
 
     @Id
     @GeneratorValue

@@ -4,7 +4,7 @@ import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.document.dao.ShareDao;
-import com.doublekit.wiki.document.entity.SharePo;
+import com.doublekit.wiki.document.entity.ShareEntity;
 import com.doublekit.wiki.document.model.Share;
 import com.doublekit.wiki.document.model.ShareQuery;
 import org.apache.commons.collections.CollectionUtils;
@@ -33,16 +33,16 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public String createShare(@NotNull @Valid Share share) {
-        SharePo sharePo = BeanMapper.map(share, SharePo.class);
+        ShareEntity shareEntity = BeanMapper.map(share, ShareEntity.class);
 
-        return shareDao.createShare(sharePo);
+        return shareDao.createShare(shareEntity);
     }
 
     @Override
     public void updateShare(@NotNull @Valid Share share) {
-        SharePo sharePo = BeanMapper.map(share, SharePo.class);
+        ShareEntity shareEntity = BeanMapper.map(share, ShareEntity.class);
 
-        shareDao.updateShare(sharePo);
+        shareDao.updateShare(shareEntity);
     }
 
     @Override
@@ -52,17 +52,17 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public Share findOne(String id) {
-        SharePo sharePo = shareDao.findShare(id);
+        ShareEntity shareEntity = shareDao.findShare(id);
 
-        Share share = BeanMapper.map(sharePo, Share.class);
+        Share share = BeanMapper.map(shareEntity, Share.class);
         return share;
     }
 
     @Override
     public List<Share> findList(List<String> idList) {
-        List<SharePo> sharePoList = shareDao.findShareList(idList);
+        List<ShareEntity> shareEntityList = shareDao.findShareList(idList);
 
-        List<Share> shareList = BeanMapper.mapList(sharePoList, Share.class);
+        List<Share> shareList = BeanMapper.mapList(shareEntityList, Share.class);
         return shareList;
     }
 
@@ -76,9 +76,9 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public List<Share> findAllShare() {
-        List<SharePo> sharePoList = shareDao.findAllShare();
+        List<ShareEntity> shareEntityList = shareDao.findAllShare();
 
-        List<Share> shareList = BeanMapper.mapList(sharePoList, Share.class);
+        List<Share> shareList = BeanMapper.mapList(shareEntityList, Share.class);
 
         joinTemplate.queryList(shareList);
         return shareList;
@@ -86,9 +86,9 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public List<Share> findShareList(ShareQuery shareQuery) {
-        List<SharePo> sharePoList = shareDao.findShareList(shareQuery);
+        List<ShareEntity> shareEntityList = shareDao.findShareList(shareQuery);
 
-        List<Share> shareList = BeanMapper.mapList(sharePoList, Share.class);
+        List<Share> shareList = BeanMapper.mapList(shareEntityList, Share.class);
 
         joinTemplate.queryList(shareList);
 
@@ -99,7 +99,7 @@ public class ShareServiceImpl implements ShareService {
     public Pagination<Share> findSharePage(ShareQuery shareQuery) {
         Pagination<Share> pg = new Pagination<>();
 
-        Pagination<SharePo> pagination = shareDao.findSharePage(shareQuery);
+        Pagination<ShareEntity> pagination = shareDao.findSharePage(shareQuery);
         BeanUtils.copyProperties(pagination, pg);
 
         List<Share> shareList = BeanMapper.mapList(pagination.getDataList(), Share.class);
@@ -123,15 +123,15 @@ public class ShareServiceImpl implements ShareService {
         String shareLink = time + "?xt:" + share.getDocumentId();
         share.setShareLink(shareLink);
         share.setCreateTime(new Date());
-        SharePo sharePo = BeanMapper.map(share, SharePo.class);
+        ShareEntity shareEntity = BeanMapper.map(share, ShareEntity.class);
 
-        shareDao.createShare(sharePo);
+        shareDao.createShare(shareEntity);
         return share;
     }
 
     @Override
     public Share cutHaveOrNotAuthCode(ShareQuery shareQuery) {
-        List<SharePo> shareList = shareDao.findShareList(new ShareQuery().setShareLink(shareQuery.getShareLink()));
+        List<ShareEntity> shareList = shareDao.findShareList(new ShareQuery().setShareLink(shareQuery.getShareLink()));
         //切换验证码到有
         if (shareQuery.getWhetherAuthCode()) {
             //验证码
@@ -161,10 +161,10 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public String verifyAuthCode(ShareQuery shareQuery) {
-        List<SharePo> shareList = shareDao.findShareList(new ShareQuery().setShareLink(shareQuery.getShareLink()));
+        List<ShareEntity> shareList = shareDao.findShareList(new ShareQuery().setShareLink(shareQuery.getShareLink()));
         if (CollectionUtils.isNotEmpty(shareList)){
-            SharePo sharePo = shareList.get(0);
-            if (shareQuery.getAuthCode().equals(sharePo.getAuthCode())){
+            ShareEntity shareEntity = shareList.get(0);
+            if (shareQuery.getAuthCode().equals(shareEntity.getAuthCode())){
                 return "true";
             }else {
                 return "请输入正确的验证码";
@@ -176,10 +176,10 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public String judgeAuthCode(String shareLink) {
-        List<SharePo> shareList = shareDao.findShareList(new ShareQuery().setShareLink(shareLink));
+        List<ShareEntity> shareList = shareDao.findShareList(new ShareQuery().setShareLink(shareLink));
         if (CollectionUtils.isNotEmpty(shareList)){
-            SharePo sharePo = shareList.get(0);
-            if (StringUtils.isEmpty(sharePo.getAuthCode())){
+            ShareEntity shareEntity = shareList.get(0);
+            if (StringUtils.isEmpty(shareEntity.getAuthCode())){
                 return "false";
             }else {
                 return "true";

@@ -9,8 +9,8 @@ import com.doublekit.join.JoinTemplate;
 import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.document.dao.CommentDao;
 import com.doublekit.wiki.document.dao.LikeDao;
-import com.doublekit.wiki.document.entity.CommentPo;
-import com.doublekit.wiki.document.entity.LikePo;
+import com.doublekit.wiki.document.entity.CommentEntity;
+import com.doublekit.wiki.document.entity.LikeEntity;
 import com.doublekit.wiki.document.model.Comment;
 import com.doublekit.wiki.document.model.CommentQuery;
 import com.doublekit.wiki.document.model.Like;
@@ -44,23 +44,23 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public String createComment(@NotNull @Valid Comment comment) {
-        CommentPo commentPo = BeanMapper.map(comment, CommentPo.class);
+        CommentEntity commentEntity = BeanMapper.map(comment, CommentEntity.class);
         //添加评论人
-        commentPo.setUser(findCreatUser());
-        commentPo.setCreateTime(new Date());
-        if (!ObjectUtils.isEmpty(commentPo.getParentCommentId())){
-            CommentPo parentComment = commentDao.findComment(commentPo.getParentCommentId());
+        commentEntity.setUser(findCreatUser());
+        commentEntity.setCreateTime(new Date());
+        if (!ObjectUtils.isEmpty(commentEntity.getParentCommentId())){
+            CommentEntity parentComment = commentDao.findComment(commentEntity.getParentCommentId());
             //被回复的人
-            commentPo.setAimAtUser(parentComment.getUser());
+            commentEntity.setAimAtUser(parentComment.getUser());
         }
-        return commentDao.createComment(commentPo);
+        return commentDao.createComment(commentEntity);
     }
 
     @Override
     public void updateComment(@NotNull @Valid Comment comment) {
-        CommentPo commentPo = BeanMapper.map(comment, CommentPo.class);
-        commentPo.setUpdateTime(new Date());
-        commentDao.updateComment(commentPo);
+        CommentEntity commentEntity = BeanMapper.map(comment, CommentEntity.class);
+        commentEntity.setUpdateTime(new Date());
+        commentDao.updateComment(commentEntity);
     }
 
     @Override
@@ -70,17 +70,17 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment findOne(String id) {
-        CommentPo commentPo = commentDao.findComment(id);
+        CommentEntity commentEntity = commentDao.findComment(id);
 
-        Comment comment = BeanMapper.map(commentPo, Comment.class);
+        Comment comment = BeanMapper.map(commentEntity, Comment.class);
         return comment;
     }
 
     @Override
     public List<Comment> findList(List<String> idList) {
-        List<CommentPo> commentPoList =  commentDao.findCommentList(idList);
+        List<CommentEntity> commentEntityList =  commentDao.findCommentList(idList);
 
-        List<Comment> commentList =  BeanMapper.mapList(commentPoList,Comment.class);
+        List<Comment> commentList =  BeanMapper.mapList(commentEntityList,Comment.class);
         return commentList;
     }
 
@@ -94,9 +94,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findAllComment() {
-        List<CommentPo> commentPoList =  commentDao.findAllComment();
+        List<CommentEntity> commentEntityList =  commentDao.findAllComment();
 
-        List<Comment> commentList =  BeanMapper.mapList(commentPoList,Comment.class);
+        List<Comment> commentList =  BeanMapper.mapList(commentEntityList,Comment.class);
 
         joinTemplate.queryList(commentList);
         return commentList;
@@ -104,10 +104,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findCommentList(CommentQuery commentQuery,String type) {
-        List<CommentPo> commentPoList = commentDao.findCommentList(commentQuery);
+        List<CommentEntity> commentEntityList = commentDao.findCommentList(commentQuery);
 
 
-        List<Comment> commentList = BeanMapper.mapList(commentPoList,Comment.class);
+        List<Comment> commentList = BeanMapper.mapList(commentEntityList,Comment.class);
 
         joinTemplate.queryList(commentList);
 
@@ -121,7 +121,7 @@ public class CommentServiceImpl implements CommentService {
     public Pagination<Comment> findCommentPage(CommentQuery commentQuery) {
         Pagination<Comment> pg = new Pagination<>();
 
-        Pagination<CommentPo>  pagination = commentDao.findCommentPage(commentQuery);
+        Pagination<CommentEntity>  pagination = commentDao.findCommentPage(commentQuery);
         BeanUtils.copyProperties(pagination,pg);
 
         List<Comment> commentList = BeanMapper.mapList(pagination.getDataList(),Comment.class);
@@ -169,13 +169,13 @@ public class CommentServiceImpl implements CommentService {
             likeQuery.setToWhomId(comment.getId());
             likeQuery.setLikeType("com");
             //查询点赞数
-            List<LikePo> likeList = likeDao.findLikeList(likeQuery);
+            List<LikeEntity> likeList = likeDao.findLikeList(likeQuery);
             if (CollectionUtils.isNotEmpty(likeList)){
                 if ("view".equals(type)){
                     comment.setIsLike("false");
                 }else {
                     //根据用户id判断该用户是否点赞了
-                    List<LikePo> collect1 = likeList.stream().filter(a -> findCreatUser().equals(a.getLikeUser())).collect(Collectors.toList());
+                    List<LikeEntity> collect1 = likeList.stream().filter(a -> findCreatUser().equals(a.getLikeUser())).collect(Collectors.toList());
                     if (CollectionUtils.isNotEmpty(collect1)){
                         comment.setIsLike("true");
                     }else {

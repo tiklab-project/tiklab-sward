@@ -1,7 +1,7 @@
 package com.doublekit.wiki.document.dao;
 
 import com.doublekit.common.Pagination;
-import com.doublekit.wiki.document.entity.DocumentTemplatePo;
+import com.doublekit.wiki.document.entity.DocumentTemplateEntity;
 import com.doublekit.wiki.document.model.DocumentTemplateQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
 import com.doublekit.dal.jpa.builder.deletelist.condition.*;
@@ -25,19 +25,19 @@ public class DocumentTemplateDao{
 
     /**
      * 创建
-     * @param documentTemplatePo
+     * @param documentTemplateEntity
      * @return
      */
-    public String createDocumentTemplate(DocumentTemplatePo documentTemplatePo) {
-        return jpaTemplate.save(documentTemplatePo,String.class);
+    public String createDocumentTemplate(DocumentTemplateEntity documentTemplateEntity) {
+        return jpaTemplate.save(documentTemplateEntity,String.class);
     }
 
     /**
      * 更新
-     * @param documentTemplatePo
+     * @param documentTemplateEntity
      */
-    public void updateDocumentTemplate(DocumentTemplatePo documentTemplatePo){
-        jpaTemplate.update(documentTemplatePo);
+    public void updateDocumentTemplate(DocumentTemplateEntity documentTemplateEntity){
+        jpaTemplate.update(documentTemplateEntity);
     }
 
     /**
@@ -45,11 +45,11 @@ public class DocumentTemplateDao{
      * @param id
      */
     public void deleteDocumentTemplate(String id){
-        jpaTemplate.delete(DocumentTemplatePo.class,id);
+        jpaTemplate.delete(DocumentTemplateEntity.class,id);
     }
 
     public void deleteDocumentTemplate(DeleteCondition deleteCondition){
-        jpaTemplate.delete(DocumentTemplatePo.class,deleteCondition);
+        jpaTemplate.delete(DocumentTemplateEntity.class,deleteCondition);
     }
 
     /**
@@ -57,27 +57,27 @@ public class DocumentTemplateDao{
      * @param id
      * @return
      */
-    public DocumentTemplatePo findDocumentTemplate(String id){
-        return jpaTemplate.findOne(DocumentTemplatePo.class,id);
+    public DocumentTemplateEntity findDocumentTemplate(String id){
+        return jpaTemplate.findOne(DocumentTemplateEntity.class,id);
     }
 
     /**
     * findAllDocumentTemplate
     * @return
     */
-    public List<DocumentTemplatePo> findAllDocumentTemplate() {
-        return jpaTemplate.findAll(DocumentTemplatePo.class);
+    public List<DocumentTemplateEntity> findAllDocumentTemplate() {
+        return jpaTemplate.findAll(DocumentTemplateEntity.class);
     }
 
-    public List<DocumentTemplatePo> findDocumentTemplateList(List<String> idList) {
-        return jpaTemplate.findList(DocumentTemplatePo.class,idList);
+    public List<DocumentTemplateEntity> findDocumentTemplateList(List<String> idList) {
+        return jpaTemplate.findList(DocumentTemplateEntity.class,idList);
     }
 
-    public List<DocumentTemplatePo> findDocumentTemplateList(DocumentTemplateQuery documentTemplateQuery) {
-        return jpaTemplate.findList(DocumentTemplatePo.class,documentTemplateQuery);
+    public List<DocumentTemplateEntity> findDocumentTemplateList(DocumentTemplateQuery documentTemplateQuery) {
+        return jpaTemplate.findList(DocumentTemplateEntity.class,documentTemplateQuery);
     }
 
-    public Pagination<DocumentTemplatePo> findDocumentTemplatePage(DocumentTemplateQuery documentTemplateQuery) {
-        return jpaTemplate.findPage(DocumentTemplatePo.class,documentTemplateQuery);
+    public Pagination<DocumentTemplateEntity> findDocumentTemplatePage(DocumentTemplateQuery documentTemplateQuery) {
+        return jpaTemplate.findPage(DocumentTemplateEntity.class,documentTemplateQuery);
     }
 }

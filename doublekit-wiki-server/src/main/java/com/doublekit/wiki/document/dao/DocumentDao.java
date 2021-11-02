@@ -1,7 +1,7 @@
 package com.doublekit.wiki.document.dao;
 
 import com.doublekit.common.Pagination;
-import com.doublekit.wiki.document.entity.DocumentPo;
+import com.doublekit.wiki.document.entity.DocumentEntity;
 import com.doublekit.wiki.document.model.DocumentQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
 import com.doublekit.dal.jpa.builder.deletelist.condition.*;
@@ -25,19 +25,19 @@ public class DocumentDao{
 
     /**
      * 创建
-     * @param documentPo
+     * @param documentEntity
      * @return
      */
-    public String createDocument(DocumentPo documentPo) {
-        return jpaTemplate.save(documentPo,String.class);
+    public String createDocument(DocumentEntity documentEntity) {
+        return jpaTemplate.save(documentEntity,String.class);
     }
 
     /**
      * 更新
-     * @param documentPo
+     * @param documentEntity
      */
-    public void updateDocument(DocumentPo documentPo){
-        jpaTemplate.update(documentPo);
+    public void updateDocument(DocumentEntity documentEntity){
+        jpaTemplate.update(documentEntity);
     }
 
     /**
@@ -45,11 +45,11 @@ public class DocumentDao{
      * @param id
      */
     public void deleteDocument(String id){
-        jpaTemplate.delete(DocumentPo.class,id);
+        jpaTemplate.delete(DocumentEntity.class,id);
     }
 
     public void deleteDocument(DeleteCondition deleteCondition){
-        jpaTemplate.delete(DocumentPo.class,deleteCondition);
+        jpaTemplate.delete(DocumentEntity.class,deleteCondition);
     }
 
     /**
@@ -57,27 +57,27 @@ public class DocumentDao{
      * @param id
      * @return
      */
-    public DocumentPo findDocument(String id){
-        return jpaTemplate.findOne(DocumentPo.class,id);
+    public DocumentEntity findDocument(String id){
+        return jpaTemplate.findOne(DocumentEntity.class,id);
     }
 
     /**
     * findAllDocument
     * @return
     */
-    public List<DocumentPo> findAllDocument() {
-        return jpaTemplate.findAll(DocumentPo.class);
+    public List<DocumentEntity> findAllDocument() {
+        return jpaTemplate.findAll(DocumentEntity.class);
     }
 
-    public List<DocumentPo> findDocumentList(List<String> idList) {
-        return jpaTemplate.findList(DocumentPo.class,idList);
+    public List<DocumentEntity> findDocumentList(List<String> idList) {
+        return jpaTemplate.findList(DocumentEntity.class,idList);
     }
 
-    public List<DocumentPo> findDocumentList(DocumentQuery documentQuery) {
-        return jpaTemplate.findList(DocumentPo.class,documentQuery);
+    public List<DocumentEntity> findDocumentList(DocumentQuery documentQuery) {
+        return jpaTemplate.findList(DocumentEntity.class,documentQuery);
     }
 
-    public Pagination<DocumentPo> findDocumentPage(DocumentQuery documentQuery) {
-        return jpaTemplate.findPage(DocumentPo.class,documentQuery);
+    public Pagination<DocumentEntity> findDocumentPage(DocumentQuery documentQuery) {
+        return jpaTemplate.findPage(DocumentEntity.class,documentQuery);
     }
 }

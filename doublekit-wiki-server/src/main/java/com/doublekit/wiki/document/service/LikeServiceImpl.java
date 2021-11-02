@@ -7,7 +7,7 @@ import com.doublekit.eam.common.TicketContext;
 import com.doublekit.eam.common.TicketHolder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.document.dao.LikeDao;
-import com.doublekit.wiki.document.entity.LikePo;
+import com.doublekit.wiki.document.entity.LikeEntity;
 import com.doublekit.wiki.document.model.Like;
 import com.doublekit.wiki.document.model.LikeQuery;
 import org.apache.commons.collections.CollectionUtils;
@@ -37,21 +37,21 @@ public class LikeServiceImpl implements LikeService {
         likeQuery.setLikeType(like.getLikeType());
         likeQuery.setToWhomId(like.getToWhomId());
         likeQuery.setLikeUser(findCreatUser());
-        List<LikePo> likeList = likeDao.findLikeList(likeQuery);
+        List<LikeEntity> likeList = likeDao.findLikeList(likeQuery);
         if (CollectionUtils.isNotEmpty(likeList)){
             return "已经点过赞了";
         }
-        LikePo likePo = BeanMapper.map(like, LikePo.class);
+        LikeEntity likeEntity = BeanMapper.map(like, LikeEntity.class);
         //添加点赞人
-        likePo.setLikeUser(findCreatUser());
-        return likeDao.createLike(likePo);
+        likeEntity.setLikeUser(findCreatUser());
+        return likeDao.createLike(likeEntity);
     }
 
     @Override
     public void updateLike(@NotNull @Valid Like like) {
-        LikePo likePo = BeanMapper.map(like, LikePo.class);
+        LikeEntity likeEntity = BeanMapper.map(like, LikeEntity.class);
 
-        likeDao.updateLike(likePo);
+        likeDao.updateLike(likeEntity);
     }
 
     @Override
@@ -61,17 +61,17 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public Like findOne(String id) {
-        LikePo likePo = likeDao.findLike(id);
+        LikeEntity likeEntity = likeDao.findLike(id);
 
-        Like like = BeanMapper.map(likePo, Like.class);
+        Like like = BeanMapper.map(likeEntity, Like.class);
         return like;
     }
 
     @Override
     public List<Like> findList(List<String> idList) {
-        List<LikePo> likePoList =  likeDao.findLikeList(idList);
+        List<LikeEntity> likeEntityList =  likeDao.findLikeList(idList);
 
-        List<Like> likeList =  BeanMapper.mapList(likePoList,Like.class);
+        List<Like> likeList =  BeanMapper.mapList(likeEntityList,Like.class);
         return likeList;
     }
 
@@ -85,9 +85,9 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public List<Like> findAllLike() {
-        List<LikePo> likePoList =  likeDao.findAllLike();
+        List<LikeEntity> likeEntityList =  likeDao.findAllLike();
 
-        List<Like> likeList =  BeanMapper.mapList(likePoList,Like.class);
+        List<Like> likeList =  BeanMapper.mapList(likeEntityList,Like.class);
 
         joinTemplate.queryList(likeList);
         return likeList;
@@ -95,9 +95,9 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public List<Like> findLikeList(LikeQuery likeQuery) {
-        List<LikePo> likePoList = likeDao.findLikeList(likeQuery);
+        List<LikeEntity> likeEntityList = likeDao.findLikeList(likeQuery);
 
-        List<Like> likeList = BeanMapper.mapList(likePoList,Like.class);
+        List<Like> likeList = BeanMapper.mapList(likeEntityList,Like.class);
 
         joinTemplate.queryList(likeList);
 
@@ -108,7 +108,7 @@ public class LikeServiceImpl implements LikeService {
     public Pagination<Like> findLikePage(LikeQuery likeQuery) {
         Pagination<Like> pg = new Pagination<>();
 
-        Pagination<LikePo>  pagination = likeDao.findLikePage(likeQuery);
+        Pagination<LikeEntity>  pagination = likeDao.findLikePage(likeQuery);
         BeanUtils.copyProperties(pagination,pg);
 
         List<Like> likeList = BeanMapper.mapList(pagination.getDataList(),Like.class);

@@ -1,7 +1,7 @@
 package com.doublekit.wiki.document.dao;
 
 import com.doublekit.common.Pagination;
-import com.doublekit.wiki.document.entity.SharePo;
+import com.doublekit.wiki.document.entity.ShareEntity;
 import com.doublekit.wiki.document.model.ShareQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
 import com.doublekit.dal.jpa.builder.deletelist.condition.*;
@@ -25,19 +25,19 @@ public class ShareDao{
 
     /**
      * 创建
-     * @param sharePo
+     * @param shareEntity
      * @return
      */
-    public String createShare(SharePo sharePo) {
-        return jpaTemplate.save(sharePo,String.class);
+    public String createShare(ShareEntity shareEntity) {
+        return jpaTemplate.save(shareEntity,String.class);
     }
 
     /**
      * 更新
-     * @param sharePo
+     * @param shareEntity
      */
-    public void updateShare(SharePo sharePo){
-        jpaTemplate.update(sharePo);
+    public void updateShare(ShareEntity shareEntity){
+        jpaTemplate.update(shareEntity);
     }
 
     /**
@@ -45,11 +45,11 @@ public class ShareDao{
      * @param id
      */
     public void deleteShare(String id){
-        jpaTemplate.delete(SharePo.class,id);
+        jpaTemplate.delete(ShareEntity.class,id);
     }
 
     public void deleteShare(DeleteCondition deleteCondition){
-        jpaTemplate.delete(SharePo.class,deleteCondition);
+        jpaTemplate.delete(ShareEntity.class,deleteCondition);
     }
 
     /**
@@ -57,27 +57,27 @@ public class ShareDao{
      * @param id
      * @return
      */
-    public SharePo findShare(String id){
-        return jpaTemplate.findOne(SharePo.class,id);
+    public ShareEntity findShare(String id){
+        return jpaTemplate.findOne(ShareEntity.class,id);
     }
 
     /**
     * findAllShare
     * @return
     */
-    public List<SharePo> findAllShare() {
-        return jpaTemplate.findAll(SharePo.class);
+    public List<ShareEntity> findAllShare() {
+        return jpaTemplate.findAll(ShareEntity.class);
     }
 
-    public List<SharePo> findShareList(List<String> idList) {
-        return jpaTemplate.findList(SharePo.class,idList);
+    public List<ShareEntity> findShareList(List<String> idList) {
+        return jpaTemplate.findList(ShareEntity.class,idList);
     }
 
-    public List<SharePo> findShareList(ShareQuery shareQuery) {
-        return jpaTemplate.findList(SharePo.class,shareQuery);
+    public List<ShareEntity> findShareList(ShareQuery shareQuery) {
+        return jpaTemplate.findList(ShareEntity.class,shareQuery);
     }
 
-    public Pagination<SharePo> findSharePage(ShareQuery shareQuery) {
-        return jpaTemplate.findPage(SharePo.class,shareQuery);
+    public Pagination<ShareEntity> findSharePage(ShareQuery shareQuery) {
+        return jpaTemplate.findPage(ShareEntity.class,shareQuery);
     }
 }

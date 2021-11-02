@@ -1,7 +1,7 @@
 package com.doublekit.wiki.document.dao;
 
 import com.doublekit.common.Pagination;
-import com.doublekit.wiki.document.entity.LikePo;
+import com.doublekit.wiki.document.entity.LikeEntity;
 import com.doublekit.wiki.document.model.LikeQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
 import com.doublekit.dal.jpa.builder.deletelist.condition.*;
@@ -25,19 +25,19 @@ public class LikeDao{
 
     /**
      * 创建
-     * @param likePo
+     * @param likeEntity
      * @return
      */
-    public String createLike(LikePo likePo) {
-        return jpaTemplate.save(likePo,String.class);
+    public String createLike(LikeEntity likeEntity) {
+        return jpaTemplate.save(likeEntity,String.class);
     }
 
     /**
      * 更新
-     * @param likePo
+     * @param likeEntity
      */
-    public void updateLike(LikePo likePo){
-        jpaTemplate.update(likePo);
+    public void updateLike(LikeEntity likeEntity){
+        jpaTemplate.update(likeEntity);
     }
 
     /**
@@ -45,11 +45,11 @@ public class LikeDao{
      * @param id
      */
     public void deleteLike(String id){
-        jpaTemplate.delete(LikePo.class,id);
+        jpaTemplate.delete(LikeEntity.class,id);
     }
 
     public void deleteLike(DeleteCondition deleteCondition){
-        jpaTemplate.delete(LikePo.class,deleteCondition);
+        jpaTemplate.delete(LikeEntity.class,deleteCondition);
     }
 
     /**
@@ -57,27 +57,27 @@ public class LikeDao{
      * @param id
      * @return
      */
-    public LikePo findLike(String id){
-        return jpaTemplate.findOne(LikePo.class,id);
+    public LikeEntity findLike(String id){
+        return jpaTemplate.findOne(LikeEntity.class,id);
     }
 
     /**
     * findAllLike
     * @return
     */
-    public List<LikePo> findAllLike() {
-        return jpaTemplate.findAll(LikePo.class);
+    public List<LikeEntity> findAllLike() {
+        return jpaTemplate.findAll(LikeEntity.class);
     }
 
-    public List<LikePo> findLikeList(List<String> idList) {
-        return jpaTemplate.findList(LikePo.class,idList);
+    public List<LikeEntity> findLikeList(List<String> idList) {
+        return jpaTemplate.findList(LikeEntity.class,idList);
     }
 
-    public List<LikePo> findLikeList(LikeQuery likeQuery) {
-        return jpaTemplate.findList(LikePo.class,likeQuery);
+    public List<LikeEntity> findLikeList(LikeQuery likeQuery) {
+        return jpaTemplate.findList(LikeEntity.class,likeQuery);
     }
 
-    public Pagination<LikePo> findLikePage(LikeQuery likeQuery) {
-        return jpaTemplate.findPage(LikePo.class,likeQuery);
+    public Pagination<LikeEntity> findLikePage(LikeQuery likeQuery) {
+        return jpaTemplate.findPage(LikeEntity.class,likeQuery);
     }
 }

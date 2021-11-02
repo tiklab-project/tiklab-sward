@@ -1,7 +1,7 @@
 package com.doublekit.wiki.document.dao;
 
 import com.doublekit.common.Pagination;
-import com.doublekit.wiki.document.entity.CommentPo;
+import com.doublekit.wiki.document.entity.CommentEntity;
 import com.doublekit.wiki.document.model.CommentQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
 import com.doublekit.dal.jpa.builder.deletelist.condition.*;
@@ -25,19 +25,19 @@ public class CommentDao{
 
     /**
      * 创建
-     * @param commentPo
+     * @param commentEntity
      * @return
      */
-    public String createComment(CommentPo commentPo) {
-        return jpaTemplate.save(commentPo,String.class);
+    public String createComment(CommentEntity commentEntity) {
+        return jpaTemplate.save(commentEntity,String.class);
     }
 
     /**
      * 更新
-     * @param commentPo
+     * @param commentEntity
      */
-    public void updateComment(CommentPo commentPo){
-        jpaTemplate.update(commentPo);
+    public void updateComment(CommentEntity commentEntity){
+        jpaTemplate.update(commentEntity);
     }
 
     /**
@@ -45,11 +45,11 @@ public class CommentDao{
      * @param id
      */
     public void deleteComment(String id){
-        jpaTemplate.delete(CommentPo.class,id);
+        jpaTemplate.delete(CommentEntity.class,id);
     }
 
     public void deleteComment(DeleteCondition deleteCondition){
-        jpaTemplate.delete(CommentPo.class,deleteCondition);
+        jpaTemplate.delete(CommentEntity.class,deleteCondition);
     }
 
     /**
@@ -57,27 +57,27 @@ public class CommentDao{
      * @param id
      * @return
      */
-    public CommentPo findComment(String id){
-        return jpaTemplate.findOne(CommentPo.class,id);
+    public CommentEntity findComment(String id){
+        return jpaTemplate.findOne(CommentEntity.class,id);
     }
 
     /**
     * findAllComment
     * @return
     */
-    public List<CommentPo> findAllComment() {
-        return jpaTemplate.findAll(CommentPo.class);
+    public List<CommentEntity> findAllComment() {
+        return jpaTemplate.findAll(CommentEntity.class);
     }
 
-    public List<CommentPo> findCommentList(List<String> idList) {
-        return jpaTemplate.findList(CommentPo.class,idList);
+    public List<CommentEntity> findCommentList(List<String> idList) {
+        return jpaTemplate.findList(CommentEntity.class,idList);
     }
 
-    public List<CommentPo> findCommentList(CommentQuery commentQuery) {
-        return jpaTemplate.findList(CommentPo.class,commentQuery);
+    public List<CommentEntity> findCommentList(CommentQuery commentQuery) {
+        return jpaTemplate.findList(CommentEntity.class,commentQuery);
     }
 
-    public Pagination<CommentPo> findCommentPage(CommentQuery commentQuery) {
-        return jpaTemplate.findPage(CommentPo.class,commentQuery);
+    public Pagination<CommentEntity> findCommentPage(CommentQuery commentQuery) {
+        return jpaTemplate.findPage(CommentEntity.class,commentQuery);
     }
 }

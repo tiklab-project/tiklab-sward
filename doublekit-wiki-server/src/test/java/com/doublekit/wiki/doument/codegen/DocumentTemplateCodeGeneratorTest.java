@@ -3,7 +3,7 @@ package com.doublekit.wiki.doument.codegen;
 import com.doublekit.codegen.CodeGeneratorTemplate;
 import com.doublekit.codegen.config.ModuleGeneratorConfig;
 import com.doublekit.codegen.config.ProjectGeneratorConfig;
-import com.doublekit.wiki.document.entity.DocumentTemplatePo;
+import com.doublekit.wiki.document.entity.DocumentTemplateEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class DocumentTemplateCodeGeneratorTest extends CodeGeneratorTemplate {
     protected ModuleGeneratorConfig getModuleGeneratorConfig() {
         ModuleGeneratorConfig config = new ModuleGeneratorConfig();
         config.setProjectGeneratorConfig(projectGeneratorConfig);
-        config.setEntity(DocumentTemplatePo.class);
+        config.setEntity(DocumentTemplateEntity.class);
         config.setPkg("com.doublekit.wiki.repository");
         config.setModel("DocumentTemplate");
         return config;

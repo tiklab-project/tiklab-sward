@@ -4,11 +4,11 @@ import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.category.dao.CategoryDao;
-import com.doublekit.wiki.category.entity.CategoryPo;
+import com.doublekit.wiki.category.entity.CategoryEntity;
 import com.doublekit.wiki.category.model.Category;
 import com.doublekit.wiki.category.model.CategoryQuery;
 import com.doublekit.wiki.document.dao.DocumentDao;
-import com.doublekit.wiki.document.entity.DocumentPo;
+import com.doublekit.wiki.document.entity.DocumentEntity;
 import com.doublekit.wiki.document.model.Document;
 import com.doublekit.wiki.document.model.DocumentQuery;
 import org.springframework.beans.BeanUtils;
@@ -40,18 +40,18 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public String createCategory(@NotNull @Valid Category category) {
-        CategoryPo categoryPo = BeanMapper.map(category, CategoryPo.class);
+        CategoryEntity categoryEntity = BeanMapper.map(category, CategoryEntity.class);
 
-        return categoryDao.createCategory(categoryPo);
+        return categoryDao.createCategory(categoryEntity);
     }
 
     @Override
     public void updateCategory(@NotNull @Valid Category category) {
-        CategoryPo categoryPo = BeanMapper.map(category, CategoryPo.class);
+        CategoryEntity categoryEntity = BeanMapper.map(category, CategoryEntity.class);
         if (ObjectUtils.isEmpty(category.getParentCategory())){
-            categoryPo.setParentCategoryId("");
+            categoryEntity.setParentCategoryId("");
         }
-        categoryDao.updateCategory(categoryPo);
+        categoryDao.updateCategory(categoryEntity);
     }
 
     @Override
@@ -63,17 +63,17 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category findOne(String id) {
-        CategoryPo categoryPo = categoryDao.findCategory(id);
+        CategoryEntity categoryEntity = categoryDao.findCategory(id);
 
-        Category category = BeanMapper.map(categoryPo, Category.class);
+        Category category = BeanMapper.map(categoryEntity, Category.class);
         return category;
     }
 
     @Override
     public List<Category> findList(List<String> idList) {
-        List<CategoryPo> categoryPoList =  categoryDao.findCategoryList(idList);
+        List<CategoryEntity> categoryEntityList =  categoryDao.findCategoryList(idList);
 
-        List<Category> categoryList =  BeanMapper.mapList(categoryPoList,Category.class);
+        List<Category> categoryList =  BeanMapper.mapList(categoryEntityList,Category.class);
         return categoryList;
     }
 
@@ -87,9 +87,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> findAllCategory() {
-        List<CategoryPo> categoryPoList =  categoryDao.findAllCategory();
+        List<CategoryEntity> categoryEntityList =  categoryDao.findAllCategory();
 
-        List<Category> categoryList =  BeanMapper.mapList(categoryPoList,Category.class);
+        List<Category> categoryList =  BeanMapper.mapList(categoryEntityList,Category.class);
 
         joinTemplate.queryList(categoryList);
         return categoryList;
@@ -97,9 +97,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> findCategoryList(CategoryQuery categoryQuery) {
-        List<CategoryPo> categoryPoList = categoryDao.findCategoryList(categoryQuery);
+        List<CategoryEntity> categoryEntityList = categoryDao.findCategoryList(categoryQuery);
 
-        List<Category> categoryList = BeanMapper.mapList(categoryPoList,Category.class);
+        List<Category> categoryList = BeanMapper.mapList(categoryEntityList,Category.class);
 
         joinTemplate.queryList(categoryList);
 
@@ -110,7 +110,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Pagination<Category> findCategoryPage(CategoryQuery categoryQuery) {
         Pagination<Category> pg = new Pagination<>();
 
-        Pagination<CategoryPo>  pagination = categoryDao.findCategoryPage(categoryQuery);
+        Pagination<CategoryEntity>  pagination = categoryDao.findCategoryPage(categoryQuery);
         BeanUtils.copyProperties(pagination,pg);
 
         List<Category> categoryList = BeanMapper.mapList(pagination.getDataList(),Category.class);
@@ -127,12 +127,12 @@ public class CategoryServiceImpl implements CategoryService {
         //查询符合条件的所有目录
         List<Category> categoryList = this.findCategoryList(categoryQuery);
 
-        List<DocumentPo> documentList = documentDao.findDocumentList(new DocumentQuery().setRepositoryId(categoryQuery.getRepositoryId()));
+        List<DocumentEntity> documentList = documentDao.findDocumentList(new DocumentQuery().setRepositoryId(categoryQuery.getRepositoryId()));
         //查找并设置分类下面的接口
         List<Category> categoryMethodList = findCategoryMethodList(categoryList);
 
         //查询没在目录下main的文档
-        List<DocumentPo> collect = documentList.stream().filter(a -> ObjectUtils.isEmpty(a.getCategoryId())).collect(Collectors.toList());
+        List<DocumentEntity> collect = documentList.stream().filter(a -> ObjectUtils.isEmpty(a.getCategoryId())).collect(Collectors.toList());
         //查询一级目录
         List<Category> topCategoryList = findTopCategoryList(categoryMethodList);
 
@@ -189,7 +189,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categorys = categoryList.stream().map(category -> {
             DocumentQuery documentQuery = new DocumentQuery();
             documentQuery.setCategoryId(category.getId());
-            List<DocumentPo> repositoryDetailsList = documentDao.findDocumentList(documentQuery);
+            List<DocumentEntity> repositoryDetailsList = documentDao.findDocumentList(documentQuery);
             List<Document> documents = BeanMapper.mapList(repositoryDetailsList, Document.class);
             category.setDocuments(documents);
             return category;

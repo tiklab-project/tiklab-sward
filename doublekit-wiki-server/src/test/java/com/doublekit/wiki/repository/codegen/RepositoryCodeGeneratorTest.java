@@ -3,7 +3,7 @@ package com.doublekit.wiki.repository.codegen;
 import com.doublekit.codegen.CodeGeneratorTemplate;
 import com.doublekit.codegen.config.ProjectGeneratorConfig;
 import com.doublekit.codegen.config.ModuleGeneratorConfig;
-import com.doublekit.wiki.repository.entity.RepositoryPo;
+import com.doublekit.wiki.repository.entity.RepositoryEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class RepositoryCodeGeneratorTest extends CodeGeneratorTemplate {
     protected ModuleGeneratorConfig getModuleGeneratorConfig() {
         ModuleGeneratorConfig config = new ModuleGeneratorConfig();
         config.setProjectGeneratorConfig(projectGeneratorConfig);
-        config.setEntity(RepositoryPo.class);
+        config.setEntity(RepositoryEntity.class);
         config.setPkg("com.doublekit.wiki.repository");
         config.setModel("Repository");
         return config;

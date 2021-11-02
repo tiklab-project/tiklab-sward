@@ -4,12 +4,12 @@ package com.doublekit.wiki.trilImport.service;
 import com.alibaba.fastjson.JSON;
 import com.doublekit.dal.jpa.JpaTemplate;
 import com.doublekit.wiki.category.dao.CategoryDao;
-import com.doublekit.wiki.category.entity.CategoryPo;
+import com.doublekit.wiki.category.entity.CategoryEntity;
 import com.doublekit.wiki.category.model.Category;
 import com.doublekit.wiki.document.dao.DocumentDao;
-import com.doublekit.wiki.document.entity.DocumentPo;
+import com.doublekit.wiki.document.entity.DocumentEntity;
 import com.doublekit.wiki.repository.dao.RepositoryDao;
-import com.doublekit.wiki.repository.entity.RepositoryPo;
+import com.doublekit.wiki.repository.entity.RepositoryEntity;
 import com.doublekit.wiki.trilImport.util.UncompressUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -136,7 +136,7 @@ public class ImportDateServiceImpl implements ImportDateService {
             }
         }
         //查询该文档是否已经保存
-        DocumentPo document = documentDao.findDocument(elementId);
+        DocumentEntity document = documentDao.findDocument(elementId);
         //将解析后的富文本内容转json
         String date = JSON.toJSON(textDates).toString();
         if (ObjectUtils.isEmpty(document)){
@@ -345,15 +345,15 @@ public class ImportDateServiceImpl implements ImportDateService {
                 spaceType = (String)secElement.getData();
             }
         }
-        RepositoryPo repository = repositoryDao.findRepository(id);
+        RepositoryEntity repository = repositoryDao.findRepository(id);
         if (ObjectUtils.isEmpty(repository)){
             String sql = "insert into wiki_repository(id,name,type_id,master,description) values(?,?,?,?,?)";
             getJdbcTemplet().update(sql,id,reName,spaceType,creator,"描述");
             //给默认con的目录添加 空间
-            CategoryPo categoryPo = new CategoryPo();
-            categoryPo.setId("1234567890");
-            categoryPo.setRepositoryId(id);
-            categoryDao.updateCategory(categoryPo);
+            CategoryEntity categoryEntity = new CategoryEntity();
+            categoryEntity.setId("1234567890");
+            categoryEntity.setRepositoryId(id);
+            categoryDao.updateCategory(categoryEntity);
         }else {
             repository.setName(reName);
             repository.setTypeId(spaceType);
@@ -388,7 +388,7 @@ public class ImportDateServiceImpl implements ImportDateService {
                 spaceId =(String) elementId.getData();
             }
         }
-        DocumentPo document = documentDao.findDocument(id);
+        DocumentEntity document = documentDao.findDocument(id);
         //为空添加
         if (ObjectUtils.isEmpty(document)){
             String sql = "insert into wiki_document(id,name,repository_id,type_id,category_id,details) values(?,?,?,?,?,?)";

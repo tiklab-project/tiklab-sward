@@ -8,7 +8,7 @@ import com.doublekit.dal.jpa.mapper.annotation.Table;
 import java.io.Serializable;
 
 @Table(name="wiki_document_attach")
-public class DocumentAttachPo implements Serializable {
+public class DocumentAttachEntity implements Serializable {
 
     @Id
     @GeneratorValue
