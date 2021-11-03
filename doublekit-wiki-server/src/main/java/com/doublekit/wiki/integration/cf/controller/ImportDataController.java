@@ -4,7 +4,7 @@ import com.doublekit.apibox.annotation.Api;
 import com.doublekit.apibox.annotation.ApiMethod;
 import com.doublekit.apibox.annotation.ApiParam;
 import com.doublekit.common.Result;
-import com.doublekit.common.exception.DarthException;
+import com.doublekit.common.exception.ApplicationException;
 import com.doublekit.wiki.integration.cf.service.CfImportDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +30,7 @@ public class ImportDataController {
     public Result imporatConfluenceDate(@RequestParam("uploadFile")MultipartFile uploadFile){
        // importDateService.importConfluenceDate(null);
         if (uploadFile == null) {
-            throw new DarthException("uploadFile must not be null.");
+            throw new ApplicationException("uploadFile must not be null.");
         }else {
             try {
                 InputStream inputStream = uploadFile.getInputStream();
