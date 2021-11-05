@@ -39,7 +39,8 @@
         </dependency>
         <dependency>
             <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-dfs-api</artifactId>
+            <artifactId>doublekit-dfs-model</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.doublekit</groupId>
