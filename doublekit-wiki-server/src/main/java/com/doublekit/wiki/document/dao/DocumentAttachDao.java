@@ -74,10 +74,10 @@ public class DocumentAttachDao{
     }
 
     public List<DocumentAttachEntity> findDocumentAttachList(DocumentAttachQuery documentAttachQuery) {
-        return jpaTemplate.findList(DocumentAttachEntity.class,documentAttachQuery);
+        return jpaTemplate.findList(documentAttachQuery, DocumentAttachEntity.class);
     }
 
     public Pagination<DocumentAttachEntity> findDocumentAttachPage(DocumentAttachQuery documentAttachQuery) {
-        return jpaTemplate.findPage(DocumentAttachEntity.class,documentAttachQuery);
+        return jpaTemplate.findPage(documentAttachQuery, DocumentAttachEntity.class);
     }
 }

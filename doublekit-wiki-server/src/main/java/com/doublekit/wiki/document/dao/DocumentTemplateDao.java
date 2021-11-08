@@ -74,10 +74,10 @@ public class DocumentTemplateDao{
     }
 
     public List<DocumentTemplateEntity> findDocumentTemplateList(DocumentTemplateQuery documentTemplateQuery) {
-        return jpaTemplate.findList(DocumentTemplateEntity.class,documentTemplateQuery);
+        return jpaTemplate.findList(documentTemplateQuery, DocumentTemplateEntity.class);
     }
 
     public Pagination<DocumentTemplateEntity> findDocumentTemplatePage(DocumentTemplateQuery documentTemplateQuery) {
-        return jpaTemplate.findPage(DocumentTemplateEntity.class,documentTemplateQuery);
+        return jpaTemplate.findPage(documentTemplateQuery, DocumentTemplateEntity.class);
     }
 }

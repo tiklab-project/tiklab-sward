@@ -74,10 +74,10 @@ public class RepositoryDao{
     }
 
     public List<RepositoryEntity> findRepositoryList(RepositoryQuery repositoryQuery) {
-        return jpaTemplate.findList(RepositoryEntity.class,repositoryQuery);
+        return jpaTemplate.findList(repositoryQuery, RepositoryEntity.class);
     }
 
     public Pagination<RepositoryEntity> findRepositoryPage(RepositoryQuery repositoryQuery) {
-        return jpaTemplate.findPage(RepositoryEntity.class,repositoryQuery);
+        return jpaTemplate.findPage(repositoryQuery, RepositoryEntity.class);
     }
 }

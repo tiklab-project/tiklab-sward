@@ -74,10 +74,10 @@ public class LikeDao{
     }
 
     public List<LikeEntity> findLikeList(LikeQuery likeQuery) {
-        return jpaTemplate.findList(LikeEntity.class,likeQuery);
+        return jpaTemplate.findList(likeQuery, LikeEntity.class);
     }
 
     public Pagination<LikeEntity> findLikePage(LikeQuery likeQuery) {
-        return jpaTemplate.findPage(LikeEntity.class,likeQuery);
+        return jpaTemplate.findPage(likeQuery, LikeEntity.class);
     }
 }

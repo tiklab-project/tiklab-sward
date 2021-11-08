@@ -74,10 +74,10 @@ public class CommentDao{
     }
 
     public List<CommentEntity> findCommentList(CommentQuery commentQuery) {
-        return jpaTemplate.findList(CommentEntity.class,commentQuery);
+        return jpaTemplate.findList(commentQuery, CommentEntity.class);
     }
 
     public Pagination<CommentEntity> findCommentPage(CommentQuery commentQuery) {
-        return jpaTemplate.findPage(CommentEntity.class,commentQuery);
+        return jpaTemplate.findPage(commentQuery, CommentEntity.class);
     }
 }

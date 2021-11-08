@@ -74,10 +74,10 @@ public class ShareDao{
     }
 
     public List<ShareEntity> findShareList(ShareQuery shareQuery) {
-        return jpaTemplate.findList(ShareEntity.class,shareQuery);
+        return jpaTemplate.findList(shareQuery, ShareEntity.class);
     }
 
     public Pagination<ShareEntity> findSharePage(ShareQuery shareQuery) {
-        return jpaTemplate.findPage(ShareEntity.class,shareQuery);
+        return jpaTemplate.findPage(shareQuery, ShareEntity.class);
     }
 }

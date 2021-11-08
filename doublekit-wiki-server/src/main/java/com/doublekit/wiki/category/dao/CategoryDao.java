@@ -74,10 +74,10 @@ public class CategoryDao{
     }
 
     public List<CategoryEntity> findCategoryList(CategoryQuery categoryQuery) {
-        return jpaTemplate.findList(CategoryEntity.class,categoryQuery);
+        return jpaTemplate.findList(categoryQuery, CategoryEntity.class);
     }
 
     public Pagination<CategoryEntity> findCategoryPage(CategoryQuery categoryQuery) {
-        return jpaTemplate.findPage(CategoryEntity.class,categoryQuery);
+        return jpaTemplate.findPage(categoryQuery, CategoryEntity.class);
     }
 }

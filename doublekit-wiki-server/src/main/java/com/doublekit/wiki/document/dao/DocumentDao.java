@@ -74,10 +74,10 @@ public class DocumentDao{
     }
 
     public List<DocumentEntity> findDocumentList(DocumentQuery documentQuery) {
-        return jpaTemplate.findList(DocumentEntity.class,documentQuery);
+        return jpaTemplate.findList(documentQuery, DocumentEntity.class);
     }
 
     public Pagination<DocumentEntity> findDocumentPage(DocumentQuery documentQuery) {
-        return jpaTemplate.findPage(DocumentEntity.class,documentQuery);
+        return jpaTemplate.findPage(documentQuery, DocumentEntity.class);
     }
 }
