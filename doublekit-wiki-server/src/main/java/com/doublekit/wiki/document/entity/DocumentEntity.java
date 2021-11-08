@@ -5,11 +5,11 @@ import com.doublekit.beans.annotation.Mapper;
 import com.doublekit.dal.jpa.mapper.annotation.Column;
 import com.doublekit.dal.jpa.mapper.annotation.GeneratorValue;
 import com.doublekit.dal.jpa.mapper.annotation.Id;
-import com.doublekit.dal.jpa.mapper.annotation.Table;
+import com.doublekit.dal.jpa.mapper.annotation.Table;import com.doublekit.dal.jpa.mapper.annotation.Entity;
 
 import java.io.Serializable;
 
-@Table(name="wiki_document")
+@Entity @Table(name="wiki_document")
 public class DocumentEntity implements Serializable {
 
     @Id

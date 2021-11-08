@@ -3,12 +3,12 @@ package com.doublekit.wiki.document.entity;
 import com.doublekit.dal.jpa.mapper.annotation.Column;
 import com.doublekit.dal.jpa.mapper.annotation.GeneratorValue;
 import com.doublekit.dal.jpa.mapper.annotation.Id;
-import com.doublekit.dal.jpa.mapper.annotation.Table;
+import com.doublekit.dal.jpa.mapper.annotation.Table;import com.doublekit.dal.jpa.mapper.annotation.Entity;
 
 import java.io.Serializable;
 import java.util.Date;
 
-@Table(name="wiki_share")
+@Entity @Table(name="wiki_share")
 public class ShareEntity implements Serializable {
 
     @Id

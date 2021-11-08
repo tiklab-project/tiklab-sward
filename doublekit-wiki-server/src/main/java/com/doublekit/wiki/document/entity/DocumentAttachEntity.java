@@ -3,11 +3,11 @@ package com.doublekit.wiki.document.entity;
 import com.doublekit.dal.jpa.mapper.annotation.Column;
 import com.doublekit.dal.jpa.mapper.annotation.GeneratorValue;
 import com.doublekit.dal.jpa.mapper.annotation.Id;
-import com.doublekit.dal.jpa.mapper.annotation.Table;
+import com.doublekit.dal.jpa.mapper.annotation.Table;import com.doublekit.dal.jpa.mapper.annotation.Entity;
 
 import java.io.Serializable;
 
-@Table(name="wiki_document_attach")
+@Entity @Table(name="wiki_document_attach")
 public class DocumentAttachEntity implements Serializable {
 
     @Id

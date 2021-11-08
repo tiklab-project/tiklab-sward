@@ -4,12 +4,12 @@ package com.doublekit.wiki.repository.entity;
 import com.doublekit.dal.jpa.mapper.annotation.Column;
 import com.doublekit.dal.jpa.mapper.annotation.GeneratorValue;
 import com.doublekit.dal.jpa.mapper.annotation.Id;
-import com.doublekit.dal.jpa.mapper.annotation.Table;
+import com.doublekit.dal.jpa.mapper.annotation.Table;import com.doublekit.dal.jpa.mapper.annotation.Entity;
 
 import java.io.Serializable;
 import java.sql.Date;
 
-@Table(name="wiki_repository")
+@Entity @Table(name="wiki_repository")
 public class RepositoryEntity implements Serializable {
 
     @Id

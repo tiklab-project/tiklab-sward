@@ -4,11 +4,11 @@ package com.doublekit.wiki.category.entity;
 import com.doublekit.dal.jpa.mapper.annotation.Column;
 import com.doublekit.dal.jpa.mapper.annotation.GeneratorValue;
 import com.doublekit.dal.jpa.mapper.annotation.Id;
-import com.doublekit.dal.jpa.mapper.annotation.Table;
+import com.doublekit.dal.jpa.mapper.annotation.Table;import com.doublekit.dal.jpa.mapper.annotation.Entity;
 
 import java.io.Serializable;
 
-@Table(name="wiki_category")
+@Entity @Table(name="wiki_category")
 public class CategoryEntity implements Serializable {
 
     @Id
