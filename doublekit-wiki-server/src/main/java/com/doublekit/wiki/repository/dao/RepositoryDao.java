@@ -1,10 +1,10 @@
 package com.doublekit.wiki.repository.dao;
 
 import com.doublekit.common.Pagination;
+import com.doublekit.dal.jpa.criterial.model.DeleteCondition;
 import com.doublekit.wiki.repository.entity.RepositoryEntity;
 import com.doublekit.wiki.repository.model.RepositoryQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
-import com.doublekit.dal.jpa.builder.deletelist.condition.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,8 +3,8 @@ package com.doublekit.wiki.repository.service;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.Pagination;
 import com.doublekit.common.PaginationBuilder;
-import com.doublekit.dal.jpa.builder.deletelist.condition.DeleteCondition;
-import com.doublekit.dal.jpa.builder.deletelist.conditionbuilder.DeleteBuilders;
+import com.doublekit.dal.jpa.criterial.model.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.DeleteBuilders;
 import com.doublekit.dss.client.DssClient;
 import com.doublekit.eam.common.Ticket;
 import com.doublekit.eam.common.TicketContext;
@@ -13,14 +13,12 @@ import com.doublekit.join.JoinTemplate;
 import com.doublekit.privilege.prjprivilege.service.DmPrjRoleService;
 import com.doublekit.user.dmuser.model.DmUser;
 import com.doublekit.user.dmuser.service.DmUserService;
-import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.document.dao.DocumentDao;
 import com.doublekit.wiki.repository.dao.RepositoryDao;
 import com.doublekit.wiki.repository.entity.RepositoryEntity;
 import com.doublekit.wiki.repository.model.Repository;
 import com.doublekit.wiki.repository.model.RepositoryQuery;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -86,7 +84,7 @@ public class RepositoryServiceImpl implements RepositoryService {
     public void deleteRepository(@NotNull String id) {
 
         //删除相关联的目录和内容
-        DeleteCondition deleteCondition = DeleteBuilders.instance().eq("repositoryId", id).get();
+        DeleteCondition deleteCondition = DeleteBuilders.create().eq("repositoryId", id).get();
 
         documentDao.deleteDocument(deleteCondition);
         categoryDao.deleteCategory(deleteCondition);
