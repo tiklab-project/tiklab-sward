@@ -1,15 +1,12 @@
 package com.doublekit.wiki.document.entity;
 
 
-import com.doublekit.beans.annotation.Mapper;
-import com.doublekit.dal.jpa.mapper.annotation.Column;
-import com.doublekit.dal.jpa.mapper.annotation.GeneratorValue;
-import com.doublekit.dal.jpa.mapper.annotation.Id;
-import com.doublekit.dal.jpa.mapper.annotation.Table;import com.doublekit.dal.jpa.mapper.annotation.Entity;
+import com.doublekit.dal.jpa.mapper.annotation.*;
 
 import java.io.Serializable;
 
-@Entity @Table(name="wiki_document")
+@Entity
+@Table(name="wiki_document")
 public class DocumentEntity implements Serializable {
 
     @Id

@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @ApiModel
-@CriteriaQuery
+@CriteriaQuery(entityAlias = "DocumentEntity")
 public class DocumentQuery implements Serializable {
         @ApiProperty(name ="orderParams",desc = "排序参数")
         @OrderField

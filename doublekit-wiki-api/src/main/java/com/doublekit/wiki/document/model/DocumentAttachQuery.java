@@ -10,7 +10,7 @@ import com.doublekit.apibox.annotation.ApiProperty;
 import java.util.List;
 
 @ApiModel
-@CriteriaQuery
+@CriteriaQuery(entityAlias = "DocumentAttachEntity")
 public class DocumentAttachQuery {
         @ApiProperty(name ="orderParams",desc = "排序参数")
         @OrderField

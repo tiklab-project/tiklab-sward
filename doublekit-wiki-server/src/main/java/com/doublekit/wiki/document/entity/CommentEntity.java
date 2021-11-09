@@ -8,7 +8,8 @@ import com.doublekit.dal.jpa.mapper.annotation.Table;import com.doublekit.dal.jp
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity @Table(name="wiki_comment")
+@Entity
+@Table(name="wiki_comment")
 public class CommentEntity implements Serializable {
 
     @Id

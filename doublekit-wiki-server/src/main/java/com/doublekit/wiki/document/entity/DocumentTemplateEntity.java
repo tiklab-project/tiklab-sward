@@ -8,7 +8,8 @@ import com.doublekit.dal.jpa.mapper.annotation.Table;import com.doublekit.dal.jp
 
 import java.io.Serializable;
 
-@Entity @Table(name="wiki_document_template")
+@Entity
+@Table(name="wiki_document_template")
 public class DocumentTemplateEntity implements Serializable {
 
     @Id
