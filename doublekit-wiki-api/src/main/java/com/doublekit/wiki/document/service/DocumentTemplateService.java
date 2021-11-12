@@ -1,6 +1,6 @@
 package com.doublekit.wiki.document.service;
 
-import com.doublekit.common.Pagination;
+import com.doublekit.common.page.Pagination;
 
 import com.doublekit.wiki.document.model.DocumentTemplate;
 import com.doublekit.wiki.document.model.DocumentTemplateQuery;

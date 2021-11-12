@@ -1,8 +1,8 @@
 package com.doublekit.wiki.document.service;
 
 import com.doublekit.beans.BeanMapper;
-import com.doublekit.common.Pagination;
-import com.doublekit.common.PaginationBuilder;
+import com.doublekit.common.page.Pagination;
+import com.doublekit.common.page.PaginationBuilder;
 import com.doublekit.eam.common.Ticket;
 import com.doublekit.eam.common.TicketContext;
 import com.doublekit.eam.common.TicketHolder;
@@ -12,7 +12,6 @@ import com.doublekit.wiki.document.entity.LikeEntity;
 import com.doublekit.wiki.document.model.Like;
 import com.doublekit.wiki.document.model.LikeQuery;
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

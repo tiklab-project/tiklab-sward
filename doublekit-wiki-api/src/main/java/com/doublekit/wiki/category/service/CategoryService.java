@@ -1,6 +1,6 @@
 package com.doublekit.wiki.category.service;
 
-import com.doublekit.common.Pagination;
+import com.doublekit.common.page.Pagination;
 
 import com.doublekit.join.annotation.FindAll;
 import com.doublekit.join.annotation.FindList;
@@ -12,7 +12,6 @@ import com.doublekit.wiki.category.model.CategoryQuery;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
 
 /**
 * CategoryService

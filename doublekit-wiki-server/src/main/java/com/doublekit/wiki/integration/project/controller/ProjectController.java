@@ -3,7 +3,7 @@ package com.doublekit.wiki.integration.project.controller;
 import com.doublekit.apibox.annotation.Api;
 import com.doublekit.apibox.annotation.ApiMethod;
 import com.doublekit.apibox.annotation.ApiParam;
-import com.doublekit.common.Pagination;
+import com.doublekit.common.page.Pagination;
 import com.doublekit.common.Result;
 import com.doublekit.project.project.model.Project;
 import com.doublekit.project.project.model.ProjectQuery;

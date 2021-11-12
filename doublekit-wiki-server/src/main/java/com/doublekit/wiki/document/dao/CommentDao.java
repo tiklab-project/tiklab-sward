@@ -1,6 +1,6 @@
 package com.doublekit.wiki.document.dao;
 
-import com.doublekit.common.Pagination;
+import com.doublekit.common.page.Pagination;
 import com.doublekit.dal.jpa.criterial.model.DeleteCondition;
 import com.doublekit.wiki.document.entity.CommentEntity;
 import com.doublekit.wiki.document.model.CommentQuery;

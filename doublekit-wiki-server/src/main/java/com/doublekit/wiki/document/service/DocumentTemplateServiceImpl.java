@@ -1,14 +1,13 @@
 package com.doublekit.wiki.document.service;
 
 import com.doublekit.beans.BeanMapper;
-import com.doublekit.common.Pagination;
-import com.doublekit.common.PaginationBuilder;
+import com.doublekit.common.page.Pagination;
+import com.doublekit.common.page.PaginationBuilder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.document.dao.DocumentTemplateDao;
 import com.doublekit.wiki.document.entity.DocumentTemplateEntity;
 import com.doublekit.wiki.document.model.DocumentTemplate;
 import com.doublekit.wiki.document.model.DocumentTemplateQuery;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

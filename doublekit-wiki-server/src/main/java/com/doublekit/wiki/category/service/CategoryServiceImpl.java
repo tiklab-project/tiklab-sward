@@ -1,8 +1,8 @@
 package com.doublekit.wiki.category.service;
 
 import com.doublekit.beans.BeanMapper;
-import com.doublekit.common.Pagination;
-import com.doublekit.common.PaginationBuilder;
+import com.doublekit.common.page.Pagination;
+import com.doublekit.common.page.PaginationBuilder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.category.entity.CategoryEntity;
@@ -12,7 +12,6 @@ import com.doublekit.wiki.document.dao.DocumentDao;
 import com.doublekit.wiki.document.entity.DocumentEntity;
 import com.doublekit.wiki.document.model.Document;
 import com.doublekit.wiki.document.model.DocumentQuery;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
