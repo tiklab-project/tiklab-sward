@@ -49,7 +49,7 @@ public class DocumentDao{
     }
 
     public void deleteDocument(DeleteCondition deleteCondition){
-        jpaTemplate.delete(DocumentEntity.class,deleteCondition);
+        jpaTemplate.delete(deleteCondition);
     }
 
     /**

@@ -49,7 +49,7 @@ public class RepositoryDao{
     }
 
     public void deleteRepository(DeleteCondition deleteCondition){
-        jpaTemplate.delete(RepositoryEntity.class,deleteCondition);
+        jpaTemplate.delete(deleteCondition);
     }
 
     /**

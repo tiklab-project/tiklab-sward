@@ -49,7 +49,7 @@ public class CommentDao{
     }
 
     public void deleteComment(DeleteCondition deleteCondition){
-        jpaTemplate.delete(CommentEntity.class,deleteCondition);
+        jpaTemplate.delete(deleteCondition);
     }
 
     /**

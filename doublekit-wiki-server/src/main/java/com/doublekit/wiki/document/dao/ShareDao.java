@@ -49,7 +49,7 @@ public class ShareDao{
     }
 
     public void deleteShare(DeleteCondition deleteCondition){
-        jpaTemplate.delete(ShareEntity.class,deleteCondition);
+        jpaTemplate.delete(deleteCondition);
     }
 
     /**

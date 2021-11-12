@@ -14,7 +14,9 @@ import com.doublekit.privilege.prjprivilege.service.DmPrjRoleService;
 import com.doublekit.user.dmuser.model.DmUser;
 import com.doublekit.user.dmuser.service.DmUserService;
 import com.doublekit.wiki.category.dao.CategoryDao;
+import com.doublekit.wiki.category.entity.CategoryEntity;
 import com.doublekit.wiki.document.dao.DocumentDao;
+import com.doublekit.wiki.document.entity.DocumentEntity;
 import com.doublekit.wiki.repository.dao.RepositoryDao;
 import com.doublekit.wiki.repository.entity.RepositoryEntity;
 import com.doublekit.wiki.repository.model.Repository;
@@ -82,11 +84,15 @@ public class RepositoryServiceImpl implements RepositoryService {
 
     @Override
     public void deleteRepository(@NotNull String id) {
-
         //删除相关联的目录和内容
-        DeleteCondition deleteCondition = DeleteBuilders.create().eq("repositoryId", id).get();
-
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(DocumentEntity.class)
+                .eq("repositoryId", id)
+                .get();
         documentDao.deleteDocument(deleteCondition);
+
+        deleteCondition = DeleteBuilders.createDelete(CategoryEntity.class)
+                .eq("repositoryId", id)
+                .get();
         categoryDao.deleteCategory(deleteCondition);
 
         repositoryDao.deleteRepository(id);

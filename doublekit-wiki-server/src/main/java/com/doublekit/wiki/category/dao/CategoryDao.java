@@ -49,7 +49,7 @@ public class CategoryDao{
     }
 
     public void deleteCategory(DeleteCondition deleteCondition){
-        jpaTemplate.delete(CategoryEntity.class,deleteCondition);
+        jpaTemplate.delete(deleteCondition);
     }
 
     /**
