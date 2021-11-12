@@ -70,7 +70,7 @@ public class ShareServiceImpl implements ShareService {
     public Share findShare(@NotNull String id) {
         Share share = findOne(id);
 
-        joinTemplate.queryOne(share);
+        joinTemplate.joinQuery(share);
         return share;
     }
 
@@ -80,7 +80,7 @@ public class ShareServiceImpl implements ShareService {
 
         List<Share> shareList = BeanMapper.mapList(shareEntityList, Share.class);
 
-        joinTemplate.queryList(shareList);
+        joinTemplate.joinQuery(shareList);
         return shareList;
     }
 
@@ -90,7 +90,7 @@ public class ShareServiceImpl implements ShareService {
 
         List<Share> shareList = BeanMapper.mapList(shareEntityList, Share.class);
 
-        joinTemplate.queryList(shareList);
+        joinTemplate.joinQuery(shareList);
 
         return shareList;
     }
@@ -102,7 +102,7 @@ public class ShareServiceImpl implements ShareService {
 
         List<Share> shareList = BeanMapper.mapList(pagination.getDataList(), Share.class);
 
-        joinTemplate.queryList(shareList);
+        joinTemplate.joinQuery(shareList);
 
         return PaginationBuilder.build(pagination,shareList);
     }

@@ -66,7 +66,7 @@ public class DocumentAttachServiceImpl implements DocumentAttachService {
     public DocumentAttach findDocumentAttach(@NotNull String id) {
         DocumentAttach documentAttach = findOne(id);
 
-        joinTemplate.queryOne(documentAttach);
+        joinTemplate.joinQuery(documentAttach);
         return documentAttach;
     }
 
@@ -76,7 +76,7 @@ public class DocumentAttachServiceImpl implements DocumentAttachService {
 
         List<DocumentAttach> documentAttachList =  BeanMapper.mapList(documentAttachEntityList,DocumentAttach.class);
 
-        joinTemplate.queryList(documentAttachList);
+        joinTemplate.joinQuery(documentAttachList);
         return documentAttachList;
     }
 
@@ -86,7 +86,7 @@ public class DocumentAttachServiceImpl implements DocumentAttachService {
 
         List<DocumentAttach> documentAttachList = BeanMapper.mapList(documentAttachEntityList,DocumentAttach.class);
 
-        joinTemplate.queryList(documentAttachList);
+        joinTemplate.joinQuery(documentAttachList);
 
         return documentAttachList;
     }
@@ -98,7 +98,7 @@ public class DocumentAttachServiceImpl implements DocumentAttachService {
 
         List<DocumentAttach> documentAttachList = BeanMapper.mapList(pagination.getDataList(),DocumentAttach.class);
 
-        joinTemplate.queryList(documentAttachList);
+        joinTemplate.joinQuery(documentAttachList);
 
         return PaginationBuilder.build(pagination,documentAttachList);
     }

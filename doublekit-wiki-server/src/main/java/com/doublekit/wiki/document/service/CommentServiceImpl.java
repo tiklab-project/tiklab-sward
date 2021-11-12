@@ -88,7 +88,7 @@ public class CommentServiceImpl implements CommentService {
     public Comment findComment(@NotNull String id) {
         Comment comment = findOne(id);
 
-        joinTemplate.queryOne(comment);
+        joinTemplate.joinQuery(comment);
         return comment;
     }
 
@@ -98,7 +98,7 @@ public class CommentServiceImpl implements CommentService {
 
         List<Comment> commentList =  BeanMapper.mapList(commentEntityList,Comment.class);
 
-        joinTemplate.queryList(commentList);
+        joinTemplate.joinQuery(commentList);
         return commentList;
     }
 
@@ -109,7 +109,7 @@ public class CommentServiceImpl implements CommentService {
 
         List<Comment> commentList = BeanMapper.mapList(commentEntityList,Comment.class);
 
-        joinTemplate.queryList(commentList);
+        joinTemplate.joinQuery(commentList);
 
         findLike(commentList,type);
         List<Comment> fistOneComment = findComment(commentList);
@@ -124,7 +124,7 @@ public class CommentServiceImpl implements CommentService {
 
         List<Comment> commentList = BeanMapper.mapList(pagination.getDataList(),Comment.class);
 
-        joinTemplate.queryList(commentList);
+        joinTemplate.joinQuery(commentList);
 
         return PaginationBuilder.build(pagination,commentList);
     }
@@ -180,7 +180,7 @@ public class CommentServiceImpl implements CommentService {
                     }
                 }
                 List<Like> likes = BeanMapper.mapList(likeList, Like.class);
-                joinTemplate.queryList(likes);
+                joinTemplate.joinQuery(likes);
                 List<User> userList = likes.stream().map(Like::getLikeUser).collect(Collectors.toList());
                 if (CollectionUtils.isNotEmpty(userList)){
                     //取点赞人名字

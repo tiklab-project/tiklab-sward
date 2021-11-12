@@ -66,7 +66,7 @@ public class DocumentTemplateServiceImpl implements DocumentTemplateService {
     public DocumentTemplate findDocumentTemplate(@NotNull String id) {
         DocumentTemplate documentTemplate = findOne(id);
 
-        joinTemplate.queryOne(documentTemplate);
+        joinTemplate.joinQuery(documentTemplate);
         return documentTemplate;
     }
 
@@ -76,7 +76,7 @@ public class DocumentTemplateServiceImpl implements DocumentTemplateService {
 
         List<DocumentTemplate> documentTemplateList =  BeanMapper.mapList(documentTemplateEntityList,DocumentTemplate.class);
 
-        joinTemplate.queryList(documentTemplateList);
+        joinTemplate.joinQuery(documentTemplateList);
         return documentTemplateList;
     }
 
@@ -86,7 +86,7 @@ public class DocumentTemplateServiceImpl implements DocumentTemplateService {
 
         List<DocumentTemplate> documentTemplateList = BeanMapper.mapList(documentTemplateEntityList,DocumentTemplate.class);
 
-        joinTemplate.queryList(documentTemplateList);
+        joinTemplate.joinQuery(documentTemplateList);
 
         return documentTemplateList;
     }
@@ -98,7 +98,7 @@ public class DocumentTemplateServiceImpl implements DocumentTemplateService {
 
         List<DocumentTemplate> documentTemplateList = BeanMapper.mapList(pagination.getDataList(),DocumentTemplate.class);
 
-        joinTemplate.queryList(documentTemplateList);
+        joinTemplate.joinQuery(documentTemplateList);
 
         return PaginationBuilder.build(pagination,documentTemplateList);
     }

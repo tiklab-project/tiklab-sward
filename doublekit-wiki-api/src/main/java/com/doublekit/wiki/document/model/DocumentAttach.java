@@ -7,7 +7,7 @@ import com.doublekit.beans.annotation.Mappings;
 import com.doublekit.common.BaseModel;
 import com.doublekit.dfs.model.DfsFile;
 import com.doublekit.join.annotation.Join;
-import com.doublekit.join.annotation.JoinField;
+import com.doublekit.join.annotation.JoinQuery;
 
 import javax.validation.constraints.NotNull;
 
@@ -23,7 +23,7 @@ public class DocumentAttach extends BaseModel{
     @Mappings({
             @Mapping(source = "document.id",target = "documentId")
     })
-    @JoinField(id = "fileName")
+    @JoinQuery(key = "fileName")
     private Document document;
 
     @NotNull
@@ -31,7 +31,7 @@ public class DocumentAttach extends BaseModel{
     @Mappings({
             @Mapping(source = "attachment.fileName",target = "attachment")
     })
-    @JoinField(id = "fileName")
+    @JoinQuery(key = "fileName")
     private DfsFile attachment;
 
     @ApiProperty(name="sort",desc="sort")

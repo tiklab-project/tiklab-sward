@@ -79,7 +79,7 @@ public class LikeServiceImpl implements LikeService {
     public Like findLike(@NotNull String id) {
         Like like = findOne(id);
 
-        joinTemplate.queryOne(like);
+        joinTemplate.joinQuery(like);
         return like;
     }
 
@@ -89,7 +89,7 @@ public class LikeServiceImpl implements LikeService {
 
         List<Like> likeList =  BeanMapper.mapList(likeEntityList,Like.class);
 
-        joinTemplate.queryList(likeList);
+        joinTemplate.joinQuery(likeList);
         return likeList;
     }
 
@@ -99,7 +99,7 @@ public class LikeServiceImpl implements LikeService {
 
         List<Like> likeList = BeanMapper.mapList(likeEntityList,Like.class);
 
-        joinTemplate.queryList(likeList);
+        joinTemplate.joinQuery(likeList);
 
         return likeList;
     }
@@ -111,7 +111,7 @@ public class LikeServiceImpl implements LikeService {
 
         List<Like> likeList = BeanMapper.mapList(pagination.getDataList(),Like.class);
 
-        joinTemplate.queryList(likeList);
+        joinTemplate.joinQuery(likeList);
 
         return PaginationBuilder.build(pagination,likeList);
     }

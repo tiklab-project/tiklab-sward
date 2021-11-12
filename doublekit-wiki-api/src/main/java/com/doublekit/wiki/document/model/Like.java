@@ -6,7 +6,7 @@ import com.doublekit.beans.annotation.Mapping;
 import com.doublekit.beans.annotation.Mappings;
 import com.doublekit.common.BaseModel;
 import com.doublekit.join.annotation.Join;
-import com.doublekit.join.annotation.JoinField;
+import com.doublekit.join.annotation.JoinQuery;
 import com.doublekit.user.user.model.User;
 
 import javax.validation.constraints.NotNull;
@@ -27,7 +27,7 @@ public class Like extends BaseModel{
     @Mappings({
             @Mapping(source = "likeUser.id",target = "likeUser")
     })
-    @JoinField(id = "id")
+    @JoinQuery(key = "id")
     private User likeUser;
 
     @ApiProperty(name="likeType",desc="点赞类型  doc文档 com 评论")

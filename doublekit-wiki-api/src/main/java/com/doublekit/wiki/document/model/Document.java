@@ -6,7 +6,7 @@ import com.doublekit.beans.annotation.Mapping;
 import com.doublekit.beans.annotation.Mappings;
 import com.doublekit.common.BaseModel;
 import com.doublekit.join.annotation.Join;
-import com.doublekit.join.annotation.JoinField;
+import com.doublekit.join.annotation.JoinQuery;
 import com.doublekit.wiki.category.model.Category;
 import com.doublekit.wiki.repository.model.Repository;
 
@@ -33,14 +33,14 @@ public class Document extends BaseModel{
     @Mappings({
             @Mapping(source = "repository.id",target = "repositoryId")
     })
-    @JoinField(id = "id")
+    @JoinQuery(key = "id")
     private Repository repository;
 
     @ApiProperty(name="category",desc="目录",eg="@selectOne")
     @Mappings({
             @Mapping(source = "category.id",target = "categoryId")
     })
-    @JoinField(id = "id")
+    @JoinQuery(key = "id")
     private Category category;
 
 

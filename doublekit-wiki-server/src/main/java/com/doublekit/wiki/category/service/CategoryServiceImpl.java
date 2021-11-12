@@ -81,7 +81,7 @@ public class CategoryServiceImpl implements CategoryService {
     public Category findCategory(@NotNull String id) {
         Category category = findOne(id);
 
-        joinTemplate.queryOne(category);
+        joinTemplate.joinQuery(category);
         return category;
     }
 
@@ -91,7 +91,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<Category> categoryList =  BeanMapper.mapList(categoryEntityList,Category.class);
 
-        joinTemplate.queryList(categoryList);
+        joinTemplate.joinQuery(categoryList);
         return categoryList;
     }
 
@@ -101,7 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<Category> categoryList = BeanMapper.mapList(categoryEntityList,Category.class);
 
-        joinTemplate.queryList(categoryList);
+        joinTemplate.joinQuery(categoryList);
 
         return categoryList;
     }
@@ -113,7 +113,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<Category> categoryList = BeanMapper.mapList(pagination.getDataList(),Category.class);
 
-        joinTemplate.queryList(categoryList);
+        joinTemplate.joinQuery(categoryList);
 
         return PaginationBuilder.build(pagination,categoryList);
     }

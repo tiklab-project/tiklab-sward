@@ -101,7 +101,7 @@ public class DocumentServiceImpl implements DocumentService {
     public Document findDocument(@NotNull String id,String type) {
         Document document = findOne(id,type);
 
-        joinTemplate.queryOne(document);
+        joinTemplate.joinQuery(document);
         return document;
     }
 
@@ -109,7 +109,7 @@ public class DocumentServiceImpl implements DocumentService {
     public Document findDocumentById(@NotNull String id) {
         DocumentEntity documentEntity = documentDao.findDocument(id);
         Document document = BeanMapper.map(documentEntity, Document.class);
-        joinTemplate.queryOne(document);
+        joinTemplate.joinQuery(document);
         return document ;
     }
 
@@ -119,7 +119,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         List<Document> documentList =  BeanMapper.mapList(documentEntityList,Document.class);
 
-        joinTemplate.queryList(documentList);
+        joinTemplate.joinQuery(documentList);
         return documentList;
     }
 
@@ -129,7 +129,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         List<Document> documentList = BeanMapper.mapList(documentEntityList,Document.class);
 
-        joinTemplate.queryList(documentList);
+        joinTemplate.joinQuery(documentList);
 
         return documentList;
     }
@@ -141,7 +141,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         List<Document> documentList = BeanMapper.mapList(pagination.getDataList(),Document.class);
 
-        joinTemplate.queryList(documentList);
+        joinTemplate.joinQuery(documentList);
 
         return PaginationBuilder.build(pagination,documentList);
     }
@@ -171,7 +171,7 @@ public class DocumentServiceImpl implements DocumentService {
                 }
             }
             List<Like> likes = BeanMapper.mapList(likeList, Like.class);
-            joinTemplate.queryList(likes);
+            joinTemplate.joinQuery(likes);
             List<User> userList = likes.stream().map(Like::getLikeUser).collect(Collectors.toList());
             if(CollectionUtils.isNotEmpty(userList)){
                 //取点赞人名字

@@ -5,7 +5,7 @@ import com.doublekit.common.page.Pagination;
 import com.doublekit.join.annotation.FindAll;
 import com.doublekit.join.annotation.FindList;
 import com.doublekit.join.annotation.FindOne;
-import com.doublekit.join.annotation.Provider;
+import com.doublekit.join.annotation.JoinProvider;
 import com.doublekit.wiki.document.model.Comment;
 import com.doublekit.wiki.document.model.CommentQuery;
 
@@ -16,7 +16,7 @@ import java.util.List;
 /**
 * CommentService
 */
-@Provider(model = Comment.class)
+@JoinProvider(model = Comment.class)
 public interface CommentService {
 
     /**

@@ -5,7 +5,7 @@ import com.doublekit.common.page.Pagination;
 import com.doublekit.join.annotation.FindAll;
 import com.doublekit.join.annotation.FindList;
 import com.doublekit.join.annotation.FindOne;
-import com.doublekit.join.annotation.Provider;
+import com.doublekit.join.annotation.JoinProvider;
 import com.doublekit.wiki.category.model.Category;
 import com.doublekit.wiki.category.model.CategoryQuery;
 
@@ -16,7 +16,7 @@ import java.util.List;
 /**
 * CategoryService
 */
-@Provider(model = Category.class)
+@JoinProvider(model = Category.class)
 public interface CategoryService {
 
     /**

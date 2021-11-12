@@ -118,7 +118,7 @@ public class RepositoryServiceImpl implements RepositoryService {
     public Repository findRepository(@NotNull String id) {
         Repository repository = findOne(id);
 
-        joinTemplate.queryOne(repository);
+        joinTemplate.joinQuery(repository);
         return repository;
     }
 
@@ -128,7 +128,7 @@ public class RepositoryServiceImpl implements RepositoryService {
 
         List<Repository> repositoryList =  BeanMapper.mapList(repositoryEntityList,Repository.class);
 
-        joinTemplate.queryList(repositoryList);
+        joinTemplate.joinQuery(repositoryList);
         return repositoryList;
     }
 
@@ -138,7 +138,7 @@ public class RepositoryServiceImpl implements RepositoryService {
 
         List<Repository> repositoryList = BeanMapper.mapList(repositoryEntityList,Repository.class);
 
-        joinTemplate.queryList(repositoryList);
+        joinTemplate.joinQuery(repositoryList);
 
         return repositoryList;
     }
@@ -150,7 +150,7 @@ public class RepositoryServiceImpl implements RepositoryService {
 
         List<Repository> repositoryList = BeanMapper.mapList(pagination.getDataList(),Repository.class);
 
-        joinTemplate.queryList(repositoryList);
+        joinTemplate.joinQuery(repositoryList);
 
         return PaginationBuilder.build(pagination,repositoryList);
     }

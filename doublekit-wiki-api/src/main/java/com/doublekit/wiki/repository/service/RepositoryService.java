@@ -5,7 +5,7 @@ import com.doublekit.common.page.Pagination;
 import com.doublekit.join.annotation.FindAll;
 import com.doublekit.join.annotation.FindList;
 import com.doublekit.join.annotation.FindOne;
-import com.doublekit.join.annotation.Provider;
+import com.doublekit.join.annotation.JoinProvider;
 import com.doublekit.wiki.repository.model.Repository;
 import com.doublekit.wiki.repository.model.RepositoryQuery;
 
@@ -16,7 +16,7 @@ import java.util.List;
 /**
 * RepositoryService
 */
-@Provider(model = Repository.class)
+@JoinProvider(model = Repository.class)
 public interface RepositoryService {
 
     /**

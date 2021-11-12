@@ -6,7 +6,7 @@ import com.doublekit.beans.annotation.Mapping;
 import com.doublekit.beans.annotation.Mappings;
 import com.doublekit.common.BaseModel;
 import com.doublekit.join.annotation.Join;
-import com.doublekit.join.annotation.JoinField;
+import com.doublekit.join.annotation.JoinQuery;
 import com.doublekit.user.user.model.User;
 
 import javax.validation.constraints.NotNull;
@@ -25,7 +25,7 @@ public class Comment extends BaseModel{
     @Mappings({
             @Mapping(source = "document.id",target = "documentId")
     })
-    @JoinField(id = "id")
+    @JoinQuery(key = "id")
     private Document document;
 
     @ApiProperty(name="parentCommentId",desc="父评论id")
@@ -38,7 +38,7 @@ public class Comment extends BaseModel{
     @Mappings({
             @Mapping(source = "user.id",target = "user")
     })
-    @JoinField(id = "id")
+    @JoinQuery(key = "id")
     private User user;
 
     @ApiProperty(name="createTime",desc="创建时间")
@@ -51,7 +51,7 @@ public class Comment extends BaseModel{
     @Mappings({
             @Mapping(source = "aimAtUser.id",target = "aimAtUser")
     })
-    @JoinField(id = "id")
+    @JoinQuery(key = "id")
     private User aimAtUser;
 
     //第一层评论id
