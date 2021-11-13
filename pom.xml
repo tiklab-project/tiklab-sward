@@ -111,7 +111,7 @@
             </dependency>
             <dependency>
                 <groupId>com.doublekit</groupId>
-                <artifactId>doublekit-codegen</artifactId>
+                <artifactId>doublekit-codegen-core</artifactId>
                 <version>${doublekit.version}</version>
             </dependency>
             <dependency>
