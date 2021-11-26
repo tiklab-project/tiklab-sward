@@ -131,7 +131,7 @@
         <repository>
             <id>doublekit-maven</id>
             <name>doublekit maven</name>
-            <url>http://118.178.122.35:8081/repository/maven-public/</url>
+            <url>http://192.168.2.102:8081/repository/maven-public/</url>
         </repository>
     </repositories>
 </project>
