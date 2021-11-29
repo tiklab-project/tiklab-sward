@@ -46,27 +46,27 @@
             </dependency>
             <dependency>
                 <groupId>com.doublekit</groupId>
-                <artifactId>doublekit-framework-beans-annotation</artifactId>
+                <artifactId>doublekit-beans-annotation</artifactId>
                 <version>${doublekit.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.doublekit</groupId>
-                <artifactId>doublekit-framework-beans</artifactId>
+                <artifactId>doublekit-beans-core</artifactId>
                 <version>${doublekit.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.doublekit</groupId>
-                <artifactId>doublekit-framework-join-annotation</artifactId>
+                <artifactId>doublekit-dsl-join-annotation</artifactId>
                 <version>${doublekit.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.doublekit</groupId>
-                <artifactId>doublekit-framework-join</artifactId>
+                <artifactId>doublekit-dsl-join-core</artifactId>
                 <version>${doublekit.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.doublekit</groupId>
-                <artifactId>doublekit-framework-spring-boot-starter</artifactId>
+                <artifactId>doublekit-framework-common</artifactId>
                 <version>${doublekit.version}</version>
             </dependency>
             <dependency>
