@@ -3,16 +3,16 @@ package com.doublekit.wiki.repository.service;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.page.Pagination;
 import com.doublekit.common.page.PaginationBuilder;
-import com.doublekit.dal.jpa.criterial.model.DeleteCondition;
 import com.doublekit.dal.jpa.criterial.DeleteBuilders;
+import com.doublekit.dal.jpa.criterial.model.DeleteCondition;
 import com.doublekit.dss.client.DssClient;
 import com.doublekit.eam.common.Ticket;
 import com.doublekit.eam.common.TicketContext;
 import com.doublekit.eam.common.TicketHolder;
 import com.doublekit.join.JoinTemplate;
-import com.doublekit.privilege.prjprivilege.service.DmPrjRoleService;
-import com.doublekit.user.dmuser.model.DmUser;
-import com.doublekit.user.dmuser.service.DmUserService;
+import com.doublekit.privilege.role.service.DmRoleService;
+import com.doublekit.user.user.model.DmUser;
+import com.doublekit.user.user.service.DmUserService;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.category.entity.CategoryEntity;
 import com.doublekit.wiki.document.dao.DocumentDao;
@@ -50,7 +50,7 @@ public class RepositoryServiceImpl implements RepositoryService {
     DmUserService dmUserService;
 
     @Autowired
-    DmPrjRoleService dmPrjRoleService;
+    DmRoleService dmPrjRoleService;
 
     @Autowired
     DssClient dssClient;
@@ -67,7 +67,7 @@ public class RepositoryServiceImpl implements RepositoryService {
         dmUserService.createDmUser(dmUser);
 
         //初始化项目权限
-        dmPrjRoleService.initDmPrjRoles(id,findCreatUser());
+        dmPrjRoleService.initDmRoles(id,findCreatUser());
 
         //构建索引
         Repository entity = findRepository(id);
