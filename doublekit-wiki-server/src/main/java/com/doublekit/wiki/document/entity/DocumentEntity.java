@@ -28,6 +28,10 @@ public class DocumentEntity implements Serializable {
     @Column(name = "category_id",length = 32)
     private String categoryId;
 
+    //管理员
+    @Column(name = "master",length = 32,notNull = true)
+    private String master;
+
     //内容
     @Column(name = "details")
     private String details;
@@ -91,4 +95,11 @@ public class DocumentEntity implements Serializable {
         this.formatType = formatType;
     }
 
+    public String getMaster() {
+        return master;
+    }
+
+    public void setMaster(String master) {
+        this.master = master;
+    }
 }

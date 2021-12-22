@@ -1,15 +1,20 @@
 package com.doublekit.wiki.category.dao;
 
 import com.doublekit.common.page.Pagination;
+import com.doublekit.dal.jpa.criterial.QueryBuilders;
 import com.doublekit.dal.jpa.criterial.model.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.model.QueryCondition;
 import com.doublekit.wiki.category.entity.CategoryEntity;
+import com.doublekit.wiki.category.model.Category;
 import com.doublekit.wiki.category.model.CategoryQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
+import com.doublekit.wiki.document.entity.DocumentEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,6 +66,29 @@ public class CategoryDao{
         return jpaTemplate.findOne(CategoryEntity.class,id);
     }
 
+    /**
+     * 查找
+     * @param id
+     * @return
+     */
+    public List<Object> findCategoryDocument(String id){
+        List<Object> objects = new ArrayList<>();
+
+        QueryCondition queryCondition = QueryBuilders.createQuery(CategoryEntity.class,"ce").eq("ce.parentCategoryId",id).get();
+        List<CategoryEntity> categoryList = jpaTemplate.findList(queryCondition,CategoryEntity.class);
+
+        if(categoryList.size() > 0) {
+            objects.addAll(categoryList);
+        }
+        queryCondition = QueryBuilders.createQuery(DocumentEntity.class,"de").eq("de.categoryId",id).get();
+        List<DocumentEntity> documentList = jpaTemplate.findList(queryCondition,DocumentEntity.class);
+
+        if(documentList.size() >0){
+            objects.addAll(documentList);
+        }
+
+        return objects;
+    }
     /**
     * findAllCategory
     * @return

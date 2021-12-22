@@ -7,9 +7,11 @@ import com.doublekit.beans.annotation.Mappings;
 import com.doublekit.common.BaseModel;
 import com.doublekit.join.annotation.Join;
 import com.doublekit.join.annotation.JoinQuery;
+import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.document.model.Document;
 import com.doublekit.wiki.repository.model.Repository;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,13 @@ public class Category extends BaseModel{
     })
     @JoinQuery(key = "id")
     private Repository repository;
+
+    @ApiProperty(name="master",desc="负责人",eg="@selectOne")
+    @Mappings({
+            @Mapping(source = "master.id",target = "master")
+    })
+    @JoinQuery(key = "id")
+    private User master;
 
     @ApiProperty(name="parentCategory",desc="上级分类",eg="@selectOne")
     @Mappings({
@@ -112,5 +121,13 @@ public class Category extends BaseModel{
 
     public void setFormatType(String formatType) {
         this.formatType = formatType;
+    }
+
+    public User getMaster() {
+        return master;
+    }
+
+    public void setMaster(User master) {
+        this.master = master;
     }
 }

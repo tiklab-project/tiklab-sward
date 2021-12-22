@@ -3,6 +3,7 @@ package com.doublekit.wiki.category.service;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.page.Pagination;
 import com.doublekit.common.page.PaginationBuilder;
+import com.doublekit.dal.jpa.criterial.QueryBuilders;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.category.entity.CategoryEntity;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -83,6 +85,14 @@ public class CategoryServiceImpl implements CategoryService {
 
         joinTemplate.joinQuery(category);
         return category;
+    }
+
+
+    @Override
+    public List<Object> findCategoryDocument(@NotNull String id) {
+        List<Object> objects = new ArrayList<>();
+        objects = categoryDao.findCategoryDocument(id);
+        return objects;
     }
 
     @Override

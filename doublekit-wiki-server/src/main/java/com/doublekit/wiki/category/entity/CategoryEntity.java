@@ -20,6 +20,10 @@ public class CategoryEntity implements Serializable {
     @Column(name = "name",length = 64,notNull = true)
     private String name;
 
+    //管理员
+    @Column(name = "master",length = 32,notNull = true)
+    private String master;
+
     //知识库id
     @Column(name = "repository_id",length = 32,notNull = true)
     private String repositoryId;
@@ -70,5 +74,13 @@ public class CategoryEntity implements Serializable {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public String getMaster() {
+        return master;
+    }
+
+    public void setMaster(String master) {
+        this.master = master;
     }
 }

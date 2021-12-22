@@ -3,8 +3,8 @@ package com.doublekit.wiki.repository.service;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.page.Pagination;
 import com.doublekit.common.page.PaginationBuilder;
-import com.doublekit.dal.jpa.criterial.DeleteBuilders;
 import com.doublekit.dal.jpa.criterial.model.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.DeleteBuilders;
 import com.doublekit.dss.client.DssClient;
 import com.doublekit.eam.common.Ticket;
 import com.doublekit.eam.common.TicketContext;
@@ -50,7 +50,7 @@ public class RepositoryServiceImpl implements RepositoryService {
     DmUserService dmUserService;
 
     @Autowired
-    DmRoleService dmPrjRoleService;
+    DmRoleService dmRoleService;
 
     @Autowired
     DssClient dssClient;
@@ -67,7 +67,7 @@ public class RepositoryServiceImpl implements RepositoryService {
         dmUserService.createDmUser(dmUser);
 
         //初始化项目权限
-        dmPrjRoleService.initDmRoles(id,findCreatUser());
+        dmRoleService.initDmRoles(id,findCreatUser());
 
         //构建索引
         Repository entity = findRepository(id);

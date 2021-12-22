@@ -7,6 +7,7 @@ import com.doublekit.beans.annotation.Mappings;
 import com.doublekit.common.BaseModel;
 import com.doublekit.join.annotation.Join;
 import com.doublekit.join.annotation.JoinQuery;
+import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.category.model.Category;
 import com.doublekit.wiki.repository.model.Repository;
 
@@ -27,6 +28,14 @@ public class Document extends BaseModel{
     @NotNull
     @ApiProperty(name="typeId",desc="typeId",required = true)
     private java.lang.String typeId="123";
+
+
+    @ApiProperty(name="master",desc="负责人",eg="@selectOne")
+    @Mappings({
+            @Mapping(source = "master.id",target = "master")
+    })
+    @JoinQuery(key = "id")
+    private User master;
 
     //@NotNull
     @ApiProperty(name="repository",desc="空间",eg="@selectOne")
@@ -158,5 +167,13 @@ public class Document extends BaseModel{
 
     public void setRele(Boolean rele) {
         isRele = rele;
+    }
+
+    public User getMaster() {
+        return master;
+    }
+
+    public void setMaster(User master) {
+        this.master = master;
     }
 }

@@ -51,6 +51,12 @@ public interface CategoryService {
     Category findCategory(@NotNull String id);
 
     /**
+     * 查找
+     * @param id
+     * @return
+     */
+    List<Object> findCategoryDocument(@NotNull String id);
+    /**
     * 查找所有
     * @return
     */

@@ -69,6 +69,15 @@ public class CategoryController {
         return Result.ok(category);
     }
 
+    @RequestMapping(path="/findCategoryDocument",method = RequestMethod.POST)
+    @ApiMethod(name = "findCategoryDocument",desc = "根据id 查询下级目录文档")
+    @ApiParam(name = "id",desc = "id",required = true)
+    public Result<List> findCategoryDocument(@NotNull String id){
+        List category = categoryService.findCategoryDocument(id);
+
+        return Result.ok(category);
+    }
+
     @RequestMapping(path="/findAllCategory",method = RequestMethod.POST)
     @ApiMethod(name = "findAllCategory",desc = "查询所有目录")
     public Result<List<Category>> findAllCategory(){
@@ -85,6 +94,7 @@ public class CategoryController {
 
         return Result.ok(categoryList);
     }
+
     @RequestMapping(path = "/findCategoryListTree",method = RequestMethod.POST)
     @ApiMethod(name = "findCategoryListTree",desc = "条件查询目录树")
     @ApiParam(name = "categoryQuery",desc = "categoryQuery",required = true)
