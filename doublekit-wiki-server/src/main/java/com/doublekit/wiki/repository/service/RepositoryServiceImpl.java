@@ -12,6 +12,7 @@ import com.doublekit.eam.common.TicketHolder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.privilege.role.service.DmRoleService;
 import com.doublekit.user.user.model.DmUser;
+import com.doublekit.user.user.model.User;
 import com.doublekit.user.user.service.DmUserService;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.category.entity.CategoryEntity;
@@ -60,10 +61,12 @@ public class RepositoryServiceImpl implements RepositoryService {
         RepositoryEntity repositoryEntity = BeanMapper.map(repository, RepositoryEntity.class);
 
         String id = repositoryDao.createRepository(repositoryEntity);
+        String masterId = repository.getMaster().getId();
         //初始化项目成员
         DmUser dmUser = new DmUser();
         dmUser.setDomainId(id);
        // dmUser.setUser(new User().setId(findCreatUser()));
+        dmUser.setUser(new User().setId(masterId));
         dmUserService.createDmUser(dmUser);
 
         //初始化项目权限

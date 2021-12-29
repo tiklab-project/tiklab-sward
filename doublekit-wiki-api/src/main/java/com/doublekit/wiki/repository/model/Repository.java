@@ -43,6 +43,10 @@ public class Repository extends BaseModel{
     @JoinQuery(key = "id")
     private User master;
 
+    //权限范围 0 全部可见 1成员可见
+    @ApiProperty(name="limits",desc="limits",required = true)
+    private java.lang.String limits;
+
     @ApiProperty(name="desc",desc="desc")
     private java.lang.String desc;
 
@@ -82,5 +86,13 @@ public class Repository extends BaseModel{
 
     public void setMaster(User master) {
         this.master = master;
+    }
+
+    public String getLimits() {
+        return limits;
+    }
+
+    public void setLimits(String limits) {
+        this.limits = limits;
     }
 }

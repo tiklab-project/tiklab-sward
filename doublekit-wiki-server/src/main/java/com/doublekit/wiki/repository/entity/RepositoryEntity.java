@@ -29,6 +29,10 @@ public class RepositoryEntity implements Serializable {
     @Column(name = "master",length = 32,notNull = true)
     private String master;
 
+    //权限范围 0 全部可见 1成员可见
+    @Column(name = "limits",length = 32,notNull = true)
+    private String limits;
+
     //描述
     @Column(name = "description",length = 64)
     private String desc;
@@ -71,5 +75,13 @@ public class RepositoryEntity implements Serializable {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public String getLimits() {
+        return limits;
+    }
+
+    public void setLimits(String limits) {
+        this.limits = limits;
     }
 }

@@ -1,15 +1,23 @@
 package com.doublekit.wiki.repository.dao;
 
 import com.doublekit.common.page.Pagination;
+import com.doublekit.dal.jpa.criterial.QueryBuilders;
 import com.doublekit.dal.jpa.criterial.model.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.model.QueryCondition;
+import com.doublekit.user.user.entity.DmUserEntity;
+import com.doublekit.wiki.category.entity.CategoryEntity;
+import com.doublekit.wiki.common.CurrentRegUser;
 import com.doublekit.wiki.repository.entity.RepositoryEntity;
 import com.doublekit.wiki.repository.model.RepositoryQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
+import com.sun.org.apache.regexp.internal.RE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,6 +86,12 @@ public class RepositoryDao{
     }
 
     public Pagination<RepositoryEntity> findRepositoryPage(RepositoryQuery repositoryQuery) {
-        return jpaTemplate.findPage(repositoryQuery, RepositoryEntity.class);
+        String userId = CurrentRegUser.getInstace().findCreatUser();
+        String sql = "select DISTINCT w.id,w.name,w.type_id,w.master,w.description,w.limits from wiki_repository w left join orc_dm_user d on w.id = d.domain_id    ";
+        sql = sql.concat("where w.limits = '1' and d.user_id = ? or w.limits = '0'");
+        Pagination<RepositoryEntity> repositoryEntityList =
+                this.jpaTemplate.getJdbcTemplate().findPage(sql,new Object[]{userId},repositoryQuery.getPageParam(),new BeanPropertyRowMapper(RepositoryEntity.class));
+//                (sql, new String[]{userId}, new BeanPropertyRowMapper(RepositoryEntity.class));;
+        return repositoryEntityList;
     }
 }
