@@ -11,6 +11,7 @@ import com.doublekit.wiki.repository.dao.RepositoryDao;
 import com.doublekit.wiki.repository.entity.RepositoryEntity;
 import com.doublekit.wiki.integration.cf.util.UncompressUtil;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.juli.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
