@@ -1,5 +1,6 @@
 package com.doublekit.wiki.document.model;
 
+import com.doublekit.common.BaseModel;
 import com.doublekit.dal.jpa.criteria.annotation.*;
 import com.doublekit.dal.jpa.criteria.model.Order;
 import com.doublekit.dal.jpa.criteria.model.OrderBuilders;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @ApiModel
 @CriteriaQuery(entityAlias = "DocumentAttachEntity")
-public class DocumentAttachQuery {
+public class DocumentAttachQuery extends BaseModel {
         @ApiProperty(name ="orderParams",desc = "排序参数")
         @OrderField
         private List<Order> orderParams = OrderBuilders.instance().asc("id").get();

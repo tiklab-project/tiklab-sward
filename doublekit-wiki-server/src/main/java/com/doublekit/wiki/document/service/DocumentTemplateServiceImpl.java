@@ -4,6 +4,7 @@ import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.page.Pagination;
 import com.doublekit.common.page.PaginationBuilder;
 import com.doublekit.join.JoinTemplate;
+import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.wiki.document.dao.DocumentTemplateDao;
 import com.doublekit.wiki.document.entity.DocumentTemplateEntity;
 import com.doublekit.wiki.document.model.DocumentTemplate;
@@ -19,6 +20,7 @@ import java.util.List;
 * DocumentTemplateServiceImpl
 */
 @Service
+@Exporter
 public class DocumentTemplateServiceImpl implements DocumentTemplateService {
 
     @Autowired

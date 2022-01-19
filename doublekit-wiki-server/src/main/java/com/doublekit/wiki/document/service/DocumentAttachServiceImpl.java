@@ -4,6 +4,7 @@ import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.page.Pagination;
 import com.doublekit.common.page.PaginationBuilder;
 import com.doublekit.join.JoinTemplate;
+import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.wiki.document.dao.DocumentAttachDao;
 import com.doublekit.wiki.document.entity.DocumentAttachEntity;
 import com.doublekit.wiki.document.model.DocumentAttach;
@@ -19,6 +20,7 @@ import java.util.List;
 * DocumentAttachServiceImpl
 */
 @Service
+@Exporter
 public class DocumentAttachServiceImpl implements DocumentAttachService {
 
     @Autowired

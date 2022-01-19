@@ -7,6 +7,7 @@ import com.doublekit.eam.common.Ticket;
 import com.doublekit.eam.common.TicketContext;
 import com.doublekit.eam.common.TicketHolder;
 import com.doublekit.join.JoinTemplate;
+import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.document.dao.CommentDao;
 import com.doublekit.wiki.document.dao.LikeDao;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 * CommentServiceImpl
 */
 @Service
+@Exporter
 public class CommentServiceImpl implements CommentService {
 
     @Autowired

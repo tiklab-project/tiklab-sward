@@ -7,6 +7,7 @@ import com.doublekit.eam.common.Ticket;
 import com.doublekit.eam.common.TicketContext;
 import com.doublekit.eam.common.TicketHolder;
 import com.doublekit.join.JoinTemplate;
+import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.wiki.document.dao.LikeDao;
 import com.doublekit.wiki.document.entity.LikeEntity;
 import com.doublekit.wiki.document.model.Like;
@@ -23,6 +24,7 @@ import java.util.List;
 * LikeServiceImpl
 */
 @Service
+@Exporter
 public class LikeServiceImpl implements LikeService {
 
     @Autowired

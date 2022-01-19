@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 */
 @Exporter
 @Service
+
 public class DocumentServiceImpl implements DocumentService {
 
     @Autowired

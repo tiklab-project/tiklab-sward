@@ -5,6 +5,7 @@ import com.doublekit.common.page.Pagination;
 import com.doublekit.common.page.PaginationBuilder;
 import com.doublekit.dal.jpa.criterial.QueryBuilders;
 import com.doublekit.join.JoinTemplate;
+import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.category.entity.CategoryEntity;
 import com.doublekit.wiki.category.model.Category;
@@ -13,6 +14,8 @@ import com.doublekit.wiki.document.dao.DocumentDao;
 import com.doublekit.wiki.document.entity.DocumentEntity;
 import com.doublekit.wiki.document.model.Document;
 import com.doublekit.wiki.document.model.DocumentQuery;
+import com.doublekit.wiki.document.service.DocumentService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -28,6 +31,7 @@ import java.util.stream.Collectors;
 * CategoryServiceImpl
 */
 @Service
+@Exporter
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
@@ -37,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
     JoinTemplate joinTemplate;
 
     @Autowired
-    DocumentDao documentDao;
+    DocumentService documentService;
 
 
     @Override
@@ -134,12 +138,12 @@ public class CategoryServiceImpl implements CategoryService {
         //查询符合条件的所有目录
         List<Category> categoryList = this.findCategoryList(categoryQuery);
 
-        List<DocumentEntity> documentList = documentDao.findDocumentList(new DocumentQuery().setRepositoryId(categoryQuery.getRepositoryId()));
+        List<Document> documentList = documentService.findDocumentList(new DocumentQuery().setRepositoryId(categoryQuery.getRepositoryId()));
         //查找并设置分类下面的接口
         List<Category> categoryMethodList = findCategoryMethodList(categoryList);
 
         //查询没在目录下main的文档
-        List<DocumentEntity> collect = documentList.stream().filter(a -> ObjectUtils.isEmpty(a.getCategoryId())).collect(Collectors.toList());
+        List<Document> collect = documentList.stream().filter(a -> ObjectUtils.isEmpty(a.getCategory())).collect(Collectors.toList());
         //查询一级目录
         List<Category> topCategoryList = findTopCategoryList(categoryMethodList);
 
@@ -149,8 +153,13 @@ public class CategoryServiceImpl implements CategoryService {
                 setChildren(categoryList,topCategory);
             }
         }
-        objects.add(topCategoryList);
-        objects.add(collect);
+
+        if (CollectionUtils.isNotEmpty(topCategoryList)){
+            objects.add(topCategoryList);
+        }
+        if(CollectionUtils.isNotEmpty(collect)){
+            objects.add(collect);
+        }
         return objects;
     }
 
@@ -196,9 +205,8 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categorys = categoryList.stream().map(category -> {
             DocumentQuery documentQuery = new DocumentQuery();
             documentQuery.setCategoryId(category.getId());
-            List<DocumentEntity> repositoryDetailsList = documentDao.findDocumentList(documentQuery);
-            List<Document> documents = BeanMapper.mapList(repositoryDetailsList, Document.class);
-            category.setDocuments(documents);
+            List<Document> repositoryDetailsList = documentService.findDocumentList(documentQuery);
+            category.setDocuments(repositoryDetailsList);
             return category;
         }).collect(Collectors.toList());
 

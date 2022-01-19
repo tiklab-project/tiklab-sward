@@ -11,6 +11,7 @@ import com.doublekit.eam.common.TicketContext;
 import com.doublekit.eam.common.TicketHolder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.privilege.role.service.DmRoleService;
+import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.user.user.model.DmUser;
 import com.doublekit.user.user.model.User;
 import com.doublekit.user.user.service.DmUserService;
@@ -33,6 +34,7 @@ import java.util.List;
 * RepositoryServiceImpl
 */
 @Service
+@Exporter
 public class RepositoryServiceImpl implements RepositoryService {
 
     @Autowired

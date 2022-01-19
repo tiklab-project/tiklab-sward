@@ -4,6 +4,7 @@ import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.page.Pagination;
 import com.doublekit.common.page.PaginationBuilder;
 import com.doublekit.join.JoinTemplate;
+import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.wiki.document.dao.ShareDao;
 import com.doublekit.wiki.document.entity.ShareEntity;
 import com.doublekit.wiki.document.model.Share;
@@ -23,6 +24,7 @@ import java.util.concurrent.ThreadLocalRandom;
 * ShareServiceImpl
 */
 @Service
+@Exporter
 public class ShareServiceImpl implements ShareService {
 
     @Autowired

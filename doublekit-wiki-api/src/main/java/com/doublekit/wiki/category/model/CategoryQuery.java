@@ -1,5 +1,6 @@
 package com.doublekit.wiki.category.model;
 
+import com.doublekit.common.BaseModel;
 import com.doublekit.dal.jpa.criteria.annotation.*;
 import com.doublekit.dal.jpa.criteria.model.Order;
 import com.doublekit.dal.jpa.criteria.model.OrderBuilders;
@@ -12,7 +13,8 @@ import java.util.List;
 
 @ApiModel
 @CriteriaQuery(entityAlias = "CategoryEntity")
-public class CategoryQuery {
+
+public class CategoryQuery extends BaseModel {
         @ApiProperty(name ="orderParams",desc = "排序参数")
         @OrderField
         private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
