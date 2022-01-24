@@ -128,7 +128,9 @@ public class CommentServiceImpl implements CommentService {
 
         joinTemplate.joinQuery(commentList);
 
-        return PaginationBuilder.build(pagination,commentList);
+        List<Comment> fistOneComment = findComment(commentList);
+
+        return PaginationBuilder.build(pagination,fistOneComment);
     }
 
 

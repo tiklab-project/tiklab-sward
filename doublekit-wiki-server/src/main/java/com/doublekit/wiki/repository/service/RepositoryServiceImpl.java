@@ -17,8 +17,10 @@ import com.doublekit.user.user.model.User;
 import com.doublekit.user.user.service.DmUserService;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.category.entity.CategoryEntity;
+import com.doublekit.wiki.category.service.CategoryService;
 import com.doublekit.wiki.document.dao.DocumentDao;
 import com.doublekit.wiki.document.entity.DocumentEntity;
+import com.doublekit.wiki.document.service.DocumentService;
 import com.doublekit.wiki.repository.dao.RepositoryDao;
 import com.doublekit.wiki.repository.entity.RepositoryEntity;
 import com.doublekit.wiki.repository.model.Repository;
@@ -44,10 +46,10 @@ public class RepositoryServiceImpl implements RepositoryService {
     JoinTemplate joinTemplate;
 
     @Autowired
-    CategoryDao categoryDao;
+    CategoryService categoryService;
 
     @Autowired
-    DocumentDao documentDao;
+    DocumentService documentService;
 
     @Autowired
     DmUserService dmUserService;
@@ -90,15 +92,15 @@ public class RepositoryServiceImpl implements RepositoryService {
     @Override
     public void deleteRepository(@NotNull String id) {
         //删除相关联的目录和内容
-        DeleteCondition deleteCondition = DeleteBuilders.createDelete(DocumentEntity.class)
-                .eq("repositoryId", id)
-                .get();
-        documentDao.deleteDocument(deleteCondition);
+//        DeleteCondition deleteCondition = DeleteBuilders.createDelete(DocumentEntity.class)
+//                .eq("repositoryId", id)
+//                .get();
+        documentService.deleteDocument(id);
 
-        deleteCondition = DeleteBuilders.createDelete(CategoryEntity.class)
-                .eq("repositoryId", id)
-                .get();
-        categoryDao.deleteCategory(deleteCondition);
+//        deleteCondition = DeleteBuilders.createDelete(CategoryEntity.class)
+//                .eq("repositoryId", id)
+//                .get();
+        categoryService.deleteCategory(id);
 
         repositoryDao.deleteRepository(id);
     }

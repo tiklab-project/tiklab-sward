@@ -37,9 +37,8 @@ public class ImportDataController {
                 String date = cfImportDataService.importConfluenceData(inputStream);
                 return Result.ok(date);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new ApplicationException(e);
             }
         }
-        return Result.ok();
     }
 }

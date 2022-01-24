@@ -2,6 +2,7 @@ package com.doublekit.wiki.integration.cf.service;
 
 
 import com.alibaba.fastjson.JSON;
+import com.doublekit.common.exception.ApplicationException;
 import com.doublekit.dal.jpa.JpaTemplate;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.category.entity.CategoryEntity;
@@ -70,10 +71,8 @@ public class CfImportDataServiceImpl implements CfImportDataService {
             }
             return "succed";
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new ApplicationException(e);
         }
-
-        return null;
     }
 
     /**
