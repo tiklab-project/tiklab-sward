@@ -33,7 +33,7 @@ public class ProjectController {
     private static Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
     @Autowired
-    @Reference(address = "${rpc.project.address}")
+    @Reference(address = "${project.service.address}")
     private ProjectService projectService;
 
     @RequestMapping(path="/createProject",method = RequestMethod.POST)
