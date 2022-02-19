@@ -1,6 +1,6 @@
 package com.doublekit.wiki.category.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.doublekit.utils.MapUtils;
 import com.doublekit.common.Result;
 import com.doublekit.apibox.client.mock.JMockit;
 import com.doublekit.wiki.config.TestConfig;
@@ -59,9 +59,8 @@ public class CategoryControllerTest {
     public void test01ForSaveCategory() {
         Category category = JMockit.mock(Category.class);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(category));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(category);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
                                 post("/category/createCategory")
@@ -87,9 +86,8 @@ public class CategoryControllerTest {
         Category category = JMockit.mock(Category.class);
         category.setId(id);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(category));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(category);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
                                 post("/category/updateCategory")

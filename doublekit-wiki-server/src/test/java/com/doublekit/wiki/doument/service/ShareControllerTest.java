@@ -1,6 +1,6 @@
 package com.doublekit.wiki.doument.service;
 
-import com.alibaba.fastjson.JSONObject;
+import com.doublekit.utils.MapUtils;
 import com.doublekit.common.Result;
 import com.doublekit.apibox.client.mock.JMockit;
 import com.doublekit.wiki.config.TestConfig;
@@ -59,9 +59,8 @@ public class ShareControllerTest {
     public void test01ForSaveShare() {
         Share share = JMockit.mock(Share.class);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(share));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(share);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
                                 post("/share/createShare")
@@ -87,9 +86,8 @@ public class ShareControllerTest {
         Share share = JMockit.mock(Share.class);
         share.setId(id);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(share));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(share);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
                                 post("/share/updateShare")

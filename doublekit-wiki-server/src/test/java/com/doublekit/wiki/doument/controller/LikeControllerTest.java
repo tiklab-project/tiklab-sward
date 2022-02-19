@@ -1,6 +1,6 @@
 package com.doublekit.wiki.doument.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.doublekit.utils.MapUtils;
 import com.doublekit.common.Result;
 import com.doublekit.apibox.client.mock.JMockit;
 import com.doublekit.wiki.config.TestConfig;
@@ -59,9 +59,8 @@ public class LikeControllerTest {
     public void test01ForSaveLike() {
         Like like = JMockit.mock(Like.class);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(like));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(like);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
                                 post("/like/createLike")
@@ -87,9 +86,8 @@ public class LikeControllerTest {
         Like like = JMockit.mock(Like.class);
         like.setId(id);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(like));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(like);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
                                 post("/like/updateLike")

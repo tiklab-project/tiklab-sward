@@ -1,6 +1,6 @@
 package com.doublekit.wiki.doument.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.doublekit.utils.MapUtils;
 import com.doublekit.common.Result;
 import com.doublekit.apibox.client.mock.JMockit;
 import com.doublekit.wiki.config.TestConfig;
@@ -59,9 +59,8 @@ public class CommentControllerTest {
     public void test01ForSaveComment() {
         Comment comment = JMockit.mock(Comment.class);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(comment));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(comment);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
                                 post("/comment/createComment")
@@ -87,9 +86,8 @@ public class CommentControllerTest {
         Comment comment = JMockit.mock(Comment.class);
         comment.setId(id);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(comment));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(comment);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
                                 post("/comment/updateComment")

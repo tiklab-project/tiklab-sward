@@ -1,6 +1,6 @@
 package com.doublekit.wiki.repository.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.doublekit.utils.MapUtils;
 import com.doublekit.common.Result;
 import com.doublekit.apibox.client.mock.JMockit;
 import com.doublekit.wiki.config.TestConfig;
@@ -59,9 +59,8 @@ public class RepositoryControllerTest {
     public void test01ForSaveRepository() {
         Repository repository = JMockit.mock(Repository.class);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(repository));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(repository);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
                                 post("/repository/createRepository")
@@ -87,9 +86,8 @@ public class RepositoryControllerTest {
         Repository repository = JMockit.mock(Repository.class);
         repository.setId(id);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(repository));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(repository);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
                                 post("/repository/updateRepository")

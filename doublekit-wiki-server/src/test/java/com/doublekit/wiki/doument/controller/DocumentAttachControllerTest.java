@@ -1,6 +1,6 @@
 package com.doublekit.wiki.doument.controller;
 
-import com.alibaba.fastjson.JSONObject;
+import com.doublekit.utils.MapUtils;
 import com.doublekit.common.Result;
 import com.doublekit.apibox.client.mock.JMockit;
 import com.doublekit.wiki.config.TestConfig;
@@ -59,9 +59,8 @@ public class DocumentAttachControllerTest {
     public void test01ForSaveDocumentAttach() {
         DocumentAttach documentAttach = JMockit.mock(DocumentAttach.class);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(documentAttach));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(documentAttach);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
                                 post("/documentAttach/createDocumentAttach")
@@ -87,9 +86,8 @@ public class DocumentAttachControllerTest {
         DocumentAttach documentAttach = JMockit.mock(DocumentAttach.class);
         documentAttach.setId(id);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(documentAttach));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(documentAttach);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
                                 post("/documentAttach/updateDocumentAttach")
