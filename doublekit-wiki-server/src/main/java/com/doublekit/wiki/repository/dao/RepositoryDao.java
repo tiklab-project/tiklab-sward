@@ -1,23 +1,17 @@
 package com.doublekit.wiki.repository.dao;
 
 import com.doublekit.common.page.Pagination;
-import com.doublekit.dal.jpa.criterial.QueryBuilders;
-import com.doublekit.dal.jpa.criterial.model.DeleteCondition;
-import com.doublekit.dal.jpa.criterial.model.QueryCondition;
-import com.doublekit.user.user.entity.DmUserEntity;
-import com.doublekit.wiki.category.entity.CategoryEntity;
+import com.doublekit.dal.jpa.criterial.condition.DeleteCondition;
 import com.doublekit.wiki.common.CurrentRegUser;
 import com.doublekit.wiki.repository.entity.RepositoryEntity;
 import com.doublekit.wiki.repository.model.RepositoryQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
-import com.sun.org.apache.regexp.internal.RE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

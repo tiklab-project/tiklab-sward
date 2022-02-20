@@ -1,11 +1,10 @@
 package com.doublekit.wiki.category.dao;
 
 import com.doublekit.common.page.Pagination;
-import com.doublekit.dal.jpa.criterial.QueryBuilders;
-import com.doublekit.dal.jpa.criterial.model.DeleteCondition;
-import com.doublekit.dal.jpa.criterial.model.QueryCondition;
+import com.doublekit.dal.jpa.criterial.conditionbuilder.QueryBuilders;
+import com.doublekit.dal.jpa.criterial.condition.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.condition.QueryCondition;
 import com.doublekit.wiki.category.entity.CategoryEntity;
-import com.doublekit.wiki.category.model.Category;
 import com.doublekit.wiki.category.model.CategoryQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
 import com.doublekit.wiki.document.entity.DocumentEntity;

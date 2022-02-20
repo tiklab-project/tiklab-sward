@@ -1,7 +1,7 @@
 package com.doublekit.wiki.document.dao;
 
 import com.doublekit.common.page.Pagination;
-import com.doublekit.dal.jpa.criterial.model.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.condition.DeleteCondition;
 import com.doublekit.wiki.document.entity.ShareEntity;
 import com.doublekit.wiki.document.model.ShareQuery;
 import com.doublekit.dal.jpa.JpaTemplate;

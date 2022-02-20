@@ -3,15 +3,12 @@ package com.doublekit.wiki.category.service;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.common.page.Pagination;
 import com.doublekit.common.page.PaginationBuilder;
-import com.doublekit.dal.jpa.criterial.QueryBuilders;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.category.entity.CategoryEntity;
 import com.doublekit.wiki.category.model.Category;
 import com.doublekit.wiki.category.model.CategoryQuery;
-import com.doublekit.wiki.document.dao.DocumentDao;
-import com.doublekit.wiki.document.entity.DocumentEntity;
 import com.doublekit.wiki.document.model.Document;
 import com.doublekit.wiki.document.model.DocumentQuery;
 import com.doublekit.wiki.document.service.DocumentService;
@@ -24,7 +21,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**

@@ -1,7 +1,7 @@
 package com.doublekit.wiki.doument.codegen;
 
 import com.doublekit.codegen.CodeGeneratorTemplate;
-import com.doublekit.codegen.config.ModuleGeneratorConfig;
+import com.doublekit.codegen.config.CodeGeneratorConfig;
 import com.doublekit.codegen.config.ProjectGeneratorConfig;
 import com.doublekit.wiki.document.entity.DocumentTemplateEntity;
 import org.junit.Test;
@@ -18,8 +18,8 @@ public class DocumentTemplateCodeGeneratorTest extends CodeGeneratorTemplate {
     ProjectGeneratorConfig projectGeneratorConfig;
 
     @Override
-    protected ModuleGeneratorConfig getModuleGeneratorConfig() {
-        ModuleGeneratorConfig config = new ModuleGeneratorConfig();
+    protected CodeGeneratorConfig getCodeGeneratorConfig() {
+        CodeGeneratorConfig config = new CodeGeneratorConfig();
         config.setProjectGeneratorConfig(projectGeneratorConfig);
         config.setEntity(DocumentTemplateEntity.class);
         config.setPkg("com.doublekit.wiki.repository");
