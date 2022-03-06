@@ -1,7 +1,7 @@
 package com.doublekit.wiki.document.entity;
 
 
-import com.doublekit.dal.jpa.mapper.annotation.*;
+import com.doublekit.dal.jpa.annotation.*;
 
 import java.io.Serializable;
 

@@ -1,13 +1,12 @@
 package com.doublekit.wiki.category.model;
 
 import com.doublekit.common.BaseModel;
-import com.doublekit.dal.jpa.criteria.annotation.*;
-import com.doublekit.dal.jpa.criteria.model.Order;
-import com.doublekit.dal.jpa.criteria.model.OrderBuilders;
+import com.doublekit.dal.jpa.annotation.criteria.*;
+import com.doublekit.common.order.Order;
+import com.doublekit.common.order.OrderBuilders;
 import com.doublekit.common.page.Page;
 import com.doublekit.apibox.annotation.ApiModel;
 import com.doublekit.apibox.annotation.ApiProperty;
-import com.doublekit.dal.jpa.criteria.annotation.QueryTypeEnum;
 
 import java.util.List;
 
