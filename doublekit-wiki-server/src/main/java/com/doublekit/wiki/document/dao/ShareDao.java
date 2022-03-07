@@ -2,6 +2,8 @@ package com.doublekit.wiki.document.dao;
 
 import com.doublekit.common.page.Pagination;
 import com.doublekit.dal.jpa.criterial.condition.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.condition.QueryCondition;
+import com.doublekit.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import com.doublekit.wiki.document.entity.ShareEntity;
 import com.doublekit.wiki.document.model.ShareQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
@@ -74,10 +76,23 @@ public class ShareDao{
     }
 
     public List<ShareEntity> findShareList(ShareQuery shareQuery) {
-        return jpaTemplate.findList(shareQuery, ShareEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(ShareEntity.class)
+                .eq("shareLink", shareQuery.getShareLink())
+                .eq("authCode", shareQuery.getAuthCode())
+                .isNull("authCode")
+                .orders(shareQuery.getOrderParams())
+                .get();
+        return jpaTemplate.findList(queryCondition, ShareEntity.class);
     }
 
     public Pagination<ShareEntity> findSharePage(ShareQuery shareQuery) {
-        return jpaTemplate.findPage(shareQuery, ShareEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(ShareEntity.class)
+                .eq("shareLink", shareQuery.getShareLink())
+                .eq("authCode", shareQuery.getAuthCode())
+                .isNull("authCode")
+                .orders(shareQuery.getOrderParams())
+                .pagination(shareQuery.getPageParam())
+                .get();
+        return jpaTemplate.findPage(queryCondition, ShareEntity.class);
     }
 }

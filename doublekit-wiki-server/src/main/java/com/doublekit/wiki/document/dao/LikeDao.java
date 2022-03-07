@@ -2,6 +2,8 @@ package com.doublekit.wiki.document.dao;
 
 import com.doublekit.common.page.Pagination;
 import com.doublekit.dal.jpa.criterial.condition.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.condition.QueryCondition;
+import com.doublekit.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import com.doublekit.wiki.document.entity.LikeEntity;
 import com.doublekit.wiki.document.model.LikeQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
@@ -74,10 +76,23 @@ public class LikeDao{
     }
 
     public List<LikeEntity> findLikeList(LikeQuery likeQuery) {
-        return jpaTemplate.findList(likeQuery, LikeEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(LikeEntity.class)
+                .eq("toWhomId", likeQuery.getToWhomId())
+                .eq("likeType", likeQuery.getLikeType())
+                .eq("likeUser", likeQuery.getLikeUser())
+                .orders(likeQuery.getOrderParams())
+                .get();
+        return jpaTemplate.findList(queryCondition, LikeEntity.class);
     }
 
     public Pagination<LikeEntity> findLikePage(LikeQuery likeQuery) {
-        return jpaTemplate.findPage(likeQuery, LikeEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(LikeEntity.class)
+                .eq("toWhomId", likeQuery.getToWhomId())
+                .eq("likeType", likeQuery.getLikeType())
+                .eq("likeUser", likeQuery.getLikeUser())
+                .orders(likeQuery.getOrderParams())
+                .pagination(likeQuery.getPageParam())
+                .get();
+        return jpaTemplate.findPage(queryCondition, LikeEntity.class);
     }
 }

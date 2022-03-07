@@ -2,6 +2,7 @@ package com.doublekit.wiki.category.model;
 
 import com.doublekit.apibox.annotation.ApiModel;
 import com.doublekit.apibox.annotation.ApiProperty;
+import com.doublekit.beans.annotation.Mapper;
 import com.doublekit.beans.annotation.Mapping;
 import com.doublekit.beans.annotation.Mappings;
 import com.doublekit.common.BaseModel;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ApiModel
+@Mapper(targetAlias = "CategoryEntity")
 @Join
 public class Category extends BaseModel{
 

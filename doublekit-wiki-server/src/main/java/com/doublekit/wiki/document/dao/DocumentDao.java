@@ -2,6 +2,8 @@ package com.doublekit.wiki.document.dao;
 
 import com.doublekit.common.page.Pagination;
 import com.doublekit.dal.jpa.criterial.condition.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.condition.QueryCondition;
+import com.doublekit.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import com.doublekit.wiki.document.entity.DocumentEntity;
 import com.doublekit.wiki.document.model.DocumentQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
@@ -74,10 +76,25 @@ public class DocumentDao{
     }
 
     public List<DocumentEntity> findDocumentList(DocumentQuery documentQuery) {
-        return jpaTemplate.findList(documentQuery, DocumentEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentEntity.class)
+                .eq("id", documentQuery.getId())
+                .like("name", documentQuery.getName())
+                .eq("repositoryId", documentQuery.getRepositoryId())
+                .eq("categoryId", documentQuery.getCategoryId())
+                .orders(documentQuery.getOrderParams())
+                .get();
+        return jpaTemplate.findList(queryCondition, DocumentEntity.class);
     }
 
     public Pagination<DocumentEntity> findDocumentPage(DocumentQuery documentQuery) {
+        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentEntity.class)
+                .eq("id", documentQuery.getId())
+                .like("name", documentQuery.getName())
+                .eq("repositoryId", documentQuery.getRepositoryId())
+                .eq("categoryId", documentQuery.getCategoryId())
+                .orders(documentQuery.getOrderParams())
+                .pagination(documentQuery.getPageParam())
+                .get();
         return jpaTemplate.findPage(documentQuery, DocumentEntity.class);
     }
 }

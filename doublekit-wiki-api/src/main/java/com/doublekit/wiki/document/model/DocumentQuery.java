@@ -1,7 +1,6 @@
 package com.doublekit.wiki.document.model;
 
 import com.doublekit.common.page.Page;
-import com.doublekit.dal.jpa.annotation.criteria.*;
 import com.doublekit.common.order.Order;
 import com.doublekit.common.order.OrderBuilders;
 import com.doublekit.apibox.annotation.ApiModel;
@@ -11,30 +10,23 @@ import java.io.Serializable;
 import java.util.List;
 
 @ApiModel
-@CriteriaQuery(entityAlias = "DocumentEntity")
 public class DocumentQuery implements Serializable {
         @ApiProperty(name ="orderParams",desc = "排序参数")
-        @OrderField
         private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
 
         @ApiProperty(name ="pageParam",desc = "分页参数")
-        @PageField
         private Page pageParam = new Page();
 
         @ApiProperty(name ="categoryId",desc = "目录id")
-        @QueryField(type = QueryTypeEnum.equal)
         private String categoryId;
 
         @ApiProperty(name ="repositoryId",desc = "空间id")
-        @QueryField(type = QueryTypeEnum.equal)
         private String repositoryId;
 
         @ApiProperty(name ="name",desc = "文档名字")
-        @QueryField(type = QueryTypeEnum.like)
         private String name;
 
         @ApiProperty(name ="id",desc = "文档id")
-        @QueryField(type = QueryTypeEnum.equal)
         private String id;
 
         public List<Order> getOrderParams() {

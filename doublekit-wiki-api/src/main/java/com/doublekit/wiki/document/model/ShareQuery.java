@@ -2,7 +2,6 @@ package com.doublekit.wiki.document.model;
 
 import com.doublekit.common.BaseModel;
 import com.doublekit.common.page.Page;
-import com.doublekit.dal.jpa.annotation.criteria.*;
 import com.doublekit.common.order.Order;
 import com.doublekit.common.order.OrderBuilders;
 import com.doublekit.apibox.annotation.ApiModel;
@@ -11,25 +10,20 @@ import com.doublekit.apibox.annotation.ApiProperty;
 import java.util.List;
 
 @ApiModel
-@CriteriaQuery(entityAlias = "ShareEntity")
 public class ShareQuery  extends BaseModel {
         @ApiProperty(name ="orderParams",desc = "排序参数")
-        @OrderField
         private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
 
         @ApiProperty(name ="pageParam",desc = "分页参数")
-        @PageField
         private Page pageParam = new Page();
 
         @ApiProperty(name ="shareLink",desc = "分享链接")
-        @QueryField(type = QueryTypeEnum.equal)
         private String shareLink;
 
         @ApiProperty(name="whetherAuthCode",desc="是否创建验证码  true  false")
         private java.lang.Boolean whetherAuthCode;
 
         @ApiProperty(name ="authCode",desc = "验证码")
-        @QueryField(type = QueryTypeEnum.equal)
         private String authCode ;
 
         public List<Order> getOrderParams() {

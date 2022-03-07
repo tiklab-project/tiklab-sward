@@ -2,6 +2,8 @@ package com.doublekit.wiki.document.dao;
 
 import com.doublekit.common.page.Pagination;
 import com.doublekit.dal.jpa.criterial.condition.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.condition.QueryCondition;
+import com.doublekit.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import com.doublekit.wiki.document.entity.DocumentAttachEntity;
 import com.doublekit.wiki.document.model.DocumentAttachQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
@@ -74,10 +76,17 @@ public class DocumentAttachDao{
     }
 
     public List<DocumentAttachEntity> findDocumentAttachList(DocumentAttachQuery documentAttachQuery) {
-        return jpaTemplate.findList(documentAttachQuery, DocumentAttachEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentAttachEntity.class)
+                .orders(documentAttachQuery.getOrderParams())
+                .get();
+        return jpaTemplate.findList(queryCondition, DocumentAttachEntity.class);
     }
 
     public Pagination<DocumentAttachEntity> findDocumentAttachPage(DocumentAttachQuery documentAttachQuery) {
-        return jpaTemplate.findPage(documentAttachQuery, DocumentAttachEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentAttachEntity.class)
+                .orders(documentAttachQuery.getOrderParams())
+                .pagination(documentAttachQuery.getPageParam())
+                .get();
+        return jpaTemplate.findPage(queryCondition, DocumentAttachEntity.class);
     }
 }

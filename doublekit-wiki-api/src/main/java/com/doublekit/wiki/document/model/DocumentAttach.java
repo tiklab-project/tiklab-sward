@@ -2,6 +2,7 @@ package com.doublekit.wiki.document.model;
 
 import com.doublekit.apibox.annotation.ApiModel;
 import com.doublekit.apibox.annotation.ApiProperty;
+import com.doublekit.beans.annotation.Mapper;
 import com.doublekit.beans.annotation.Mapping;
 import com.doublekit.beans.annotation.Mappings;
 import com.doublekit.common.BaseModel;
@@ -12,6 +13,7 @@ import com.doublekit.join.annotation.JoinQuery;
 import javax.validation.constraints.NotNull;
 
 @ApiModel
+@Mapper(targetAlias = "DocumentAttachEntity")
 @Join
 public class DocumentAttach extends BaseModel{
 

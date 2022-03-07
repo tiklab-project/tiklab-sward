@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @ApiModel
+@Mapper(targetAlias = "ShareEntity")
 public class Share extends BaseModel{
 
     @ApiProperty(name="id",desc="id")

@@ -101,10 +101,19 @@ public class CategoryDao{
     }
 
     public List<CategoryEntity> findCategoryList(CategoryQuery categoryQuery) {
-        return jpaTemplate.findList(categoryQuery, CategoryEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(CategoryEntity.class)
+                .eq("repositoryId", categoryQuery.getRepositoryId())
+                .orders(categoryQuery.getOrderParams())
+                .get();
+        return jpaTemplate.findList(queryCondition, CategoryEntity.class);
     }
 
     public Pagination<CategoryEntity> findCategoryPage(CategoryQuery categoryQuery) {
-        return jpaTemplate.findPage(categoryQuery, CategoryEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(CategoryEntity.class)
+                .eq("repositoryId", categoryQuery.getRepositoryId())
+                .orders(categoryQuery.getOrderParams())
+                .pagination(categoryQuery.getPageParam())
+                .get();
+        return jpaTemplate.findPage(queryCondition, CategoryEntity.class);
     }
 }

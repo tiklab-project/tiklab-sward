@@ -2,6 +2,8 @@ package com.doublekit.wiki.document.dao;
 
 import com.doublekit.common.page.Pagination;
 import com.doublekit.dal.jpa.criterial.condition.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.condition.QueryCondition;
+import com.doublekit.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import com.doublekit.wiki.document.entity.DocumentTemplateEntity;
 import com.doublekit.wiki.document.model.DocumentTemplateQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
@@ -74,10 +76,19 @@ public class DocumentTemplateDao{
     }
 
     public List<DocumentTemplateEntity> findDocumentTemplateList(DocumentTemplateQuery documentTemplateQuery) {
-        return jpaTemplate.findList(documentTemplateQuery, DocumentTemplateEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentTemplateEntity.class)
+                .like("name", documentTemplateQuery.getName())
+                .orders(documentTemplateQuery.getOrderParams())
+                .get();
+        return jpaTemplate.findList(queryCondition, DocumentTemplateEntity.class);
     }
 
     public Pagination<DocumentTemplateEntity> findDocumentTemplatePage(DocumentTemplateQuery documentTemplateQuery) {
+        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentTemplateEntity.class)
+                .like("name", documentTemplateQuery.getName())
+                .orders(documentTemplateQuery.getOrderParams())
+                .pagination(documentTemplateQuery.getPageParam())
+                .get();
         return jpaTemplate.findPage(documentTemplateQuery, DocumentTemplateEntity.class);
     }
 }

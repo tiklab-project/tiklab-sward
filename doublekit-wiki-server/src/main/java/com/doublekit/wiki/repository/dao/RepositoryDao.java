@@ -2,6 +2,8 @@ package com.doublekit.wiki.repository.dao;
 
 import com.doublekit.common.page.Pagination;
 import com.doublekit.dal.jpa.criterial.condition.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.condition.QueryCondition;
+import com.doublekit.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import com.doublekit.wiki.common.CurrentRegUser;
 import com.doublekit.wiki.repository.entity.RepositoryEntity;
 import com.doublekit.wiki.repository.model.RepositoryQuery;
@@ -72,11 +74,16 @@ public class RepositoryDao{
     }
 
     public List<RepositoryEntity> findRepositoryList(List<String> idList) {
+
         return jpaTemplate.findList(RepositoryEntity.class,idList);
     }
 
     public List<RepositoryEntity> findRepositoryList(RepositoryQuery repositoryQuery) {
-        return jpaTemplate.findList(repositoryQuery, RepositoryEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(RepositoryEntity.class)
+                .like("name", repositoryQuery.getName())
+                .orders(repositoryQuery.getOrderParams())
+                .get();
+        return jpaTemplate.findList(queryCondition, RepositoryEntity.class);
     }
 
     public Pagination<RepositoryEntity> findRepositoryPage(RepositoryQuery repositoryQuery) {

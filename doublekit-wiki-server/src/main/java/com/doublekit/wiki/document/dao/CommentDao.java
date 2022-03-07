@@ -2,6 +2,8 @@ package com.doublekit.wiki.document.dao;
 
 import com.doublekit.common.page.Pagination;
 import com.doublekit.dal.jpa.criterial.condition.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.condition.QueryCondition;
+import com.doublekit.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import com.doublekit.wiki.document.entity.CommentEntity;
 import com.doublekit.wiki.document.model.CommentQuery;
 import com.doublekit.dal.jpa.JpaTemplate;
@@ -74,10 +76,19 @@ public class CommentDao{
     }
 
     public List<CommentEntity> findCommentList(CommentQuery commentQuery) {
-        return jpaTemplate.findList(commentQuery, CommentEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(CommentEntity.class)
+                .eq("documentId", commentQuery.getDocumentId())
+                .orders(commentQuery.getOrderParams())
+                .get();
+        return jpaTemplate.findList(queryCondition, CommentEntity.class);
     }
 
     public Pagination<CommentEntity> findCommentPage(CommentQuery commentQuery) {
-        return jpaTemplate.findPage(commentQuery, CommentEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(CommentEntity.class)
+                .eq("documentId", commentQuery.getDocumentId())
+                .orders(commentQuery.getOrderParams())
+                .pagination(commentQuery.getPageParam())
+                .get();
+        return jpaTemplate.findPage(queryCondition, CommentEntity.class);
     }
 }
