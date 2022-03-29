@@ -17,6 +17,7 @@ public class DocumentEntity implements Serializable {
     //名称
     @Column(name = "name",length = 64,notNull = true)
     private String name;
+
     //知识库类别
     @Column(name = "type_id",length = 32,notNull = true)
     private String typeId="text";
@@ -102,4 +103,6 @@ public class DocumentEntity implements Serializable {
     public void setMaster(String master) {
         this.master = master;
     }
+
+
 }

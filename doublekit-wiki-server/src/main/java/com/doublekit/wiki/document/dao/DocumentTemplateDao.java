@@ -89,6 +89,7 @@ public class DocumentTemplateDao{
                 .orders(documentTemplateQuery.getOrderParams())
                 .pagination(documentTemplateQuery.getPageParam())
                 .get();
-        return jpaTemplate.findPage(documentTemplateQuery, DocumentTemplateEntity.class);
+
+        return jpaTemplate.findPage(queryCondition, DocumentTemplateEntity.class);
     }
 }
