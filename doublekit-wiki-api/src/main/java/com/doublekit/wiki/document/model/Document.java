@@ -27,9 +27,8 @@ public class Document extends BaseModel{
     @ApiProperty(name="name",desc="name",required = true)
     private java.lang.String name;
 
-    @NotNull
     @ApiProperty(name="typeId",desc="typeId",required = true)
-    private java.lang.String typeId="123";
+    private java.lang.String typeId;
 
 
     @ApiProperty(name="master",desc="负责人",eg="@selectOne")

@@ -60,9 +60,9 @@ public class DocumentServiceImpl implements DocumentService {
     public void updateDocument(@NotNull @Valid Document document) {
 
         DocumentEntity documentEntity = BeanMapper.map(document, DocumentEntity.class);
-        if (ObjectUtils.isEmpty(document.getCategory())){
-            documentEntity.setCategoryId("");
-        }
+//        if (ObjectUtils.isEmpty(document.getCategory())){
+//            documentEntity.setCategoryId("");
+//        }
         documentDao.updateDocument(documentEntity);
     }
 
