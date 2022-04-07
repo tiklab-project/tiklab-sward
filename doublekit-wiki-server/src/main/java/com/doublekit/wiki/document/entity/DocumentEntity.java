@@ -20,7 +20,7 @@ public class DocumentEntity implements Serializable {
 
     //知识库类别
     @Column(name = "type_id",length = 32,notNull = true)
-    private String typeId="text";
+    private String typeId;
     //知识库id
     @Column(name = "repository_id",length = 32,notNull = true)
     private String repositoryId;
