@@ -1,13 +1,13 @@
 package com.doublekit.wiki.repository.dao;
 
 import com.doublekit.common.page.Pagination;
+import com.doublekit.dal.jpa.JpaTemplate;
 import com.doublekit.dal.jpa.criterial.condition.DeleteCondition;
 import com.doublekit.dal.jpa.criterial.condition.QueryCondition;
 import com.doublekit.dal.jpa.criterial.conditionbuilder.QueryBuilders;
-import com.doublekit.wiki.common.CurrentRegUser;
+import com.doublekit.utils.context.LoginContext;
 import com.doublekit.wiki.repository.entity.RepositoryEntity;
 import com.doublekit.wiki.repository.model.RepositoryQuery;
-import com.doublekit.dal.jpa.JpaTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +87,7 @@ public class RepositoryDao{
     }
 
     public Pagination<RepositoryEntity> findRepositoryPage(RepositoryQuery repositoryQuery) {
-        String userId = CurrentRegUser.getInstace().findCreatUser();
+        String userId = LoginContext.getLoginId();
         String sql = "select DISTINCT w.id,w.name,w.type_id,w.master,w.description,w.limits from wiki_repository w left join orc_dm_user d on w.id = d.domain_id    ";
         sql = sql.concat("where w.limits = '1' and d.user_id = ? or w.limits = '0'");
         Pagination<RepositoryEntity> repositoryEntityList =
