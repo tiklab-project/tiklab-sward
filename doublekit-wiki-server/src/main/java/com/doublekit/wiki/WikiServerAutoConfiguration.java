@@ -1,4 +1,4 @@
-package com.doublekit.wiki.config;
+package com.doublekit.wiki;
 
 
 import com.doublekit.datafly.annotation.DataFly;

@@ -1,6 +1,5 @@
-package com.doublekit.wiki.annotation;
+package com.doublekit.wiki;
 
-import com.doublekit.wiki.config.WikiServerAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
