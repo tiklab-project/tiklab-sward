@@ -95,6 +95,6 @@ public class DocumentDao{
                 .orders(documentQuery.getOrderParams())
                 .pagination(documentQuery.getPageParam())
                 .get();
-        return jpaTemplate.findPage(documentQuery, DocumentEntity.class);
+        return jpaTemplate.findPage(queryCondition, DocumentEntity.class);
     }
 }
