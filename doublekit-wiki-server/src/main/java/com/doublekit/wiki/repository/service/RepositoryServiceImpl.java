@@ -3,7 +3,7 @@ package com.doublekit.wiki.repository.service;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.core.page.Pagination;
 import com.doublekit.core.page.PaginationBuilder;
-import com.doublekit.dss.client.DssClient;
+import com.doublekit.dis.client.DisClient;
 import com.doublekit.eam.common.Ticket;
 import com.doublekit.eam.common.TicketContext;
 import com.doublekit.eam.common.TicketHolder;
@@ -52,7 +52,7 @@ public class RepositoryServiceImpl implements RepositoryService {
     DmRoleService dmRoleService;
 
     @Autowired
-    DssClient dssClient;
+    DisClient dssClient;
 
     @Override
     public String createRepository(@NotNull @Valid Repository repository) {
