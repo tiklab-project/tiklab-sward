@@ -12,7 +12,6 @@ import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.category.model.Category;
 import com.doublekit.wiki.repository.model.Repository;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @ApiModel

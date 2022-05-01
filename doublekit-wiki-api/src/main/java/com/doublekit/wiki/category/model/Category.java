@@ -12,7 +12,6 @@ import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.document.model.Document;
 import com.doublekit.wiki.repository.model.Repository;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
