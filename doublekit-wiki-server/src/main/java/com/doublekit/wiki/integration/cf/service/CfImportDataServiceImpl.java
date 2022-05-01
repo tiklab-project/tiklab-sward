@@ -2,7 +2,7 @@ package com.doublekit.wiki.integration.cf.service;
 
 
 import com.alibaba.fastjson.JSON;
-import com.doublekit.common.exception.ApplicationException;
+import com.doublekit.core.exception.ApplicationException;
 import com.doublekit.dal.jpa.JpaTemplate;
 import com.doublekit.wiki.category.dao.CategoryDao;
 import com.doublekit.wiki.category.entity.CategoryEntity;
@@ -12,7 +12,6 @@ import com.doublekit.wiki.repository.dao.RepositoryDao;
 import com.doublekit.wiki.repository.entity.RepositoryEntity;
 import com.doublekit.wiki.integration.cf.util.UncompressUtil;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.juli.logging.Log;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;

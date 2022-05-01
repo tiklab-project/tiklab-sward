@@ -1,9 +1,9 @@
 package com.doublekit.wiki.category.model;
 
-import com.doublekit.common.BaseModel;
-import com.doublekit.common.order.Order;
-import com.doublekit.common.order.OrderBuilders;
-import com.doublekit.common.page.Page;
+import com.doublekit.core.BaseModel;
+import com.doublekit.core.order.Order;
+import com.doublekit.core.order.OrderBuilders;
+import com.doublekit.core.page.Page;
 import com.doublekit.apibox.annotation.ApiModel;
 import com.doublekit.apibox.annotation.ApiProperty;
 

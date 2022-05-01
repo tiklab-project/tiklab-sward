@@ -1,8 +1,8 @@
 package com.doublekit.wiki.document.service;
 
 import com.doublekit.beans.BeanMapper;
-import com.doublekit.common.page.Pagination;
-import com.doublekit.common.page.PaginationBuilder;
+import com.doublekit.core.page.Pagination;
+import com.doublekit.core.page.PaginationBuilder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.wiki.document.dao.DocumentTemplateDao;

@@ -1,8 +1,8 @@
 package com.doublekit.wiki.document.service;
 
 import com.doublekit.beans.BeanMapper;
-import com.doublekit.common.page.Pagination;
-import com.doublekit.common.page.PaginationBuilder;
+import com.doublekit.core.page.Pagination;
+import com.doublekit.core.page.PaginationBuilder;
 import com.doublekit.eam.common.Ticket;
 import com.doublekit.eam.common.TicketContext;
 import com.doublekit.eam.common.TicketHolder;

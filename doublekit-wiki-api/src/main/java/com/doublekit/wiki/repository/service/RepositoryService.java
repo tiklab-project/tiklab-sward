@@ -1,6 +1,6 @@
 package com.doublekit.wiki.repository.service;
 
-import com.doublekit.common.page.Pagination;
+import com.doublekit.core.page.Pagination;
 
 import com.doublekit.join.annotation.FindAll;
 import com.doublekit.join.annotation.FindList;
