@@ -1,14 +1,14 @@
 package com.doublekit.wiki;
 
 
-import com.doublekit.datafly.annotation.DataFly;
+import com.doublekit.dsm.annotation.Dsm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@DataFly(modules = "wiki")
+@Dsm(modules = "wiki")
 @ComponentScan({"com.doublekit.wiki"})
 public class WikiServerAutoConfiguration {
 
