@@ -52,7 +52,7 @@ public class RepositoryServiceImpl implements RepositoryService {
     DmRoleService dmRoleService;
 
     @Autowired
-    DisClient dssClient;
+    DisClient disClient;
 
     @Override
     public String createRepository(@NotNull @Valid Repository repository) {
@@ -72,7 +72,7 @@ public class RepositoryServiceImpl implements RepositoryService {
 
         //构建索引
         Repository entity = findRepository(id);
-        dssClient.save(entity);
+        disClient.save(entity);
         return id;
     }
 
