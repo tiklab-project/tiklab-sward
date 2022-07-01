@@ -3,9 +3,9 @@ package com.doublekit.wiki.document.service;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.core.page.Pagination;
 import com.doublekit.core.page.PaginationBuilder;
-import com.doublekit.eam.common.Ticket;
-import com.doublekit.eam.common.TicketContext;
-import com.doublekit.eam.common.TicketHolder;
+import com.doublekit.eam.common.EamTicket;
+import com.doublekit.eam.common.EamTicketContext;
+import com.doublekit.eam.common.EamTicketHolder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.user.user.model.User;
@@ -190,8 +190,8 @@ public class DocumentServiceImpl implements DocumentService {
      * @param
      */
     public String findCreatUser(){
-        String ticketId = TicketHolder.get();
-        Ticket ticket = TicketContext.get(ticketId);
+        String ticketId = EamTicketHolder.get();
+        EamTicket ticket = EamTicketContext.get(ticketId);
         return ticket.getUserId();
     }
 }
