@@ -3,9 +3,6 @@ package com.doublekit.wiki.document.service;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.core.page.Pagination;
 import com.doublekit.core.page.PaginationBuilder;
-import com.doublekit.eam.common.Ticket;
-import com.doublekit.eam.common.TicketContext;
-import com.doublekit.eam.common.TicketHolder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.user.user.model.User;
@@ -48,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
     public String createComment(@NotNull @Valid Comment comment) {
         CommentEntity commentEntity = BeanMapper.map(comment, CommentEntity.class);
         //添加评论人
-        commentEntity.setUser(findCreatUser());
+//        commentEntity.setUser(findCreatUser());
         commentEntity.setCreateTime(new Date());
         if (!ObjectUtils.isEmpty(commentEntity.getParentCommentId())){
             CommentEntity parentComment = commentDao.findComment(commentEntity.getParentCommentId());
@@ -138,12 +135,6 @@ public class CommentServiceImpl implements CommentService {
      * 查询用户（创建人）id
      * @param*/
 
-    public String findCreatUser(){
-        String ticketId = TicketHolder.get();
-        Ticket ticket = TicketContext.get(ticketId);
-        return ticket.getUserId();
-    }
-
     /**
      * 第一级以及下面的评论
      * @param
@@ -176,12 +167,12 @@ public class CommentServiceImpl implements CommentService {
                     comment.setIsLike("false");
                 }else {
                     //根据用户id判断该用户是否点赞了
-                    List<LikeEntity> collect1 = likeList.stream().filter(a -> findCreatUser().equals(a.getLikeUser())).collect(Collectors.toList());
-                    if (CollectionUtils.isNotEmpty(collect1)){
-                        comment.setIsLike("true");
-                    }else {
-                        comment.setIsLike("false");
-                    }
+//                    List<LikeEntity> collect1 = likeList.stream().filter(a -> findCreatUser().equals(a.getLikeUser())).collect(Collectors.toList());
+//                    if (CollectionUtils.isNotEmpty(collect1)){
+//                        comment.setIsLike("true");
+//                    }else {
+//                        comment.setIsLike("false");
+//                    }
                 }
                 List<Like> likes = BeanMapper.mapList(likeList, Like.class);
                 joinTemplate.joinQuery(likes);

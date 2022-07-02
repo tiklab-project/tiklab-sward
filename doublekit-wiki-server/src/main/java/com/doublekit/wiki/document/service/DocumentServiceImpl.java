@@ -3,9 +3,6 @@ package com.doublekit.wiki.document.service;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.core.page.Pagination;
 import com.doublekit.core.page.PaginationBuilder;
-import com.doublekit.eam.common.Ticket;
-import com.doublekit.eam.common.TicketContext;
-import com.doublekit.eam.common.TicketHolder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.user.user.model.User;
@@ -163,12 +160,12 @@ public class DocumentServiceImpl implements DocumentService {
                 document.setIsLike("false");
             }else {
                 //根据用户id判断该用户是否点赞了
-                List<LikeEntity> collect1 = likeList.stream().filter(a -> findCreatUser().equals(a.getLikeUser())).collect(Collectors.toList());
-                if (CollectionUtils.isNotEmpty(collect1)){
-                    document.setIsLike("true");
-                }else {
-                    document.setIsLike("false");
-                }
+//                List<LikeEntity> collect1 = likeList.stream().filter(a -> findCreatUser().equals(a.getLikeUser())).collect(Collectors.toList());
+//                if (CollectionUtils.isNotEmpty(collect1)){
+//                    document.setIsLike("true");
+//                }else {
+//                    document.setIsLike("false");
+//                }
             }
             List<Like> likes = BeanMapper.mapList(likeList, Like.class);
             joinTemplate.joinQuery(likes);
@@ -189,9 +186,9 @@ public class DocumentServiceImpl implements DocumentService {
      * 查询登录用户（创建人）id
      * @param
      */
-    public String findCreatUser(){
-        String ticketId = TicketHolder.get();
-        Ticket ticket = TicketContext.get(ticketId);
-        return ticket.getUserId();
-    }
+//    public String findCreatUser(){
+//        String ticketId = TicketHolder.get();
+//        Ticket ticket = TicketContext.get(ticketId);
+//        return ticket.getUserId();
+//    }
 }

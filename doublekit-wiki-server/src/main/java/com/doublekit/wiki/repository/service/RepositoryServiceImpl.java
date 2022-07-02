@@ -4,9 +4,6 @@ import com.doublekit.beans.BeanMapper;
 import com.doublekit.core.page.Pagination;
 import com.doublekit.core.page.PaginationBuilder;
 import com.doublekit.dss.client.DssClient;
-import com.doublekit.eam.common.Ticket;
-import com.doublekit.eam.common.TicketContext;
-import com.doublekit.eam.common.TicketHolder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.privilege.role.service.DmRoleService;
 import com.doublekit.rpc.annotation.Exporter;
@@ -68,7 +65,7 @@ public class RepositoryServiceImpl implements RepositoryService {
         dmUserService.createDmUser(dmUser);
 
         //初始化项目权限
-        dmRoleService.initDmRoles(id,findCreatUser());
+//        dmRoleService.initDmRoles(id,findCreatUser());
 
         //构建索引
         Repository entity = findRepository(id);
@@ -160,10 +157,10 @@ public class RepositoryServiceImpl implements RepositoryService {
      * 查询用户（创建人）id
      * @param
      */
-    public String findCreatUser(){
-        String ticketId = TicketHolder.get();
-        Ticket ticket = TicketContext.get(ticketId);
-        return ticket.getUserId();
-    }
+//    public String findCreatUser(){
+//        String ticketId = TicketHolder.get();
+//        Ticket ticket = TicketContext.get(ticketId);
+//        return ticket.getUserId();
+//    }
 
 }

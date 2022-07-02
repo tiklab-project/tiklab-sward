@@ -3,9 +3,6 @@ package com.doublekit.wiki.document.service;
 import com.doublekit.beans.BeanMapper;
 import com.doublekit.core.page.Pagination;
 import com.doublekit.core.page.PaginationBuilder;
-import com.doublekit.eam.common.Ticket;
-import com.doublekit.eam.common.TicketContext;
-import com.doublekit.eam.common.TicketHolder;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.wiki.document.dao.LikeDao;
@@ -38,14 +35,14 @@ public class LikeServiceImpl implements LikeService {
         LikeQuery likeQuery = new LikeQuery();
         likeQuery.setLikeType(like.getLikeType());
         likeQuery.setToWhomId(like.getToWhomId());
-        likeQuery.setLikeUser(findCreatUser());
+//        likeQuery.setLikeUser(findCreatUser());
         List<LikeEntity> likeList = likeDao.findLikeList(likeQuery);
         if (CollectionUtils.isNotEmpty(likeList)){
             return "已经点过赞了";
         }
         LikeEntity likeEntity = BeanMapper.map(like, LikeEntity.class);
         //添加点赞人
-        likeEntity.setLikeUser(findCreatUser());
+//        likeEntity.setLikeUser(findCreatUser());
         return likeDao.createLike(likeEntity);
     }
 
@@ -116,17 +113,6 @@ public class LikeServiceImpl implements LikeService {
         joinTemplate.joinQuery(likeList);
 
         return PaginationBuilder.build(pagination,likeList);
-    }
-
-
-    /**
-     * 查询用户（创建人）id
-     * @param
-     */
-    public String findCreatUser(){
-        String ticketId = TicketHolder.get();
-        Ticket ticket = TicketContext.get(ticketId);
-        return ticket.getUserId();
     }
 
 }
