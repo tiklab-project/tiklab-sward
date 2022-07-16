@@ -7,6 +7,7 @@ import com.doublekit.dal.jpa.annotation.Id;
 import com.doublekit.dal.jpa.annotation.Table;import com.doublekit.dal.jpa.annotation.Entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity @Table(name="wiki_repository")
 public class RepositoryEntity implements Serializable {
@@ -31,6 +32,10 @@ public class RepositoryEntity implements Serializable {
     //权限范围 0 全部可见 1成员可见
     @Column(name = "limits",length = 32,notNull = true)
     private String limits;
+
+    //添加时间
+    @Column(name = "create_time")
+    private Date createTime;
 
     //描述
     @Column(name = "description",length = 64)
@@ -82,5 +87,13 @@ public class RepositoryEntity implements Serializable {
 
     public void setLimits(String limits) {
         this.limits = limits;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

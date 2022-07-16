@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,7 +55,11 @@ public class RepositoryServiceImpl implements RepositoryService {
 
     @Override
     public String createRepository(@NotNull @Valid Repository repository) {
+        Date date = new java.sql.Date(new Date().getTime());
+        repository.setCreateTime(date);
         RepositoryEntity repositoryEntity = BeanMapper.map(repository, RepositoryEntity.class);
+
+
 
         String id = repositoryDao.createRepository(repositoryEntity);
         String masterId = repository.getMaster().getId();

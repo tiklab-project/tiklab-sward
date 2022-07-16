@@ -4,6 +4,7 @@ CREATE TABLE wiki_repository(
         type_id VARCHAR(32) NOT NULL,
         master VARCHAR(32) NOT NULL,
         limits VARCHAR(32) NOT NULL,
+        create_time VARCHAR(32) NOT NULL,
         description VARCHAR(64)
 );
 
