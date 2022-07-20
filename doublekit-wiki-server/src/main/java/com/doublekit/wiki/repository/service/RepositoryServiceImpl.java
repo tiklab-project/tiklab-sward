@@ -7,6 +7,7 @@ import com.doublekit.dss.client.DssClient;
 import com.doublekit.join.JoinTemplate;
 import com.doublekit.privilege.role.service.DmRoleService;
 import com.doublekit.rpc.annotation.Exporter;
+import com.doublekit.rpc.annotation.Reference;
 import com.doublekit.user.user.model.DmUser;
 import com.doublekit.user.user.model.User;
 import com.doublekit.user.user.service.DmUserService;
@@ -74,8 +75,8 @@ public class RepositoryServiceImpl implements RepositoryService {
 //        dmRoleService.initDmRoles(id,findCreatUser());
 
         //构建索引
-        Repository entity = findRepository(id);
-        disClient.save(entity);
+//        Repository entity = findRepository(id);
+//        disClient.save(entity);
         return id;
     }
 

@@ -88,7 +88,7 @@ public class RepositoryDao{
 
     public Pagination<RepositoryEntity> findRepositoryPage(RepositoryQuery repositoryQuery) {
         String userId = LoginContext.getLoginId();
-        String sql = "select DISTINCT w.id,w.name,w.type_id,w.master,w.description,w.limits,w.create_time from wiki_repository w left join orc_dm_user d on w.id = d.domain_id    ";
+        String sql = "select DISTINCT w.id,w.name,w.type_id,w.master,w.description,w.limits,w.create_time from wiki_repository w left join orc_dm_user d on w.id = d.domain_id ";
         sql = sql.concat("where w.limits = '1' and d.user_id = ? or w.limits = '0'");
         Pagination<RepositoryEntity> repositoryEntityList =
                 this.jpaTemplate.getJdbcTemplate().findPage(sql,new Object[]{userId},repositoryQuery.getPageParam(),new BeanPropertyRowMapper(RepositoryEntity.class));

@@ -142,7 +142,6 @@ public class CategoryServiceImpl implements CategoryService {
         List<Document> collect = documentList.stream().filter(a -> ObjectUtils.isEmpty(a.getCategory())).collect(Collectors.toList());
         //查询一级目录
         List<Category> topCategoryList = findTopCategoryList(categoryMethodList);
-
         //查找并设置子分类列表
         if(topCategoryList != null){
             for(Category topCategory:topCategoryList){
@@ -151,10 +150,15 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         if (CollectionUtils.isNotEmpty(topCategoryList)){
-            objects.add(topCategoryList);
+            for(Category topCategory:topCategoryList){
+                objects.add(topCategory);
+            }
+
         }
         if(CollectionUtils.isNotEmpty(collect)){
-            objects.add(collect);
+            for(Document document:collect){
+                objects.add(document);
+            }
         }
         return objects;
     }

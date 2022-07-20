@@ -64,11 +64,7 @@
             <artifactId>doublekit-join-spring-boot-starter</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-message-spring-boot-starter</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>com.doublekit</groupId>
             <artifactId>doublekit-codegen-core</artifactId>
@@ -77,23 +73,38 @@
         <!--pcs-->
         <dependency>
             <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-user-spring-boot-starter</artifactId>
+            <artifactId>doublekit-user-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-eam-spring-boot-starter</artifactId>
+            <artifactId>doublekit-eam-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-privilege-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-privilege-spring-boot-starter</artifactId>
+            <artifactId>doublekit-licence-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.doublekit</groupId>
-            <artifactId>doublekit-plugin-spring-boot-starter</artifactId>
+            <artifactId>doublekit-form-api</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-flow-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.doublekit</groupId>
+            <artifactId>doublekit-licence-server</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.doublekit</groupId>
