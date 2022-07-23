@@ -3,7 +3,9 @@ package com.doublekit.wiki.repository.dao;
 import com.doublekit.core.page.Pagination;
 import com.doublekit.dal.jpa.JpaTemplate;
 import com.doublekit.dal.jpa.criterial.condition.DeleteCondition;
+import com.doublekit.dal.jpa.criterial.condition.OrQueryCondition;
 import com.doublekit.dal.jpa.criterial.condition.QueryCondition;
+import com.doublekit.dal.jpa.criterial.conditionbuilder.OrQueryBuilders;
 import com.doublekit.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import com.doublekit.utils.context.LoginContext;
 import com.doublekit.wiki.repository.entity.RepositoryEntity;
@@ -87,12 +89,21 @@ public class RepositoryDao{
     }
 
     public Pagination<RepositoryEntity> findRepositoryPage(RepositoryQuery repositoryQuery) {
-        String userId = LoginContext.getLoginId();
-        String sql = "select DISTINCT w.id,w.name,w.type_id,w.master,w.description,w.limits,w.create_time from wiki_repository w left join orc_dm_user d on w.id = d.domain_id ";
-        sql = sql.concat("where w.limits = '1' and d.user_id = ? or w.limits = '0'");
-        Pagination<RepositoryEntity> repositoryEntityList =
-                this.jpaTemplate.getJdbcTemplate().findPage(sql,new Object[]{userId},repositoryQuery.getPageParam(),new BeanPropertyRowMapper(RepositoryEntity.class));
+
+        QueryBuilders queryBuilders = QueryBuilders.createQuery(RepositoryEntity.class, "rs");
+        OrQueryCondition orQueryBuildCondition = OrQueryBuilders.instance()
+                .eq("limits",0)
+                .in("id",repositoryQuery.getRepositoryIds())
+                .get();
+        QueryCondition queryCondition = queryBuilders.or(orQueryBuildCondition)
+                .orders(repositoryQuery.getOrderParams())
+                .pagination(repositoryQuery.getPageParam())
+                .get();
+//        String sql = "select DISTINCT w.id,w.name,w.type_id,w.master,w.description,w.limits,w.create_time from wiki_repository w left join orc_dm_user d on w.id = d.domain_id ";
+//        sql = sql.concat("where w.limits = '1' and d.user_id = ? or w.limits = '0'");
+//        Pagination<RepositoryEntity> repositoryEntityList =
+//                this.jpaTemplate.getJdbcTemplate().findPage(sql,new Object[]{userId},repositoryQuery.getPageParam(),new BeanPropertyRowMapper(RepositoryEntity.class));
 //                (sql, new String[]{userId}, new BeanPropertyRowMapper(RepositoryEntity.class));;
-        return repositoryEntityList;
+        return jpaTemplate.findPage(queryCondition, RepositoryEntity.class);
     }
 }

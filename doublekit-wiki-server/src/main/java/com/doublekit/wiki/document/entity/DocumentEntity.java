@@ -1,9 +1,13 @@
 package com.doublekit.wiki.document.entity;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.doublekit.dal.jpa.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name="wiki_document")
@@ -11,33 +15,36 @@ public class DocumentEntity implements Serializable {
 
     @Id
     @GeneratorValue
-    @Column(name = "id",length = 32)
+    @Column(name = "id", length = 32)
     private String id;
 
     //名称
-    @Column(name = "name",length = 64,notNull = true)
+    @Column(name = "name", length = 64, notNull = true)
     private String name;
 
     //知识库类别
-    @Column(name = "type_id",length = 32,notNull = true)
+    @Column(name = "type_id", length = 32, notNull = true)
     private String typeId;
     //知识库id
-    @Column(name = "repository_id",length = 32,notNull = true)
+    @Column(name = "repository_id", length = 32, notNull = true)
     private String repositoryId;
 
     //目录id
-    @Column(name = "category_id",length = 32)
+    @Column(name = "category_id", length = 32)
     private String categoryId;
 
     //管理员
-    @Column(name = "master",length = 32,notNull = true)
+    @Column(name = "master", length = 32, notNull = true)
     private String master;
 
     //内容
     @Column(name = "details")
     private String details;
 
-    private java.lang.String formatType="document";
+    @Column(name = "update_time")
+    private Timestamp updateTime;
+
+    private java.lang.String formatType = "document";
 
 
     public String getId() {
@@ -104,5 +111,13 @@ public class DocumentEntity implements Serializable {
         this.master = master;
     }
 
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
 
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
+    }
 }
+
+

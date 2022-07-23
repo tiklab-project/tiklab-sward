@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +41,7 @@ public class DocumentDao{
      * @param documentEntity
      */
     public void updateDocument(DocumentEntity documentEntity){
+        documentEntity.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         jpaTemplate.update(documentEntity);
     }
 

@@ -50,8 +50,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void updateCategory(@NotNull @Valid Category category) {
         CategoryEntity categoryEntity = BeanMapper.map(category, CategoryEntity.class);
-        if (ObjectUtils.isEmpty(category.getParentCategory())){
-            categoryEntity.setParentCategoryId("");
+        if (category.getParentCategory() != null && category.getParentCategory().getId() == "nullString"){
+            categoryEntity.setParentCategoryId(null);
         }
         categoryDao.updateCategory(categoryEntity);
     }

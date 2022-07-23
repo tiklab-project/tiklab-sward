@@ -9,8 +9,10 @@ import com.doublekit.privilege.role.service.DmRoleService;
 import com.doublekit.rpc.annotation.Exporter;
 import com.doublekit.rpc.annotation.Reference;
 import com.doublekit.user.user.model.DmUser;
+import com.doublekit.user.user.model.DmUserQuery;
 import com.doublekit.user.user.model.User;
 import com.doublekit.user.user.service.DmUserService;
+import com.doublekit.utils.context.LoginContext;
 import com.doublekit.wiki.category.service.CategoryService;
 import com.doublekit.wiki.document.service.DocumentService;
 import com.doublekit.wiki.repository.dao.RepositoryDao;
@@ -25,6 +27,7 @@ import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
 * RepositoryServiceImpl
@@ -150,6 +153,14 @@ public class RepositoryServiceImpl implements RepositoryService {
 
     @Override
     public Pagination<Repository> findRepositoryPage(RepositoryQuery repositoryQuery) {
+
+        String userId = LoginContext.getLoginId();
+        DmUserQuery dmUserQuery = new DmUserQuery();
+        dmUserQuery.setUserId(userId);
+        List<DmUser> dmUserList = dmUserService.findDmUserList(dmUserQuery);
+        List<String> collect = dmUserList.stream().map(DmUser::getDomainId).collect(Collectors.toList());
+        String[] arr = collect.toArray(new String[collect.size()]);
+        repositoryQuery.setRepositoryIds(arr);
 
         Pagination<RepositoryEntity>  pagination = repositoryDao.findRepositoryPage(repositoryQuery);
 

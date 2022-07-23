@@ -14,6 +14,12 @@ public class RepositoryQuery extends BaseModel {
         @ApiProperty(name ="orderParams",desc = "排序参数")
         private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
 
+        @ApiProperty(name ="repositoryIds",desc = "文档id")
+        private String[] repositoryIds;
+
+        @ApiProperty(name="limits",desc="limits")
+        private String limits;
+
         @ApiProperty(name ="pageParam",desc = "分页参数")
         private Page pageParam = new Page();
 
@@ -43,4 +49,20 @@ public class RepositoryQuery extends BaseModel {
         public void setName(String name) {
             this.name = name;
         }
+
+    public String[] getRepositoryIds() {
+        return repositoryIds;
+    }
+
+    public void setRepositoryIds(String[] repositoryIds) {
+        this.repositoryIds = repositoryIds;
+    }
+
+    public String getLimits() {
+        return limits;
+    }
+
+    public void setLimits(String limits) {
+        this.limits = limits;
+    }
 }

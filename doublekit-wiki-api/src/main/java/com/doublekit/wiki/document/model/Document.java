@@ -11,7 +11,10 @@ import com.doublekit.join.annotation.JoinQuery;
 import com.doublekit.user.user.model.User;
 import com.doublekit.wiki.category.model.Category;
 import com.doublekit.wiki.repository.model.Repository;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @ApiModel
@@ -28,6 +31,10 @@ public class Document extends BaseModel{
 
     @ApiProperty(name="typeId",desc="typeId",required = true)
     private java.lang.String typeId;
+
+    @ApiProperty(name="updateTime",desc="updateTime",required = true)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Timestamp updateTime;
 
 
     @ApiProperty(name="master",desc="负责人",eg="@selectOne")
@@ -175,5 +182,13 @@ public class Document extends BaseModel{
 
     public void setMaster(User master) {
         this.master = master;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 }
