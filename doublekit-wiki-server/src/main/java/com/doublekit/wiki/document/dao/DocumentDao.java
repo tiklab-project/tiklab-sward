@@ -33,6 +33,7 @@ public class DocumentDao{
      * @return
      */
     public String createDocument(DocumentEntity documentEntity) {
+        documentEntity.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         return jpaTemplate.save(documentEntity,String.class);
     }
 

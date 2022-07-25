@@ -24,6 +24,7 @@ CREATE TABLE wiki_document(
         type_id VARCHAR(32) NOT NULL,
         category_id VARCHAR (32) ,
         master VARCHAR(32) NOT NULL,
+        update_time  VARCHAR(64),
         details longtext
 );
 
@@ -67,7 +68,15 @@ CREATE TABLE wiki_share(
         auth_code varchar(6),
         create_time timestamp
 );
-
+CREATE TABLE wiki_document_recent(
+        id VARCHAR(32) NOT NULL PRIMARY KEY,
+        name VARCHAR(64) NOT NULL,
+        model VARCHAR(64) NOT NULL,
+        model_id VARCHAR(64) NOT NULL,
+        master_id VARCHAR(64) NOT NULL,
+        repository_id VARCHAR(32) NOT NULL,
+        recent_time timestamp NOT NULL
+);
 
 
 
