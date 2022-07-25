@@ -14,6 +14,9 @@ import com.doublekit.user.user.model.User;
 import com.doublekit.user.user.service.DmUserService;
 import com.doublekit.utils.context.LoginContext;
 import com.doublekit.wiki.category.service.CategoryService;
+import com.doublekit.wiki.document.model.DocumentRecent;
+import com.doublekit.wiki.document.model.DocumentRecentQuery;
+import com.doublekit.wiki.document.service.DocumentRecentService;
 import com.doublekit.wiki.document.service.DocumentService;
 import com.doublekit.wiki.repository.dao.RepositoryDao;
 import com.doublekit.wiki.repository.entity.RepositoryEntity;
@@ -47,6 +50,9 @@ public class RepositoryServiceImpl implements RepositoryService {
 
     @Autowired
     DocumentService documentService;
+
+    @Autowired
+    DocumentRecentService documentRecentService;
 
     @Autowired
     DmUserService dmUserService;
@@ -97,7 +103,13 @@ public class RepositoryServiceImpl implements RepositoryService {
 //                .eq("repositoryId", id)
 //                .get();
         documentService.deleteDocument(id);
+        DocumentRecentQuery documentRecentQuery = new DocumentRecentQuery();
+        documentRecentQuery.setModelId(id);
+        documentRecentQuery.setModel("wiki");
 
+        List<DocumentRecent> documentRecentList = documentRecentService.findDocumentRecentList(documentRecentQuery);
+        String id1 = documentRecentList.get(0).getId();
+        documentRecentService.deleteDocumentRecent(id1);
 //        deleteCondition = DeleteBuilders.createDelete(CategoryEntity.class)
 //                .eq("repositoryId", id)
 //                .get();
