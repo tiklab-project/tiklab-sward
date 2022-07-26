@@ -30,7 +30,7 @@ public class Document extends BaseModel{
     private java.lang.String name;
 
     @ApiProperty(name="typeId",desc="typeId",required = true)
-    private java.lang.String typeId = "document";
+    private java.lang.String typeId;
 
     @ApiProperty(name="updateTime",desc="updateTime",required = true)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
