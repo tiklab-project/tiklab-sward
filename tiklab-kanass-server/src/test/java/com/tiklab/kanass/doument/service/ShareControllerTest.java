@@ -2,7 +2,7 @@ package com.tiklab.kanass.doument.service;
 
 import com.tiklab.utils.MapUtils;
 import com.tiklab.core.Result;
-import com.tiklab.postlink.client.mock.JMockit;
+import com.tiklab.postin.client.mock.JMockit;
 import com.tiklab.kanass.config.TestConfig;
 import com.tiklab.kanass.document.model.Share;
 import org.junit.Before;

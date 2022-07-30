@@ -1,8 +1,8 @@
 package com.tiklab.kanass.repository.controller;
 
-import com.tiklab.postlink.annotation.Api;
-import com.tiklab.postlink.annotation.ApiMethod;
-import com.tiklab.postlink.annotation.ApiParam;
+import com.tiklab.postin.annotation.Api;
+import com.tiklab.postin.annotation.ApiMethod;
+import com.tiklab.postin.annotation.ApiParam;
 import com.tiklab.core.page.Pagination;
 import com.tiklab.core.Result;
 import com.tiklab.kanass.repository.model.Repository;

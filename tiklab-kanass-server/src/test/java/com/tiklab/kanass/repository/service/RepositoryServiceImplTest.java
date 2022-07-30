@@ -1,7 +1,7 @@
 package com.tiklab.kanass.repository.service;
 
 import com.tiklab.kanass.repository.model.Repository;
-import com.tiklab.postlink.client.mock.JMockit;
+import com.tiklab.postin.client.mock.JMockit;
 import com.tiklab.kanass.config.TestConfig;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

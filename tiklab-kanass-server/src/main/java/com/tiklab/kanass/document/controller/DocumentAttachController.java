@@ -1,13 +1,13 @@
 package com.tiklab.kanass.document.controller;
 
-import com.tiklab.postlink.annotation.Api;
+import com.tiklab.postin.annotation.Api;
 import com.tiklab.kanass.document.model.DocumentAttach;
 import com.tiklab.kanass.document.model.DocumentAttachQuery;
 import com.tiklab.kanass.document.service.DocumentAttachService;
 import com.tiklab.core.page.Pagination;
 import com.tiklab.core.Result;
-import com.tiklab.postlink.annotation.ApiMethod;
-import com.tiklab.postlink.annotation.ApiParam;
+import com.tiklab.postin.annotation.ApiMethod;
+import com.tiklab.postin.annotation.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

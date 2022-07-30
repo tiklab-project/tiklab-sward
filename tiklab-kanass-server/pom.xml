@@ -126,7 +126,7 @@
 <!--        </dependency>-->
         <dependency>
             <groupId>com.tiklab</groupId>
-            <artifactId>tiklab-postlink-client</artifactId>
+            <artifactId>tiklab-postin-client</artifactId>
         </dependency>
         <dependency>
             <groupId>maven</groupId>

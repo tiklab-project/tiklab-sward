@@ -4,8 +4,8 @@ import com.tiklab.core.BaseModel;
 import com.tiklab.core.page.Page;
 import com.tiklab.core.order.Order;
 import com.tiklab.core.order.OrderBuilders;
-import com.tiklab.postlink.annotation.ApiModel;
-import com.tiklab.postlink.annotation.ApiProperty;
+import com.tiklab.postin.annotation.ApiModel;
+import com.tiklab.postin.annotation.ApiProperty;
 
 import java.util.List;
 

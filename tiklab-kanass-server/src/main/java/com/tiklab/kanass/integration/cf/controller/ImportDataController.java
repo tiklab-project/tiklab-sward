@@ -1,8 +1,8 @@
 package com.tiklab.kanass.integration.cf.controller;
 
-import com.tiklab.postlink.annotation.Api;
-import com.tiklab.postlink.annotation.ApiMethod;
-import com.tiklab.postlink.annotation.ApiParam;
+import com.tiklab.postin.annotation.Api;
+import com.tiklab.postin.annotation.ApiMethod;
+import com.tiklab.postin.annotation.ApiParam;
 import com.tiklab.core.Result;
 import com.tiklab.core.exception.ApplicationException;
 import com.tiklab.kanass.integration.cf.service.CfImportDataService;

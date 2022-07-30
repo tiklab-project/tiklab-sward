@@ -1,8 +1,8 @@
 package com.tiklab.kanass.repository.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.tiklab.postlink.annotation.ApiModel;
-import com.tiklab.postlink.annotation.ApiProperty;
+import com.tiklab.postin.annotation.ApiModel;
+import com.tiklab.postin.annotation.ApiProperty;
 import com.tiklab.beans.annotation.Mapper;
 import com.tiklab.beans.annotation.Mapping;
 import com.tiklab.beans.annotation.Mappings;

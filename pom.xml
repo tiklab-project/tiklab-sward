@@ -94,12 +94,12 @@
             </dependency>
             <dependency>
                 <groupId>com.tiklab</groupId>
-                <artifactId>tiklab-postlink-annotation</artifactId>
+                <artifactId>tiklab-postin-annotation</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tiklab</groupId>
-                <artifactId>tiklab-postlink-client</artifactId>
+                <artifactId>tiklab-postin-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

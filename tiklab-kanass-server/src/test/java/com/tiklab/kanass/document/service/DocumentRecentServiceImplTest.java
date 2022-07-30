@@ -1,7 +1,7 @@
 package com.tiklab.kanass.document.service;
 
 import com.tiklab.kanass.document.model.DocumentRecent;
-import com.tiklab.postlink.client.mock.JMockit;
+import com.tiklab.postin.client.mock.JMockit;
 import com.tiklab.kanass.config.TestConfig;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

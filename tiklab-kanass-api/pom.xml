@@ -59,7 +59,7 @@
         </dependency>
         <dependency>
             <groupId>com.tiklab</groupId>
-            <artifactId>tiklab-postlink-annotation</artifactId>
+            <artifactId>tiklab-postin-annotation</artifactId>
         </dependency>
         <dependency>
             <groupId>com.tiklab</groupId>

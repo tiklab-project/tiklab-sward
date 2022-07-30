@@ -1,7 +1,7 @@
 package com.tiklab.kanass.doument.service;
 
 import com.tiklab.kanass.document.model.DocumentTemplate;
-import com.tiklab.postlink.client.mock.JMockit;
+import com.tiklab.postin.client.mock.JMockit;
 import com.tiklab.kanass.config.TestConfig;
 import com.tiklab.kanass.document.service.DocumentTemplateService;
 import org.junit.FixMethodOrder;
