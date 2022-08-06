@@ -106,8 +106,11 @@ public class RepositoryServiceImpl implements RepositoryService {
         documentRecentQuery.setModel("kanass");
 
         List<DocumentRecent> documentRecentList = documentRecentService.findDocumentRecentList(documentRecentQuery);
-        String id1 = documentRecentList.get(0).getId();
-        documentRecentService.deleteDocumentRecent(id1);
+            if(documentRecentList.size() >0){
+            String id1 = documentRecentList.get(0).getId();
+            documentRecentService.deleteDocumentRecent(id1);
+        }
+
 //        deleteCondition = DeleteBuilders.createDelete(CategoryEntity.class)
 //                .eq("repositoryId", id)
 //                .get();
