@@ -6,6 +6,7 @@ import com.tiklab.dal.jpa.annotation.Id;
 import com.tiklab.dal.jpa.annotation.Table;import com.tiklab.dal.jpa.annotation.Entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -43,11 +44,11 @@ public class CommentEntity implements Serializable {
 
     //创建时间
     @Column(name = "create_time")
-    private Date createTime;
+    private Timestamp createTime;
 
     //更新时间
     @Column(name = "update_time")
-    private Date updateTime;
+    private Timestamp updateTime;
     public String getId() {
         return id;
     }
@@ -88,19 +89,19 @@ public class CommentEntity implements Serializable {
         this.user = user;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public Timestamp getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
     }
 

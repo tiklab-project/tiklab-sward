@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -31,6 +32,7 @@ public class CommentDao{
      * @return
      */
     public String createComment(CommentEntity commentEntity) {
+        commentEntity.setCreateTime(new Timestamp(System.currentTimeMillis()));
         return jpaTemplate.save(commentEntity,String.class);
     }
 
@@ -39,6 +41,7 @@ public class CommentDao{
      * @param commentEntity
      */
     public void updateComment(CommentEntity commentEntity){
+        commentEntity.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         jpaTemplate.update(commentEntity);
     }
 

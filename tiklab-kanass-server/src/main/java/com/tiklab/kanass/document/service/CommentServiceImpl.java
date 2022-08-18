@@ -46,7 +46,7 @@ public class CommentServiceImpl implements CommentService {
         CommentEntity commentEntity = BeanMapper.map(comment, CommentEntity.class);
         //添加评论人
 //        commentEntity.setUser(findCreatUser());
-        commentEntity.setCreateTime(new Date());
+//        commentEntity.setCreateTime(new Date());
         if (!ObjectUtils.isEmpty(commentEntity.getParentCommentId())){
             CommentEntity parentComment = commentDao.findComment(commentEntity.getParentCommentId());
             //被回复的人
@@ -57,8 +57,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void updateComment(@NotNull @Valid Comment comment) {
+
         CommentEntity commentEntity = BeanMapper.map(comment, CommentEntity.class);
-        commentEntity.setUpdateTime(new Date());
+//        commentEntity.setUpdateTime(new Date());
         commentDao.updateComment(commentEntity);
     }
 

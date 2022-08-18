@@ -1,5 +1,6 @@
 package com.tiklab.kanass.document.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tiklab.postin.annotation.ApiModel;
 import com.tiklab.postin.annotation.ApiProperty;
 import com.tiklab.beans.annotation.Mapper;
@@ -11,6 +12,7 @@ import com.tiklab.join.annotation.JoinQuery;
 import com.tiklab.user.user.model.User;
 
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -44,10 +46,12 @@ public class Comment extends BaseModel{
     private User user;
 
     @ApiProperty(name="createTime",desc="创建时间")
-    private java.util.Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Timestamp createTime;
 
     @ApiProperty(name="updateTime",desc="更新时间")
-    private java.util.Date updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Timestamp updateTime;
 
     @ApiProperty(name="aimAtUser",desc="对谁的评论",eg="@selectOne")
     @Mappings({
@@ -110,19 +114,19 @@ public class Comment extends BaseModel{
         this.user = user;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public Timestamp getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
     }
 
