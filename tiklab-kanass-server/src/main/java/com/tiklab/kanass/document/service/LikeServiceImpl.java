@@ -9,7 +9,6 @@ import com.tiklab.kanass.document.dao.LikeDao;
 import com.tiklab.kanass.document.entity.LikeEntity;
 import com.tiklab.kanass.document.model.Like;
 import com.tiklab.kanass.document.model.LikeQuery;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +36,7 @@ public class LikeServiceImpl implements LikeService {
         likeQuery.setToWhomId(like.getToWhomId());
 //        likeQuery.setLikeUser(findCreatUser());
         List<LikeEntity> likeList = likeDao.findLikeList(likeQuery);
-        if (CollectionUtils.isNotEmpty(likeList)){
+        if (!likeList.isEmpty()){
             return "已经点过赞了";
         }
         LikeEntity likeEntity = BeanMapper.map(like, LikeEntity.class);

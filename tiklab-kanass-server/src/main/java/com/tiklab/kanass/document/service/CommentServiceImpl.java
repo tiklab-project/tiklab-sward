@@ -14,7 +14,6 @@ import com.tiklab.kanass.document.model.Comment;
 import com.tiklab.kanass.document.model.CommentQuery;
 import com.tiklab.kanass.document.model.Like;
 import com.tiklab.kanass.document.model.LikeQuery;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -163,7 +162,7 @@ public class CommentServiceImpl implements CommentService {
             likeQuery.setLikeType("com");
             //查询点赞数
             List<LikeEntity> likeList = likeDao.findLikeList(likeQuery);
-            if (CollectionUtils.isNotEmpty(likeList)){
+            if (!likeList.isEmpty()){
                 if ("view".equals(type)){
                     comment.setIsLike("false");
                 }else {
@@ -178,7 +177,7 @@ public class CommentServiceImpl implements CommentService {
                 List<Like> likes = BeanMapper.mapList(likeList, Like.class);
                 joinTemplate.joinQuery(likes);
                 List<User> userList = likes.stream().map(Like::getLikeUser).collect(Collectors.toList());
-                if (CollectionUtils.isNotEmpty(userList)){
+                if (!userList.isEmpty()){
                     //取点赞人名字
                     List<String> collect = userList.stream().map(User::getName).collect(Collectors.toList());
                     //点赞数
