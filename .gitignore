@@ -12,4 +12,6 @@ logs/
 plugin/
 APP_NAME_IS_UNDEFINED/
 DATA_HOME_IS_UNDEFINED/
+temp/
+
 
