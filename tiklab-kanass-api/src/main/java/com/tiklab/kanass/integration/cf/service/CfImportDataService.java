@@ -10,5 +10,5 @@ public interface CfImportDataService {
      * @param inputStream
      * @return
      */
-    String   importConfluenceData(InputStream inputStream);
+    String importConfluenceData(InputStream inputStream);
 }

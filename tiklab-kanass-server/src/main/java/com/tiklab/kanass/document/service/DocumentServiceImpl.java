@@ -13,7 +13,6 @@ import com.tiklab.kanass.document.entity.CommentEntity;
 import com.tiklab.kanass.document.entity.DocumentEntity;
 import com.tiklab.kanass.document.entity.LikeEntity;
 import com.tiklab.kanass.document.model.*;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -77,7 +76,7 @@ public class DocumentServiceImpl implements DocumentService {
         List<CommentEntity> commentList = commentDao.findCommentList(new CommentQuery().setDocumentId(id));
 
         Document document = BeanMapper.map(documentEntity, Document.class);
-        if (CollectionUtils.isNotEmpty(commentList)){
+        if (!commentList.isEmpty()){
             //添加评论数
             document.setCommentNumber(commentList.size());
         }
@@ -154,7 +153,7 @@ public class DocumentServiceImpl implements DocumentService {
         likeQuery.setToWhomId(document.getId());
         likeQuery.setLikeType("doc");
         List<LikeEntity> likeList = likeDao.findLikeList(likeQuery);
-        if (CollectionUtils.isNotEmpty(likeList)){
+        if (!likeList.isEmpty()){
             //view  是分享出去后访问的
             if ("view".equals(type)){
                 document.setIsLike("false");
@@ -170,7 +169,7 @@ public class DocumentServiceImpl implements DocumentService {
             List<Like> likes = BeanMapper.mapList(likeList, Like.class);
             joinTemplate.joinQuery(likes);
             List<User> userList = likes.stream().map(Like::getLikeUser).collect(Collectors.toList());
-            if(CollectionUtils.isNotEmpty(userList)){
+            if(!userList.isEmpty()){
                 //取点赞人名字
                 List<String> collect = userList.stream().map(User::getName).collect(Collectors.toList());
                 document.setLikeUserList(collect);

@@ -9,7 +9,6 @@ import com.tiklab.kanass.document.dao.ShareDao;
 import com.tiklab.kanass.document.entity.ShareEntity;
 import com.tiklab.kanass.document.model.Share;
 import com.tiklab.kanass.document.model.ShareQuery;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -161,7 +160,7 @@ public class ShareServiceImpl implements ShareService {
     @Override
     public String verifyAuthCode(ShareQuery shareQuery) {
         List<ShareEntity> shareList = shareDao.findShareList(new ShareQuery().setShareLink(shareQuery.getShareLink()));
-        if (CollectionUtils.isNotEmpty(shareList)){
+        if (!shareList.isEmpty()){
             ShareEntity shareEntity = shareList.get(0);
             if (shareQuery.getAuthCode().equals(shareEntity.getAuthCode())){
                 return "true";
@@ -176,7 +175,7 @@ public class ShareServiceImpl implements ShareService {
     @Override
     public String judgeAuthCode(String shareLink) {
         List<ShareEntity> shareList = shareDao.findShareList(new ShareQuery().setShareLink(shareLink));
-        if (CollectionUtils.isNotEmpty(shareList)){
+        if (!shareList.isEmpty()){
             ShareEntity shareEntity = shareList.get(0);
             if (StringUtils.isEmpty(shareEntity.getAuthCode())){
                 return "false";

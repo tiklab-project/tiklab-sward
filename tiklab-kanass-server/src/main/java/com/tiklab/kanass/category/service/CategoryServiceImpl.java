@@ -12,7 +12,6 @@ import com.tiklab.kanass.category.model.CategoryQuery;
 import com.tiklab.kanass.document.model.Document;
 import com.tiklab.kanass.document.model.DocumentQuery;
 import com.tiklab.kanass.document.service.DocumentService;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -149,13 +148,13 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
 
-        if (CollectionUtils.isNotEmpty(topCategoryList)){
+        if (!topCategoryList.isEmpty()){
             for(Category topCategory:topCategoryList){
                 objects.add(topCategory);
             }
 
         }
-        if(CollectionUtils.isNotEmpty(collect)){
+        if(!collect.isEmpty()){
             for(Document document:collect){
                 objects.add(document);
             }

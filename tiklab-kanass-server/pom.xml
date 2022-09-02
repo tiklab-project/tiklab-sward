@@ -127,6 +127,9 @@
             <groupId>maven</groupId>
             <artifactId>dom4j</artifactId>
             <version>1.7-20060614</version>
+            <scope>
+                provided
+            </scope>
         </dependency>
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
