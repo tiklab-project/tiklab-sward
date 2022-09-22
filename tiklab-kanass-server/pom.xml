@@ -46,8 +46,8 @@
         <!--tiklab-->
         <dependency>
             <groupId>net.tiklab</groupId>
-            <artifactId>tiklab-beans-spring-boot-starter</artifactId>
-            <version>${project.version}</version>
+            <artifactId>tiklab-tks-spring-boot-starter</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>net.tiklab</groupId>
@@ -60,11 +60,6 @@
         <dependency>
             <groupId>net.tiklab</groupId>
             <artifactId>tiklab-dss-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.tiklab</groupId>
-            <artifactId>tiklab-join-spring-boot-starter</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>

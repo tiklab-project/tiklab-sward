@@ -45,22 +45,12 @@
             </dependency>
             <dependency>
                 <groupId>net.tiklab</groupId>
-                <artifactId>tiklab-beans-annotation</artifactId>
+                <artifactId>tiklab-tks-annotation</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>net.tiklab</groupId>
-                <artifactId>tiklab-beans-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.tiklab</groupId>
-                <artifactId>tiklab-join-annotation</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.tiklab</groupId>
-                <artifactId>tiklab-join-core</artifactId>
+                <artifactId>tiklab-tks-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
