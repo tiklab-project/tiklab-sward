@@ -27,6 +27,6 @@ INSERT INTO `kanass_document` (`id`, `name`, `repository_id`, `type_id`, `catego
 INSERT INTO `kanass_repository` (`id`, `name`, `type_id`, `master`, `limits`, `create_time`, `description`) VALUES ('43ef04320e5169789bc3e483e232b6e0', '知识库1', '1', '111111', '0', '2022-07-29', '知识库1');
 INSERT INTO `kanass_repository` (`id`, `name`, `type_id`, `master`, `limits`, `create_time`, `description`) VALUES ('7904ebd674d28c65b11ae47017a783c0', '知识库2', '1', '111111', '0', '2022-07-29', '知识库2');
 
-INSERT INTO `prc_ucc_dm_user` (`id`, `domain_id`, `user_id`) VALUES ('bfd4660ddbb9fe9cc550befa525b1f05', '7904ebd674d28c65b11ae47017a783c0', '111111');
-INSERT INTO `prc_ucc_dm_user` (`id`, `domain_id`, `user_id`) VALUES ('d19fe2d0083aab398996ce4eed71be4b', '43ef04320e5169789bc3e483e232b6e0', '111111');
+INSERT INTO `pcs_ucc_dm_user` (`id`, `domain_id`, `user_id`) VALUES ('bfd4660ddbb9fe9cc550befa525b1f05', '7904ebd674d28c65b11ae47017a783c0', '111111');
+INSERT INTO `pcs_ucc_dm_user` (`id`, `domain_id`, `user_id`) VALUES ('d19fe2d0083aab398996ce4eed71be4b', '43ef04320e5169789bc3e483e232b6e0', '111111');
 
