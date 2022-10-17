@@ -18,7 +18,6 @@
         <module>tiklab-kanass-api</module>
         <module>tiklab-kanass-server</module>
         <module>tiklab-kanass-starter</module>
-        <module>tiklab-kanass-distribution</module>
     </modules>
 
     <properties>
