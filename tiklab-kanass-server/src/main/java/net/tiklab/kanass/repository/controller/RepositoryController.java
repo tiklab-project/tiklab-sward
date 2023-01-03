@@ -1,5 +1,6 @@
 package net.tiklab.kanass.repository.controller;
 
+import net.tiklab.kanass.document.model.DocumentRecentQuery;
 import net.tiklab.postin.annotation.Api;
 import net.tiklab.postin.annotation.ApiMethod;
 import net.tiklab.postin.annotation.ApiParam;
@@ -92,6 +93,15 @@ public class RepositoryController {
     @ApiParam(name = "repositoryQuery",desc = "repositoryQuery",required = true)
     public Result<Pagination<Repository>> findRepositoryPage(@RequestBody @Valid @NotNull RepositoryQuery repositoryQuery){
         Pagination<Repository> pagination = repositoryService.findRepositoryPage(repositoryQuery);
+
+        return Result.ok(pagination);
+    }
+
+    @RequestMapping(path = "/findRecentRepositoryList",method = RequestMethod.POST)
+    @ApiMethod(name = "findRecentRepositoryList",desc = "findRepositoryPage")
+    @ApiParam(name = "repositoryQuery",desc = "repositoryQuery",required = true)
+    public Result<List<Repository>> findRecentRepositoryList(@RequestBody @Valid @NotNull DocumentRecentQuery documentRecentQuery){
+        List<Repository> pagination = repositoryService.findRecentRepositoryList(documentRecentQuery);
 
         return Result.ok(pagination);
     }

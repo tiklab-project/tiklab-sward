@@ -6,6 +6,7 @@ import net.tiklab.join.annotation.FindAll;
 import net.tiklab.join.annotation.FindList;
 import net.tiklab.join.annotation.FindOne;
 import net.tiklab.join.annotation.JoinProvider;
+import net.tiklab.kanass.document.model.DocumentRecentQuery;
 import net.tiklab.kanass.repository.model.Repository;
 import net.tiklab.kanass.repository.model.RepositoryQuery;
 
@@ -71,5 +72,7 @@ public interface RepositoryService {
     * @return
     */
     Pagination<Repository> findRepositoryPage(RepositoryQuery repositoryQuery);
+
+    List<Repository> findRecentRepositoryList(DocumentRecentQuery documentRecentQuery);
 
 }

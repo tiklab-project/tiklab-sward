@@ -52,8 +52,8 @@ public class DocumentRecent extends BaseModel {
 
 
     @ApiProperty(name="recentTime",desc="recentTime")
-    @JsonFormat(pattern = "yyyy-MM-dd hh-MM-ss")
-    @JSONField(format = "yyyy-MM-dd hh-MM-ss")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:MM:ss")
+    @JSONField(format = "yyyy-MM-dd hh:MM:ss")
     private java.util.Date recentTime;
 
     public java.lang.String getId() {

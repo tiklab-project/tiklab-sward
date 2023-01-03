@@ -158,6 +158,17 @@ public class RepositoryServiceImpl implements RepositoryService {
 
     @Override
     public List<Repository> findRepositoryList(RepositoryQuery repositoryQuery) {
+
+        String userId = LoginContext.getLoginId();
+        DmUserQuery dmUserQuery = new DmUserQuery();
+        dmUserQuery.setTagValue(userId);
+        List<DmUser> dmUserList = dmUserService.findDmUserList(dmUserQuery);
+        List<String> collect = dmUserList.stream().map(DmUser::getDomainId).collect(Collectors.toList());
+        String[] arr = collect.toArray(new String[collect.size()]);
+
+        repositoryQuery.setRepositoryIds(arr);
+
+        repositoryQuery.setMasterId(userId);
         List<RepositoryEntity> repositoryEntityList = repositoryDao.findRepositoryList(repositoryQuery);
 
         List<Repository> repositoryList = BeanMapper.mapList(repositoryEntityList,Repository.class);
@@ -172,7 +183,7 @@ public class RepositoryServiceImpl implements RepositoryService {
 
         String userId = LoginContext.getLoginId();
         DmUserQuery dmUserQuery = new DmUserQuery();
-        dmUserQuery.setUserId(userId);
+        dmUserQuery.setTagValue(userId);
         List<DmUser> dmUserList = dmUserService.findDmUserList(dmUserQuery);
         List<String> collect = dmUserList.stream().map(DmUser::getDomainId).collect(Collectors.toList());
         String[] arr = collect.toArray(new String[collect.size()]);
@@ -187,14 +198,18 @@ public class RepositoryServiceImpl implements RepositoryService {
         return PaginationBuilder.build(pagination,repositoryList);
     }
 
-    /**
-     * 查询用户（创建人）id
-     * @param
-     */
-//    public String findCreatUser(){
-//        String ticketId = TicketHolder.get();
-//        Ticket ticket = TicketContext.get(ticketId);
-//        return ticket.getUserId();
-//    }
+    @Override
+    public List<Repository> findRecentRepositoryList(DocumentRecentQuery documentRecentQuery) {
+        String createUserId = LoginContext.getLoginId();
+        documentRecentQuery.setMasterId(createUserId);
+        List<RepositoryEntity> recentRepositoryList = repositoryDao.findRecentRepositoryList(documentRecentQuery);
+
+        List<Repository> repositoryList = BeanMapper.mapList(recentRepositoryList,Repository.class);
+
+        joinTemplate.joinQuery(repositoryList);
+
+        return repositoryList;
+    }
+
 
 }

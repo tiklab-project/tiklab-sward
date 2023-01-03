@@ -7,6 +7,8 @@ import net.tiklab.dal.jpa.criterial.condition.OrQueryCondition;
 import net.tiklab.dal.jpa.criterial.condition.QueryCondition;
 import net.tiklab.dal.jpa.criterial.conditionbuilder.OrQueryBuilders;
 import net.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
+import net.tiklab.kanass.document.entity.DocumentRecentEntity;
+import net.tiklab.kanass.document.model.DocumentRecentQuery;
 import net.tiklab.kanass.repository.entity.RepositoryEntity;
 import net.tiklab.kanass.repository.model.RepositoryQuery;
 import org.slf4j.Logger;
@@ -79,10 +81,16 @@ public class RepositoryDao{
     }
 
     public List<RepositoryEntity> findRepositoryList(RepositoryQuery repositoryQuery) {
-        QueryCondition queryCondition = QueryBuilders.createQuery(RepositoryEntity.class)
-                .like("name", repositoryQuery.getName())
+        QueryBuilders queryBuilders = QueryBuilders.createQuery(RepositoryEntity.class, "rs");
+        OrQueryCondition orQueryBuildCondition = OrQueryBuilders.instance()
+                .eq("limits",0)
+                .in("id",repositoryQuery.getRepositoryIds())
+                .get();
+        QueryCondition queryCondition = queryBuilders.or(orQueryBuildCondition)
+                .eq("master", repositoryQuery.getMasterId())
                 .orders(repositoryQuery.getOrderParams())
                 .get();
+
         return jpaTemplate.findList(queryCondition, RepositoryEntity.class);
     }
 
@@ -97,11 +105,16 @@ public class RepositoryDao{
                 .orders(repositoryQuery.getOrderParams())
                 .pagination(repositoryQuery.getPageParam())
                 .get();
-//        String sql = "select DISTINCT w.id,w.name,w.type_id,w.master,w.description,w.limits,w.create_time from kanass_repository w left join orc_dm_user d on w.id = d.domain_id ";
-//        sql = sql.concat("where w.limits = '1' and d.user_id = ? or w.limits = '0'");
-//        Pagination<RepositoryEntity> repositoryEntityList =
-//                this.jpaTemplate.getJdbcTemplate().findPage(sql,new Object[]{userId},repositoryQuery.getPageParam(),new BeanPropertyRowMapper(RepositoryEntity.class));
-//                (sql, new String[]{userId}, new BeanPropertyRowMapper(RepositoryEntity.class));;
         return jpaTemplate.findPage(queryCondition, RepositoryEntity.class);
+    }
+
+    public List<RepositoryEntity> findRecentRepositoryList(DocumentRecentQuery documentRecentQuery) {
+        QueryCondition queryCondition = QueryBuilders.createQuery(RepositoryEntity.class, "re")
+                .leftJoin(DocumentRecentEntity.class,"dr","re.id=dr.modelId")
+                .eq("masterId", documentRecentQuery.getMasterId())
+                .eq("model","wiki")
+                .orders(documentRecentQuery.getOrderParams())
+                .get();
+        return jpaTemplate.findList(queryCondition, RepositoryEntity.class);
     }
 }

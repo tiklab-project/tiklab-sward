@@ -17,6 +17,9 @@ public class RepositoryQuery extends BaseModel {
         @ApiProperty(name ="repositoryIds",desc = "文档id")
         private String[] repositoryIds;
 
+        @ApiProperty(name="masterId",desc="masterId")
+        private String masterId;
+
         @ApiProperty(name="limits",desc="limits")
         private String limits;
 
@@ -64,5 +67,13 @@ public class RepositoryQuery extends BaseModel {
 
     public void setLimits(String limits) {
         this.limits = limits;
+    }
+
+    public String getMasterId() {
+        return masterId;
+    }
+
+    public void setMasterId(String masterId) {
+        this.masterId = masterId;
     }
 }
