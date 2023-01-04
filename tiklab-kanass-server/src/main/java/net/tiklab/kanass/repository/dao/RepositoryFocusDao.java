@@ -3,6 +3,8 @@ package net.tiklab.kanass.repository.dao;
 import net.tiklab.core.page.Pagination;
 import net.tiklab.dal.jpa.JpaTemplate;
 import net.tiklab.dal.jpa.criterial.condition.DeleteCondition;
+import net.tiklab.dal.jpa.criterial.condition.QueryCondition;
+import net.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import net.tiklab.kanass.repository.entity.RepositoryFocusEntity;
 import net.tiklab.kanass.repository.model.RepositoryFocusQuery;
 import org.slf4j.Logger;
@@ -74,7 +76,13 @@ public class RepositoryFocusDao{
     }
 
     public List<RepositoryFocusEntity> findRepositoryFocusList(RepositoryFocusQuery repositoryFocusQuery) {
-        return jpaTemplate.findList(repositoryFocusQuery,RepositoryFocusEntity.class);
+        QueryCondition queryCondition = QueryBuilders.createQuery(RepositoryFocusEntity.class)
+                .eq("repositoryId", repositoryFocusQuery.getRepositoryId())
+                .eq("masterId", repositoryFocusQuery.getMasterId())
+                .orders(repositoryFocusQuery.getOrderParams())
+                .get();
+
+        return jpaTemplate.findList(queryCondition, RepositoryFocusEntity.class);
     }
 
     public Pagination<RepositoryFocusEntity> findRepositoryFocusPage(RepositoryFocusQuery repositoryFocusQuery) {

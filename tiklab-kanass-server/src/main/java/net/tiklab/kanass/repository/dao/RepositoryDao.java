@@ -10,7 +10,9 @@ import net.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import net.tiklab.kanass.document.entity.DocumentRecentEntity;
 import net.tiklab.kanass.document.model.DocumentRecentQuery;
 import net.tiklab.kanass.repository.entity.RepositoryEntity;
+import net.tiklab.kanass.repository.entity.RepositoryFocusEntity;
 import net.tiklab.kanass.repository.model.RepositoryQuery;
+import net.tiklab.teamwire.project.model.ProjectQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,5 +118,15 @@ public class RepositoryDao{
                 .orders(documentRecentQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, RepositoryEntity.class);
+    }
+
+    public List<RepositoryEntity> findFocusRepositoryList(RepositoryQuery repositoryQuery){
+        QueryCondition queryBuilders =  QueryBuilders.createQuery(RepositoryEntity.class, "re")
+                .leftJoin(RepositoryFocusEntity.class,"rf","rf.repositoryId=re.id")
+                .like("rf.name", repositoryQuery.getName())
+                .eq("rf.masterId", repositoryQuery.getMasterId())
+                .orders(repositoryQuery.getOrderParams())
+                .get();
+        return jpaTemplate.findList(queryBuilders, RepositoryEntity.class);
     }
 }

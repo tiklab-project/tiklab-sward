@@ -106,4 +106,13 @@ public class RepositoryController {
         return Result.ok(pagination);
     }
 
+    @RequestMapping(path = "/findFocusRepositoryList",method = RequestMethod.POST)
+    @ApiMethod(name = "findFocusRepositoryList",desc = "findRepositoryPage")
+    @ApiParam(name = "repositoryQuery",desc = "repositoryQuery",required = true)
+    public Result<List<Repository>> findFocusRepositoryList(@RequestBody @Valid @NotNull RepositoryQuery repositoryQuery){
+        List<Repository> pagination = repositoryService.findFocusRepositoryList(repositoryQuery);
+
+        return Result.ok(pagination);
+    }
+
 }

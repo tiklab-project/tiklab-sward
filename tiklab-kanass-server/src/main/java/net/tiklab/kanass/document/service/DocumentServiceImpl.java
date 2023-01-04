@@ -1,9 +1,16 @@
 package net.tiklab.kanass.document.service;
 
+import com.alibaba.fastjson.JSONObject;
 import net.tiklab.beans.BeanMapper;
 import net.tiklab.core.page.Pagination;
 import net.tiklab.core.page.PaginationBuilder;
 import net.tiklab.join.JoinTemplate;
+import net.tiklab.kanass.category.model.Category;
+import net.tiklab.kanass.category.support.OpLogTemplateCategory;
+import net.tiklab.kanass.document.support.OpLogTemplateDocument;
+import net.tiklab.logging.modal.Logging;
+import net.tiklab.logging.modal.LoggingType;
+import net.tiklab.logging.service.LoggingByTemplService;
 import net.tiklab.rpc.annotation.Exporter;
 import net.tiklab.user.user.model.User;
 import net.tiklab.kanass.document.dao.CommentDao;
@@ -14,12 +21,20 @@ import net.tiklab.kanass.document.entity.DocumentEntity;
 import net.tiklab.kanass.document.entity.LikeEntity;
 import net.tiklab.kanass.document.model.*;
 import net.tiklab.kanass.document.model.*;
+import net.tiklab.user.user.service.UserService;
+import net.tiklab.utils.context.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -37,28 +52,83 @@ public class DocumentServiceImpl implements DocumentService {
     JoinTemplate joinTemplate;
 
     @Autowired
+    UserService userService;
+
+    @Autowired
+    LoggingByTemplService loggingByTemplService;
+
+    @Autowired
     CommentDao commentDao;
 
     @Autowired
     LikeDao likeDao;
-/*
-    @Autowired
-    private WorkItemDocumentController workItemDocumentController;*/
+
+    @Value("${base.url:null")
+    String baseUrl;
+
+    void creatDynamic( Map<String, String> content){
+        Logging log = new Logging();
+        log.setBgroup("kanass");
+
+        String createUserId = LoginContext.getLoginId();
+        User user = userService.findOne(createUserId);
+        log.setUser(user);
+        content.put("master", user.getName());
+        content.put("updateTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+
+        log.setLoggingTemplateId(OpLogTemplateDocument.TEAMWIRE_LOGTEMPLATE_DOCUMENTADD);
+
+        LoggingType opLogType = new LoggingType();
+        opLogType.setId(OpLogTemplateDocument.TEAMWIRE_LOGTYPE_DOCUMENTADD);
+        log.setActionType(opLogType);
+
+        log.setModule("document");
+        log.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        content.put("createUserIcon",user.getName().substring( 0, 1));
+        log.setContent(JSONObject.toJSONString(content));
+        log.setBaseUrl(baseUrl);
+        loggingByTemplService.createLog(log);
+    }
+
 
     @Override
     public String createDocument(@NotNull @Valid Document document) {
         DocumentEntity documentEntity = BeanMapper.map(document, DocumentEntity.class);
+        String documentId = documentDao.createDocument(documentEntity);
+
+        Document document1 = findDocumentById(documentId);
+        Map<String, String> content = new HashMap<>();
+        content.put("documentId", document1.getId());
+        content.put("documentName", document1.getName());
+        content.put("repositoryId", document1.getRepository().getId());
+        String typeId = document1.getTypeId();
+        if(typeId.equals("document")){
+            content.put("iconUrl", "/images/mindMap.png");
+        }else {
+            content.put("iconUrl", "/images/document.png");
+        }
+        creatDynamic(content);
 
         return documentDao.createDocument(documentEntity);
     }
 
     @Override
     public void updateDocument(@NotNull @Valid Document document) {
-
         DocumentEntity documentEntity = BeanMapper.map(document, DocumentEntity.class);
-//        if (ObjectUtils.isEmpty(document.getCategory())){
-//            documentEntity.setCategoryId("");
-//        }
+
+        Document document1 = findDocumentById(documentEntity.getId());
+        Map<String, String> content = new HashMap<>();
+        content.put("documentId", document1.getId());
+        content.put("documentName", document1.getName());
+        content.put("repositoryId", document1.getRepository().getId());
+        String typeId = document1.getTypeId();
+        if(typeId.equals("document")){
+            content.put("iconUrl", "/images/mindMap.png");
+        }else {
+            content.put("iconUrl", "/images/document.png");
+        }
+        creatDynamic(content);
+
         documentDao.updateDocument(documentEntity);
     }
 

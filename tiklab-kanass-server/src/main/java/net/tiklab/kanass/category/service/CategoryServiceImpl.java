@@ -1,9 +1,14 @@
 package net.tiklab.kanass.category.service;
 
+import com.alibaba.fastjson.JSONObject;
 import net.tiklab.beans.BeanMapper;
 import net.tiklab.core.page.Pagination;
 import net.tiklab.core.page.PaginationBuilder;
 import net.tiklab.join.JoinTemplate;
+import net.tiklab.kanass.category.support.OpLogTemplateCategory;
+import net.tiklab.logging.modal.Logging;
+import net.tiklab.logging.modal.LoggingType;
+import net.tiklab.logging.service.LoggingByTemplService;
 import net.tiklab.rpc.annotation.Exporter;
 import net.tiklab.kanass.category.dao.CategoryDao;
 import net.tiklab.kanass.category.entity.CategoryEntity;
@@ -12,14 +17,20 @@ import net.tiklab.kanass.category.model.CategoryQuery;
 import net.tiklab.kanass.document.model.Document;
 import net.tiklab.kanass.document.model.DocumentQuery;
 import net.tiklab.kanass.document.service.DocumentService;
+import net.tiklab.user.user.model.User;
+import net.tiklab.user.user.service.UserService;
+import net.tiklab.utils.context.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -33,26 +44,89 @@ public class CategoryServiceImpl implements CategoryService {
     CategoryDao categoryDao;
 
     @Autowired
+    UserService userService;
+
+    @Autowired
+    LoggingByTemplService loggingByTemplService;
+
+
+    @Autowired
     JoinTemplate joinTemplate;
 
     @Autowired
     DocumentService documentService;
 
+    @Value("${base.url:null")
+    String baseUrl;
 
+    void creatDynamic( Map<String, String> content){
+        Logging log = new Logging();
+        log.setBgroup("kanass");
+
+        String createUserId = LoginContext.getLoginId();
+        User user = userService.findOne(createUserId);
+        log.setUser(user);
+        content.put("master", user.getName());
+        content.put("updateTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+
+        log.setLoggingTemplateId(OpLogTemplateCategory.TEAMWIRE_LOGTEMPLATE_CATEGORYADD);
+
+        LoggingType opLogType = new LoggingType();
+        opLogType.setId(OpLogTemplateCategory.TEAMWIRE_LOGTYPE_CATEGORYADD);
+        log.setActionType(opLogType);
+
+        log.setModule("category");
+        log.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        content.put("createUserIcon",user.getName().substring( 0, 1));
+        log.setContent(JSONObject.toJSONString(content));
+        log.setBaseUrl(baseUrl);
+        loggingByTemplService.createLog(log);
+    }
+    
     @Override
     public String createCategory(@NotNull @Valid Category category) {
-        CategoryEntity categoryEntity = BeanMapper.map(category, CategoryEntity.class);
+        category.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 
-        return categoryDao.createCategory(categoryEntity);
+        String createUserId = LoginContext.getLoginId();
+        User user = userService.findOne(createUserId);
+        category.setMaster(user);
+
+        CategoryEntity categoryEntity = BeanMapper.map(category, CategoryEntity.class);
+        String categoryId = categoryDao.createCategory(categoryEntity);
+
+        Category category1 = findCategory(categoryId);
+        Map<String, String> content = new HashMap<>();
+        content.put("categoryId", category1.getId());
+        content.put("categoryName", category1.getName());
+        content.put("repositoryId", category1.getRepository().getId());
+        creatDynamic(content);
+        return categoryId;
     }
 
     @Override
     public void updateCategory(@NotNull @Valid Category category) {
+        category.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+
+        String createUserId = LoginContext.getLoginId();
+        User user = userService.findOne(createUserId);
+        category.setMaster(user);
+
         CategoryEntity categoryEntity = BeanMapper.map(category, CategoryEntity.class);
         if (category.getParentCategory() != null && category.getParentCategory().getId() == "nullString"){
             categoryEntity.setParentCategoryId(null);
+            categoryDao.updateCategory(categoryEntity);
+        } else {
+            categoryDao.updateCategory(categoryEntity);
         }
-        categoryDao.updateCategory(categoryEntity);
+        String id = category.getId();
+
+        Category category1 = findCategory(id);
+        Map<String, String> content = new HashMap<>();
+        content.put("categoryId", category1.getId());
+        content.put("categoryName", category1.getName());
+        content.put("repositoryId", category1.getRepository().getId());
+
+        creatDynamic(content);
     }
 
     @Override

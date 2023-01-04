@@ -7,6 +7,7 @@ import net.tiklab.dal.jpa.annotation.Id;
 import net.tiklab.dal.jpa.annotation.Table;import net.tiklab.dal.jpa.annotation.Entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity @Table(name="kanass_category")
 public class CategoryEntity implements Serializable {
@@ -31,6 +32,9 @@ public class CategoryEntity implements Serializable {
     //上一级id
     @Column(name = "parent_category_id",length = 32)
     private String parentCategoryId;
+
+    @Column(name = "update_time")
+    private Timestamp updateTime;
 
     //描述
     @Column(name = "sort")
@@ -82,5 +86,13 @@ public class CategoryEntity implements Serializable {
 
     public void setMaster(String master) {
         this.master = master;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 }

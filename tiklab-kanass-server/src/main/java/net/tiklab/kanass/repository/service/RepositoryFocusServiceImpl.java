@@ -5,10 +5,12 @@ import net.tiklab.core.page.Pagination;
 import net.tiklab.core.page.PaginationBuilder;
 import net.tiklab.join.JoinTemplate;
 import net.tiklab.kanass.repository.dao.RepositoryFocusDao;
+import net.tiklab.kanass.repository.entity.RepositoryEntity;
 import net.tiklab.kanass.repository.entity.RepositoryFocusEntity;
 import net.tiklab.kanass.repository.model.RepositoryFocus;
 import net.tiklab.kanass.repository.model.RepositoryFocusQuery;
 
+import net.tiklab.utils.context.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,8 @@ public class RepositoryFocusServiceImpl implements RepositoryFocusService {
 
     @Override
     public String createRepositoryFocus(@NotNull @Valid RepositoryFocus repositoryFocus) {
+        String userId = LoginContext.getLoginId();
+        repositoryFocus.setMasterId(userId);
         RepositoryFocusEntity repositoryFocusEntity = BeanMapper.map(repositoryFocus, RepositoryFocusEntity.class);
 
         return repositoryFocusDao.createRepositoryFocus(repositoryFocusEntity);
@@ -47,6 +51,16 @@ public class RepositoryFocusServiceImpl implements RepositoryFocusService {
     @Override
     public void deleteRepositoryFocus(@NotNull String id) {
         repositoryFocusDao.deleteRepositoryFocus(id);
+    }
+
+    @Override
+    public void deleteRepositoryFocusByCondition(RepositoryFocusQuery repositoryFocusQuery) {
+        List<RepositoryFocusEntity> repositoryFocusList = repositoryFocusDao.findRepositoryFocusList(repositoryFocusQuery);
+        if(repositoryFocusList.size() > 0){
+            for (RepositoryFocusEntity repositoryFocus : repositoryFocusList) {
+                deleteRepositoryFocus(repositoryFocus.getId());
+            }
+        }
     }
 
     @Override

@@ -15,6 +15,11 @@ import java.util.List;
 @ApiModel
 @CriteriaQuery(entityAlias = "RepositoryFocusEntity")
 public class RepositoryFocusQuery {
+        @ApiProperty(name ="masterId",desc = "收藏者id")
+        private String masterId;
+
+        @ApiProperty(name ="repositoryId",desc = "知识库id")
+        private String repositoryId;
 
         @ApiProperty(name ="orderParams",desc = "排序参数")
         @OrderField
@@ -23,6 +28,22 @@ public class RepositoryFocusQuery {
         @ApiProperty(name ="pageParam",desc = "分页参数")
         @PageField
         private Page pageParam = new Page();
+
+        public String getMasterId() {
+                return masterId;
+        }
+
+        public void setMasterId(String masterId) {
+                this.masterId = masterId;
+        }
+
+        public String getRepositoryId() {
+                return repositoryId;
+        }
+
+        public void setRepositoryId(String repositoryId) {
+                this.repositoryId = repositoryId;
+        }
 
         public List<Order> getOrderParams() {
             return orderParams;

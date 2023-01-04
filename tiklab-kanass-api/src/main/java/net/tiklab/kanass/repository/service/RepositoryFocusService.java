@@ -32,6 +32,8 @@ public interface RepositoryFocusService {
     */
     void deleteRepositoryFocus(@NotNull String id);
 
+    void deleteRepositoryFocusByCondition(@NotNull @Valid RepositoryFocusQuery repositoryFocusQuery);
+
     RepositoryFocus findOne(@NotNull String id);
 
     List<RepositoryFocus> findList(List<String> idList);

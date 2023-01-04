@@ -75,4 +75,6 @@ public interface RepositoryService {
 
     List<Repository> findRecentRepositoryList(DocumentRecentQuery documentRecentQuery);
 
+    List<Repository> findFocusRepositoryList(RepositoryQuery repositoryQuery);
+
 }

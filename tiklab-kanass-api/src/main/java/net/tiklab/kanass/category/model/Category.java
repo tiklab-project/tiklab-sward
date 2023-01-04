@@ -1,5 +1,6 @@
 package net.tiklab.kanass.category.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import net.tiklab.postin.annotation.ApiModel;
 import net.tiklab.postin.annotation.ApiProperty;
 import net.tiklab.beans.annotation.Mapper;
@@ -12,6 +13,7 @@ import net.tiklab.user.user.model.User;
 import net.tiklab.kanass.document.model.Document;
 import net.tiklab.kanass.repository.model.Repository;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +62,10 @@ public class Category extends BaseModel{
 
    @ApiProperty(name="formatType",desc="格式类型  category 目录  document 文档")
     private java.lang.String formatType="category";
+
+    @ApiProperty(name="updateTime",desc="updateTime",required = true)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Timestamp updateTime;
 
     public java.lang.String getId() {
         return id;
@@ -130,5 +136,13 @@ public class Category extends BaseModel{
 
     public void setMaster(User master) {
         this.master = master;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 }

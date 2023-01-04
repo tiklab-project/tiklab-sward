@@ -60,6 +60,15 @@ public class RepositoryFocusController {
         return Result.ok();
     }
 
+    @RequestMapping(path="/deleteRepositoryFocusByCondition",method = RequestMethod.POST)
+    @ApiMethod(name = "deleteRepositoryFocusByCondition",desc = "deleteRepositoryFocusByCondition")
+    @ApiParam(name = "repositoryFocusQuery",desc = "repositoryFocusQuery",required = true)
+    public Result<Void> deleteRepositoryFocusByCondition(@RequestBody @Valid @NotNull RepositoryFocusQuery repositoryFocusQuery){
+        repositoryFocusService.deleteRepositoryFocusByCondition(repositoryFocusQuery);
+
+        return Result.ok();
+    }
+
     @RequestMapping(path="/findRepositoryFocus",method = RequestMethod.POST)
     @ApiMethod(name = "findRepositoryFocus",desc = "findRepositoryFocus")
     @ApiParam(name = "id",desc = "id",required = true)
