@@ -111,20 +111,19 @@ public class RepositoryServiceImpl implements RepositoryService {
     public String createRepository(@NotNull @Valid Repository repository) {
         Date date = new java.sql.Date(new Date().getTime());
         repository.setCreateTime(date);
-        RepositoryEntity repositoryEntity = BeanMapper.map(repository, RepositoryEntity.class);
 
+        String masterId = LoginContext.getLoginId();;
+        User user = new User();
+        user.setId(masterId);
+        repository.setMaster(user);
+
+        RepositoryEntity repositoryEntity = BeanMapper.map(repository, RepositoryEntity.class);
         String id = repositoryDao.createRepository(repositoryEntity);
 
-
-        String masterId = repository.getMaster().getId();
         //初始化项目成员
         DmUser dmUser = new DmUser();
         dmUser.setDomainId(id);
         dmUser.setTagValue(masterId);
-       // dmUser.setUser(new User().setId(findCreatUser()));
-        User user = new User();
-        user.setId(masterId);
-
         dmUser.setUser(user);
         dmUserService.createDmUser(dmUser);
 

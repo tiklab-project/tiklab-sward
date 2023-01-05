@@ -87,6 +87,7 @@ public class DocumentRecentDao{
         QueryCondition queryCondition = QueryBuilders.createQuery(DocumentRecentEntity.class)
                 .eq("modelId", documentRecentQuery.getModelId())
                 .eq("masterId", documentRecentQuery.getMasterId())
+                .eq("repositoryId", documentRecentQuery.getRepositoryId())
                 .eq("model", documentRecentQuery.getModel())
                 .in("model", documentRecentQuery.getModels())
                 .orders(documentRecentQuery.getOrderParams())

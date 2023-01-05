@@ -38,7 +38,7 @@ public class Repository extends BaseModel{
 
     //@NotNull
     @ApiProperty(name="typeId",desc="typeId")
-    private java.lang.String typeId="1";
+    private String typeId="1";
 
     @ApiProperty(name="master",desc="负责人",eg="@selectOne")
     @Mappings({
@@ -49,7 +49,10 @@ public class Repository extends BaseModel{
 
     //权限范围 0 全部可见 1成员可见
     @ApiProperty(name="limits",desc="limits")
-    private java.lang.String limits;
+    private String limits;
+
+    @ApiProperty(name="iconUrl",desc="iconUrl")
+    private String iconUrl;
 
     @ApiProperty(name="createTime",desc="createTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -111,5 +114,13 @@ public class Repository extends BaseModel{
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 }

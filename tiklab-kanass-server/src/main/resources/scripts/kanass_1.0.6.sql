@@ -1,0 +1,1 @@
+ALTER TABLE kanass_repository ADD icon_url VARCHAR(64);

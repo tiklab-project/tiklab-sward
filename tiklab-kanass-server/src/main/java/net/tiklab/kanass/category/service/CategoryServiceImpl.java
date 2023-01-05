@@ -6,6 +6,7 @@ import net.tiklab.core.page.Pagination;
 import net.tiklab.core.page.PaginationBuilder;
 import net.tiklab.join.JoinTemplate;
 import net.tiklab.kanass.category.support.OpLogTemplateCategory;
+import net.tiklab.kanass.document.entity.DocumentEntity;
 import net.tiklab.logging.modal.Logging;
 import net.tiklab.logging.modal.LoggingType;
 import net.tiklab.logging.service.LoggingByTemplService;
@@ -164,7 +165,18 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Object> findCategoryDocument(@NotNull String id) {
         List<Object> objects = new ArrayList<>();
-        objects = categoryDao.findCategoryDocument(id);
+        List<CategoryEntity> categoryEntityList = categoryDao.findCategoryDocument(id);
+        List<Category> categoryList =  BeanMapper.mapList(categoryEntityList,Category.class);
+
+        joinTemplate.joinQuery(categoryList);
+        objects.addAll(categoryList);
+
+        List<DocumentEntity> documentEntityList = categoryDao.findDocumentDocument(id);
+        List<Document> documentList =  BeanMapper.mapList(documentEntityList,Document.class);
+
+        joinTemplate.joinQuery(documentList);
+        objects.addAll(documentList);
+
         return objects;
     }
 

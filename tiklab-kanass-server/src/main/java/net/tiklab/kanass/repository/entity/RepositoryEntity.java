@@ -33,6 +33,9 @@ public class RepositoryEntity implements Serializable {
     @Column(name = "limits",length = 32,notNull = true)
     private String limits;
 
+    @Column(name = "icon_url",length = 32,notNull = true)
+    private String iconUrl;
+
     //添加时间
     @Column(name = "create_time")
     private Date createTime;
@@ -95,5 +98,13 @@ public class RepositoryEntity implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 }

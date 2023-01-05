@@ -1,20 +1,25 @@
 package net.tiklab.kanass.category.dao;
 
+import net.tiklab.beans.BeanMapper;
 import net.tiklab.core.page.Pagination;
 import net.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import net.tiklab.dal.jpa.criterial.condition.DeleteCondition;
 import net.tiklab.dal.jpa.criterial.condition.QueryCondition;
 import net.tiklab.kanass.category.entity.CategoryEntity;
+import net.tiklab.kanass.category.model.Category;
 import net.tiklab.kanass.category.model.CategoryQuery;
 import net.tiklab.dal.jpa.JpaTemplate;
 import net.tiklab.kanass.document.entity.DocumentEntity;
+import net.tiklab.kanass.document.model.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * CategoryDao
@@ -70,24 +75,19 @@ public class CategoryDao{
      * @param id
      * @return
      */
-    public List<Object> findCategoryDocument(String id){
-        List<Object> objects = new ArrayList<>();
-
+    public List<CategoryEntity> findCategoryDocument(String id){
         QueryCondition queryCondition = QueryBuilders.createQuery(CategoryEntity.class,"ce").eq("ce.parentCategoryId",id).get();
-        List<CategoryEntity> categoryList = jpaTemplate.findList(queryCondition,CategoryEntity.class);
-
-        if(categoryList.size() > 0) {
-            objects.addAll(categoryList);
-        }
-        queryCondition = QueryBuilders.createQuery(DocumentEntity.class,"de").eq("de.categoryId",id).get();
-        List<DocumentEntity> documentList = jpaTemplate.findList(queryCondition,DocumentEntity.class);
-
-        if(documentList.size() >0){
-            objects.addAll(documentList);
-        }
-
-        return objects;
+        List<CategoryEntity> categoryEntityList = jpaTemplate.findList(queryCondition,CategoryEntity.class);
+        return categoryEntityList;
     }
+
+    public List<DocumentEntity> findDocumentDocument(String id){
+        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentEntity.class,"de").eq("de.categoryId",id).get();
+        List<DocumentEntity> documentEntityList = jpaTemplate.findList(queryCondition,DocumentEntity.class);
+
+        return documentEntityList;
+    }
+
     /**
     * findAllCategory
     * @return

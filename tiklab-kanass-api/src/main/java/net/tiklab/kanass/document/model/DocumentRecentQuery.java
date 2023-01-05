@@ -23,6 +23,9 @@ public class DocumentRecentQuery {
         @ApiProperty(name ="masterId",desc = "目录id")
         private String masterId;
 
+        @ApiProperty(name ="repositoryId",desc = "知识库id")
+        private String repositoryId;
+
         @ApiProperty(name ="orderParams",desc = "排序参数")
         private List<Order> orderParams = OrderBuilders.instance().asc("recentTime").get();
 
@@ -75,5 +78,13 @@ public class DocumentRecentQuery {
 
     public void setModels(String[] models) {
         this.models = models;
+    }
+
+    public String getRepositoryId() {
+        return repositoryId;
+    }
+
+    public void setRepositoryId(String repositoryId) {
+        this.repositoryId = repositoryId;
     }
 }
