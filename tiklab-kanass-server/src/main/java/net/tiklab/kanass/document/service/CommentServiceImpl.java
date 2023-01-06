@@ -101,7 +101,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> findCommentList(CommentQuery commentQuery,String type) {
+    public List<Comment> findCommentList(CommentQuery commentQuery) {
         List<CommentEntity> commentEntityList = commentDao.findCommentList(commentQuery);
 
 
@@ -109,7 +109,7 @@ public class CommentServiceImpl implements CommentService {
 
         joinTemplate.joinQuery(commentList);
 
-        findLike(commentList,type);
+//        findLike(commentList,type);
         List<Comment> fistOneComment = findComment(commentList);
 
         return fistOneComment;

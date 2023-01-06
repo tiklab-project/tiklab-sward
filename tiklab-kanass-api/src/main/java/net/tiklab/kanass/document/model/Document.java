@@ -76,7 +76,7 @@ public class Document extends BaseModel{
     private List<String> likeUserList;
 
     @ApiProperty(name="isLike",desc="查询人是否点赞")
-    private  java.lang.String isLike;
+    private boolean isLike;
 
     @ApiProperty(name="isRele",desc="是否关联事项")
     private  java.lang.Boolean isRele;
@@ -159,12 +159,12 @@ public class Document extends BaseModel{
         this.likeUserList = likeUserList;
     }
 
-    public String getIsLike() {
+    public boolean isLike() {
         return isLike;
     }
 
-    public void setIsLike(String isLike) {
-        this.isLike = isLike;
+    public void setLike(boolean like) {
+        isLike = like;
     }
 
     public Boolean getRele() {

@@ -54,6 +54,12 @@ public class Repository extends BaseModel{
     @ApiProperty(name="iconUrl",desc="iconUrl")
     private String iconUrl;
 
+    @ApiProperty(name="categoryNum",desc="iconUrl")
+    private Integer categoryNum;
+
+    @ApiProperty(name="documentNum",desc="iconUrl")
+    private Integer documentNum;
+
     @ApiProperty(name="createTime",desc="createTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @JSONField(format = "yyyy-MM-dd")
@@ -106,6 +112,22 @@ public class Repository extends BaseModel{
 
     public void setLimits(String limits) {
         this.limits = limits;
+    }
+
+    public Integer getCategoryNum() {
+        return categoryNum;
+    }
+
+    public void setCategoryNum(Integer categoryNum) {
+        this.categoryNum = categoryNum;
+    }
+
+    public Integer getDocumentNum() {
+        return documentNum;
+    }
+
+    public void setDocumentNum(Integer documentNum) {
+        this.documentNum = documentNum;
     }
 
     public Date getCreateTime() {

@@ -5,24 +5,18 @@ import net.tiklab.beans.BeanMapper;
 import net.tiklab.core.page.Pagination;
 import net.tiklab.core.page.PaginationBuilder;
 import net.tiklab.join.JoinTemplate;
-import net.tiklab.kanass.category.model.Category;
-import net.tiklab.kanass.category.support.OpLogTemplateCategory;
 import net.tiklab.kanass.document.support.OpLogTemplateDocument;
 import net.tiklab.logging.modal.Logging;
 import net.tiklab.logging.modal.LoggingType;
 import net.tiklab.logging.service.LoggingByTemplService;
 import net.tiklab.rpc.annotation.Exporter;
 import net.tiklab.user.user.model.User;
-import net.tiklab.kanass.document.dao.CommentDao;
 import net.tiklab.kanass.document.dao.DocumentDao;
-import net.tiklab.kanass.document.dao.LikeDao;
-import net.tiklab.kanass.document.entity.CommentEntity;
 import net.tiklab.kanass.document.entity.DocumentEntity;
-import net.tiklab.kanass.document.entity.LikeEntity;
-import net.tiklab.kanass.document.model.*;
 import net.tiklab.kanass.document.model.*;
 import net.tiklab.user.user.service.UserService;
 import net.tiklab.utils.context.LoginContext;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -58,10 +52,10 @@ public class DocumentServiceImpl implements DocumentService {
     LoggingByTemplService loggingByTemplService;
 
     @Autowired
-    CommentDao commentDao;
+    CommentService commentService;
 
     @Autowired
-    LikeDao likeDao;
+    LikeService likeService;
 
     @Value("${base.url:null")
     String baseUrl;
@@ -109,7 +103,7 @@ public class DocumentServiceImpl implements DocumentService {
         }
         creatDynamic(content);
 
-        return documentDao.createDocument(documentEntity);
+        return documentId;
     }
 
     @Override
@@ -141,17 +135,11 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Document findOne(String id,String type) {
+    public Document findOne(String id) {
+
         DocumentEntity documentEntity = documentDao.findDocument(id);
-        //查询该文档的所有评论
-        List<CommentEntity> commentList = commentDao.findCommentList(new CommentQuery().setDocumentId(id));
 
         Document document = BeanMapper.map(documentEntity, Document.class);
-        if (!commentList.isEmpty()){
-            //添加评论数
-            document.setCommentNumber(commentList.size());
-        }
-        findLike(document,type);
 
         return document;
     }
@@ -165,10 +153,24 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public Document findDocument(@NotNull String id,String type) {
-        Document document = findOne(id,type);
+    public Document findDocument(@NotNull String id) {
+        Document document = findOne(id);
 
         joinTemplate.joinQuery(document);
+
+        //查询该文档的所有评论
+        CommentQuery commentQuery = new CommentQuery();
+        commentQuery.setDocumentId(id);
+        List<Comment> commentList = commentService.findCommentList(commentQuery);
+
+        if (!commentList.isEmpty()){
+            //添加评论数
+            document.setCommentNumber(commentList.size());
+        }else {
+            document.setCommentNumber(0);
+        }
+        findLike(document);
+
         return document;
     }
 
@@ -176,6 +178,8 @@ public class DocumentServiceImpl implements DocumentService {
     public Document findDocumentById(@NotNull String id) {
         DocumentEntity documentEntity = documentDao.findDocument(id);
         Document document = BeanMapper.map(documentEntity, Document.class);
+
+
         joinTemplate.joinQuery(document);
         return document ;
     }
@@ -219,27 +223,21 @@ public class DocumentServiceImpl implements DocumentService {
      *查询点赞
      * @param
      */
-    public void findLike( Document document,String type){
+    public void findLike( Document document){
         LikeQuery likeQuery = new LikeQuery();
         likeQuery.setToWhomId(document.getId());
         likeQuery.setLikeType("doc");
-        List<LikeEntity> likeList = likeDao.findLikeList(likeQuery);
+        List<Like> likeList = likeService.findLikeList(likeQuery);
+
         if (!likeList.isEmpty()){
-            //view  是分享出去后访问的
-            if ("view".equals(type)){
-                document.setIsLike("false");
+            String createUserId = LoginContext.getLoginId();
+            List<Like> collect1 = likeList.stream().filter(a -> createUserId.equals(a.getLikeUser().getId())).collect(Collectors.toList());
+            if (CollectionUtils.isNotEmpty(collect1)){
+                document.setLike(true);
             }else {
-                //根据用户id判断该用户是否点赞了
-//                List<LikeEntity> collect1 = likeList.stream().filter(a -> findCreatUser().equals(a.getLikeUser())).collect(Collectors.toList());
-//                if (CollectionUtils.isNotEmpty(collect1)){
-//                    document.setIsLike("true");
-//                }else {
-//                    document.setIsLike("false");
-//                }
+                document.setLike(false);
             }
-            List<Like> likes = BeanMapper.mapList(likeList, Like.class);
-            joinTemplate.joinQuery(likes);
-            List<User> userList = likes.stream().map(Like::getLikeUser).collect(Collectors.toList());
+            List<User> userList = likeList.stream().map(Like::getLikeUser).collect(Collectors.toList());
             if(!userList.isEmpty()){
                 //取点赞人名字
                 List<String> collect = userList.stream().map(User::getName).collect(Collectors.toList());
@@ -248,7 +246,8 @@ public class DocumentServiceImpl implements DocumentService {
             document.setLikenumInt(likeList.size());
 
         }else {
-            document.setIsLike("false");
+            document.setLike(false);
+            document.setLikenumInt(0);
         }
     }
 

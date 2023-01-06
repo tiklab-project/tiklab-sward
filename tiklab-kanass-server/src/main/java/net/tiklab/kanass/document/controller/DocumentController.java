@@ -68,7 +68,7 @@ public class DocumentController {
     @ApiMethod(name = "findDocument",desc = "通过id查询文档")
     @ApiParam(name = "id",desc = "id",required = true)
     public Result<Document> findDocument(@NotNull String id){
-        Document document = documentService.findDocument(id,null);
+        Document document = documentService.findDocument(id);
 
         return Result.ok(document);
     }

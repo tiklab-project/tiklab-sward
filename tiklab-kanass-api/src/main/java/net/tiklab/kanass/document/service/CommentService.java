@@ -62,7 +62,7 @@ public interface CommentService {
      * @param type  转发后查看评论
     * @return
     */
-    List<Comment> findCommentList(CommentQuery commentQuery,String type);
+    List<Comment> findCommentList(CommentQuery commentQuery);
 
     /**
     * 按分页查询

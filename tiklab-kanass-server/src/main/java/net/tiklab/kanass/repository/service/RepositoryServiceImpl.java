@@ -6,8 +6,11 @@ import net.tiklab.core.page.Pagination;
 import net.tiklab.core.page.PaginationBuilder;
 import net.tiklab.dss.client.DssClient;
 import net.tiklab.join.JoinTemplate;
+import net.tiklab.kanass.category.model.Category;
+import net.tiklab.kanass.category.model.CategoryQuery;
 import net.tiklab.kanass.category.support.OpLogTemplateCategory;
 import net.tiklab.kanass.document.model.Document;
+import net.tiklab.kanass.document.model.DocumentQuery;
 import net.tiklab.kanass.repository.support.OpLogTemplateRepository;
 import net.tiklab.logging.modal.Logging;
 import net.tiklab.logging.modal.LoggingType;
@@ -260,7 +263,22 @@ public class RepositoryServiceImpl implements RepositoryService {
         documentRecentQuery.setMasterId(createUserId);
         List<RepositoryEntity> recentRepositoryList = repositoryDao.findRecentRepositoryList(documentRecentQuery);
 
+
         List<Repository> repositoryList = BeanMapper.mapList(recentRepositoryList,Repository.class);
+
+        for (Repository repository : repositoryList) {
+            String id = repository.getId();
+
+            CategoryQuery categoryQuery = new CategoryQuery();
+            categoryQuery.setRepositoryId(id);
+            List<Category> categoryList = categoryService.findCategoryList(categoryQuery);
+            repository.setCategoryNum(categoryList.size());
+
+            DocumentQuery documentQuery = new DocumentQuery();
+            documentQuery.setRepositoryId(id);
+            List<Document> documentList = documentService.findDocumentList(documentQuery);
+            repository.setDocumentNum(documentList.size());
+        }
 
         joinTemplate.joinQuery(repositoryList);
 

@@ -53,7 +53,7 @@ public class DocumentServiceImplTest {
 
     @Test
     public void test03ForFindDocument() {
-        Document document = documentService.findDocument(id,null);
+        Document document = documentService.findDocument(id);
 
         assertNotNull(document);
     }
