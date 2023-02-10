@@ -161,14 +161,36 @@ public class CategoryServiceImpl implements CategoryService {
         return category;
     }
 
-
-    @Override
-    public List<Object> findCategoryDocument(@NotNull String id) {
-        List<Object> objects = new ArrayList<>();
+    public List<Category> findCategoryList(@NotNull String id) {
         List<CategoryEntity> categoryEntityList = categoryDao.findCategoryDocument(id);
         List<Category> categoryList =  BeanMapper.mapList(categoryEntityList,Category.class);
 
         joinTemplate.joinQuery(categoryList);
+        for (Category category : categoryList) {
+            String id1 = category.getId();
+            List<Category> categoryList1 = findCategoryList(id1);
+            joinTemplate.joinQuery(categoryList);
+            if(categoryList1.size() > 0){
+                category.setChildren(categoryList1);
+            }
+
+            List<DocumentEntity> documentEntityList = categoryDao.findDocumentDocument(id1);
+            List<Document> documentList =  BeanMapper.mapList(documentEntityList,Document.class);
+
+            joinTemplate.joinQuery(documentList);
+            if(documentList.size() > 0){
+                category.setDocuments(documentList);
+            }
+        }
+        return categoryList;
+    }
+    @Override
+    public List<Object> findCategoryDocument(@NotNull String id) {
+        List<Object> objects = new ArrayList<>();
+//        List<CategoryEntity> categoryEntityList = categoryDao.findCategoryDocument(id);
+//        List<Category> categoryList =  BeanMapper.mapList(categoryEntityList,Category.class);
+//        joinTemplate.joinQuery(categoryList);
+        List<Category> categoryList = findCategoryList(id);
         objects.addAll(categoryList);
 
         List<DocumentEntity> documentEntityList = categoryDao.findDocumentDocument(id);
