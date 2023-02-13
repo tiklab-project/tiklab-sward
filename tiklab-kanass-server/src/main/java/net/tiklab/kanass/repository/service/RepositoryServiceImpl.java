@@ -15,12 +15,12 @@ import net.tiklab.kanass.repository.support.OpLogTemplateRepository;
 import net.tiklab.logging.modal.Logging;
 import net.tiklab.logging.modal.LoggingType;
 import net.tiklab.logging.service.LoggingByTemplService;
-import net.tiklab.privilege.role.service.DmRoleService;
+import net.tiklab.privilege.roleDmRole.service.DmRoleService;
 import net.tiklab.rpc.annotation.Exporter;
-import net.tiklab.user.user.model.DmUser;
-import net.tiklab.user.user.model.DmUserQuery;
+import net.tiklab.user.dmUser.model.DmUser;
+import net.tiklab.user.dmUser.model.DmUserQuery;
+import net.tiklab.user.dmUser.service.DmUserService;
 import net.tiklab.user.user.model.User;
-import net.tiklab.user.user.service.DmUserService;
 import net.tiklab.user.user.service.UserService;
 import net.tiklab.utils.context.LoginContext;
 import net.tiklab.kanass.category.service.CategoryService;
@@ -126,7 +126,7 @@ public class RepositoryServiceImpl implements RepositoryService {
         //初始化项目成员
         DmUser dmUser = new DmUser();
         dmUser.setDomainId(id);
-        dmUser.setTagValue(masterId);
+        dmUser.setUser(user);
         dmUser.setUser(user);
         dmUserService.createDmUser(dmUser);
 
@@ -222,7 +222,7 @@ public class RepositoryServiceImpl implements RepositoryService {
 
         String userId = LoginContext.getLoginId();
         DmUserQuery dmUserQuery = new DmUserQuery();
-        dmUserQuery.setTagValue(userId);
+        dmUserQuery.setUserId(userId);
         List<DmUser> dmUserList = dmUserService.findDmUserList(dmUserQuery);
         List<String> collect = dmUserList.stream().map(DmUser::getDomainId).collect(Collectors.toList());
         String[] arr = collect.toArray(new String[collect.size()]);
@@ -242,7 +242,7 @@ public class RepositoryServiceImpl implements RepositoryService {
 
         String userId = LoginContext.getLoginId();
         DmUserQuery dmUserQuery = new DmUserQuery();
-        dmUserQuery.setTagValue(userId);
+        dmUserQuery.setUserId(userId);
         List<DmUser> dmUserList = dmUserService.findDmUserList(dmUserQuery);
         List<String> collect = dmUserList.stream().map(DmUser::getDomainId).collect(Collectors.toList());
         String[] arr = collect.toArray(new String[collect.size()]);
