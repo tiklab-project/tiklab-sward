@@ -18,8 +18,8 @@ public class DocumentTemplate extends BaseModel{
     @ApiProperty(name="name",desc="名称",required = true)
     private java.lang.String name;
 
-    @NotNull
-    @ApiProperty(name="description",desc="描述",required = true)
+
+    @ApiProperty(name="description",desc="描述")
     private java.lang.String description;
 
     @ApiProperty(name="details",desc="详情")
