@@ -1,10 +1,11 @@
-package net.tiklab.kanass.integration.cf.service;
+package net.tiklab.kanass.repository.service;
 
 
 import net.tiklab.dal.jpa.JpaTemplate;
 import net.tiklab.kanass.category.dao.CategoryDao;
 import net.tiklab.kanass.document.dao.DocumentDao;
 import net.tiklab.kanass.repository.dao.RepositoryDao;
+import net.tiklab.kanass.repository.service.CfImportDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

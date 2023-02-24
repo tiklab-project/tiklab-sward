@@ -1,11 +1,11 @@
-package net.tiklab.kanass.integration.cf.controller;
+package net.tiklab.kanass.repository.controller;
 
 import net.tiklab.postin.annotation.Api;
 import net.tiklab.postin.annotation.ApiMethod;
 import net.tiklab.postin.annotation.ApiParam;
 import net.tiklab.core.Result;
 import net.tiklab.core.exception.ApplicationException;
-import net.tiklab.kanass.integration.cf.service.CfImportDataService;
+import net.tiklab.kanass.repository.service.CfImportDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

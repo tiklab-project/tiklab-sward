@@ -12,7 +12,6 @@ import net.tiklab.kanass.document.model.DocumentRecentQuery;
 import net.tiklab.kanass.repository.entity.RepositoryEntity;
 import net.tiklab.kanass.repository.entity.RepositoryFocusEntity;
 import net.tiklab.kanass.repository.model.RepositoryQuery;
-import net.tiklab.teamwire.project.model.ProjectQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

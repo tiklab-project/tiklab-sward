@@ -1,4 +1,4 @@
-package net.tiklab.kanass.integration.cf.util;
+package net.tiklab.kanass.repository.util;
 
 import org.springframework.util.ObjectUtils;
 

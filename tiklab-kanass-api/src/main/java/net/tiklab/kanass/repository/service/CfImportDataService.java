@@ -1,4 +1,4 @@
-package net.tiklab.kanass.integration.cf.service;
+package net.tiklab.kanass.repository.service;
 
 import java.io.InputStream;
 

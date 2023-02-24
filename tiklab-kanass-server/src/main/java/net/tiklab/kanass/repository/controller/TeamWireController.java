@@ -1,4 +1,4 @@
-package net.tiklab.kanass.integration.teamwire.controller;
+package net.tiklab.kanass.repository.controller;
 
 import net.tiklab.postin.annotation.Api;
 import net.tiklab.postin.annotation.ApiMethod;
@@ -6,9 +6,9 @@ import net.tiklab.postin.annotation.ApiParam;
 import net.tiklab.core.page.Pagination;
 import net.tiklab.core.Result;
 import net.tiklab.rpc.annotation.Reference;
-import net.tiklab.teamwire.project.model.Project;
-import net.tiklab.teamwire.project.model.ProjectQuery;
-import net.tiklab.teamwire.project.service.ProjectService;
+import net.tiklab.teamwire.project.project.model.Project;
+import net.tiklab.teamwire.project.project.model.ProjectQuery;
+import net.tiklab.teamwire.project.project.service.ProjectService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
