@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>net.tiklab</groupId>
+        <groupId>io.tiklab</groupId>
         <artifactId>tiklab-dependencies</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
@@ -28,77 +28,77 @@
         <dependencies>
             <!--tiklab-->
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-utils</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-web-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-tks-annotation</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-tks-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-dss-annotation</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-dal-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-rpc-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-dss-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-dfs-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-dcs-spring-boot-starter</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-codegen-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-postin-annotation</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.tiklab</groupId>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-postin-client</artifactId>
                 <version>${project.version}</version>
             </dependency>

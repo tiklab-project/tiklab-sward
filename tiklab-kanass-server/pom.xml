@@ -3,10 +3,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.tiklab</groupId>
+    <groupId>io.tiklab</groupId>
     <version>1.0.0-SNAPSHOT</version>
     <parent>
-        <groupId>net.tiklab</groupId>
+        <groupId>io.tiklab</groupId>
         <artifactId>tiklab-kanass</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
@@ -45,72 +45,72 @@
         </dependency>
         <!--tiklab-->
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-tks-spring-boot-starter</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-web-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-dal-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-dss-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-codegen-core</artifactId>
             <scope>test</scope>
         </dependency>
         <!--pcs-->
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-user-api</artifactId>
-            <version>${project.version}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-eam-api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-privilege-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-licence-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
+            <artifactId>tiklab-security-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-form-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-flow-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.tiklab</groupId>
-            <artifactId>tiklab-toolkit-spring-boot-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!--other-->
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-kanass-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-postin-client</artifactId>
         </dependency>
         <dependency>
@@ -132,14 +132,20 @@
             <version>1.1.3.4d_b4_min</version>
         </dependency>
         <dependency>
-            <groupId>net.tiklab</groupId>
+            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-teamwire-api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.tiklab</groupId>
-            <artifactId>tiklab-logging-api</artifactId>
+            <groupId>io.tiklab</groupId>
+            <artifactId>tiklab-security-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.tiklab</groupId>
+            <artifactId>tiklab-dsm-annotation</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
