@@ -80,11 +80,6 @@
         </dependency>
         <dependency>
             <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-privilege-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-licence-api</artifactId>
             <version>${project.version}</version>
         </dependency>

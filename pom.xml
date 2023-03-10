@@ -34,27 +34,27 @@
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
-                <artifactId>tiklab-utils</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-web-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
-                <artifactId>tiklab-tks-annotation</artifactId>
+                <artifactId>tiklab-beans-annotation</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
-                <artifactId>tiklab-tks-core</artifactId>
+                <artifactId>tiklab-beans-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
-                <artifactId>tiklab-core</artifactId>
+                <artifactId>tiklab-join-annotation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-join-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
