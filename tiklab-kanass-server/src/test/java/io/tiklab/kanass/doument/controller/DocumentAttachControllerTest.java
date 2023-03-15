@@ -1,7 +1,7 @@
 package io.tiklab.kanass.doument.controller;
 
+import io.tiklab.core.utils.MapUtils;
 import io.tiklab.kanass.document.model.DocumentAttach;
-import io.tiklab.utils.MapUtils;
 import io.tiklab.core.Result;
 import io.tiklab.postin.client.mock.JMockit;
 import io.tiklab.kanass.config.TestConfig;

@@ -1,6 +1,7 @@
 package io.tiklab.kanass.document.service;
 
 import com.alibaba.fastjson.JSONObject;
+import io.tiklab.eam.common.context.LoginContext;
 import io.tiklab.kanass.document.entity.DocumentEntity;
 import io.tiklab.kanass.document.model.*;
 import io.tiklab.kanass.document.support.OpLogTemplateDocument;
@@ -16,7 +17,6 @@ import io.tiklab.security.logging.model.LoggingType;
 import io.tiklab.security.logging.service.LoggingByTemplService;
 import io.tiklab.user.user.model.User;
 import io.tiklab.user.user.service.UserService;
-import io.tiklab.utils.context.LoginContext;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

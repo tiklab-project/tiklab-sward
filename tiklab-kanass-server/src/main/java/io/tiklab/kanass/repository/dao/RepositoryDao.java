@@ -112,8 +112,8 @@ public class RepositoryDao{
     public List<RepositoryEntity> findRecentRepositoryList(DocumentRecentQuery documentRecentQuery) {
         QueryCondition queryCondition = QueryBuilders.createQuery(RepositoryEntity.class, "re")
                 .leftJoin(DocumentRecentEntity.class,"dr","dr.modelId=re.id")
-                .eq("masterId", documentRecentQuery.getMasterId())
-                .eq("model","wiki")
+                .eq("dr.masterId", documentRecentQuery.getMasterId())
+                .eq("dr.model","repository")
                 .orders(documentRecentQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, RepositoryEntity.class);

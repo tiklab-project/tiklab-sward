@@ -1,6 +1,7 @@
 package io.tiklab.kanass.category.service;
 
 import com.alibaba.fastjson.JSONObject;
+import io.tiklab.eam.common.context.LoginContext;
 import io.tiklab.kanass.category.entity.CategoryEntity;
 import io.tiklab.kanass.category.model.Category;
 import io.tiklab.kanass.category.model.CategoryQuery;
@@ -20,7 +21,6 @@ import io.tiklab.security.logging.model.LoggingType;
 import io.tiklab.security.logging.service.LoggingByTemplService;
 import io.tiklab.user.user.model.User;
 import io.tiklab.user.user.service.UserService;
-import io.tiklab.utils.context.LoginContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

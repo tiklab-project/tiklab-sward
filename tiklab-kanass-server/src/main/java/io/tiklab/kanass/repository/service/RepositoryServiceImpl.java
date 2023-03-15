@@ -1,6 +1,7 @@
 package io.tiklab.kanass.repository.service;
 
 import com.alibaba.fastjson.JSONObject;
+import io.tiklab.eam.common.context.LoginContext;
 import io.tiklab.kanass.document.model.Document;
 import io.tiklab.kanass.document.model.DocumentQuery;
 import io.tiklab.kanass.document.model.DocumentRecent;
@@ -24,7 +25,6 @@ import io.tiklab.user.dmUser.model.DmUserQuery;
 import io.tiklab.user.dmUser.service.DmUserService;
 import io.tiklab.user.user.model.User;
 import io.tiklab.user.user.service.UserService;
-import io.tiklab.utils.context.LoginContext;
 import io.tiklab.kanass.category.service.CategoryService;
 import io.tiklab.kanass.document.service.DocumentService;
 import io.tiklab.kanass.repository.dao.RepositoryDao;

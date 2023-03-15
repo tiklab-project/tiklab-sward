@@ -1,5 +1,6 @@
 package io.tiklab.kanass.repository.service;
 
+import io.tiklab.eam.common.context.LoginContext;
 import io.tiklab.kanass.repository.model.RepositoryFocus;
 import io.tiklab.kanass.repository.model.RepositoryFocusQuery;
 import io.tiklab.beans.BeanMapper;
@@ -9,7 +10,7 @@ import io.tiklab.join.JoinTemplate;
 import io.tiklab.kanass.repository.dao.RepositoryFocusDao;
 import io.tiklab.kanass.repository.entity.RepositoryFocusEntity;
 
-import io.tiklab.utils.context.LoginContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
