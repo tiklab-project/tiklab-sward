@@ -9,15 +9,13 @@ import io.tiklab.beans.BeanMapper;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.core.page.PaginationBuilder;
 import io.tiklab.join.JoinTemplate;
-import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.kanass.document.dao.DocumentDao;
-import io.tiklab.kanass.document.model.*;
+import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.security.logging.model.Logging;
 import io.tiklab.security.logging.model.LoggingType;
 import io.tiklab.security.logging.service.LoggingByTemplService;
 import io.tiklab.user.user.model.User;
 import io.tiklab.user.user.service.UserService;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -233,7 +231,7 @@ public class DocumentServiceImpl implements DocumentService {
         if (!likeList.isEmpty()){
             String createUserId = LoginContext.getLoginId();
             List<Like> collect1 = likeList.stream().filter(a -> createUserId.equals(a.getLikeUser().getId())).collect(Collectors.toList());
-            if (CollectionUtils.isNotEmpty(collect1)){
+            if (collect1.isEmpty()){
                 document.setLike(true);
             }else {
                 document.setLike(false);
