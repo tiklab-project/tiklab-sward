@@ -56,7 +56,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Autowired
     LikeService likeService;
 
-    @Value("${base.url:null")
+    @Value("${base.url:null}")
     String baseUrl;
 
     void creatDynamic( Map<String, String> content){
@@ -120,7 +120,7 @@ public class DocumentServiceImpl implements DocumentService {
         }else {
             content.put("iconUrl", "/images/document.png");
         }
-        creatDynamic(content);
+//        creatDynamic(content);
 
         documentDao.updateDocument(documentEntity);
     }
@@ -180,7 +180,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 
         joinTemplate.joinQuery(document);
-        return document ;
+        return document;
     }
 
     @Override
