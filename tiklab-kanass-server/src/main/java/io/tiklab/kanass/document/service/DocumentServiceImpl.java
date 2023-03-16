@@ -100,7 +100,7 @@ public class DocumentServiceImpl implements DocumentService {
         }else {
             content.put("iconUrl", "/images/document.png");
         }
-        creatDynamic(content);
+//        creatDynamic(content);
 
         return documentId;
     }
