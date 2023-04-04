@@ -14,7 +14,10 @@ import io.tiklab.dss.client.DssClient;
 import io.tiklab.join.JoinTemplate;
 import io.tiklab.kanass.category.model.Category;
 import io.tiklab.kanass.category.model.CategoryQuery;
+import io.tiklab.kanass.repository.support.MessageTemplateRepository;
 import io.tiklab.kanass.repository.support.OpLogTemplateRepository;
+import io.tiklab.message.message.model.SendMessageNotice;
+import io.tiklab.message.message.service.SendMessageNoticeService;
 import io.tiklab.privilege.dmRole.service.DmRoleService;
 import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.security.logging.model.Logging;
@@ -80,9 +83,12 @@ public class RepositoryServiceImpl implements RepositoryService {
     UserService userService;
 
     @Autowired
+    SendMessageNoticeService sendMessageNoticeService;
+
+    @Autowired
     LoggingByTemplService loggingByTemplService;
 
-    @Value("${base.url:null")
+    @Value("${base.url:null}")
     String baseUrl;
 
     void creatDynamic( Map<String, String> content){
@@ -109,6 +115,29 @@ public class RepositoryServiceImpl implements RepositoryService {
         loggingByTemplService.createLog(log);
     }
 
+    /**
+     * 发送消息
+     * @param content
+     */
+    void sendMessageForCreat(Map<String, String> content ){
+        SendMessageNotice messageDispatchNotice = new SendMessageNotice();
+
+        String createUserId = LoginContext.getLoginId();
+        User user = userService.findOne(createUserId);
+
+        content.put("master", user.getName());
+        content.put("createUserIcon",user.getName().substring( 0, 1));
+        content.put("sendTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+
+        String msg = JSONObject.toJSONString(content);
+        messageDispatchNotice.setId(MessageTemplateRepository.TEAMWIRE_MESSAGETEMPLATE_REPOSITORYADD);
+        messageDispatchNotice.setSiteData(msg);
+        messageDispatchNotice.setDingdingData(msg);
+        messageDispatchNotice.setQywechatData(msg);
+        messageDispatchNotice.setEmailData(msg);
+        messageDispatchNotice.setBaseUrl(baseUrl);
+        sendMessageNoticeService.createMessageItem(messageDispatchNotice);
+    }
     @Override
     public String createRepository(@NotNull @Valid Repository repository) {
         Date date = new java.sql.Date(new Date().getTime());
@@ -136,9 +165,9 @@ public class RepositoryServiceImpl implements RepositoryService {
         Map<String, String> content = new HashMap<>();
         content.put("repositoryId", repository1.getId());
         content.put("repositoryName", repository1.getName());
-
+        content.put("respositoryIcon", "/images/" + repository1.getIconUrl());
         creatDynamic(content);
-
+        sendMessageForCreat(content);
         //构建索引
 //        Repository entity = findRepository(id);
 //        dssClient.save(entity);
@@ -257,10 +286,10 @@ public class RepositoryServiceImpl implements RepositoryService {
     }
 
     @Override
-    public List<Repository> findRecentRepositoryList(DocumentRecentQuery documentRecentQuery) {
+    public List<Repository> findRecentRepositoryList(RepositoryQuery repositoryQuery) {
         String createUserId = LoginContext.getLoginId();
-        documentRecentQuery.setMasterId(createUserId);
-        List<RepositoryEntity> recentRepositoryList = repositoryDao.findRecentRepositoryList(documentRecentQuery);
+        repositoryQuery.setMasterId(createUserId);
+        List<RepositoryEntity> recentRepositoryList = repositoryDao.findRecentRepositoryList(repositoryQuery);
 
 
         List<Repository> repositoryList = BeanMapper.mapList(recentRepositoryList,Repository.class);

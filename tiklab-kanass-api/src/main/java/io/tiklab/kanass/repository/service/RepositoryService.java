@@ -73,7 +73,7 @@ public interface RepositoryService {
     */
     Pagination<Repository> findRepositoryPage(RepositoryQuery repositoryQuery);
 
-    List<Repository> findRecentRepositoryList(DocumentRecentQuery documentRecentQuery);
+    List<Repository> findRecentRepositoryList(RepositoryQuery repositoryQuery);
 
     List<Repository> findFocusRepositoryList(RepositoryQuery repositoryQuery);
 

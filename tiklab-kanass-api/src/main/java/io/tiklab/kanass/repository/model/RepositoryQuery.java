@@ -12,7 +12,7 @@ import java.util.List;
 @ApiModel
 public class RepositoryQuery extends BaseModel {
         @ApiProperty(name ="orderParams",desc = "排序参数")
-        private List<Order> orderParams = OrderBuilders.instance().asc("name").get();
+        private List<Order> orderParams = OrderBuilders.instance().asc("createTime").get();
 
         @ApiProperty(name ="repositoryIds",desc = "文档id")
         private String[] repositoryIds;

@@ -89,6 +89,7 @@ public class RepositoryDao{
                 .get();
         QueryCondition queryCondition = queryBuilders.or(orQueryBuildCondition)
                 .eq("master", repositoryQuery.getMasterId())
+                .like("name", repositoryQuery.getName())
                 .orders(repositoryQuery.getOrderParams())
                 .get();
 
@@ -109,12 +110,13 @@ public class RepositoryDao{
         return jpaTemplate.findPage(queryCondition, RepositoryEntity.class);
     }
 
-    public List<RepositoryEntity> findRecentRepositoryList(DocumentRecentQuery documentRecentQuery) {
+    public List<RepositoryEntity> findRecentRepositoryList(RepositoryQuery repositoryQuery) {
         QueryCondition queryCondition = QueryBuilders.createQuery(RepositoryEntity.class, "re")
                 .leftJoin(DocumentRecentEntity.class,"dr","dr.modelId=re.id")
-                .eq("dr.masterId", documentRecentQuery.getMasterId())
+                .eq("dr.masterId", repositoryQuery.getMasterId())
                 .eq("dr.model","repository")
-                .orders(documentRecentQuery.getOrderParams())
+                .like("re.name", repositoryQuery.getName())
+                .orders(repositoryQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, RepositoryEntity.class);
     }
@@ -122,7 +124,7 @@ public class RepositoryDao{
     public List<RepositoryEntity> findFocusRepositoryList(RepositoryQuery repositoryQuery){
         QueryCondition queryBuilders =  QueryBuilders.createQuery(RepositoryEntity.class, "re")
                 .leftJoin(RepositoryFocusEntity.class,"rf","rf.repositoryId=re.id")
-                .like("rf.name", repositoryQuery.getName())
+                .like("re.name", repositoryQuery.getName())
                 .eq("rf.masterId", repositoryQuery.getMasterId())
                 .orders(repositoryQuery.getOrderParams())
                 .get();

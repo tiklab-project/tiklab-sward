@@ -100,7 +100,7 @@ public class RepositoryController {
     @RequestMapping(path = "/findRecentRepositoryList",method = RequestMethod.POST)
     @ApiMethod(name = "findRecentRepositoryList",desc = "findRepositoryPage")
     @ApiParam(name = "repositoryQuery",desc = "repositoryQuery",required = true)
-    public Result<List<Repository>> findRecentRepositoryList(@RequestBody @Valid @NotNull DocumentRecentQuery documentRecentQuery){
+    public Result<List<Repository>> findRecentRepositoryList(@RequestBody @Valid @NotNull RepositoryQuery documentRecentQuery){
         List<Repository> pagination = repositoryService.findRecentRepositoryList(documentRecentQuery);
 
         return Result.ok(pagination);
