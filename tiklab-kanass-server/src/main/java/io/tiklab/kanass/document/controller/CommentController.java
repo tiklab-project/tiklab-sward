@@ -99,7 +99,6 @@ public class CommentController {
     @ApiMethod(name = "view",desc = "根据查询对象查询评论（转发后查看）")
     @ApiParam(name = "commentQuery",desc = "commentQuery",required = true)
     public Result<List<Comment>> view(@RequestBody @Valid @NotNull CommentQuery commentQuery){
-        String type="view";
         List<Comment> commentList = commentService.findCommentList(commentQuery);
 
         return Result.ok(commentList);

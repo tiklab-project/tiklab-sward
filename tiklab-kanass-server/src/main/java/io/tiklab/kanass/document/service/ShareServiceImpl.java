@@ -174,7 +174,9 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public String judgeAuthCode(String shareLink) {
-        List<ShareEntity> shareList = shareDao.findShareList(new ShareQuery().setShareLink(shareLink));
+        ShareQuery shareQuery = new ShareQuery();
+        shareQuery.setShareLink(shareLink);
+        List<ShareEntity> shareList = shareDao.findShareList(shareQuery);
         if (!shareList.isEmpty()){
             ShareEntity shareEntity = shareList.get(0);
             if (StringUtils.isEmpty(shareEntity.getAuthCode())){

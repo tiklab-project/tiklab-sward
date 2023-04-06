@@ -79,7 +79,6 @@ public class ShareDao{
         QueryCondition queryCondition = QueryBuilders.createQuery(ShareEntity.class)
                 .eq("shareLink", shareQuery.getShareLink())
                 .eq("authCode", shareQuery.getAuthCode())
-                .isNull("authCode")
                 .orders(shareQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, ShareEntity.class);

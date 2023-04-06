@@ -110,5 +110,13 @@ public class DocumentController {
         return Result.ok(document);
     }
 
+    @RequestMapping(path="/view",method = RequestMethod.POST)
+    @ApiMethod(name = "view",desc = "通过id查询")
+    @ApiParam(name = "id",desc = "id",required = true)
+    public Result<Document> view(@NotNull String id){
+        Document document = documentService.findDocumentById(id);
+
+        return Result.ok(document);
+    }
 
 }
