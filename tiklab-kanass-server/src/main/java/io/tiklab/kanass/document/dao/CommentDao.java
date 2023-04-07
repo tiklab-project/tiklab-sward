@@ -81,17 +81,24 @@ public class CommentDao{
     public List<CommentEntity> findCommentList(CommentQuery commentQuery) {
         QueryCondition queryCondition = QueryBuilders.createQuery(CommentEntity.class)
                 .eq("documentId", commentQuery.getDocumentId())
+                .eq("firstOneCommentId", commentQuery.getFirstOneCommentId())
+                .eq("parentCommentId", commentQuery.getParentCommentId())
                 .orders(commentQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, CommentEntity.class);
     }
 
     public Pagination<CommentEntity> findCommentPage(CommentQuery commentQuery) {
-        QueryCondition queryCondition = QueryBuilders.createQuery(CommentEntity.class)
+        QueryBuilders queryBuilders = QueryBuilders.createQuery(CommentEntity.class)
                 .eq("documentId", commentQuery.getDocumentId())
+                .eq("firstOneCommentId", commentQuery.getFirstOneCommentId())
+                .eq("parentCommentId", commentQuery.getParentCommentId())
                 .orders(commentQuery.getOrderParams())
-                .pagination(commentQuery.getPageParam())
-                .get();
+                .pagination(commentQuery.getPageParam());
+        if(commentQuery.getFirstCommentNull()){
+            queryBuilders.isNull("firstOneCommentId");
+        }
+        QueryCondition queryCondition = queryBuilders.get();
         return jpaTemplate.findPage(queryCondition, CommentEntity.class);
     }
 }

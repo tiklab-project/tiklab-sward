@@ -60,6 +60,15 @@ public class CommentController {
         return Result.ok();
     }
 
+    @RequestMapping(path="/deleteCommentCondition",method = RequestMethod.POST)
+    @ApiMethod(name = "deleteCommentCondition",desc = "删除评论")
+    @ApiParam(name = "id",desc = "id",required = true)
+    public Result<Void> deleteComment(@RequestBody @Valid @NotNull CommentQuery commentQuery){
+        commentService.deleteCommentCondition(commentQuery);
+
+        return Result.ok();
+    }
+
     @RequestMapping(path="/findComment",method = RequestMethod.POST)
     @ApiMethod(name = "findComment",desc = "通过id查询")
     @ApiParam(name = "id",desc = "id",required = true)
@@ -86,6 +95,8 @@ public class CommentController {
         return Result.ok(commentList);
     }
 
+
+
     @RequestMapping(path = "/findCommentPage",method = RequestMethod.POST)
     @ApiMethod(name = "findCommentPage",desc = "根据查询对象分页查询评论")
     @ApiParam(name = "commentQuery",desc = "commentQuery",required = true)
@@ -93,6 +104,15 @@ public class CommentController {
         Pagination<Comment> pagination = commentService.findCommentPage(commentQuery);
 
         return Result.ok(pagination);
+    }
+
+    @RequestMapping(path = "/findCommentTreePage",method = RequestMethod.POST)
+    @ApiMethod(name = "findCommentTreePage",desc = "根据查询对象查询评论")
+    @ApiParam(name = "commentQuery",desc = "commentQuery",required = true)
+    public Result<Pagination<Comment>> findCommentTreePage(@RequestBody @Valid @NotNull CommentQuery commentQuery){
+        Pagination<Comment> commentList = commentService.findCommentTreePage(commentQuery);
+
+        return Result.ok(commentList);
     }
 
     @RequestMapping(path = "/view",method = RequestMethod.POST)

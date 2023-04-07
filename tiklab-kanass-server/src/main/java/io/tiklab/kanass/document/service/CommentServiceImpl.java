@@ -67,6 +67,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public void deleteCommentCondition(CommentQuery commentQuery) {
+        deleteComment(commentQuery.getFirstOneCommentId());
+        List<Comment> commentList = findCommentList(commentQuery);
+
+        // 删除下面子级评论
+        for (Comment comment : commentList) {
+            deleteComment(comment.getId());
+        }
+
+    }
+
+    @Override
     public Comment findOne(String id) {
         CommentEntity commentEntity = commentDao.findComment(id);
 
@@ -104,25 +116,41 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> findCommentList(CommentQuery commentQuery) {
         List<CommentEntity> commentEntityList = commentDao.findCommentList(commentQuery);
 
-
         List<Comment> commentList = BeanMapper.mapList(commentEntityList,Comment.class);
 
         joinTemplate.joinQuery(commentList);
 
-//        findLike(commentList,type);
-        List<Comment> fistOneComment = findComment(commentList);
-
-        return fistOneComment;
+        return commentList;
     }
 
     @Override
-    public Pagination<Comment> findCommentPage(CommentQuery commentQuery) {
-
-        Pagination<CommentEntity>  pagination = commentDao.findCommentPage(commentQuery);
+    public Pagination<Comment> findCommentTreePage(CommentQuery commentQuery) {
+        commentQuery.setFirstCommentNull(true);
+        Pagination<CommentEntity> pagination = commentDao.findCommentPage(commentQuery);
 
         List<Comment> commentList = BeanMapper.mapList(pagination.getDataList(),Comment.class);
-
         joinTemplate.joinQuery(commentList);
+
+        for (Comment comment : commentList) {
+            String id = comment.getId();
+            commentQuery.setFirstCommentNull(false);
+            commentQuery.setFirstOneCommentId(id);
+            List<Comment> commentList1 = findCommentList(commentQuery);
+            comment.setCommentList(commentList1);
+        }
+
+        return PaginationBuilder.build(pagination,commentList);
+    }
+
+
+
+    @Override
+    public Pagination<Comment> findCommentPage(CommentQuery commentQuery) {
+        Pagination<CommentEntity> pagination = commentDao.findCommentPage(commentQuery);
+
+        List<Comment> commentList = BeanMapper.mapList(pagination.getDataList(),Comment.class);
+        joinTemplate.joinQuery(commentList);
+
 
         List<Comment> fistOneComment = findComment(commentList);
 

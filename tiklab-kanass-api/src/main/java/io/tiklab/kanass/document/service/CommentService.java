@@ -37,6 +37,8 @@ public interface CommentService {
     * @param id
     */
     void deleteComment(@NotNull String id);
+    void deleteCommentCondition(CommentQuery commentQuery);
+
     @FindOne
     Comment findOne(@NotNull String id);
     @FindList
@@ -63,6 +65,7 @@ public interface CommentService {
     */
     List<Comment> findCommentList(CommentQuery commentQuery);
 
+    Pagination<Comment> findCommentTreePage(CommentQuery commentQuery);
     /**
     * 按分页查询
     * @param commentQuery

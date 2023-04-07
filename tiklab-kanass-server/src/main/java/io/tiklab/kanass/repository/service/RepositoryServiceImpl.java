@@ -165,7 +165,7 @@ public class RepositoryServiceImpl implements RepositoryService {
         Map<String, String> content = new HashMap<>();
         content.put("repositoryId", repository1.getId());
         content.put("repositoryName", repository1.getName());
-        content.put("respositoryIcon", "/images/" + repository1.getIconUrl());
+        content.put("repositoryIcon", "/images/" + repository1.getIconUrl());
         creatDynamic(content);
         sendMessageForCreat(content);
         //构建索引

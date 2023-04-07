@@ -50,7 +50,7 @@ public class LikeDao{
         jpaTemplate.delete(LikeEntity.class,id);
     }
 
-    public void deleteLike(DeleteCondition deleteCondition){
+    public void deleteLikeCondition(DeleteCondition deleteCondition){
         jpaTemplate.delete(deleteCondition);
     }
 

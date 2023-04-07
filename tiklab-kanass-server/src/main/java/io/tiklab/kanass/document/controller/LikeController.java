@@ -1,5 +1,6 @@
 package io.tiklab.kanass.document.controller;
 
+import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
 import io.tiklab.kanass.document.model.Like;
 import io.tiklab.kanass.document.model.LikeQuery;
 import io.tiklab.kanass.document.service.LikeService;
@@ -56,6 +57,15 @@ public class LikeController {
     @ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteLike(@NotNull String id){
         likeService.deleteLike(id);
+
+        return Result.ok();
+    }
+
+    @RequestMapping(path="/deleteLikeCondition",method = RequestMethod.POST)
+    @ApiMethod(name = "deleteLikeCondition",desc = "取消点赞")
+    @ApiParam(name = "deleteCondition",desc = "deleteCondition",required = true)
+    public Result<Void> deleteLikeCondition(@NotNull LikeQuery likeQuery){
+        likeService.deleteLikeCondition(likeQuery);
 
         return Result.ok();
     }

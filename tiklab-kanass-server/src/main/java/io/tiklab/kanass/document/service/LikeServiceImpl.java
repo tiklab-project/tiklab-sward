@@ -1,5 +1,6 @@
 package io.tiklab.kanass.document.service;
 
+import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
 import io.tiklab.kanass.document.entity.LikeEntity;
 import io.tiklab.kanass.document.model.Like;
 import io.tiklab.kanass.document.model.LikeQuery;
@@ -34,7 +35,7 @@ public class LikeServiceImpl implements LikeService {
         LikeQuery likeQuery = new LikeQuery();
         likeQuery.setLikeType(like.getLikeType());
         likeQuery.setToWhomId(like.getToWhomId());
-//        likeQuery.setLikeUser(findCreatUser());
+        likeQuery.setLikeUser(like.getLikeUser().getId());
         List<LikeEntity> likeList = likeDao.findLikeList(likeQuery);
         if (!likeList.isEmpty()){
             return "已经点过赞了";
@@ -57,6 +58,13 @@ public class LikeServiceImpl implements LikeService {
         likeDao.deleteLike(id);
     }
 
+    @Override
+    public void deleteLikeCondition(@NotNull LikeQuery likeQuery) {
+
+        List<Like> likeList = findLikeList(likeQuery);
+        String id = likeList.get(0).getId();
+        likeDao.deleteLike(id);
+    }
     @Override
     public Like findOne(String id) {
         LikeEntity likeEntity = likeDao.findLike(id);

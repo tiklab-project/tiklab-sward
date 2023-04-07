@@ -20,6 +20,15 @@ public class CommentQuery  extends BaseModel {
         @ApiProperty(name ="documentId",desc = "文档id")
         private String documentId;
 
+        @ApiProperty(name ="isFirstCommentNull",desc = "是否为空")
+        private Boolean isFirstCommentNull;
+
+        @ApiProperty(name ="parentCommentId",desc = "父级评论")
+        private String parentCommentId;
+
+        @ApiProperty(name ="firstOneCommentId",desc = "父级评论")
+        private String firstOneCommentId;
+
         public List<Order> getOrderParams() {
             return orderParams;
         }
@@ -45,4 +54,27 @@ public class CommentQuery  extends BaseModel {
             return this;
         }
 
+    public Boolean getFirstCommentNull() {
+        return isFirstCommentNull;
+    }
+
+    public void setFirstCommentNull(Boolean firstCommentNull) {
+        isFirstCommentNull = firstCommentNull;
+    }
+
+    public String getParentCommentId() {
+        return parentCommentId;
+    }
+
+    public void setParentCommentId(String parentCommentId) {
+        this.parentCommentId = parentCommentId;
+    }
+
+    public String getFirstOneCommentId() {
+        return firstOneCommentId;
+    }
+
+    public void setFirstOneCommentId(String firstOneCommentId) {
+        this.firstOneCommentId = firstOneCommentId;
+    }
 }

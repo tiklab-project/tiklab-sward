@@ -231,7 +231,7 @@ public class DocumentServiceImpl implements DocumentService {
         if (!likeList.isEmpty()){
             String createUserId = LoginContext.getLoginId();
             List<Like> collect1 = likeList.stream().filter(a -> createUserId.equals(a.getLikeUser().getId())).collect(Collectors.toList());
-            if (collect1.isEmpty()){
+            if (!collect1.isEmpty()){
                 document.setLike(true);
             }else {
                 document.setLike(false);
