@@ -7,7 +7,9 @@ import io.tiklab.kanass.document.model.ShareQuery;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
 * ShareService
@@ -91,4 +93,6 @@ public interface ShareService {
      * @return
      */
     String judgeAuthCode(String shareLink);
+
+    ArrayList<Object> findShareCategory(String shareLink);
 }

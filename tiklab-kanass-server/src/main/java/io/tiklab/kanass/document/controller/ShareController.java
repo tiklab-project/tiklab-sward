@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -129,5 +130,14 @@ public class ShareController {
         String share= shareService.judgeAuthCode(shareLink);
 
         return Result.ok(share);
+    }
+
+    @RequestMapping(path="/findShareCategory",method = RequestMethod.POST)
+    @ApiMethod(name = "findShareCategory",desc = "获取分享的目录")
+    @ApiParam(name = "shareLink",desc = "shareLink",required = true)
+    public Result<ArrayList<Object>> findShareCategory(@NotNull String shareLink){
+        ArrayList<Object> categoryTreeList= shareService.findShareCategory(shareLink);
+
+        return Result.ok(categoryTreeList);
     }
 }

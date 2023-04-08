@@ -170,8 +170,10 @@ public class CategoryServiceImpl implements CategoryService {
             String id1 = category.getId();
             List<Category> categoryList1 = findCategoryList(id1);
             joinTemplate.joinQuery(categoryList);
+            ArrayList<Object> categoryObject = new ArrayList<>();
+            categoryObject.add(categoryList1);
             if(categoryList1.size() > 0){
-                category.setChildren(categoryList1);
+                category.setChildren(categoryObject);
             }
 
             List<DocumentEntity> documentEntityList = categoryDao.findDocumentDocument(id1);
@@ -242,7 +244,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categoryList = this.findCategoryList(categoryQuery);
 
         List<Document> documentList = documentService.findDocumentList(new DocumentQuery().setRepositoryId(categoryQuery.getRepositoryId()));
-        //查找并设置分类下面的接口
+        //查找并设置分类下面的文档
         List<Category> categoryMethodList = findCategoryMethodList(categoryList);
 
         //查询没在目录下main的文档
@@ -286,15 +288,22 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 查找并设置下级分类列表
      * @param matchCategoryList
-     * @param parentCaegory
+     * @param parentCategory
      */
-    void setChildren(List<Category> matchCategoryList,Category parentCaegory){
-          List<Category> childCategoryList = matchCategoryList.stream()
-                .filter(category -> (category.getParentCategory() != null && category.getParentCategory().getId() != null && category.getParentCategory().getId().equals(parentCaegory.getId())))
+    void setChildren(List<Category> matchCategoryList,Category parentCategory){
+        List<Category> childCategoryList = matchCategoryList.stream()
+                .filter(category -> (category.getParentCategory() != null && category.getParentCategory().getId() != null && category.getParentCategory().getId().equals(parentCategory.getId())))
                 .collect(Collectors.toList());
 
         if(childCategoryList != null && childCategoryList.size() > 0){
-            parentCaegory.setChildren(childCategoryList);
+            ArrayList<Object> objects = new ArrayList<>();
+//            objects.add(childCategoryList);
+            if(!parentCategory.getChildren().isEmpty() && parentCategory.getChildren().size() > 0){
+                ArrayList<Object> children = parentCategory.getChildren();
+                objects.addAll(children);
+                objects.addAll(childCategoryList);
+            }
+            parentCategory.setChildren(objects);
 
             for(Category category:childCategoryList){
                 setChildren(matchCategoryList,category);
@@ -313,7 +322,11 @@ public class CategoryServiceImpl implements CategoryService {
             DocumentQuery documentQuery = new DocumentQuery();
             documentQuery.setCategoryId(category.getId());
             List<Document> repositoryDetailsList = documentService.findDocumentList(documentQuery);
-            category.setDocuments(repositoryDetailsList);
+
+            ArrayList<Object> objects = new ArrayList<>();
+            objects.addAll(repositoryDetailsList);
+//            category.setDocuments(repositoryDetailsList);
+            category.setChildren(objects);
             return category;
         }).collect(Collectors.toList());
 

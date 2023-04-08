@@ -77,7 +77,7 @@ public class ShareDao{
 
     public List<ShareEntity> findShareList(ShareQuery shareQuery) {
         QueryCondition queryCondition = QueryBuilders.createQuery(ShareEntity.class)
-                .eq("shareLink", shareQuery.getShareLink())
+                .eq("type", shareQuery.getType())
                 .eq("authCode", shareQuery.getAuthCode())
                 .orders(shareQuery.getOrderParams())
                 .get();
@@ -86,7 +86,7 @@ public class ShareDao{
 
     public Pagination<ShareEntity> findSharePage(ShareQuery shareQuery) {
         QueryCondition queryCondition = QueryBuilders.createQuery(ShareEntity.class)
-                .eq("shareLink", shareQuery.getShareLink())
+                .eq("type", shareQuery.getType())
                 .eq("authCode", shareQuery.getAuthCode())
                 .isNull("authCode")
                 .orders(shareQuery.getOrderParams())

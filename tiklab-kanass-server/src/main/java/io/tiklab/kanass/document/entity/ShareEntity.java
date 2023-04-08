@@ -11,26 +11,20 @@ import java.util.Date;
 @Entity
 @Table(name="kanass_share")
 public class ShareEntity implements Serializable {
-
     @Id
     @GeneratorValue
     @Column(name = "id",length = 32)
     private String id;
 
-    //文档或者评论的id
-    @Column(name = "document_id",length = 64,notNull = true)
-    private String documentId;
-
-    //分享链接
-    @Column(name = "share_link")
-    private String shareLink;
-
     //验证码
-    @Column(name = "auth_code")
+    @Column(name = "auth_code",length = 32)
     private String authCode;
 
+    @Column(name = "limits",length = 64,notNull = true)
+    private String limits;
+
     //创建时间
-    @Column(name = "create_time")
+    @Column(name = "create_time",notNull = true)
     private Date createTime;
 
     public String getId() {
@@ -39,22 +33,6 @@ public class ShareEntity implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
-    }
-
-    public String getShareLink() {
-        return shareLink;
-    }
-
-    public void setShareLink(String shareLink) {
-        this.shareLink = shareLink;
     }
 
     public String getAuthCode() {
@@ -71,5 +49,13 @@ public class ShareEntity implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getLimits() {
+        return limits;
+    }
+
+    public void setLimits(String limits) {
+        this.limits = limits;
     }
 }

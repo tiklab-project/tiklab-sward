@@ -55,7 +55,7 @@ public class Category extends BaseModel{
     private java.lang.Integer sort;
 
     @ApiProperty(name="children",desc="下级目录列表")
-    private List<Category> children = new ArrayList<>();
+    private ArrayList<Object> children = new ArrayList<>();
 
    @ApiProperty(name="categoryMethod",desc="")
     private List<Document> documents=new ArrayList<>();
@@ -106,11 +106,11 @@ public class Category extends BaseModel{
         this.sort = sort;
     }
 
-    public List<Category> getChildren() {
+    public ArrayList<Object> getChildren() {
         return children;
     }
 
-    public void setChildren(List<Category> children) {
+    public void setChildren(ArrayList<Object> children) {
         this.children = children;
     }
 
