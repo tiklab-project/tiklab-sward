@@ -172,9 +172,9 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public String verifyAuthCode(ShareQuery shareQuery) {
-        ShareEntity share = shareDao.findShare(shareQuery.getId());
-        if (!ObjectUtils.isEmpty(share)){
-            if (shareQuery.getAuthCode().equals(share.getAuthCode())){
+        List<ShareEntity> shareList = shareDao.findShareList(shareQuery);
+        if (shareList.size() > 0){
+            if (shareQuery.getAuthCode().equals(shareList.get(0).getAuthCode())){
                 return "true";
             }else {
                 return "请输入正确的验证码";
@@ -201,54 +201,81 @@ public class ShareServiceImpl implements ShareService {
     @Override
     public ArrayList<Object> findShareCategory(String shareId) {
         ArrayList<Object> objects = new ArrayList<>();
+        List<Document> documentList = new ArrayList<>();
+        List<Document> childrenDocuments = new ArrayList<>();
+        List<Category> categoryFirsts = new ArrayList<Category>();
+        List<Category> childrenCategorys = new ArrayList<Category>();
+
         ShareRelationQuery shareRelationQuery = new ShareRelationQuery();
+
+        // 查找分享的所有目录
         shareRelationQuery.setType("category");
         shareRelationQuery.setShareId(shareId);
         List<ShareRelation> shareRelationList = shareRelationService.findShareRelationList(shareRelationQuery);
-        List<Category> categories = shareRelationList.stream().map(ShareRelation::getCategory).collect(Collectors.toList());
-        List<String> allCategoryIds = categories.stream().map(Category::getId).collect(Collectors.toList());
-        List<Category> categoryList = categoryService.findList(allCategoryIds);
 
+
+
+        // 查找分享的所有文档
         shareRelationQuery.setType("document");
         List<ShareRelation> shareDocumentList = shareRelationService.findShareRelationList(shareRelationQuery);
-        List<Document> allDocument = shareDocumentList.stream().map(ShareRelation::getDocument).collect(Collectors.toList());
-        List<String> allDocumentIds = allDocument.stream().map(document -> document.getId()).collect(Collectors.toList());
-        List<Document> documentList = documentService.findList(allDocumentIds);
-
-        List<Document> documentFirsts = documentList.stream().filter(document -> (ObjectUtils.isEmpty(document.getCategory()) || Arrays.asList(allCategoryIds).contains(document.getCategory().getId()))).collect(Collectors.toList());
-        List<String> documentFirstIds = documentFirsts.stream().map(category -> category.getId()).collect(Collectors.toList());
-        List<Document> childrenDocuments = documentList.stream().filter(document -> (!documentFirstIds.contains(document.getId()))).collect(Collectors.toList());
-        objects.addAll(documentFirsts);
-
-        // 筛选最高层级的目录
-        List<Category> categoryFirsts = categoryList.stream().filter(category -> (ObjectUtils.isEmpty(category.getParentCategory()) || Arrays.asList(allCategoryIds).contains(category.getParentCategory().getId()))).collect(Collectors.toList());
-        List<String> categoryFirstIds = categoryFirsts.stream().map(category -> category.getId()).collect(Collectors.toList());
-        List<Category> childrenCategorys = categoryList.stream().filter(category -> (!categoryFirstIds.contains(category.getId()))).collect(Collectors.toList());
-        objects.addAll(categoryFirsts);
-
-        setCategoryChildren(categoryFirsts, childrenCategorys, childrenDocuments);
+        if(shareDocumentList.size() > 0){
+            List<Document> allDocument = shareDocumentList.stream().map(ShareRelation::getDocument).collect(Collectors.toList());
+            List<String> allDocumentIds = allDocument.stream().map(document -> document.getId()).collect(Collectors.toList());
+            documentList = documentService.findList(allDocumentIds);
+        }
 
 
+        if(shareRelationList.size() > 0){
+            List<Category> categories = shareRelationList.stream().map(ShareRelation::getCategory).collect(Collectors.toList());
+            List<String> allCategoryIds = categories.stream().map(Category::getId).collect(Collectors.toList());
+            List<Category> categoryList = categoryService.findList(allCategoryIds);
+            // 若目录大于一个
+            if(shareRelationList.size() >1){
+                categoryFirsts = categoryList.stream().filter(category -> (ObjectUtils.isEmpty(category.getParentCategory()) || !allCategoryIds.contains(category.getParentCategory().getId()))).collect(Collectors.toList());
+                List<String> categoryFirstIds = categoryFirsts.stream().map(category -> category.getId()).collect(Collectors.toList());
+                childrenCategorys = categoryList.stream().filter(category -> (!categoryFirstIds.contains(category.getId()))).collect(Collectors.toList());
+                objects.addAll(categoryFirsts);
+            }else {
+                categoryFirsts = categoryList;
+                objects.addAll(categoryFirsts);
+            }
+            // 查找无父级目录的文档
+            List<Document> documentFirsts = documentList.stream().filter(document -> (ObjectUtils.isEmpty(document.getCategory()) || !allCategoryIds.contains(document.getCategory().getId()))).collect(Collectors.toList());
+            List<String> documentFirstIds = documentFirsts.stream().map(category -> category.getId()).collect(Collectors.toList());
+            childrenDocuments = documentList.stream().filter(document -> (!documentFirstIds.contains(document.getId()))).collect(Collectors.toList());
+            objects.addAll(documentFirsts);
+
+            setCategoryChildren(categoryFirsts, childrenCategorys, childrenDocuments);
+        }else {
+            objects.addAll(documentList);
+        }
 
         return  objects;
 
     }
 
     void setCategoryChildren(List<Category> categoryFirsts,List<Category> childrenCategorys, List<Document> documentList){
+        List<Category> childrenForCategory = new ArrayList<>();
+        List<Category> surChildrenForCategory = new ArrayList<>();
         for (Category category : categoryFirsts) {
             ArrayList<Object> objects1 = new ArrayList<>();
-            List<Category> childrenForCategory = childrenCategorys.stream().filter(childrenCategory -> childrenCategory.getParentCategory().getId().equals(category.getId())).collect(Collectors.toList());
-            objects1.addAll(childrenForCategory);
-            List<String> collect = childrenForCategory.stream().map(category1 -> category1.getId()).collect(Collectors.toList());
-            List<Category> surChildrenForCategory = childrenForCategory.stream().filter(category1 -> collect.contains(category1.getId())).collect(Collectors.toList());
+            if(childrenCategorys.size() >0){
+                childrenForCategory = childrenCategorys.stream().filter(childrenCategory -> childrenCategory.getParentCategory().getId().equals(category.getId())).collect(Collectors.toList());
+                objects1.addAll(childrenForCategory);
+                List<String> collect = childrenForCategory.stream().map(category1 -> category1.getId()).collect(Collectors.toList());
+                surChildrenForCategory = childrenForCategory.stream().filter(category1 -> (!collect.contains(category1.getId()))).collect(Collectors.toList());
+            }
+            List<Document> surChildrenDocument = new ArrayList<Document>();
+            if(documentList.size() >0){
+                List<Document> documentForCategory = documentList.stream().filter(childrenDocument -> childrenDocument.getCategory().getId().equals(category.getId())).collect(Collectors.toList());
+                List<String> collect1 = documentForCategory.stream().map(document -> document.getId()).collect(Collectors.toList());
+                surChildrenDocument = documentList.stream().filter(document -> (!collect1.contains(document.getId()))).collect(Collectors.toList());
+                objects1.addAll(documentForCategory);
+                category.setChildren(objects1);
+            }
 
-            List<Document> documentForCategory = documentList.stream().filter(childrenDocument -> childrenDocument.getCategory().getId().equals(category.getId())).collect(Collectors.toList());
-            List<String> collect1 = documentForCategory.stream().map(document -> document.getId()).collect(Collectors.toList());
-            List<Document> surChildrenDocument = documentList.stream().filter(document -> collect1.contains(document.getId())).collect(Collectors.toList());
-            objects1.addAll(documentForCategory);
-            category.setChildren(objects1);
 
-            if(surChildrenForCategory.size() > 0){
+            if(surChildrenForCategory.size() > 0 || surChildrenDocument.size() >0){
                 setCategoryChildren(childrenForCategory, surChildrenForCategory, surChildrenDocument);
             }
         }

@@ -178,6 +178,17 @@ public class DocumentServiceImpl implements DocumentService {
         DocumentEntity documentEntity = documentDao.findDocument(id);
         Document document = BeanMapper.map(documentEntity, Document.class);
 
+        CommentQuery commentQuery = new CommentQuery();
+        commentQuery.setDocumentId(id);
+        List<Comment> commentList = commentService.findCommentList(commentQuery);
+
+        if (!commentList.isEmpty()){
+            //添加评论数
+            document.setCommentNumber(commentList.size());
+        }else {
+            document.setCommentNumber(0);
+        }
+//        findLike(document);
 
         joinTemplate.joinQuery(document);
         return document;
