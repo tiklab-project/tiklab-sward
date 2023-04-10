@@ -1,1 +1,0 @@
-ALTER TABLE kanass_repository ADD limits VARCHAR(64);

@@ -1,3 +1,7 @@
+-- ---------------------------
+-- kanass表
+-- @dsm.cmd.id="1000"
+-- ----------------------------
 CREATE TABLE kanass_repository(
         id VARCHAR(32) PRIMARY KEY,
         name VARCHAR(64) NOT NULL,
@@ -8,15 +12,25 @@ CREATE TABLE kanass_repository(
         description VARCHAR(64)
 );
 
+-- ---------------------------
+-- kanass表
+-- @dsm.cmd.id="1001"
+-- ----------------------------
 CREATE TABLE kanass_category(
         id VARCHAR(32) PRIMARY KEY,
         name VARCHAR(64) NOT NULL,
         repository_id VARCHAR(32) NOT NULL,
         parent_category_id VARCHAR(32) ,
         master VARCHAR(32) NOT NULL,
+        update_time VARCHAR(64),
+        icon_url VARCHAR(64),
         sort int
 );
 
+-- ---------------------------
+-- kanass表
+-- @dsm.cmd.id="1002"
+-- ----------------------------
 CREATE TABLE kanass_document(
         id VARCHAR(32) PRIMARY KEY,
         name VARCHAR(64) NOT NULL,
@@ -28,6 +42,10 @@ CREATE TABLE kanass_document(
         details longtext
 );
 
+-- ---------------------------
+-- kanass表
+-- @dsm.cmd.id="1003"
+-- ----------------------------
 CREATE TABLE kanass_document_attach(
         id VARCHAR(32) PRIMARY KEY,
         document_id VARCHAR(32) NOT NULL,
@@ -35,6 +53,10 @@ CREATE TABLE kanass_document_attach(
         sort int
 );
 
+-- ---------------------------
+-- kanass表
+-- @dsm.cmd.id="1004"
+-- ----------------------------
 CREATE TABLE kanass_document_template(
         id VARCHAR(32) PRIMARY KEY,
         name VARCHAR(32) NOT NULL,
@@ -42,6 +64,11 @@ CREATE TABLE kanass_document_template(
         details longtext,
         sort int
 );
+
+-- ---------------------------
+-- kanass表
+-- @dsm.cmd.id="1005"
+-- ----------------------------
 CREATE TABLE kanass_comment(
         id VARCHAR(32) PRIMARY KEY,
         document_id VARCHAR(32) NOT NULL,
@@ -53,6 +80,11 @@ CREATE TABLE kanass_comment(
         create_time timestamp,
         update_time timestamp
 );
+
+-- ---------------------------
+-- kanass表
+-- @dsm.cmd.id="1006"
+-- ----------------------------
 CREATE TABLE kanass_like(
         id VARCHAR(32) PRIMARY KEY,
         to_whom_id varchar (32) not null,
@@ -61,13 +93,21 @@ CREATE TABLE kanass_like(
         create_time timestamp
 );
 
+-- ---------------------------
+-- kanass表
+-- @dsm.cmd.id="1007"
+-- ----------------------------
 CREATE TABLE kanass_share(
         id VARCHAR(32) PRIMARY KEY,
-        document_id VARCHAR(32) NOT NULL,
-        share_link  varchar(64) not null,
         auth_code varchar(6),
-        create_time timestamp
+        create_time timestamp,
+        limits VARCHAR(64)
 );
+
+-- ---------------------------
+-- kanass表
+-- @dsm.cmd.id="1008"
+-- ----------------------------
 CREATE TABLE kanass_document_recent(
         id VARCHAR(32) NOT NULL PRIMARY KEY,
         name VARCHAR(64) NOT NULL,
@@ -78,7 +118,27 @@ CREATE TABLE kanass_document_recent(
         recent_time timestamp NOT NULL
 );
 
+-- ---------------------------
+-- kanass表
+-- @dsm.cmd.id="1009"
+-- ----------------------------
+CREATE TABLE kanass_repository_focus(
+        id VARCHAR(32) PRIMARY KEY,
+        repository_id VARCHAR(64),
+        master_id VARCHAR(64),
+        sort int
+);
 
+-- ---------------------------
+-- kanass表
+-- @dsm.cmd.id="1010"
+-- ----------------------------
+CREATE TABLE kanass_share_relation(
+        id VARCHAR(32) PRIMARY KEY,
+        type VARCHAR(64) NOT NULL,
+        document_id VARCHAR(64) NOT NULL,
+        share_id VARCHAR(64) NOT NULL
+);
 
 
 

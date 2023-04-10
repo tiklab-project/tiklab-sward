@@ -1,1 +1,0 @@
-ALTER TABLE kanass_category ADD update_time VARCHAR(64);
