@@ -30,7 +30,7 @@ INSERT INTO `kanass_repository` (`id`, `name`, `type_id`, `master`, `limits`, `c
 INSERT INTO `pcs_ucc_dm_user` (`id`, `domain_id`, `user_id`, `type`) VALUES ('bfd4660ddbb9fe9cc550befa525b1f05', '7904ebd674d28c65b11ae47017a783c0', '111111', 0);
 INSERT INTO `pcs_ucc_dm_user` (`id`, `domain_id`, `user_id`, `type`) VALUES ('d19fe2d0083aab398996ce4eed71be4b', '43ef04320e5169789bc3e483e232b6e0', '111111', 0);
 INSERT INTO `pcs_prc_role` (`id`, `name`, `description`, `grouper`, `type`, `scope`, `business_type`) VALUES ('1', 'admin', '管理员', 'system', '1', 1, 1);
-INSERT INTO `pcs_prc_role_user` (`id`, `role_id`, `user_id`) VALUES ('1', '1', '111111');
+
 
 INSERT INTO `pcs_prc_role_function` (`id`, `role_id`, `function_id`) VALUES ('0674973ba9e6fc88ab39ea61dafe77bf', '1', 'oug5371be8ec674a06613bf8e37ec343');
 INSERT INTO `pcs_prc_role_function` (`id`, `role_id`, `function_id`) VALUES ('088232502709d705d99e3ecede0b4a1f', '1', '49e12c2b8fca01894886211df2b797d0');
