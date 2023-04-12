@@ -101,10 +101,10 @@ public class RepositoryServiceImpl implements RepositoryService {
         content.put("master", user.getName());
         content.put("updateTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 
-        log.setLoggingTemplateId(OpLogTemplateRepository.TEAMWIRE_LOGTEMPLATE_REPOSITORYADD);
+        log.setLoggingTemplateId(OpLogTemplateRepository.KANASS_LOGTEMPLATE_REPOSITORYADD);
 
         LoggingType opLogType = new LoggingType();
-        opLogType.setId(OpLogTemplateRepository.TEAMWIRE_LOGTYPE_REPOSITORYADD);
+        opLogType.setId(OpLogTemplateRepository.KANASS_LOGTYPE_REPOSITORYADD);
         log.setActionType(opLogType);
 
         log.setModule("repository");
@@ -130,7 +130,7 @@ public class RepositoryServiceImpl implements RepositoryService {
         content.put("sendTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 
         String msg = JSONObject.toJSONString(content);
-        messageDispatchNotice.setId(MessageTemplateRepository.TEAMWIRE_MESSAGETEMPLATE_REPOSITORYADD);
+        messageDispatchNotice.setId(MessageTemplateRepository.KANASS_MESSAGETEMPLATE_REPOSITORYADD);
         messageDispatchNotice.setSiteData(msg);
         messageDispatchNotice.setDingdingData(msg);
         messageDispatchNotice.setQywechatData(msg);
