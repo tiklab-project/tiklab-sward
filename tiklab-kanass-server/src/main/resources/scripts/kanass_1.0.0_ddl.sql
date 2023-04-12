@@ -9,6 +9,7 @@ CREATE TABLE kanass_repository(
         master VARCHAR(32) NOT NULL,
         limits VARCHAR(32) NOT NULL,
         create_time VARCHAR(32) NOT NULL,
+        icon_url VARCHAR(64),
         description VARCHAR(64)
 );
 
