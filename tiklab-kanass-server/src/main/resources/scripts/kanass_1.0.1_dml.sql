@@ -1,0 +1,1 @@
+ALTER table kanass_share_relation add category_id VARCHAR(64) NOT NULL;
