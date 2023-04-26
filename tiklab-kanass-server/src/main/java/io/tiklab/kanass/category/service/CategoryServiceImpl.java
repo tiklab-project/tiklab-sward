@@ -302,6 +302,8 @@ public class CategoryServiceImpl implements CategoryService {
                 ArrayList<Object> children = parentCategory.getChildren();
                 objects.addAll(children);
                 objects.addAll(childCategoryList);
+            }else {
+                objects.addAll(childCategoryList);
             }
             parentCategory.setChildren(objects);
 
