@@ -57,7 +57,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     DocumentService documentService;
 
-    @Value("${base.url:null")
+    @Value("${base.url:null}")
     String baseUrl;
 
     void creatDynamic( Map<String, String> content){
