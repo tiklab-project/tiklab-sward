@@ -155,7 +155,6 @@ public class RepositoryServiceImpl implements RepositoryService {
         DmUser dmUser = new DmUser();
         dmUser.setDomainId(id);
         dmUser.setUser(user);
-        dmUser.setUser(user);
         dmUserService.createDmUser(dmUser);
 
         //初始化项目权限
