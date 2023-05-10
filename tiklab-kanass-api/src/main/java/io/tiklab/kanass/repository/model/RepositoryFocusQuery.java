@@ -4,16 +4,12 @@ package io.tiklab.kanass.repository.model;
 import io.tiklab.core.order.Order;
 import io.tiklab.core.order.OrderBuilders;
 import io.tiklab.core.page.Page;
-import io.tiklab.dal.jpa.annotation.criteria.CriteriaQuery;
-import io.tiklab.dal.jpa.annotation.criteria.OrderField;
-import io.tiklab.dal.jpa.annotation.criteria.PageField;
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
 
 import java.util.List;
 
 @ApiModel
-@CriteriaQuery(entityAlias = "RepositoryFocusEntity")
 public class RepositoryFocusQuery {
         @ApiProperty(name ="masterId",desc = "收藏者id")
         private String masterId;
@@ -22,11 +18,9 @@ public class RepositoryFocusQuery {
         private String repositoryId;
 
         @ApiProperty(name ="orderParams",desc = "排序参数")
-        @OrderField
         private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
 
         @ApiProperty(name ="pageParam",desc = "分页参数")
-        @PageField
         private Page pageParam = new Page();
 
         public String getMasterId() {

@@ -1,6 +1,5 @@
 package io.tiklab.kanass.document.service;
 
-import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
 import io.tiklab.kanass.document.model.Like;
 import io.tiklab.kanass.document.model.LikeQuery;
 import io.tiklab.core.page.Pagination;
