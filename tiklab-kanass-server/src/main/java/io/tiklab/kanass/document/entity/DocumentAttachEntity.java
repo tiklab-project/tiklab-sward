@@ -12,8 +12,8 @@ import java.io.Serializable;
 public class DocumentAttachEntity implements Serializable {
 
     @Id
-    @GeneratorValue
-    @Column(name = "id",length = 32)
+    @GeneratorValue(length = 12)
+    @Column(name = "id",length = 12)
     private String id;
 
     @Column(name = "document_id",length = 32,notNull = true)

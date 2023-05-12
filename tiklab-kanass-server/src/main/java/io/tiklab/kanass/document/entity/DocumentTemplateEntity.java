@@ -13,8 +13,8 @@ import java.io.Serializable;
 public class DocumentTemplateEntity implements Serializable {
 
     @Id
-    @GeneratorValue
-    @Column(name = "id",length = 32)
+    @GeneratorValue(length = 8)
+    @Column(name = "id",length = 8)
     private String id;
     //名称
     @Column(name = "name",length = 32,notNull = true)

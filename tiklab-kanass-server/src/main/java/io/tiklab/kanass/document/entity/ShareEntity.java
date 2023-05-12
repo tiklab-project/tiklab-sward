@@ -12,8 +12,8 @@ import java.util.Date;
 @Table(name="kanass_share")
 public class ShareEntity implements Serializable {
     @Id
-    @GeneratorValue
-    @Column(name = "id",length = 32)
+    @GeneratorValue(length = 12)
+    @Column(name = "id",length = 12)
     private String id;
 
     //验证码

@@ -13,8 +13,8 @@ import java.util.Date;
 public class LikeEntity implements Serializable {
 
     @Id
-    @GeneratorValue
-    @Column(name = "id",length = 32)
+    @GeneratorValue(length = 12)
+    @Column(name = "id",length = 12)
     private String id;
 
     //文档或者评论的id

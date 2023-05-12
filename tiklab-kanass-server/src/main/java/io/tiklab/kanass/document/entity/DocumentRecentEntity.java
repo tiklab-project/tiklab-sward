@@ -8,8 +8,8 @@ import java.util.Date;
 @Table(name="kanass_document_recent")
 public class DocumentRecentEntity {
     @Id
-    @GeneratorValue
-    @Column(name = "id",length = 32,notNull = true)
+    @GeneratorValue(length = 12)
+    @Column(name = "id",length = 12,notNull = true)
     private String id;
 
     //名字
