@@ -62,6 +62,7 @@ public class UpdateMySqlDao {
                     exeSql(tableName,"parent_comment_id", 12);
                     exeSql(tableName,"first_one_comment_id", 12);
                     exeSql(tableName,"aim_at_user", 12);
+                    exeSql(tableName,"user_id", 12);
                 }
 
                 if (("kanass_like").equals(tableName)){

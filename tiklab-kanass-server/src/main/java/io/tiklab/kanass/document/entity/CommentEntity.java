@@ -35,8 +35,8 @@ public class CommentEntity implements Serializable {
     private String details;
 
     //用户
-    @Column(name = "user")
-    private String user;
+    @Column(name = "user_id")
+    private String userId;
 
     //对谁的评论
     @Column(name = "aim_at_user")
@@ -81,13 +81,7 @@ public class CommentEntity implements Serializable {
         this.details = details;
     }
 
-    public String getUser() {
-        return user;
-    }
 
-    public void setUser(String user) {
-        this.user = user;
-    }
 
     public Timestamp getCreateTime() {
         return createTime;
@@ -121,4 +115,11 @@ public class CommentEntity implements Serializable {
         this.aimAtUser = aimAtUser;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }

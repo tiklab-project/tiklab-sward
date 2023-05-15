@@ -84,7 +84,7 @@ public class RepositoryDao{
     public List<RepositoryEntity> findRepositoryList(RepositoryQuery repositoryQuery) {
         QueryBuilders queryBuilders = QueryBuilders.createQuery(RepositoryEntity.class, "rs");
         OrQueryCondition orQueryBuildCondition = OrQueryBuilders.instance()
-                .eq("limits",0)
+                .eq("limits","0")
                 .in("id",repositoryQuery.getRepositoryIds())
                 .get();
         QueryCondition queryCondition = queryBuilders.or(orQueryBuildCondition)

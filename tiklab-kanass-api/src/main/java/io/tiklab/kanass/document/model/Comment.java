@@ -39,7 +39,7 @@ public class Comment extends BaseModel{
 
     @ApiProperty(name="user",desc="用户",eg="@selectOne")
     @Mappings({
-            @Mapping(source = "user.id",target = "user")
+            @Mapping(source = "user.id",target = "userId")
     })
     @JoinQuery(key = "id")
     private User user;

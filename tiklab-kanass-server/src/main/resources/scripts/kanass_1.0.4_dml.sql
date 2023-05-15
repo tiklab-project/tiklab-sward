@@ -1,54 +1,56 @@
 
-ALTER TABLE kanass_repository MODIFY id varchar(12);
-ALTER TABLE kanass_repository MODIFY type_id varchar(8);
-ALTER TABLE kanass_repository MODIFY master varchar(12);
-ALTER TABLE kanass_repository MODIFY limits varchar(8);
-ALTER TABLE kanass_repository MODIFY icon_url varchar(32);
+ALTER TABLE kanass_repository ALTER COLUMN id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_repository ALTER COLUMN type_id SET DATA TYPE varchar(8);
+ALTER TABLE kanass_repository ALTER COLUMN master SET DATA TYPE varchar(12);
+ALTER TABLE kanass_repository ALTER COLUMN limits SET DATA TYPE varchar(8);
+ALTER TABLE kanass_repository ALTER COLUMN icon_url SET DATA TYPE varchar(32);
 
-ALTER TABLE kanass_category MODIFY id varchar(12);
-ALTER TABLE kanass_category MODIFY repository_id varchar(12);
-ALTER TABLE kanass_category MODIFY parent_category_id varchar(12);
-ALTER TABLE kanass_category MODIFY master varchar(12);
-ALTER TABLE kanass_category MODIFY icon_url varchar(32);
+ALTER TABLE kanass_category ALTER COLUMN id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_category ALTER COLUMN repository_id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_category ALTER COLUMN parent_category_id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_category ALTER COLUMN master SET DATA TYPE varchar(12);
+ALTER TABLE kanass_category ALTER COLUMN icon_url SET DATA TYPE varchar(32);
 
-ALTER TABLE kanass_document MODIFY id varchar(12);
-ALTER TABLE kanass_document MODIFY repository_id varchar(12);
-ALTER TABLE kanass_document MODIFY category_id varchar(12);
-ALTER TABLE kanass_document MODIFY master varchar(12);
-
-
-ALTER TABLE kanass_document_attach MODIFY id varchar(12);
-ALTER TABLE kanass_document_attach MODIFY document_id varchar(12);
-
-ALTER TABLE kanass_document_template MODIFY id varchar(8);
+ALTER TABLE kanass_document ALTER COLUMN id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_document ALTER COLUMN repository_id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_document ALTER COLUMN category_id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_document ALTER COLUMN master SET DATA TYPE varchar(12);
 
 
-ALTER TABLE kanass_comment MODIFY id varchar(12);
-ALTER TABLE kanass_comment MODIFY document_id varchar(12);
-ALTER TABLE kanass_comment MODIFY parent_comment_id varchar(12);
-ALTER TABLE kanass_comment MODIFY first_one_comment_id varchar(12);
-ALTER TABLE kanass_comment MODIFY aim_at_user varchar(12);
+ALTER TABLE kanass_document_attach ALTER COLUMN id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_document_attach ALTER COLUMN document_id SET DATA TYPE varchar(12);
+
+ALTER TABLE kanass_document_template ALTER COLUMN id SET DATA TYPE varchar(8);
 
 
-ALTER TABLE kanass_like MODIFY id varchar(12);
-ALTER TABLE kanass_like MODIFY to_whom_id varchar(12);
-ALTER TABLE kanass_like MODIFY like_user varchar(12);
+ALTER TABLE kanass_comment ALTER COLUMN id  SET DATA TYPE varchar(12);
+ALTER TABLE kanass_comment ALTER COLUMN document_id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_comment ALTER COLUMN parent_comment_id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_comment ALTER COLUMN first_one_comment_id SET DATA TYPE varchar(12);
 
-ALTER TABLE kanass_share MODIFY id varchar(12);
+ALTER TABLE kanass_comment ALTER COLUMN aim_at_user SET DATA TYPE varchar(12);
+ALTER TABLE kanass_comment ALTER COLUMN user_id SET DATA TYPE varchar(12);
 
 
-ALTER TABLE kanass_document_recent MODIFY id varchar(12);
-ALTER TABLE kanass_document_recent MODIFY model_id varchar(12);
-ALTER TABLE kanass_document_recent MODIFY master_id varchar(12);
-ALTER TABLE kanass_document_recent MODIFY repository_id varchar(12);
+ALTER TABLE kanass_like ALTER COLUMN id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_like ALTER COLUMN to_whom_id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_like ALTER COLUMN like_user SET DATA TYPE varchar(12);
 
-ALTER TABLE kanass_repository_focus MODIFY id varchar(12);
-ALTER TABLE kanass_repository_focus MODIFY repository_id varchar(12);
-ALTER TABLE kanass_repository_focus MODIFY master_id varchar(12);
+ALTER TABLE kanass_share ALTER COLUMN id SET DATA TYPE varchar(12);
 
-ALTER TABLE kanass_share_relation MODIFY id varchar(12);
-ALTER TABLE kanass_share_relation MODIFY document_id varchar(12);
-ALTER TABLE kanass_share_relation MODIFY share_id varchar(12);
+
+ALTER TABLE kanass_document_recent ALTER COLUMN id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_document_recent ALTER COLUMN model_id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_document_recent ALTER COLUMN master_id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_document_recent ALTER COLUMN repository_id SET DATA TYPE varchar(12);
+
+ALTER TABLE kanass_repository_focus ALTER COLUMN id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_repository_focus ALTER COLUMN repository_id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_repository_focus ALTER COLUMN master_id SET DATA TYPE varchar(12);
+
+ALTER TABLE kanass_share_relation ALTER COLUMN id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_share_relation ALTER COLUMN document_id SET DATA TYPE varchar(12);
+ALTER TABLE kanass_share_relation ALTER COLUMN share_id SET DATA TYPE varchar(12);
 
 
 

@@ -48,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
         if (!ObjectUtils.isEmpty(commentEntity.getParentCommentId())){
             CommentEntity parentComment = commentDao.findComment(commentEntity.getParentCommentId());
             //被回复的人
-            commentEntity.setAimAtUser(parentComment.getUser());
+            commentEntity.setAimAtUser(parentComment.getUserId());
         }
         return commentDao.createComment(commentEntity);
     }

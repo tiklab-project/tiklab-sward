@@ -40,7 +40,7 @@ CREATE TABLE kanass_document(
         category_id VARCHAR (32) ,
         master VARCHAR(32) NOT NULL,
         update_time  VARCHAR(64),
-        details longtext
+        details TEXT
 );
 
 -- ---------------------------
@@ -62,7 +62,7 @@ CREATE TABLE kanass_document_template(
         id VARCHAR(32) PRIMARY KEY,
         name VARCHAR(32) NOT NULL,
         description VARCHAR (64),
-        details longtext,
+        details TEXT,
         sort int
 );
 
@@ -75,8 +75,8 @@ CREATE TABLE kanass_comment(
         document_id VARCHAR(32) NOT NULL,
         parent_comment_id VARCHAR (32),
         first_one_comment_id varchar(32),
-        details longtext,
-        user varchar(32),
+        details TEXT,
+        user_id varchar(32),
         aim_at_user varchar(32),
         create_time timestamp,
         update_time timestamp
