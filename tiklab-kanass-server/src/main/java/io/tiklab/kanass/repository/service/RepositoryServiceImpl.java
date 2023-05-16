@@ -108,7 +108,7 @@ public class RepositoryServiceImpl implements RepositoryService {
         log.setActionType(opLogType);
 
         log.setModule("repository");
-        log.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        log.setCreateTime(new Timestamp(System.currentTimeMillis()));
         content.put("createUserIcon",user.getName().substring( 0, 1));
         log.setContent(JSONObject.toJSONString(content));
         log.setBaseUrl(baseUrl);
