@@ -229,6 +229,15 @@ public class RepositoryServiceImpl implements RepositoryService {
     @Override
     public Repository findRepository(@NotNull String id) {
         Repository repository = findOne(id);
+        DocumentQuery documentQuery = new DocumentQuery();
+        documentQuery.setRepositoryId(id);
+        List<Document> documentList = documentService.findDocumentList(documentQuery);
+        repository.setDocumentNum(documentList.size());
+
+        CategoryQuery categoryQuery = new CategoryQuery();
+        categoryQuery.setRepositoryId(id);
+        List<Category> categoryList = categoryService.findCategoryList(categoryQuery);
+        repository.setCategoryNum(categoryList.size());
 
         joinTemplate.joinQuery(repository);
         return repository;
