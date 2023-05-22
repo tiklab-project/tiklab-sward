@@ -223,6 +223,9 @@ public class RepositoryServiceImpl implements RepositoryService {
         List<RepositoryEntity> repositoryEntityList =  repositoryDao.findRepositoryList(idList);
 
         List<Repository> repositoryList =  BeanMapper.mapList(repositoryEntityList,Repository.class);
+
+        joinTemplate.joinQuery(repositoryList);
+
         return repositoryList;
     }
 

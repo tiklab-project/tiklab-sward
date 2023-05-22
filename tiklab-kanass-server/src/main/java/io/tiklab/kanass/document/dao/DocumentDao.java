@@ -83,6 +83,7 @@ public class DocumentDao{
                 .eq("id", documentQuery.getId())
                 .like("name", documentQuery.getName())
                 .eq("repositoryId", documentQuery.getRepositoryId())
+                .in("repositoryId", documentQuery.getRepositoryIds())
                 .eq("categoryId", documentQuery.getCategoryId())
                 .orders(documentQuery.getOrderParams())
                 .get();
