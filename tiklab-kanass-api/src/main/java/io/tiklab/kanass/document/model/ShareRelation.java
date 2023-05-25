@@ -5,12 +5,11 @@ import io.tiklab.beans.annotation.Mapping;
 import io.tiklab.beans.annotation.Mappings;
 import io.tiklab.core.BaseModel;
 import io.tiklab.join.annotation.JoinQuery;
-import io.tiklab.kanass.category.model.Category;
+import io.tiklab.kanass.category.model.WikiCategory;
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @ApiModel
 @Mapper(targetAlias = "ShareRelationEntity")
@@ -42,12 +41,12 @@ public class ShareRelation extends BaseModel{
     private Document document;
 
 
-    @ApiProperty(name="category",desc="文档",required = true)
+    @ApiProperty(name="wikiCategory",desc="文档",required = true)
     @Mappings({
-            @Mapping(source = "category.id",target = "categoryId")
+            @Mapping(source = "wikiCategory.id",target = "categoryId")
     })
     @JoinQuery(key = "id")
-    private Category category;
+    private WikiCategory wikiCategory;
 
     public String getId() {
         return id;
@@ -89,12 +88,12 @@ public class ShareRelation extends BaseModel{
         this.document = document;
     }
 
-    public Category getCategory() {
-        return category;
+    public WikiCategory getCategory() {
+        return wikiCategory;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategory(WikiCategory wikiCategory) {
+        this.wikiCategory = wikiCategory;
     }
 
     public String getShareId() {

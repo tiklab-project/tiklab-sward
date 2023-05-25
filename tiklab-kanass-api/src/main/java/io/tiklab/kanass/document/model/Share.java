@@ -1,15 +1,10 @@
 package io.tiklab.kanass.document.model;
 
-import io.tiklab.beans.annotation.Mapping;
-import io.tiklab.beans.annotation.Mappings;
-import io.tiklab.join.annotation.JoinQuery;
-import io.tiklab.kanass.category.model.Category;
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
 import io.tiklab.beans.annotation.Mapper;
 import io.tiklab.core.BaseModel;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @ApiModel

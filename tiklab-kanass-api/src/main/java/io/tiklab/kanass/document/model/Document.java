@@ -8,8 +8,8 @@ import io.tiklab.beans.annotation.Mappings;
 import io.tiklab.core.BaseModel;
 import io.tiklab.join.annotation.Join;
 import io.tiklab.join.annotation.JoinQuery;
-import io.tiklab.kanass.category.model.Category;
-import io.tiklab.kanass.repository.model.Repository;
+import io.tiklab.kanass.category.model.WikiCategory;
+import io.tiklab.kanass.repository.model.WikiRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.tiklab.user.user.model.User;
 
@@ -44,19 +44,19 @@ public class Document extends BaseModel{
     private User master;
 
     //@NotNull
-    @ApiProperty(name="repository",desc="空间",eg="@selectOne")
+    @ApiProperty(name="wikiRepository",desc="空间",eg="@selectOne")
     @Mappings({
-            @Mapping(source = "repository.id",target = "repositoryId")
+            @Mapping(source = "wikiRepository.id",target = "repositoryId")
     })
     @JoinQuery(key = "id")
-    private Repository repository;
+    private WikiRepository wikiRepository;
 
-    @ApiProperty(name="category",desc="目录",eg="@selectOne")
+    @ApiProperty(name="wikiCategory",desc="目录",eg="@selectOne")
     @Mappings({
-            @Mapping(source = "category.id",target = "categoryId")
+            @Mapping(source = "wikiCategory.id",target = "categoryId")
     })
     @JoinQuery(key = "id")
-    private Category category;
+    private WikiCategory wikiCategory;
 
 
     @ApiProperty(name="details",desc="details")
@@ -103,20 +103,20 @@ public class Document extends BaseModel{
         this.typeId = typeId;
     }
 
-    public Repository getRepository() {
-        return repository;
+    public WikiRepository getWikiRepository() {
+        return wikiRepository;
     }
 
-    public void setRepository(Repository repository) {
-        this.repository = repository;
+    public void setWikiRepository(WikiRepository wikiRepository) {
+        this.wikiRepository = wikiRepository;
     }
 
-    public Category getCategory() {
-        return category;
+    public WikiCategory getWikiCategory() {
+        return wikiCategory;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setWikiCategory(WikiCategory wikiCategory) {
+        this.wikiCategory = wikiCategory;
     }
 
     public java.lang.String getDetails() {

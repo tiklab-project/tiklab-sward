@@ -9,7 +9,7 @@ import io.tiklab.beans.annotation.Mappings;
 import io.tiklab.core.BaseModel;
 import io.tiklab.join.annotation.Join;
 import io.tiklab.join.annotation.JoinQuery;
-import io.tiklab.kanass.repository.model.Repository;
+import io.tiklab.kanass.repository.model.WikiRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.tiklab.user.user.model.User;
 
@@ -43,12 +43,12 @@ public class DocumentRecent extends BaseModel {
     private User master;
 
 
-    @ApiProperty(name="repository",desc="知识库",eg="@selectOne")
+    @ApiProperty(name="wikiRepository",desc="知识库",eg="@selectOne")
     @Mappings({
-            @Mapping(source = "repository.id",target = "repositoryId")
+            @Mapping(source = "wikiRepository.id",target = "repositoryId")
     })
     @JoinQuery(key = "id")
-    private Repository repository;
+    private WikiRepository wikiRepository;
 
 
     @ApiProperty(name="recentTime",desc="recentTime")
@@ -85,12 +85,12 @@ public class DocumentRecent extends BaseModel {
         this.modelId = modelId;
     }
 
-    public Repository getRepository() {
-        return repository;
+    public WikiRepository getWikiRepository() {
+        return wikiRepository;
     }
 
-    public void setRepository(Repository repository) {
-        this.repository = repository;
+    public void setWikiRepository(WikiRepository wikiRepository) {
+        this.wikiRepository = wikiRepository;
     }
 
     public java.util.Date getRecentTime() {

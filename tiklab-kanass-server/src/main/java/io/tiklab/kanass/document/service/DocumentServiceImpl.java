@@ -93,7 +93,7 @@ public class DocumentServiceImpl implements DocumentService {
         Map<String, String> content = new HashMap<>();
         content.put("documentId", document1.getId());
         content.put("documentName", document1.getName());
-        content.put("repositoryId", document1.getRepository().getId());
+        content.put("repositoryId", document1.getWikiRepository().getId());
         String typeId = document1.getTypeId();
         if(typeId.equals("document")){
             content.put("iconUrl", "/images/mindMap.png");
@@ -113,7 +113,7 @@ public class DocumentServiceImpl implements DocumentService {
         Map<String, String> content = new HashMap<>();
         content.put("documentId", document1.getId());
         content.put("documentName", document1.getName());
-        content.put("repositoryId", document1.getRepository().getId());
+        content.put("repositoryId", document1.getWikiRepository().getId());
         String typeId = document1.getTypeId();
         if(typeId.equals("document")){
             content.put("iconUrl", "/images/mindMap.png");

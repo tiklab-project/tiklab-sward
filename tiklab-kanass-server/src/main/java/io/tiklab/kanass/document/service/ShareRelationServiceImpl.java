@@ -4,7 +4,7 @@ import io.tiklab.beans.BeanMapper;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.core.page.PaginationBuilder;
 import io.tiklab.join.JoinTemplate;
-import io.tiklab.kanass.category.model.Category;
+import io.tiklab.kanass.category.model.WikiCategory;
 import io.tiklab.kanass.document.dao.ShareRelationDao;
 import io.tiklab.kanass.document.entity.ShareRelationEntity;
 import io.tiklab.kanass.document.model.Document;
@@ -14,13 +14,10 @@ import io.tiklab.rpc.annotation.Exporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
 * ShareRelationServiceImpl
@@ -49,9 +46,9 @@ public class ShareRelationServiceImpl implements ShareRelationService {
         if(!ObjectUtils.isEmpty(categoryIds)){
             for (String categoryId : categoryIds) {
                 ShareRelation shareRelation1 = new ShareRelation();
-                Category category = new Category();
-                category.setId(categoryId);
-                shareRelation1.setCategory(category);
+                WikiCategory wikiCategory = new WikiCategory();
+                wikiCategory.setId(categoryId);
+                shareRelation1.setCategory(wikiCategory);
                 shareRelation1.setType("category");
                 shareRelation1.setShareId(shareId);
                 createShareRelation(shareRelation1);

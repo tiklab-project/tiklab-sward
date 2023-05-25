@@ -2,9 +2,9 @@ package io.tiklab.kanass.repository.service;
 
 
 import io.tiklab.dal.jpa.JpaTemplate;
-import io.tiklab.kanass.category.dao.CategoryDao;
+import io.tiklab.kanass.category.dao.WikiCategoryDao;
 import io.tiklab.kanass.document.dao.DocumentDao;
-import io.tiklab.kanass.repository.dao.RepositoryDao;
+import io.tiklab.kanass.repository.dao.WikiRepositoryDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,10 +21,10 @@ public class CfImportDataServiceImpl implements CfImportDataService {
     DocumentDao documentDao;
 
     @Autowired
-    RepositoryDao repositoryDao;
+    WikiRepositoryDao wikiRepositoryDao;
 
     @Autowired
-    CategoryDao categoryDao;
+    WikiCategoryDao wikiCategoryDao;
 
     @Value("${unzip.path}")
     String unzipAddress;
