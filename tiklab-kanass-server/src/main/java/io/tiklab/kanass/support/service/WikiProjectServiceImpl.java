@@ -2,6 +2,7 @@ package io.tiklab.kanass.support.service;
 
 
 import io.tiklab.core.page.Pagination;
+import io.tiklab.kanass.document.service.DocumentService;
 import io.tiklab.kanass.support.model.*;
 import io.tiklab.kanass.support.support.SystemId;
 import io.tiklab.kanass.support.util.RpcClientTeamWireUtil;
@@ -29,26 +30,34 @@ public class WikiProjectServiceImpl implements WikiProjectService {
     SystemUrlService systemUrlService;
 
     ProjectService projectServiceRpc(){
-        SystemUrl systemUrl = systemUrlService.findSystemUrl(SystemId.TEAMWIRE_ID);
-        String url = systemUrl.getSystemUrl();
+        SystemUrlQuery systemUrlQuery = new SystemUrlQuery();
+        systemUrlQuery.setName("teamwire");
+        List<SystemUrl> systemUrlList = systemUrlService.findSystemUrlList(systemUrlQuery);
+        String url = systemUrlList.get(0).getSystemUrl();
         return new RpcClientTeamWireUtil().rpcClient().getBean(ProjectService.class, new FixedLookup(url));
     }
 
     WorkItemService workItemServiceRpc(){
-        SystemUrl systemUrl = systemUrlService.findSystemUrl(SystemId.TEAMWIRE_ID);
-        String url = systemUrl.getSystemUrl();
+        SystemUrlQuery systemUrlQuery = new SystemUrlQuery();
+        systemUrlQuery.setName("teamwire");
+        List<SystemUrl> systemUrlList = systemUrlService.findSystemUrlList(systemUrlQuery);
+        String url = systemUrlList.get(0).getSystemUrl();
         return new RpcClientTeamWireUtil().rpcClient().getBean(WorkItemService.class, new FixedLookup(url));
     }
 
     WorkTypeDmService workTypeDmServiceRpc(){
-        SystemUrl systemUrl = systemUrlService.findSystemUrl(SystemId.TEAMWIRE_ID);
-        String url = systemUrl.getSystemUrl();
+        SystemUrlQuery systemUrlQuery = new SystemUrlQuery();
+        systemUrlQuery.setName("teamwire");
+        List<SystemUrl> systemUrlList = systemUrlService.findSystemUrlList(systemUrlQuery);
+        String url = systemUrlList.get(0).getSystemUrl();
         return new RpcClientTeamWireUtil().rpcClient().getBean(WorkTypeDmService.class, new FixedLookup(url));
     }
 
     DmUserService dmUserServiceRpc(){
-        SystemUrl systemUrl = systemUrlService.findSystemUrl(SystemId.TEAMWIRE_ID);
-        String url = systemUrl.getSystemUrl();
+        SystemUrlQuery systemUrlQuery = new SystemUrlQuery();
+        systemUrlQuery.setName("teamwire");
+        List<SystemUrl> systemUrlList = systemUrlService.findSystemUrlList(systemUrlQuery);
+        String url = systemUrlList.get(0).getSystemUrl();
         return new RpcClientTeamWireUtil().rpcClient().getBean(DmUserService.class, new FixedLookup(url));
     }
 
