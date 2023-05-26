@@ -88,11 +88,11 @@ public class ShareRelation extends BaseModel{
         this.document = document;
     }
 
-    public WikiCategory getCategory() {
+    public WikiCategory getWikiCategory() {
         return wikiCategory;
     }
 
-    public void setCategory(WikiCategory wikiCategory) {
+    public void setWikiCategory(WikiCategory wikiCategory) {
         this.wikiCategory = wikiCategory;
     }
 

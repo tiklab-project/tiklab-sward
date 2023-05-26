@@ -48,7 +48,7 @@ public class ShareRelationServiceImpl implements ShareRelationService {
                 ShareRelation shareRelation1 = new ShareRelation();
                 WikiCategory wikiCategory = new WikiCategory();
                 wikiCategory.setId(categoryId);
-                shareRelation1.setCategory(wikiCategory);
+                shareRelation1.setWikiCategory(wikiCategory);
                 shareRelation1.setType("category");
                 shareRelation1.setShareId(shareId);
                 createShareRelation(shareRelation1);

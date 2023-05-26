@@ -225,7 +225,7 @@ public class ShareServiceImpl implements ShareService {
 
 
         if(shareRelationList.size() > 0){
-            List<WikiCategory> categories = shareRelationList.stream().map(ShareRelation::getCategory).collect(Collectors.toList());
+            List<WikiCategory> categories = shareRelationList.stream().map(ShareRelation::getWikiCategory).collect(Collectors.toList());
             List<String> allCategoryIds = categories.stream().map(WikiCategory::getId).collect(Collectors.toList());
             List<WikiCategory> wikiCategoryList = wikiCategoryService.findList(allCategoryIds);
             // 若目录大于一个
