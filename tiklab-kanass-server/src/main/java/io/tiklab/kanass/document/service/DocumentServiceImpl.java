@@ -19,6 +19,7 @@ import io.tiklab.user.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -157,18 +158,21 @@ public class DocumentServiceImpl implements DocumentService {
 
         joinTemplate.joinQuery(document);
 
-        //查询该文档的所有评论
-        CommentQuery commentQuery = new CommentQuery();
-        commentQuery.setDocumentId(id);
-        List<Comment> commentList = commentService.findCommentList(commentQuery);
+        if(!ObjectUtils.isEmpty(document)){
+            CommentQuery commentQuery = new CommentQuery();
+            commentQuery.setDocumentId(id);
+            List<Comment> commentList = commentService.findCommentList(commentQuery);
 
-        if (!commentList.isEmpty()){
-            //添加评论数
-            document.setCommentNumber(commentList.size());
-        }else {
-            document.setCommentNumber(0);
+            if (!commentList.isEmpty()){
+                //添加评论数
+                document.setCommentNumber(commentList.size());
+            }else {
+                document.setCommentNumber(0);
+            }
+            findLike(document);
+
         }
-        findLike(document);
+        //查询该文档的所有评论
 
         return document;
     }
