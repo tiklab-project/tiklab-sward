@@ -32,6 +32,9 @@ public class WikiWorkItem {
     @ApiProperty(name="projectName",desc="所属项目",required = true)
     private String projectName;
 
+    @ApiProperty(name="projectId",desc="所属项目",required = true)
+    private String projectId;
+
     @ApiProperty(name="workTypeName",desc="所属的项目事项类型")
     private String workTypeName;
 
@@ -154,5 +157,13 @@ public class WikiWorkItem {
 
     public void setPlanEndTime(Date planEndTime) {
         this.planEndTime = planEndTime;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 }

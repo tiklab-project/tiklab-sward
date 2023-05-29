@@ -26,6 +26,9 @@ public class DocumentQuery implements Serializable {
         @ApiProperty(name ="repositoryIds",desc = "空间id")
         private String[] repositoryIds;
 
+        @ApiProperty(name ="ids",desc = "空间id")
+        private String[] ids;
+
         @ApiProperty(name ="name",desc = "文档名字")
         private String name;
 
@@ -87,5 +90,13 @@ public class DocumentQuery implements Serializable {
 
     public void setRepositoryIds(String[] repositoryIds) {
         this.repositoryIds = repositoryIds;
+    }
+
+    public String[] getIds() {
+        return ids;
+    }
+
+    public void setIds(String[] ids) {
+        this.ids = ids;
     }
 }
