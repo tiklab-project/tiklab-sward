@@ -156,6 +156,7 @@ public class WikiProjectServiceImpl implements WikiProjectService {
         wikiWorkItem.setId(workItem.getId());
         wikiWorkItem.setTitle(workItem.getTitle());
         wikiWorkItem.setProjectName(workItem.getProject().getProjectName());
+        wikiWorkItem.setProjectId(workItem.getProject().getId());
         wikiWorkItem.setWorkTypeName(workItem.getWorkTypeSys().getName());
         wikiWorkItem.setWorkStatusName(workItem.getWorkStatusNode().getName());
         return wikiWorkItem;
