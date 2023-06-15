@@ -39,7 +39,7 @@ public class TeamWireController {
     @RequestMapping(path="/createProject",method = RequestMethod.POST)
     @ApiMethod(name = "createProject",desc = "创建项目")
     @ApiParam(name = "project",desc = "项目DTO",required = true)
-    public Result<String> createProject(@Validated(Project.Insert.class) @RequestBody Project project){
+    public Result<String> createProject(@Validated @RequestBody Project project){
         //设置初始项目状态
         project.setProjectState("1");
         String id = projectService.createProject(project);
@@ -50,7 +50,7 @@ public class TeamWireController {
     @RequestMapping(path="/updateProject",method = RequestMethod.POST)
     @ApiMethod(name = "updateProject",desc = "更新项目")
     @ApiParam(name = "project",desc = "项目DTO",required = true)
-    public Result<Void> updateProject(@Validated(Project.Update.class) @RequestBody Project project){
+    public Result<Void> updateProject(@Validated @RequestBody Project project){
         projectService.updateProject(project);
 
         return Result.ok();
