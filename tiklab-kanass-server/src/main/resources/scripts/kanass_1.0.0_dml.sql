@@ -1,16 +1,16 @@
-INSERT INTO kanass_category (id, name, repository_id, parent_category_id, master, sort) VALUES ('2da5f17b9e9d', '目录2-1', '43ef04320e51', 'f7c3aa4cdf145', '111111', NULL);
+INSERT INTO kanass_category (id, name, repository_id, parent_category_id, master, sort) VALUES ('2da5f17b9e9d', '目录2-1', '43ef04320e51', 'f7c3aa4cdf14', '111111', NULL);
 INSERT INTO kanass_category (id, name, repository_id, parent_category_id, master, sort) VALUES ('76056aadca9d', '目录1', '43ef04320e51', NULL, '111111', NULL);
 INSERT INTO kanass_category (id, name, repository_id, parent_category_id, master, sort) VALUES ('e1b1d9eaad01', '目录2-1', '7904ebd674d2', NULL, '111111', NULL);
 INSERT INTO kanass_category (id, name, repository_id, parent_category_id, master, sort) VALUES ('f7c3aa4cdf14', '目录2', '43ef04320e51', NULL, '111111', NULL);
 
 INSERT INTO kanass_document_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('06c401d60409', '目录2-1', 'document', '3f562c1ff20c', '111111', '43ef04320e51', '2022-07-29 00:22:28');
 INSERT INTO kanass_document_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('1be9dbe1e821', '文档1-1', 'document', 'a42b9a46747c', '111111', '7904ebd674d2', '2022-07-29 00:52:08');
-INSERT INTO kanass_document_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('339506fe7047', '知识库1', 'kanass', '43ef04320e51', '111111', '43ef04320e51', '2022-07-29 00:50:48');
+INSERT INTO kanass_document_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('339506fe7047', '知识库1', 'repository', '43ef04320e51', '111111', '43ef04320e51', '2022-07-29 00:50:48');
 INSERT INTO kanass_document_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('36e3a140147c', '脑图1-1', 'mindMap', '6df39f731431', '111111', '7904ebd674d2', '2022-07-29 00:52:07');
 INSERT INTO kanass_document_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('5f54cc75f8e0', '脑图1', 'mindMap', '3485027fcb86', '111111', '43ef04320e51', '2022-07-29 00:37:24');
 INSERT INTO kanass_document_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('7846486cb1c3', '页面3', 'document', 'ec03b473fc5e', '111111', '43ef04320e51', '2022-07-29 00:37:18');
 INSERT INTO kanass_document_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('83f7403df330', '脑图2', 'mindMap', '860d63d5f270', '111111', '43ef04320e51', '2022-07-29 00:37:18');
-INSERT INTO kanass_document_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('c1548c21bc6e', '知识库2', 'kanass', '7904ebd674d2', '111111', '7904ebd674d2', '2022-07-29 00:52:07');
+INSERT INTO kanass_document_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('c1548c21bc6e', '知识库2', 'repository', '7904ebd674d2', '111111', '7904ebd674d2', '2022-07-29 00:52:07');
 INSERT INTO kanass_document_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('ed84fcf3188d', '页面2', 'document', '9505d1bb04dd', '111111', '43ef04320e51', '2022-07-29 00:37:22');
 INSERT INTO kanass_document_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('fcd3e6b052a3', '文档1', 'document', '7f83912368a7', '111111', '43ef04320e51', '2022-07-29 00:37:25');
 
