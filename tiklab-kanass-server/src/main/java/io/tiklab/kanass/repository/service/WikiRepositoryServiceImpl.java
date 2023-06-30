@@ -181,7 +181,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         content.put("repositoryId", wikiRepository1.getId());
         content.put("repositoryName", wikiRepository1.getName());
 
-        creatDynamic(content);
+//        creatDynamic(content);
         wikiRepositoryDao.updateRepository(wikiRepositoryEntity);
     }
 
