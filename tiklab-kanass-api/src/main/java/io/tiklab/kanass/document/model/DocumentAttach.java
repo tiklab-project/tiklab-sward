@@ -1,12 +1,12 @@
 package io.tiklab.kanass.document.model;
 
+import io.tiklab.dfs.common.action.object.DfsObject;
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
 import io.tiklab.beans.annotation.Mapper;
 import io.tiklab.beans.annotation.Mapping;
 import io.tiklab.beans.annotation.Mappings;
 import io.tiklab.core.BaseModel;
-import io.tiklab.dfs.common.model.DfsFile;
 import io.tiklab.join.annotation.Join;
 import io.tiklab.join.annotation.JoinQuery;
 
@@ -34,7 +34,7 @@ public class DocumentAttach extends BaseModel{
             @Mapping(source = "attachment.fileName",target = "attachment")
     })
     @JoinQuery(key = "fileName")
-    private DfsFile attachment;
+    private DfsObject attachment;
 
     @ApiProperty(name="sort",desc="sort")
     private java.lang.Integer sort;
@@ -55,11 +55,11 @@ public class DocumentAttach extends BaseModel{
         this.document = document;
     }
 
-    public DfsFile getAttachment() {
+    public DfsObject getAttachment() {
         return attachment;
     }
 
-    public void setAttachment(DfsFile attachment) {
+    public void setAttachment(DfsObject attachment) {
         this.attachment = attachment;
     }
 
