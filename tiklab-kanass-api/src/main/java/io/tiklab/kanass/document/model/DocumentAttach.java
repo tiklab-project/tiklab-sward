@@ -1,6 +1,5 @@
 package io.tiklab.kanass.document.model;
 
-import io.tiklab.dfs.common.action.object.DfsObject;
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
 import io.tiklab.beans.annotation.Mapper;
@@ -30,11 +29,8 @@ public class DocumentAttach extends BaseModel{
 
     @NotNull
     @ApiProperty(name="attachment",desc="附件",required = true)
-    @Mappings({
-            @Mapping(source = "attachment.fileName",target = "attachment")
-    })
     @JoinQuery(key = "fileName")
-    private DfsObject attachment;
+    private String attachment;
 
     @ApiProperty(name="sort",desc="sort")
     private java.lang.Integer sort;
@@ -55,11 +51,11 @@ public class DocumentAttach extends BaseModel{
         this.document = document;
     }
 
-    public DfsObject getAttachment() {
+    public String getAttachment() {
         return attachment;
     }
 
-    public void setAttachment(DfsObject attachment) {
+    public void setAttachment(String attachment) {
         this.attachment = attachment;
     }
 
