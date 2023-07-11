@@ -20,7 +20,7 @@ import java.util.Date;
 
 @ApiModel
 @Join
-@Mapper(targetAlias = "WikiRepositoryEntity")
+@Mapper
 @Index
 public class WikiRepository extends BaseModel{
 

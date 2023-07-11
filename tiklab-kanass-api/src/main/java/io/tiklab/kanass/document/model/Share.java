@@ -8,7 +8,7 @@ import io.tiklab.core.BaseModel;
 import java.util.Date;
 
 @ApiModel
-@Mapper(targetAlias = "ShareEntity")
+@Mapper
 public class Share extends BaseModel{
 
     @ApiProperty(name="id",desc="id")

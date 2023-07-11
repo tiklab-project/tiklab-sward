@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @ApiModel
-@Mapper(targetAlias = "DocumentEntity")
+@Mapper
 @Join
 public class Document extends BaseModel{
 

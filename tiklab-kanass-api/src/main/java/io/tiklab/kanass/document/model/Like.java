@@ -13,7 +13,7 @@ import io.tiklab.user.user.model.User;
 import javax.validation.constraints.NotNull;
 
 @ApiModel
-@Mapper(targetAlias = "LikeEntity")
+@Mapper
 @Join
 public class Like extends BaseModel{
 

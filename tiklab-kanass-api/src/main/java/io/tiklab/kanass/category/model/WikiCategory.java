@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ApiModel
-@Mapper(targetAlias = "WikiCategoryEntity")
+@Mapper
 @Join
 public class WikiCategory extends BaseModel{
 

@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 
 @ApiModel
 @Join
-@Mapper(targetAlias = "DocumentRecentEntity")
+@Mapper
 public class DocumentRecent extends BaseModel {
 
     @ApiProperty(name="id",desc="id",required = true)

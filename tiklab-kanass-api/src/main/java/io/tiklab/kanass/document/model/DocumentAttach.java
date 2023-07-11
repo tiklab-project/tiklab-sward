@@ -12,7 +12,7 @@ import io.tiklab.join.annotation.JoinQuery;
 import javax.validation.constraints.NotNull;
 
 @ApiModel
-@Mapper(targetAlias = "DocumentAttachEntity")
+@Mapper
 @Join
 public class DocumentAttach extends BaseModel{
 

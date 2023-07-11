@@ -8,7 +8,7 @@ import io.tiklab.core.BaseModel;
 import javax.validation.constraints.NotNull;
 
 @ApiModel
-@Mapper(targetAlias = "DocumentTemplateEntity")
+@Mapper
 public class DocumentTemplate extends BaseModel{
 
     @ApiProperty(name="id",desc="id")

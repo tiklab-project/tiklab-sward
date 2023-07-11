@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @ApiModel
-@Mapper(targetAlias = "CommentEntity")
+@Mapper
 @Join
 public class Comment extends BaseModel{
 

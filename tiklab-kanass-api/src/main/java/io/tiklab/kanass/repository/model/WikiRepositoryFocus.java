@@ -6,7 +6,7 @@ import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
 
 @ApiModel
-@Mapper(targetAlias = "WikiRepositoryFocusEntity")
+@Mapper
 public class WikiRepositoryFocus extends BaseModel {
 
     @ApiProperty(name="id",desc="id")

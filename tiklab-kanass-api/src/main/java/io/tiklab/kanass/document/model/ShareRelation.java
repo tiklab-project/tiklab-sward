@@ -12,7 +12,7 @@ import io.tiklab.postin.annotation.ApiProperty;
 import javax.validation.constraints.NotNull;
 
 @ApiModel
-@Mapper(targetAlias = "ShareRelationEntity")
+@Mapper
 public class ShareRelation extends BaseModel{
 
     @ApiProperty(name="id",desc="id")
