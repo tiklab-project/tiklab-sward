@@ -1,6 +1,6 @@
 package io.tiklab.kanass.document.dao;
 
-import io.tiklab.kanass.document.entity.DocumentEntity;
+import io.tiklab.kanass.document.entity.WikiDocumentEntity;
 import io.tiklab.kanass.document.model.DocumentQuery;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
@@ -10,6 +10,7 @@ import io.tiklab.dal.jpa.JpaTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
@@ -28,21 +29,21 @@ public class DocumentDao{
 
     /**
      * 创建
-     * @param documentEntity
+     * @param wikiDocumentEntity
      * @return
      */
-    public String createDocument(DocumentEntity documentEntity) {
-        documentEntity.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-        return jpaTemplate.save(documentEntity,String.class);
+    public String createDocument(WikiDocumentEntity wikiDocumentEntity) {
+        wikiDocumentEntity.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        return jpaTemplate.save(wikiDocumentEntity,String.class);
     }
 
     /**
      * 更新
-     * @param documentEntity
+     * @param wikiDocumentEntity
      */
-    public void updateDocument(DocumentEntity documentEntity){
-        documentEntity.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-        jpaTemplate.update(documentEntity);
+    public void updateDocument(WikiDocumentEntity wikiDocumentEntity){
+        wikiDocumentEntity.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        jpaTemplate.update(wikiDocumentEntity);
     }
 
     /**
@@ -50,7 +51,7 @@ public class DocumentDao{
      * @param id
      */
     public void deleteDocument(String id){
-        jpaTemplate.delete(DocumentEntity.class,id);
+        jpaTemplate.delete(WikiDocumentEntity.class,id);
     }
 
     public void deleteDocument(DeleteCondition deleteCondition){
@@ -62,24 +63,24 @@ public class DocumentDao{
      * @param id
      * @return
      */
-    public DocumentEntity findDocument(String id){
-        return jpaTemplate.findOne(DocumentEntity.class,id);
+    public WikiDocumentEntity findDocument(String id){
+        return jpaTemplate.findOne(WikiDocumentEntity.class,id);
     }
 
     /**
     * findAllDocument
     * @return
     */
-    public List<DocumentEntity> findAllDocument() {
-        return jpaTemplate.findAll(DocumentEntity.class);
+    public List<WikiDocumentEntity> findAllDocument() {
+        return jpaTemplate.findAll(WikiDocumentEntity.class);
     }
 
-    public List<DocumentEntity> findDocumentList(List<String> idList) {
-        return jpaTemplate.findList(DocumentEntity.class,idList);
+    public List<WikiDocumentEntity> findDocumentList(List<String> idList) {
+        return jpaTemplate.findList(WikiDocumentEntity.class,idList);
     }
 
-    public List<DocumentEntity> findDocumentList(DocumentQuery documentQuery) {
-        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentEntity.class)
+    public List<WikiDocumentEntity> findDocumentList(DocumentQuery documentQuery) {
+        QueryCondition queryCondition = QueryBuilders.createQuery(WikiDocumentEntity.class)
                 .eq("id", documentQuery.getId())
                 .like("name", documentQuery.getName())
                 .eq("repositoryId", documentQuery.getRepositoryId())
@@ -87,11 +88,12 @@ public class DocumentDao{
                 .eq("categoryId", documentQuery.getCategoryId())
                 .orders(documentQuery.getOrderParams())
                 .get();
-        return jpaTemplate.findList(queryCondition, DocumentEntity.class);
+        return jpaTemplate.findList(queryCondition, WikiDocumentEntity.class);
     }
 
-    public Pagination<DocumentEntity> findDocumentPage(DocumentQuery documentQuery) {
-        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentEntity.class)
+
+    public Pagination<WikiDocumentEntity> findDocumentPage(DocumentQuery documentQuery) {
+        QueryCondition queryCondition = QueryBuilders.createQuery(WikiDocumentEntity.class)
                 .eq("id", documentQuery.getId())
                 .like("name", documentQuery.getName())
                 .eq("repositoryId", documentQuery.getRepositoryId())
@@ -101,6 +103,44 @@ public class DocumentDao{
                 .orders(documentQuery.getOrderParams())
                 .pagination(documentQuery.getPageParam())
                 .get();
-        return jpaTemplate.findPage(queryCondition, DocumentEntity.class);
+        return jpaTemplate.findPage(queryCondition, WikiDocumentEntity.class);
     }
+    public List<WikiDocumentEntity> findDocuementByKeyWork(String keyWork) {
+        String sql = "WITH RECURSIVE recursive_extract AS (\n" +
+                "    SELECT \n" +
+                "          kanass_document.id,\n" +
+                "      kanass_document.name,\n" +
+                "      kanass_document.details,\n" +
+                "      kanass_document.type_id,\n" +
+                "      kanass_document.repository_id,\n" +
+                "      kanass_document.category_id,\n" +
+                "      kanass_document.master,\n" +
+                "      kanass_document.update_time,\n" +
+                "          jsonb_array_elements(details) AS element\n" +
+                "    FROM kanass_document\n" +
+                "    UNION ALL\n" +
+                "    SELECT \n" +
+                "          recursive_extract.id,\n" +
+                "      recursive_extract.name,\n" +
+                "      recursive_extract.details,\n" +
+                "      recursive_extract.type_id,\n" +
+                "      recursive_extract.repository_id,\n" +
+                "      recursive_extract.category_id,\n" +
+                "      recursive_extract.master,\n" +
+                "      recursive_extract.update_time,\n" +
+                "          jsonb_array_elements(element->'children') AS element\n" +
+                "    FROM recursive_extract\n" +
+                "    WHERE jsonb_typeof(element) = 'object' AND element->'children' IS NOT NULL\n" +
+                "  )\n" +
+                "  \n" +
+                "  SELECT *\n" +
+                "  FROM \n" +
+                "      recursive_extract,\n" +
+                "      to_tsvector(recursive_extract.name || recursive_extract.element) document,\n" +
+                "    to_tsquery( ? ) query\n" +
+                "  WHERE element->>'text' IS NOT NULL AND query @@ document;";
+        List<WikiDocumentEntity> wikiDocumentEntityList = this.jpaTemplate.getJdbcTemplate().query(sql, new String[]{keyWork}, new BeanPropertyRowMapper(WikiDocumentEntity.class));
+        return wikiDocumentEntityList;
+    }
+
 }

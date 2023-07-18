@@ -1,5 +1,8 @@
 package io.tiklab.kanass.document.model;
 
+import io.tiklab.dss.annotation.Document;
+import io.tiklab.dss.annotation.DocumentField;
+import io.tiklab.dss.annotation.DocumentId;
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
 import io.tiklab.beans.annotation.Mapper;
@@ -17,15 +20,19 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @ApiModel
-@Mapper(targetAlias = "DocumentEntity")
+@Mapper
 @Join
-public class Document extends BaseModel{
+@Document
+public class WikiDocument extends BaseModel{
 
     @ApiProperty(name="id",desc="id")
+    @DocumentField
+    @DocumentId
     private java.lang.String id;
 
    // @NotNull
     @ApiProperty(name="name",desc="name",required = true)
+    @DocumentField(queryField = true)
     private java.lang.String name;
 
     @ApiProperty(name="typeId",desc="typeId",required = true)
@@ -61,6 +68,10 @@ public class Document extends BaseModel{
 
     @ApiProperty(name="details",desc="details")
     private java.lang.String details;
+
+    @ApiProperty(name="detailText",desc="detailText")
+    @DocumentField(queryField = true)
+    private java.lang.String detailText;
 
     //评论条数
     @ApiProperty(name="commentNumber",desc="评论条数")
@@ -189,5 +200,13 @@ public class Document extends BaseModel{
 
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getDetailText() {
+        return detailText;
+    }
+
+    public void setDetailText(String detailText) {
+        this.detailText = detailText;
     }
 }

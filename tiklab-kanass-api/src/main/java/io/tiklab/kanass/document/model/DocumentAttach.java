@@ -6,14 +6,13 @@ import io.tiklab.beans.annotation.Mapper;
 import io.tiklab.beans.annotation.Mapping;
 import io.tiklab.beans.annotation.Mappings;
 import io.tiklab.core.BaseModel;
-import io.tiklab.dfs.common.model.DfsFile;
 import io.tiklab.join.annotation.Join;
 import io.tiklab.join.annotation.JoinQuery;
 
 import javax.validation.constraints.NotNull;
 
 @ApiModel
-@Mapper(targetAlias = "DocumentAttachEntity")
+@Mapper
 @Join
 public class DocumentAttach extends BaseModel{
 
@@ -26,15 +25,12 @@ public class DocumentAttach extends BaseModel{
             @Mapping(source = "document.id",target = "documentId")
     })
     @JoinQuery(key = "fileName")
-    private Document document;
+    private WikiDocument wikiDocument;
 
     @NotNull
     @ApiProperty(name="attachment",desc="附件",required = true)
-    @Mappings({
-            @Mapping(source = "attachment.fileName",target = "attachment")
-    })
     @JoinQuery(key = "fileName")
-    private DfsFile attachment;
+    private String attachment;
 
     @ApiProperty(name="sort",desc="sort")
     private java.lang.Integer sort;
@@ -47,19 +43,19 @@ public class DocumentAttach extends BaseModel{
         this.id = id;
     }
 
-    public Document getDocument() {
-        return document;
+    public WikiDocument getDocument() {
+        return wikiDocument;
     }
 
-    public void setDocument(Document document) {
-        this.document = document;
+    public void setDocument(WikiDocument wikiDocument) {
+        this.wikiDocument = wikiDocument;
     }
 
-    public DfsFile getAttachment() {
+    public String getAttachment() {
         return attachment;
     }
 
-    public void setAttachment(DfsFile attachment) {
+    public void setAttachment(String attachment) {
         this.attachment = attachment;
     }
 

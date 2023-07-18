@@ -1,8 +1,5 @@
 package io.tiklab.kanass.support.model;
 
-import io.tiklab.dss.annotation.IndexField;
-import io.tiklab.dss.annotation.IndexId;
-import io.tiklab.dss.annotation.IndexQueryField;
 import io.tiklab.postin.annotation.ApiProperty;
 
 import javax.validation.constraints.NotNull;
@@ -10,8 +7,6 @@ import javax.validation.constraints.NotNull;
 public class WikiProject {
     @ApiProperty(name="id",desc = "项目ID")
     @NotNull
-    @IndexField
-    @IndexId
     private String id;
 
     @ApiProperty(name = "projectKey",desc = "项目key",required = true)
@@ -24,8 +19,6 @@ public class WikiProject {
     private String projectLimits;
 
     @ApiProperty(name="projectName",desc = "项目名称",eg="@text32",required = true)
-    @IndexField
-    @IndexQueryField
     private String projectName;
 
     @ApiProperty(name="projectTypeName",desc = "项目类型",required = true)

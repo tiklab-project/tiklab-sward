@@ -1,7 +1,7 @@
 package io.tiklab.kanass.doument.controller;
 
 import io.tiklab.core.utils.MapUtils;
-import io.tiklab.kanass.document.model.Document;
+import io.tiklab.kanass.document.model.DocumentAttach;
 import io.tiklab.core.Result;
 import io.tiklab.postin.client.mock.JMockit;
 import io.tiklab.kanass.config.TestConfig;
@@ -36,9 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @Rollback(false)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class DocumentControllerTest {
+public class WikiDocumentAttachControllerTest {
 
-    private static Logger logger = LoggerFactory.getLogger(DocumentControllerTest.class);
+    private static Logger logger = LoggerFactory.getLogger(WikiDocumentAttachControllerTest.class);
 
     static String id;
 
@@ -53,14 +53,14 @@ public class DocumentControllerTest {
     }
 
     @Test
-    public void test01ForSaveDocument() {
-        Document document = JMockit.mock(Document.class);
+    public void test01ForSaveDocumentAttach() {
+        DocumentAttach documentAttach = JMockit.mock(DocumentAttach.class);
 
-        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(document);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(documentAttach);
 
         try {
             MvcResult mvcResult = mockMvc.perform(
-                                post("/document/createDocument")
+                                post("/documentAttach/createDocumentAttach")
                                 .params(multiValueMap)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -79,15 +79,15 @@ public class DocumentControllerTest {
     }
 
     @Test
-    public void test02ForUpdateDocument(){
-        Document document = JMockit.mock(Document.class);
-        document.setId(id);
+    public void test02ForUpdateDocumentAttach(){
+        DocumentAttach documentAttach = JMockit.mock(DocumentAttach.class);
+        documentAttach.setId(id);
 
-        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(document);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(documentAttach);
 
         try {
             MvcResult mvcResult = mockMvc.perform(
-                                post("/document/updateDocument")
+                                post("/documentAttach/updateDocumentAttach")
                                 .params(multiValueMap)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -105,10 +105,10 @@ public class DocumentControllerTest {
     }
 
     @Test
-    public void test03ForFindDocument() {
+    public void test03ForFindDocumentAttach() {
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/document/findDocument")
+                    post("/documentAttach/findDocumentAttach")
                             .param("id",id)
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
@@ -126,10 +126,10 @@ public class DocumentControllerTest {
     }
 
     @Test
-    public void test04ForFindAllDocument() {
+    public void test04ForFindAllDocumentAttach() {
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/document/findAllDocument")
+                    post("/documentAttach/findAllDocumentAttach")
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
             )
@@ -146,10 +146,10 @@ public class DocumentControllerTest {
     }
 
     @Test
-    public void test05ForDeleteDocument(){
+    public void test05ForDeleteDocumentAttach(){
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/document/deleteDocument")
+                    post("/documentAttach/deleteDocumentAttach")
                             .param("id",id)
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)

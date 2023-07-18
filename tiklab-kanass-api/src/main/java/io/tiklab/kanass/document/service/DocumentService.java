@@ -1,6 +1,6 @@
 package io.tiklab.kanass.document.service;
 
-import io.tiklab.kanass.document.model.Document;
+import io.tiklab.kanass.document.model.WikiDocument;
 import io.tiklab.kanass.document.model.DocumentQuery;
 import io.tiklab.core.page.Pagination;
 
@@ -16,21 +16,21 @@ import java.util.List;
 /**
 * DocumentService
 */
-@JoinProvider(model = Document.class)
+@JoinProvider(model = WikiDocument.class)
 public interface DocumentService {
 
     /**
     * 创建
-    * @param document
+    * @param wikiDocument
     * @return
     */
-    String createDocument(@NotNull @Valid Document document);
+    String createDocument(@NotNull @Valid WikiDocument wikiDocument);
 
     /**
     * 更新
-    * @param document
+    * @param wikiDocument
     */
-    void updateDocument(@NotNull @Valid Document document);
+    void updateDocument(@NotNull @Valid WikiDocument wikiDocument);
 
     /**
     * 删除
@@ -39,10 +39,10 @@ public interface DocumentService {
     void deleteDocument(@NotNull String id);
 
     @FindOne
-    Document findOne(@NotNull String id);
+    WikiDocument findOne(@NotNull String id);
 
     @FindList
-    List<Document> findList(List<String> idList);
+    List<WikiDocument> findList(List<String> idList);
 
     /**
     * 查找
@@ -50,34 +50,43 @@ public interface DocumentService {
      * 分享出去后调用的查询接口  （跳过ticket验证）
     * @return
     */
-    Document findDocument(@NotNull String id);
+    WikiDocument findDocument(@NotNull String id);
 
     /**
      * 查找
      * @param id
      * @return
      */
-     Document findDocumentById(@NotNull String id);
+     WikiDocument findDocumentById(@NotNull String id);
 
     /**
     * 查找所有
     * @return
     */
     @FindAll
-    List<Document> findAllDocument();
+    List<WikiDocument> findAllDocument();
 
     /**
     * 查询列表
     * @param documentQuery
     * @return
     */
-    List<Document> findDocumentList(DocumentQuery documentQuery);
+    List<WikiDocument> findDocumentList(DocumentQuery documentQuery);
 
+    /**
+     * 查询列表
+     * @param documentQuery
+     * @return
+     */
+    Integer findDocumentCount(DocumentQuery documentQuery);
     /**
     * 按分页查询
     * @param documentQuery
     * @return
     */
-    Pagination<Document> findDocumentPage(DocumentQuery documentQuery);
+    Pagination<WikiDocument> findDocumentPage(DocumentQuery documentQuery);
+
+
+    List<WikiDocument> findDocuementByKeyWork(String keyWork);
 
 }

@@ -7,7 +7,7 @@ import io.tiklab.join.JoinTemplate;
 import io.tiklab.kanass.category.model.WikiCategory;
 import io.tiklab.kanass.document.dao.ShareRelationDao;
 import io.tiklab.kanass.document.entity.ShareRelationEntity;
-import io.tiklab.kanass.document.model.Document;
+import io.tiklab.kanass.document.model.WikiDocument;
 import io.tiklab.kanass.document.model.ShareRelation;
 import io.tiklab.kanass.document.model.ShareRelationQuery;
 import io.tiklab.rpc.annotation.Exporter;
@@ -58,9 +58,9 @@ public class ShareRelationServiceImpl implements ShareRelationService {
         if(!ObjectUtils.isEmpty(documentIds)){
             for (String documentId : documentIds) {
                 ShareRelation shareRelation1 = new ShareRelation();
-                Document document = new Document();
-                document.setId(documentId);
-                shareRelation1.setDocument(document);
+                WikiDocument wikiDocument = new WikiDocument();
+                wikiDocument.setId(documentId);
+                shareRelation1.setDocument(wikiDocument);
                 shareRelation1.setType("document");
                 shareRelation1.setShareId(shareId);
                 createShareRelation(shareRelation1);

@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @ApiModel
 @Join
-@Mapper(targetAlias = "SystemUrlEntity")
+@Mapper
 public class SystemUrl {
     @ApiProperty(name="id",desc="id")
     private String id;

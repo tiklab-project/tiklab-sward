@@ -6,8 +6,8 @@ import io.tiklab.kanass.category.entity.WikiCategoryEntity;
 import io.tiklab.kanass.category.model.WikiCategory;
 import io.tiklab.kanass.category.model.WikiCategoryQuery;
 import io.tiklab.kanass.category.support.OpLogTemplateCategory;
-import io.tiklab.kanass.document.entity.DocumentEntity;
-import io.tiklab.kanass.document.model.Document;
+import io.tiklab.kanass.document.entity.WikiDocumentEntity;
+import io.tiklab.kanass.document.model.WikiDocument;
 import io.tiklab.kanass.document.model.DocumentQuery;
 import io.tiklab.beans.BeanMapper;
 import io.tiklab.core.page.Pagination;
@@ -176,12 +176,12 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
                 wikiCategory.setChildren(categoryObject);
             }
 
-            List<DocumentEntity> documentEntityList = wikiCategoryDao.findDocumentDocument(id1);
-            List<Document> documentList =  BeanMapper.mapList(documentEntityList,Document.class);
+            List<WikiDocumentEntity> wikiDocumentEntityList = wikiCategoryDao.findDocumentDocument(id1);
+            List<WikiDocument> wikiDocumentList =  BeanMapper.mapList(wikiDocumentEntityList, WikiDocument.class);
 
-            joinTemplate.joinQuery(documentList);
-            if(documentList.size() > 0){
-                wikiCategory.setDocuments(documentList);
+            joinTemplate.joinQuery(wikiDocumentList);
+            if(wikiDocumentList.size() > 0){
+                wikiCategory.setDocuments(wikiDocumentList);
             }
         }
         return wikiCategoryList;
@@ -195,11 +195,11 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
         List<WikiCategory> wikiCategoryList = findCategoryList(id);
         objects.addAll(wikiCategoryList);
 
-        List<DocumentEntity> documentEntityList = wikiCategoryDao.findDocumentDocument(id);
-        List<Document> documentList =  BeanMapper.mapList(documentEntityList,Document.class);
+        List<WikiDocumentEntity> wikiDocumentEntityList = wikiCategoryDao.findDocumentDocument(id);
+        List<WikiDocument> wikiDocumentList =  BeanMapper.mapList(wikiDocumentEntityList, WikiDocument.class);
 
-        joinTemplate.joinQuery(documentList);
-        objects.addAll(documentList);
+        joinTemplate.joinQuery(wikiDocumentList);
+        objects.addAll(wikiDocumentList);
 
         return objects;
     }
@@ -243,12 +243,12 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
         //查询符合条件的所有目录
         List<WikiCategory> wikiCategoryList = this.findCategoryList(wikiCategoryQuery);
 
-        List<Document> documentList = documentService.findDocumentList(new DocumentQuery().setRepositoryId(wikiCategoryQuery.getRepositoryId()));
+        List<WikiDocument> wikiDocumentList = documentService.findDocumentList(new DocumentQuery().setRepositoryId(wikiCategoryQuery.getRepositoryId()));
         //查找并设置分类下面的文档
         List<WikiCategory> wikiCategoryMethodList = findCategoryMethodList(wikiCategoryList);
 
         //查询没在目录下main的文档
-        List<Document> collect = documentList.stream().filter(a -> ObjectUtils.isEmpty(a.getWikiCategory())).collect(Collectors.toList());
+        List<WikiDocument> collect = wikiDocumentList.stream().filter(a -> ObjectUtils.isEmpty(a.getWikiCategory())).collect(Collectors.toList());
         //查询一级目录
         List<WikiCategory> topWikiCategoryList = findTopCategoryList(wikiCategoryMethodList);
         //查找并设置子分类列表
@@ -265,8 +265,8 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
 
         }
         if(!collect.isEmpty()){
-            for(Document document:collect){
-                objects.add(document);
+            for(WikiDocument wikiDocument :collect){
+                objects.add(wikiDocument);
             }
         }
         return objects;
@@ -323,7 +323,7 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
         List<WikiCategory> wikiCategories = wikiCategoryList.stream().map(category -> {
             DocumentQuery documentQuery = new DocumentQuery();
             documentQuery.setCategoryId(category.getId());
-            List<Document> repositoryDetailsList = documentService.findDocumentList(documentQuery);
+            List<WikiDocument> repositoryDetailsList = documentService.findDocumentList(documentQuery);
 
             ArrayList<Object> objects = new ArrayList<>();
             objects.addAll(repositoryDetailsList);
