@@ -1,16 +1,15 @@
 package io.tiklab.kanass.repository.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import io.tiklab.dss.annotation.Document;
+import io.tiklab.dss.annotation.DocumentField;
+import io.tiklab.dss.annotation.DocumentId;
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
 import io.tiklab.beans.annotation.Mapper;
 import io.tiklab.beans.annotation.Mapping;
 import io.tiklab.beans.annotation.Mappings;
 import io.tiklab.core.BaseModel;
-import io.tiklab.dss.annotation.Index;
-import io.tiklab.dss.annotation.IndexField;
-import io.tiklab.dss.annotation.IndexId;
-import io.tiklab.dss.annotation.IndexQueryField;
 import io.tiklab.join.annotation.Join;
 import io.tiklab.join.annotation.JoinQuery;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -21,18 +20,17 @@ import java.util.Date;
 @ApiModel
 @Join
 @Mapper
-@Index
+@Document
 public class WikiRepository extends BaseModel{
 
     @ApiProperty(name="id",desc="id")
-    @IndexField
-    @IndexId
+    @DocumentField
+    @DocumentId
     private java.lang.String id;
 
 
     @ApiProperty(name="name",desc="name")
-    @IndexField
-    @IndexQueryField
+    @DocumentField(queryField = true)
     private java.lang.String name;
 
     //@NotNull

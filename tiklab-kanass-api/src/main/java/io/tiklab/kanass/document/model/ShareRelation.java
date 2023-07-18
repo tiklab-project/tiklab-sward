@@ -38,7 +38,7 @@ public class ShareRelation extends BaseModel{
             @Mapping(source = "document.id",target = "documentId")
     })
     @JoinQuery(key = "id")
-    private Document document;
+    private WikiDocument wikiDocument;
 
 
     @ApiProperty(name="wikiCategory",desc="文档",required = true)
@@ -80,12 +80,12 @@ public class ShareRelation extends BaseModel{
         this.categoryIds = categoryIds;
     }
 
-    public Document getDocument() {
-        return document;
+    public WikiDocument getDocument() {
+        return wikiDocument;
     }
 
-    public void setDocument(Document document) {
-        this.document = document;
+    public void setDocument(WikiDocument wikiDocument) {
+        this.wikiDocument = wikiDocument;
     }
 
     public WikiCategory getWikiCategory() {

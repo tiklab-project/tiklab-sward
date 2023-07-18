@@ -1,17 +1,14 @@
 package io.tiklab.kanass.document.entity;
 
 
-import com.alibaba.fastjson.annotation.JSONField;
 import io.tiklab.dal.jpa.annotation.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
 @Table(name="kanass_document")
-public class DocumentEntity implements Serializable {
+public class WikiDocumentEntity implements Serializable {
 
     @Id
     @GeneratorValue(length = 12)
@@ -41,6 +38,8 @@ public class DocumentEntity implements Serializable {
     @Column(name = "details")
     private String details;
 
+    @Column(name = "detail_text")
+    private String detailText;
     @Column(name = "update_time")
     private Timestamp updateTime;
 
@@ -117,6 +116,14 @@ public class DocumentEntity implements Serializable {
 
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getDetailText() {
+        return detailText;
+    }
+
+    public void setDetailText(String detailText) {
+        this.detailText = detailText;
     }
 }
 

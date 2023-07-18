@@ -25,7 +25,7 @@ public class DocumentAttach extends BaseModel{
             @Mapping(source = "document.id",target = "documentId")
     })
     @JoinQuery(key = "fileName")
-    private Document document;
+    private WikiDocument wikiDocument;
 
     @NotNull
     @ApiProperty(name="attachment",desc="附件",required = true)
@@ -43,12 +43,12 @@ public class DocumentAttach extends BaseModel{
         this.id = id;
     }
 
-    public Document getDocument() {
-        return document;
+    public WikiDocument getDocument() {
+        return wikiDocument;
     }
 
-    public void setDocument(Document document) {
-        this.document = document;
+    public void setDocument(WikiDocument wikiDocument) {
+        this.wikiDocument = wikiDocument;
     }
 
     public String getAttachment() {

@@ -2,7 +2,7 @@ package io.tiklab.kanass.category.dao;
 
 import io.tiklab.kanass.category.entity.WikiCategoryEntity;
 import io.tiklab.kanass.category.model.WikiCategoryQuery;
-import io.tiklab.kanass.document.entity.DocumentEntity;
+import io.tiklab.kanass.document.entity.WikiDocumentEntity;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
@@ -75,11 +75,11 @@ public class WikiCategoryDao {
         return wikiCategoryEntityList;
     }
 
-    public List<DocumentEntity> findDocumentDocument(String id){
-        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentEntity.class,"de").eq("de.categoryId",id).get();
-        List<DocumentEntity> documentEntityList = jpaTemplate.findList(queryCondition,DocumentEntity.class);
+    public List<WikiDocumentEntity> findDocumentDocument(String id){
+        QueryCondition queryCondition = QueryBuilders.createQuery(WikiDocumentEntity.class,"de").eq("de.categoryId",id).get();
+        List<WikiDocumentEntity> wikiDocumentEntityList = jpaTemplate.findList(queryCondition, WikiDocumentEntity.class);
 
-        return documentEntityList;
+        return wikiDocumentEntityList;
     }
 
     /**

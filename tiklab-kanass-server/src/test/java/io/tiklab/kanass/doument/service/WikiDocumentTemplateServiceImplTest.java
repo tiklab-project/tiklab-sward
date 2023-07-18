@@ -25,9 +25,9 @@ import static org.junit.Assert.assertNotNull;
 @Transactional
 @Rollback(false)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class DocumentTemplateServiceImplTest {
+public class WikiDocumentTemplateServiceImplTest {
 
-    private static Logger logger = LoggerFactory.getLogger(DocumentTemplateServiceImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(WikiDocumentTemplateServiceImplTest.class);
 
     @Autowired
     DocumentTemplateService documentTemplateService;

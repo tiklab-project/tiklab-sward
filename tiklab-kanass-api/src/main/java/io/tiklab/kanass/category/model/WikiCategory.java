@@ -1,7 +1,7 @@
 package io.tiklab.kanass.category.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.tiklab.kanass.document.model.Document;
+import io.tiklab.kanass.document.model.WikiDocument;
 import io.tiklab.kanass.repository.model.WikiRepository;
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
@@ -58,7 +58,7 @@ public class WikiCategory extends BaseModel{
     private ArrayList<Object> children = new ArrayList<>();
 
    @ApiProperty(name="categoryMethod",desc="")
-    private List<Document> documents=new ArrayList<>();
+    private List<WikiDocument> wikiDocuments =new ArrayList<>();
 
    @ApiProperty(name="formatType",desc="格式类型  category 目录  document 文档")
     private java.lang.String formatType="category";
@@ -114,12 +114,12 @@ public class WikiCategory extends BaseModel{
         this.children = children;
     }
 
-    public List<Document> getDocuments() {
-        return documents;
+    public List<WikiDocument> getDocuments() {
+        return wikiDocuments;
     }
 
-    public void setDocuments(List<Document> documents) {
-        this.documents = documents;
+    public void setDocuments(List<WikiDocument> wikiDocuments) {
+        this.wikiDocuments = wikiDocuments;
     }
 
     public String getFormatType() {

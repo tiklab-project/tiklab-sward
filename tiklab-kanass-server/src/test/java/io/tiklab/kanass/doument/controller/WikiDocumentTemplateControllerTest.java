@@ -1,7 +1,7 @@
-package io.tiklab.kanass.document.controller;
+package io.tiklab.kanass.doument.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import io.tiklab.kanass.document.model.DocumentRecent;
+import io.tiklab.core.utils.MapUtils;
+import io.tiklab.kanass.document.model.DocumentTemplate;
 import io.tiklab.core.Result;
 import io.tiklab.postin.client.mock.JMockit;
 import io.tiklab.kanass.config.TestConfig;
@@ -22,11 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.Map;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -39,9 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @Rollback(false)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class DocumentRecentControllerTest {
+public class WikiDocumentTemplateControllerTest {
 
-    private static Logger logger = LoggerFactory.getLogger(DocumentRecentControllerTest.class);
+    private static Logger logger = LoggerFactory.getLogger(WikiDocumentTemplateControllerTest.class);
 
     static String id;
 
@@ -56,15 +53,14 @@ public class DocumentRecentControllerTest {
     }
 
     @Test
-    public void test01ForSaveDocumentRecent() {
-        DocumentRecent documentRecent = JMockit.mock(DocumentRecent.class);
+    public void test01ForSaveDocumentTemplate() {
+        DocumentTemplate documentTemplate = JMockit.mock(DocumentTemplate.class);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(documentRecent));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(documentTemplate);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
-                                post("/documentRecent/createDocumentRecent")
+                                post("/documentTemplate/createDocumentTemplate")
                                 .params(multiValueMap)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -83,16 +79,15 @@ public class DocumentRecentControllerTest {
     }
 
     @Test
-    public void test02ForUpdateDocumentRecent(){
-        DocumentRecent documentRecent = JMockit.mock(DocumentRecent.class);
-        documentRecent.setId(id);
+    public void test02ForUpdateDocumentTemplate(){
+        DocumentTemplate documentTemplate = JMockit.mock(DocumentTemplate.class);
+        documentTemplate.setId(id);
 
-        Map paramMap  = JSONObject.parseObject(JSONObject.toJSONString(documentRecent));
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.setAll(paramMap);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(documentTemplate);
+
         try {
             MvcResult mvcResult = mockMvc.perform(
-                                post("/documentRecent/updateDocumentRecent")
+                                post("/documentTemplate/updateDocumentTemplate")
                                 .params(multiValueMap)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -110,10 +105,10 @@ public class DocumentRecentControllerTest {
     }
 
     @Test
-    public void test03ForFindDocumentRecent() {
+    public void test03ForFindDocumentTemplate() {
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/documentRecent/findDocumentRecent")
+                    post("/documentTemplate/findDocumentTemplate")
                             .param("id",id)
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
@@ -131,10 +126,10 @@ public class DocumentRecentControllerTest {
     }
 
     @Test
-    public void test04ForFindAllDocumentRecent() {
+    public void test04ForFindAllDocumentTemplate() {
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/documentRecent/findAllDocumentRecent")
+                    post("/documentTemplate/findAllDocumentTemplate")
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
             )
@@ -151,10 +146,10 @@ public class DocumentRecentControllerTest {
     }
 
     @Test
-    public void test05ForDeleteDocumentRecent(){
+    public void test05ForDeleteDocumentTemplate(){
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/documentRecent/deleteDocumentRecent")
+                    post("/documentTemplate/deleteDocumentTemplate")
                             .param("id",id)
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)

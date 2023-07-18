@@ -2,7 +2,6 @@ package io.tiklab.kanass.repository.service;
 
 import com.alibaba.fastjson.JSONObject;
 import io.tiklab.eam.common.context.LoginContext;
-import io.tiklab.kanass.document.model.Document;
 import io.tiklab.kanass.document.model.DocumentQuery;
 import io.tiklab.kanass.document.model.DocumentRecent;
 import io.tiklab.kanass.document.model.DocumentRecentQuery;
@@ -113,6 +112,8 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         log.setContent(JSONObject.toJSONString(content));
         log.setBaseUrl(baseUrl);
         loggingByTemplService.createLog(log);
+
+
     }
 
     /**
@@ -168,21 +169,21 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         creatDynamic(content);
         sendMessageForCreat(content);
         //构建索引
-//        Repository entity = findRepository(id);
-//        dssClient.save(entity);
+        WikiRepository entity = findRepository(id);
+        dssClient.save(entity);
         return id;
     }
 
     @Override
     public void updateRepository(@NotNull @Valid WikiRepository wikiRepository) {
         WikiRepositoryEntity wikiRepositoryEntity = BeanMapper.map(wikiRepository, WikiRepositoryEntity.class);
+//        creatDynamic(content);
+        wikiRepositoryDao.updateRepository(wikiRepositoryEntity);
         WikiRepository wikiRepository1 = findRepository(wikiRepositoryEntity.getId());
         Map<String, String> content = new HashMap<>();
         content.put("repositoryId", wikiRepository1.getId());
         content.put("repositoryName", wikiRepository1.getName());
-
-//        creatDynamic(content);
-        wikiRepositoryDao.updateRepository(wikiRepositoryEntity);
+        dssClient.update(wikiRepository1);
     }
 
     @Override
@@ -234,8 +235,8 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         WikiRepository wikiRepository = findOne(id);
         DocumentQuery documentQuery = new DocumentQuery();
         documentQuery.setRepositoryId(id);
-        List<Document> documentList = documentService.findDocumentList(documentQuery);
-        wikiRepository.setDocumentNum(documentList.size());
+        Integer documentCount = documentService.findDocumentCount(documentQuery);
+        wikiRepository.setDocumentNum(documentCount);
 
         WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
         wikiCategoryQuery.setRepositoryId(id);
@@ -315,8 +316,8 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
             DocumentQuery documentQuery = new DocumentQuery();
             documentQuery.setRepositoryId(id);
-            List<Document> documentList = documentService.findDocumentList(documentQuery);
-            wikiRepository.setDocumentNum(documentList.size());
+            Integer documentCount = documentService.findDocumentCount(documentQuery);
+            wikiRepository.setDocumentNum(documentCount);
         }
 
         joinTemplate.joinQuery(wikiRepositoryList);

@@ -1,6 +1,6 @@
 package io.tiklab.kanass.doument.service;
 
-import io.tiklab.kanass.document.model.Document;
+import io.tiklab.kanass.document.model.WikiDocument;
 import io.tiklab.postin.client.mock.JMockit;
 import io.tiklab.kanass.config.TestConfig;
 import io.tiklab.kanass.document.service.DocumentService;
@@ -25,9 +25,9 @@ import static org.junit.Assert.assertNotNull;
 @Transactional
 @Rollback(false)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class DocumentServiceImplTest {
+public class WikiDocumentServiceImplTest {
 
-    private static Logger logger = LoggerFactory.getLogger(DocumentServiceImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(WikiDocumentServiceImplTest.class);
 
     @Autowired
     DocumentService documentService;
@@ -36,33 +36,33 @@ public class DocumentServiceImplTest {
 
     @Test
     public void test01ForSaveDocument() {
-        Document document = JMockit.mock(Document.class);
+        WikiDocument wikiDocument = JMockit.mock(WikiDocument.class);
 
-        id = documentService.createDocument(document);
+        id = documentService.createDocument(wikiDocument);
 
         assertNotNull(id);
     }
 
     @Test
     public void test02ForUpdateDocument(){
-        Document document = JMockit.mock(Document.class);
-        document.setId(id);
+        WikiDocument wikiDocument = JMockit.mock(WikiDocument.class);
+        wikiDocument.setId(id);
 
-        documentService.updateDocument(document);
+        documentService.updateDocument(wikiDocument);
     }
 
     @Test
     public void test03ForFindDocument() {
-        Document document = documentService.findDocument(id);
+        WikiDocument wikiDocument = documentService.findDocument(id);
 
-        assertNotNull(document);
+        assertNotNull(wikiDocument);
     }
 
     @Test
     public void test04ForFindAllDocument() {
-        List<Document> documentList = documentService.findAllDocument();
+        List<WikiDocument> wikiDocumentList = documentService.findAllDocument();
 
-        assertNotNull(documentList);
+        assertNotNull(wikiDocumentList);
     }
 
     @Test

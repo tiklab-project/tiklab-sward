@@ -113,6 +113,13 @@ CREATE TABLE kanass_system_url(
         web_url VARCHAR(64)
 );
 
+CREATE TABLE pmc_icon(
+        id VARCHAR(12) PRIMARY KEY,
+        icon_name VARCHAR(64) NOT NULL,
+        icon_url VARCHAR(64) NOT NULL,
+        icon_type VARCHAR(32)
+);
+
 
 
 

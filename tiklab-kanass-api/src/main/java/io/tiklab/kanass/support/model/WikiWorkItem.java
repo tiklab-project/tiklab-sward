@@ -2,9 +2,6 @@ package io.tiklab.kanass.support.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.tiklab.dss.annotation.IndexField;
-import io.tiklab.dss.annotation.IndexId;
-import io.tiklab.dss.annotation.IndexQueryField;
 import io.tiklab.postin.annotation.ApiProperty;
 
 import javax.validation.constraints.NotNull;
@@ -12,14 +9,10 @@ import java.sql.Date;
 
 public class WikiWorkItem {
     @ApiProperty(name="id",desc="唯一标识")
-    @IndexField
-    @IndexId
     private java.lang.String id;
 
     @NotNull
     @ApiProperty(name="title",desc="标题",required = true)
-    @IndexField
-    @IndexQueryField
     private java.lang.String title;
 
 

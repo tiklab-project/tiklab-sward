@@ -1,8 +1,9 @@
 package io.tiklab.kanass.document.service;
 
 import com.alibaba.fastjson.JSONObject;
+import io.tiklab.dss.client.DssClient;
 import io.tiklab.eam.common.context.LoginContext;
-import io.tiklab.kanass.document.entity.DocumentEntity;
+import io.tiklab.kanass.document.entity.WikiDocumentEntity;
 import io.tiklab.kanass.document.model.*;
 import io.tiklab.kanass.document.support.OpLogTemplateDocument;
 import io.tiklab.beans.BeanMapper;
@@ -41,6 +42,8 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     DocumentDao documentDao;
+    @Autowired
+    DssClient dssClient;
 
     @Autowired
     JoinTemplate joinTemplate;
@@ -86,44 +89,44 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     @Override
-    public String createDocument(@NotNull @Valid Document document) {
-        DocumentEntity documentEntity = BeanMapper.map(document, DocumentEntity.class);
-        String documentId = documentDao.createDocument(documentEntity);
+    public String createDocument(@NotNull @Valid WikiDocument wikiDocument) {
+        WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
+        String documentId = documentDao.createDocument(wikiDocumentEntity);
 
-        Document document1 = findDocumentById(documentId);
+        WikiDocument wikiDocument1 = findDocumentById(documentId);
         Map<String, String> content = new HashMap<>();
-        content.put("documentId", document1.getId());
-        content.put("documentName", document1.getName());
-        content.put("repositoryId", document1.getWikiRepository().getId());
-        String typeId = document1.getTypeId();
+        content.put("documentId", wikiDocument1.getId());
+        content.put("documentName", wikiDocument1.getName());
+        content.put("repositoryId", wikiDocument1.getWikiRepository().getId());
+        String typeId = wikiDocument1.getTypeId();
         if(typeId.equals("document")){
             content.put("iconUrl", "/images/mindMap.png");
         }else {
             content.put("iconUrl", "/images/document.png");
         }
-//        creatDynamic(content);
 
+        WikiDocument wikiDocument2 = findDocument(documentId);
+        dssClient.save(wikiDocument2);
         return documentId;
     }
 
     @Override
-    public void updateDocument(@NotNull @Valid Document document) {
-        DocumentEntity documentEntity = BeanMapper.map(document, DocumentEntity.class);
-
-        Document document1 = findDocumentById(documentEntity.getId());
+    public void updateDocument(@NotNull @Valid WikiDocument wikiDocument) {
+        WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
+        documentDao.updateDocument(wikiDocumentEntity);
+        WikiDocument wikiDocument1 = findDocumentById(wikiDocumentEntity.getId());
         Map<String, String> content = new HashMap<>();
-        content.put("documentId", document1.getId());
-        content.put("documentName", document1.getName());
-        content.put("repositoryId", document1.getWikiRepository().getId());
-        String typeId = document1.getTypeId();
+        content.put("documentId", wikiDocument1.getId());
+        content.put("documentName", wikiDocument1.getName());
+        content.put("repositoryId", wikiDocument1.getWikiRepository().getId());
+        String typeId = wikiDocument1.getTypeId();
         if(typeId.equals("document")){
             content.put("iconUrl", "/images/mindMap.png");
         }else {
             content.put("iconUrl", "/images/document.png");
         }
-//        creatDynamic(content);
 
-        documentDao.updateDocument(documentEntity);
+        dssClient.update(wikiDocument1);
     }
 
 
@@ -131,56 +134,57 @@ public class DocumentServiceImpl implements DocumentService {
     public void deleteDocument(@NotNull String id) {
         //删除事项的关联
    //     workItemDocumentController.delete(id);
+//        WikiDocumentEntity wikiDocumentEntity = documentDao.findDocument(id);
+        dssClient.delete(WikiDocument.class, id);
         documentDao.deleteDocument(id);
+
     }
 
     @Override
-    public Document findOne(String id) {
+    public WikiDocument findOne(String id) {
 
-        DocumentEntity documentEntity = documentDao.findDocument(id);
+        WikiDocumentEntity wikiDocumentEntity = documentDao.findDocument(id);
 
-        Document document = BeanMapper.map(documentEntity, Document.class);
+        WikiDocument wikiDocument = BeanMapper.map(wikiDocumentEntity, WikiDocument.class);
 
-        return document;
+        return wikiDocument;
     }
 
     @Override
-    public List<Document> findList(List<String> idList) {
-        List<DocumentEntity> documentEntityList =  documentDao.findDocumentList(idList);
+    public List<WikiDocument> findList(List<String> idList) {
+        List<WikiDocumentEntity> wikiDocumentEntityList =  documentDao.findDocumentList(idList);
 
-        List<Document> documentList =  BeanMapper.mapList(documentEntityList,Document.class);
-        return documentList;
+        List<WikiDocument> wikiDocumentList =  BeanMapper.mapList(wikiDocumentEntityList, WikiDocument.class);
+        return wikiDocumentList;
     }
 
     @Override
-    public Document findDocument(@NotNull String id) {
-        Document document = findOne(id);
+    public WikiDocument findDocument(@NotNull String id) {
+        WikiDocument wikiDocument = findOne(id);
 
-        joinTemplate.joinQuery(document);
+        joinTemplate.joinQuery(wikiDocument);
 
-        if(!ObjectUtils.isEmpty(document)){
+        if(!ObjectUtils.isEmpty(wikiDocument)){
             CommentQuery commentQuery = new CommentQuery();
             commentQuery.setDocumentId(id);
             List<Comment> commentList = commentService.findCommentList(commentQuery);
 
             if (!commentList.isEmpty()){
                 //添加评论数
-                document.setCommentNumber(commentList.size());
+                wikiDocument.setCommentNumber(commentList.size());
             }else {
-                document.setCommentNumber(0);
+                wikiDocument.setCommentNumber(0);
             }
-            findLike(document);
+            findLike(wikiDocument);
 
         }
-        //查询该文档的所有评论
-
-        return document;
+        return wikiDocument;
     }
 
     @Override
-    public Document findDocumentById(@NotNull String id) {
-        DocumentEntity documentEntity = documentDao.findDocument(id);
-        Document document = BeanMapper.map(documentEntity, Document.class);
+    public WikiDocument findDocumentById(@NotNull String id) {
+        WikiDocumentEntity wikiDocumentEntity = documentDao.findDocument(id);
+        WikiDocument wikiDocument = BeanMapper.map(wikiDocumentEntity, WikiDocument.class);
 
         CommentQuery commentQuery = new CommentQuery();
         commentQuery.setDocumentId(id);
@@ -188,58 +192,73 @@ public class DocumentServiceImpl implements DocumentService {
 
         if (!commentList.isEmpty()){
             //添加评论数
-            document.setCommentNumber(commentList.size());
+            wikiDocument.setCommentNumber(commentList.size());
         }else {
-            document.setCommentNumber(0);
+            wikiDocument.setCommentNumber(0);
         }
-//        findLike(document);
-
-        joinTemplate.joinQuery(document);
-        return document;
+        joinTemplate.joinQuery(wikiDocument);
+        return wikiDocument;
     }
 
     @Override
-    public List<Document> findAllDocument() {
-        List<DocumentEntity> documentEntityList =  documentDao.findAllDocument();
+    public List<WikiDocument> findAllDocument() {
+        List<WikiDocumentEntity> wikiDocumentEntityList =  documentDao.findAllDocument();
 
-        List<Document> documentList =  BeanMapper.mapList(documentEntityList,Document.class);
+        List<WikiDocument> wikiDocumentList =  BeanMapper.mapList(wikiDocumentEntityList, WikiDocument.class);
 
-        joinTemplate.joinQuery(documentList);
-        return documentList;
+        joinTemplate.joinQuery(wikiDocumentList);
+        return wikiDocumentList;
     }
 
     @Override
-    public List<Document> findDocumentList(DocumentQuery documentQuery) {
-        List<DocumentEntity> documentEntityList = documentDao.findDocumentList(documentQuery);
+    public List<WikiDocument> findDocumentList(DocumentQuery documentQuery) {
+        List<WikiDocumentEntity> wikiDocumentEntityList = documentDao.findDocumentList(documentQuery);
 
-        List<Document> documentList = BeanMapper.mapList(documentEntityList,Document.class);
+        List<WikiDocument> wikiDocumentList = BeanMapper.mapList(wikiDocumentEntityList, WikiDocument.class);
 
-        joinTemplate.joinQuery(documentList);
+        joinTemplate.joinQuery(wikiDocumentList);
 
-        return documentList;
+        return wikiDocumentList;
     }
 
     @Override
-    public Pagination<Document> findDocumentPage(DocumentQuery documentQuery) {
-
-        Pagination<DocumentEntity>  pagination = documentDao.findDocumentPage(documentQuery);
-
-        List<Document> documentList = BeanMapper.mapList(pagination.getDataList(),Document.class);
-
-        joinTemplate.joinQuery(documentList);
-
-        return PaginationBuilder.build(pagination,documentList);
+    public Integer findDocumentCount(DocumentQuery documentQuery) {
+        List<WikiDocumentEntity> documentList = documentDao.findDocumentList(documentQuery);
+        int size = documentList.size();
+        return size;
     }
 
+    @Override
+    public Pagination<WikiDocument> findDocumentPage(DocumentQuery documentQuery) {
+
+        Pagination<WikiDocumentEntity>  pagination = documentDao.findDocumentPage(documentQuery);
+
+        List<WikiDocument> wikiDocumentList = BeanMapper.mapList(pagination.getDataList(), WikiDocument.class);
+
+        joinTemplate.joinQuery(wikiDocumentList);
+
+        return PaginationBuilder.build(pagination, wikiDocumentList);
+    }
+
+    @Override
+    public List<WikiDocument> findDocuementByKeyWork(String keyWork) {
+        List<WikiDocumentEntity> wikiDocumentEntityList = documentDao.findDocuementByKeyWork(keyWork);
+
+        List<WikiDocument> wikiDocumentList = BeanMapper.mapList(wikiDocumentEntityList, WikiDocument.class);
+
+        joinTemplate.joinQuery(wikiDocumentList);
+
+        return wikiDocumentList;
+    }
 
 
     /**
      *查询点赞
      * @param
      */
-    public void findLike( Document document){
+    public void findLike( WikiDocument wikiDocument){
         LikeQuery likeQuery = new LikeQuery();
-        likeQuery.setToWhomId(document.getId());
+        likeQuery.setToWhomId(wikiDocument.getId());
         likeQuery.setLikeType("doc");
         List<Like> likeList = likeService.findLikeList(likeQuery);
 
@@ -247,31 +266,22 @@ public class DocumentServiceImpl implements DocumentService {
             String createUserId = LoginContext.getLoginId();
             List<Like> collect1 = likeList.stream().filter(a -> createUserId.equals(a.getLikeUser().getId())).collect(Collectors.toList());
             if (!collect1.isEmpty()){
-                document.setLike(true);
+                wikiDocument.setLike(true);
             }else {
-                document.setLike(false);
+                wikiDocument.setLike(false);
             }
             List<User> userList = likeList.stream().map(Like::getLikeUser).collect(Collectors.toList());
             if(!userList.isEmpty()){
                 //取点赞人名字
                 List<String> collect = userList.stream().map(User::getName).collect(Collectors.toList());
-                document.setLikeUserList(collect);
+                wikiDocument.setLikeUserList(collect);
             }
-            document.setLikenumInt(likeList.size());
+            wikiDocument.setLikenumInt(likeList.size());
 
         }else {
-            document.setLike(false);
-            document.setLikenumInt(0);
+            wikiDocument.setLike(false);
+            wikiDocument.setLikenumInt(0);
         }
     }
 
-    /**
-     * 查询登录用户（创建人）id
-     * @param
-     */
-//    public String findCreatUser(){
-//        String ticketId = TicketHolder.get();
-//        Ticket ticket = TicketContext.get(ticketId);
-//        return ticket.getUserId();
-//    }
 }

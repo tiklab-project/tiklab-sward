@@ -29,7 +29,7 @@ public class Comment extends BaseModel{
             @Mapping(source = "document.id",target = "documentId")
     })
     @JoinQuery(key = "id")
-    private Document document;
+    private WikiDocument wikiDocument;
 
     @ApiProperty(name="parentCommentId",desc="父评论id")
     private java.lang.String parentCommentId;
@@ -82,12 +82,12 @@ public class Comment extends BaseModel{
         this.id = id;
     }
 
-    public Document getDocument() {
-        return document;
+    public WikiDocument getDocument() {
+        return wikiDocument;
     }
 
-    public void setDocument(Document document) {
-        this.document = document;
+    public void setDocument(WikiDocument wikiDocument) {
+        this.wikiDocument = wikiDocument;
     }
 
     public java.lang.String getParentCommentId() {

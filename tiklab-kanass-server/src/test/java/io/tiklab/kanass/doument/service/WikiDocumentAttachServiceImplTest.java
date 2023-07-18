@@ -25,9 +25,9 @@ import static org.junit.Assert.assertNotNull;
 @Transactional
 @Rollback(false)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class DocumentAttachServiceImplTest {
+public class WikiDocumentAttachServiceImplTest {
 
-    private static Logger logger = LoggerFactory.getLogger(DocumentAttachServiceImplTest.class);
+    private static Logger logger = LoggerFactory.getLogger(WikiDocumentAttachServiceImplTest.class);
 
     @Autowired
     DocumentAttachService documentAttachService;

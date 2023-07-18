@@ -1,7 +1,7 @@
 package io.tiklab.kanass.doument.controller;
 
 import io.tiklab.core.utils.MapUtils;
-import io.tiklab.kanass.document.model.DocumentTemplate;
+import io.tiklab.kanass.document.model.WikiDocument;
 import io.tiklab.core.Result;
 import io.tiklab.postin.client.mock.JMockit;
 import io.tiklab.kanass.config.TestConfig;
@@ -36,9 +36,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @Rollback(false)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class DocumentTemplateControllerTest {
+public class WikiDocumentControllerTest {
 
-    private static Logger logger = LoggerFactory.getLogger(DocumentTemplateControllerTest.class);
+    private static Logger logger = LoggerFactory.getLogger(WikiDocumentControllerTest.class);
 
     static String id;
 
@@ -53,14 +53,14 @@ public class DocumentTemplateControllerTest {
     }
 
     @Test
-    public void test01ForSaveDocumentTemplate() {
-        DocumentTemplate documentTemplate = JMockit.mock(DocumentTemplate.class);
+    public void test01ForSaveDocument() {
+        WikiDocument wikiDocument = JMockit.mock(WikiDocument.class);
 
-        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(documentTemplate);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(wikiDocument);
 
         try {
             MvcResult mvcResult = mockMvc.perform(
-                                post("/documentTemplate/createDocumentTemplate")
+                                post("/document/createDocument")
                                 .params(multiValueMap)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -79,15 +79,15 @@ public class DocumentTemplateControllerTest {
     }
 
     @Test
-    public void test02ForUpdateDocumentTemplate(){
-        DocumentTemplate documentTemplate = JMockit.mock(DocumentTemplate.class);
-        documentTemplate.setId(id);
+    public void test02ForUpdateDocument(){
+        WikiDocument wikiDocument = JMockit.mock(WikiDocument.class);
+        wikiDocument.setId(id);
 
-        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(documentTemplate);
+        MultiValueMap<String, String> multiValueMap = MapUtils.toMultiMap(wikiDocument);
 
         try {
             MvcResult mvcResult = mockMvc.perform(
-                                post("/documentTemplate/updateDocumentTemplate")
+                                post("/document/updateDocument")
                                 .params(multiValueMap)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -105,10 +105,10 @@ public class DocumentTemplateControllerTest {
     }
 
     @Test
-    public void test03ForFindDocumentTemplate() {
+    public void test03ForFindDocument() {
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/documentTemplate/findDocumentTemplate")
+                    post("/document/findDocument")
                             .param("id",id)
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
@@ -126,10 +126,10 @@ public class DocumentTemplateControllerTest {
     }
 
     @Test
-    public void test04ForFindAllDocumentTemplate() {
+    public void test04ForFindAllDocument() {
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/documentTemplate/findAllDocumentTemplate")
+                    post("/document/findAllDocument")
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
             )
@@ -146,10 +146,10 @@ public class DocumentTemplateControllerTest {
     }
 
     @Test
-    public void test05ForDeleteDocumentTemplate(){
+    public void test05ForDeleteDocument(){
         try {
             MvcResult mvcResult = mockMvc.perform(
-                    post("/documentTemplate/deleteDocumentTemplate")
+                    post("/document/deleteDocument")
                             .param("id",id)
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)

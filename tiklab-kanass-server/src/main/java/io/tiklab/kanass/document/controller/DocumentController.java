@@ -1,6 +1,6 @@
 package io.tiklab.kanass.document.controller;
 
-import io.tiklab.kanass.document.model.Document;
+import io.tiklab.kanass.document.model.WikiDocument;
 import io.tiklab.kanass.document.model.DocumentQuery;
 import io.tiklab.postin.annotation.Api;
 import io.tiklab.kanass.document.service.DocumentService;
@@ -37,8 +37,8 @@ public class DocumentController {
     @RequestMapping(path="/createDocument",method = RequestMethod.POST)
     @ApiMethod(name = "createDocument",desc = "创建文档")
     @ApiParam(name = "document",desc = "document",required = true)
-    public Result<String> createDocument(@RequestBody @NotNull @Valid Document document){
-        String id = documentService.createDocument(document);
+    public Result<String> createDocument(@RequestBody @NotNull @Valid WikiDocument wikiDocument){
+        String id = documentService.createDocument(wikiDocument);
 
         return Result.ok(id);
     }
@@ -47,8 +47,8 @@ public class DocumentController {
     @RequestMapping(path="/updateDocument",method = RequestMethod.POST)
     @ApiMethod(name = "updateDocument",desc = "修改文档")
     @ApiParam(name = "document",desc = "document",required = true)
-    public Result<Void> updateDocument(@RequestBody @NotNull @Valid Document document){
-        documentService.updateDocument(document);
+    public Result<Void> updateDocument(@RequestBody @NotNull @Valid WikiDocument wikiDocument){
+        documentService.updateDocument(wikiDocument);
 
         return Result.ok();
     }
@@ -67,56 +67,75 @@ public class DocumentController {
     @RequestMapping(path="/findDocument",method = RequestMethod.POST)
     @ApiMethod(name = "findDocument",desc = "通过id查询文档")
     @ApiParam(name = "id",desc = "id",required = true)
-    public Result<Document> findDocument(@NotNull String id){
-        Document document = documentService.findDocument(id);
+    public Result<WikiDocument> findDocument(@NotNull String id){
+        WikiDocument wikiDocument = documentService.findDocument(id);
 
-        return Result.ok(document);
+        return Result.ok(wikiDocument);
     }
 
     @RequestMapping(path="/findAllDocument",method = RequestMethod.POST)
     @ApiMethod(name = "findAllDocument",desc = "findAllDocument")
-    public Result<List<Document>> findAllDocument(){
-        List<Document> documentList = documentService.findAllDocument();
+    public Result<List<WikiDocument>> findAllDocument(){
+        List<WikiDocument> wikiDocumentList = documentService.findAllDocument();
 
-        return Result.ok(documentList);
+        return Result.ok(wikiDocumentList);
     }
 
 
     @RequestMapping(path = "/findDocumentList",method = RequestMethod.POST)
     @ApiMethod(name = "findDocumentList",desc = "findDocumentList")
     @ApiParam(name = "documentQuery",desc = "documentQuery",required = true)
-    public Result<List<Document>> findDocumentList(@RequestBody @Valid @NotNull DocumentQuery documentQuery){
-        List<Document> documentList = documentService.findDocumentList(documentQuery);
+    public Result<List<WikiDocument>> findDocumentList(@RequestBody @Valid @NotNull DocumentQuery documentQuery){
+        List<WikiDocument> wikiDocumentList = documentService.findDocumentList(documentQuery);
 
-        return Result.ok(documentList);
+        return Result.ok(wikiDocumentList);
     }
 
 
     @RequestMapping(path = "/findDocumentPage",method = RequestMethod.POST)
     @ApiMethod(name = "findDocumentPage",desc = "findDocumentPage")
     @ApiParam(name = "documentQuery",desc = "documentQuery",required = true)
-    public Result<Pagination<Document>> findDocumentPage(@RequestBody @Valid @NotNull DocumentQuery documentQuery){
-        Pagination<Document> pagination = documentService.findDocumentPage(documentQuery);
+    public Result<Pagination<WikiDocument>> findDocumentPage(@RequestBody @Valid @NotNull DocumentQuery documentQuery){
+        Pagination<WikiDocument> pagination = documentService.findDocumentPage(documentQuery);
 
         return Result.ok(pagination);
     }
 
+    @RequestMapping(path = "/findDocumentCount",method = RequestMethod.POST)
+    @ApiMethod(name = "findDocumentCount",desc = "findDocumentPage")
+    @ApiParam(name = "documentQuery",desc = "documentQuery",required = true)
+    public Result<Integer> findDocumentCount(@RequestBody @Valid @NotNull DocumentQuery documentQuery){
+        Integer documentCount = documentService.findDocumentCount(documentQuery);
+
+        return Result.ok(documentCount);
+    }
+
+    @RequestMapping(path = "/findDocuementByKeyWork",method = RequestMethod.POST)
+    @ApiMethod(name = "findDocuementByKeyWork",desc = "findDocuementByKeyWork")
+    @ApiParam(name = "keyWord",desc = "keyWord",required = true)
+    public Result<List<WikiDocument>> findDocuementByKeyWork(@NotNull String keyWord){
+        List<WikiDocument> docuementByKeyWork = documentService.findDocuementByKeyWork(keyWord);
+
+        return Result.ok(docuementByKeyWork);
+    }
+
+
     @RequestMapping(path="/findDocumentById",method = RequestMethod.POST)
     @ApiMethod(name = "findDocumentById",desc = "通过id查询")
     @ApiParam(name = "id",desc = "id",required = true)
-    public Result<Document> findDocumentById(@NotNull String id){
-        Document document = documentService.findDocumentById(id);
+    public Result<WikiDocument> findDocumentById(@NotNull String id){
+        WikiDocument wikiDocument = documentService.findDocumentById(id);
 
-        return Result.ok(document);
+        return Result.ok(wikiDocument);
     }
 
     @RequestMapping(path="/view",method = RequestMethod.POST)
     @ApiMethod(name = "view",desc = "通过id查询")
     @ApiParam(name = "id",desc = "id",required = true)
-    public Result<Document> view(@NotNull String id){
-        Document document = documentService.findDocumentById(id);
+    public Result<WikiDocument> view(@NotNull String id){
+        WikiDocument wikiDocument = documentService.findDocumentById(id);
 
-        return Result.ok(document);
+        return Result.ok(wikiDocument);
     }
 
 }
