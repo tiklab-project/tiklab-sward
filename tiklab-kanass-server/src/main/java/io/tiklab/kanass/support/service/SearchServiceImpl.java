@@ -11,6 +11,7 @@ import io.tiklab.kanass.document.service.DocumentService;
 import io.tiklab.kanass.repository.model.WikiRepository;
 import io.tiklab.kanass.repository.service.WikiRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ public class SearchServiceImpl implements SearchService {
 
     @Autowired
     DocumentService documentService;
-
 
     @Override
     public void rebuild() {
@@ -122,6 +122,24 @@ public class SearchServiceImpl implements SearchService {
         ObjectHashMap.put("document", documentList);
         ObjectHashMap.put("wiki", wikiRepositoryList);
         return  ObjectHashMap;
+    }
+
+    @Override
+    @Bean
+    public void initIndex() {
+        dssClient.deleteAll(WikiRepository.class);
+        dssClient.deleteAll(WikiDocument.class);
+
+        List<WikiRepository> allRepository = wikiRepositoryService.findAllRepository();
+        for (WikiRepository wikiRepository : allRepository) {
+            dssClient.save(wikiRepository);
+        }
+
+        List<WikiDocument> allDocument = documentService.findAllDocument();
+        for (WikiDocument wikiDocument : allDocument) {
+            dssClient.save(wikiDocument);
+        }
+
     }
 
     @Override

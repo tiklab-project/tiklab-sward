@@ -66,4 +66,6 @@ public interface SearchService {
     <T> PageResponse<T> searchForPage(Class<T> entityClass, String keyword, PageCondition pageCondition);
 
     public HashMap<String, List<Object>> searchWikiDocumentForTop(String keyword);
+
+    void initIndex();
 }

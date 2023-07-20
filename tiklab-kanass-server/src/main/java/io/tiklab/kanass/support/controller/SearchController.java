@@ -68,28 +68,6 @@ public class SearchController {
         return Result.ok(stringListHashMap);
     }
 
-//    @RequestMapping(path="/searchForTop",method = RequestMethod.POST)
-//    @ApiMethod(name = "searchForTop",desc = "根据关键字搜索")
-//    @ApiParam(name = "keyword",desc = "关键字",required = true)
-//    public Result<AllTopResponse> searchForTop(@NotNull String keyword){
-////        HashMap<String, List<Object>> stringListHashMap = searchService.searchWikiDocumentForTop(keyword);
-//        AllTopResponse allTopResponse = new AllTopResponse();
-//
-//        //搜索知识库
-//        TopResponse topResponse = searchService.searchForTop(WikiRepository.class,keyword);
-//        if(topResponse != null && topResponse.getTotalRecord() > 0){
-//            allTopResponse.getResponseList().add(topResponse);
-//        }
-//
-//        //搜索文档
-//        topResponse = searchService.searchForTop(WikiDocument.class,keyword);
-//        if(topResponse != null && topResponse.getTotalRecord() > 0){
-//            allTopResponse.getResponseList().add(topResponse);
-//        }
-//
-//        return Result.ok(allTopResponse);
-//    }
-
 
     @RequestMapping(path="/searchForCount",method = RequestMethod.POST)
     @ApiMethod(name = "searchForCount",desc = "统计搜索结果")
@@ -127,6 +105,14 @@ public class SearchController {
         //分页搜索
         PageResponse pageResponse = searchService.searchForPage(entityClass,keyword,pageCondition);
         return Result.ok(pageResponse);
+    }
+
+    @RequestMapping(path="/initIndex",method = RequestMethod.POST)
+    @ApiMethod(name = "initIndex",desc = "初始化索引")
+    public Result<Void> initIndex(){
+        searchService.initIndex();
+
+        return Result.ok();
     }
 
     /**

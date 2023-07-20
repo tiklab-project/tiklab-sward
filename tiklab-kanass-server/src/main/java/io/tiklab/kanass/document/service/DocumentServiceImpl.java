@@ -52,6 +52,9 @@ public class DocumentServiceImpl implements DocumentService {
     UserService userService;
 
     @Autowired
+    DocumentRecentService documentRecentService;
+
+    @Autowired
     LoggingByTemplService loggingByTemplService;
 
     @Autowired
@@ -135,6 +138,13 @@ public class DocumentServiceImpl implements DocumentService {
         //删除事项的关联
    //     workItemDocumentController.delete(id);
 //        WikiDocumentEntity wikiDocumentEntity = documentDao.findDocument(id);
+        DocumentRecentQuery documentRecentQuery = new DocumentRecentQuery();
+        documentRecentQuery.setModelId(id);
+        List<DocumentRecent> documentRecentList = documentRecentService.findDocumentRecentList(documentRecentQuery);
+        for (DocumentRecent documentRecent : documentRecentList) {
+            documentRecentService.deleteDocumentRecent(documentRecent.getId());
+        }
+
         dssClient.delete(WikiDocument.class, id);
         documentDao.deleteDocument(id);
 

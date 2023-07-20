@@ -7,7 +7,6 @@ target/
 *.iml
 .springBeans
 doc/
-data/
 logs/
 APP_NAME_IS_UNDEFINED/
 DATA_HOME_IS_UNDEFINED/
