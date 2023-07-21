@@ -78,7 +78,7 @@ public class SearchServiceImpl implements SearchService {
         return dssClient.findOne(entityClass, id);
     }
 
-    @Override
+
     public <T> TopResponse<T> searchForTop(Class<T> entityClass, String keyword) {
         return dssClient.searchForTop(entityClass,keyword);
     }
@@ -142,12 +142,12 @@ public class SearchServiceImpl implements SearchService {
 
     }
 
-    @Override
+
     public <T> CountResponse<T> searchForCount(Class<T> entityClass, String keyword) {
         return dssClient.searchForCount(entityClass, keyword);
     }
 
-    @Override
+
     public <T> PageResponse<T> searchForPage(Class<T> entityClass, String keyword, PageCondition pageCondition) {
         return dssClient.searchForPage(entityClass, keyword, pageCondition);
     }

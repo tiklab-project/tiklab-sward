@@ -3,7 +3,6 @@ package io.tiklab.kanass.support.controller;
 
 import io.tiklab.core.Result;
 import io.tiklab.core.exception.ApplicationException;
-import io.tiklab.dss.common.document.model.*;
 import io.tiklab.kanass.document.model.WikiDocument;
 import io.tiklab.kanass.repository.model.WikiRepository;
 import io.tiklab.kanass.support.service.SearchService;
@@ -14,12 +13,10 @@ import io.tiklab.postin.annotation.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
@@ -69,43 +66,43 @@ public class SearchController {
     }
 
 
-    @RequestMapping(path="/searchForCount",method = RequestMethod.POST)
-    @ApiMethod(name = "searchForCount",desc = "统计搜索结果")
-    @ApiParam(name = "keyword",desc = "关键字",required = true)
-    public Result<AllCountResponse> searchForCount(@NotNull String keyword){
-        AllCountResponse allCountResponse = new AllCountResponse();
+//    @RequestMapping(path="/searchForCount",method = RequestMethod.POST)
+//    @ApiMethod(name = "searchForCount",desc = "统计搜索结果")
+//    @ApiParam(name = "keyword",desc = "关键字",required = true)
+//    public Result<AllCountResponse> searchForCount(@NotNull String keyword){
+//        AllCountResponse allCountResponse = new AllCountResponse();
+//
+//        //搜索项目
+//        CountResponse countResponse = searchService.searchForCount(WikiRepository.class,keyword);
+//        allCountResponse.getResponseList().add(countResponse);
+//
+//        //搜索事项
+//        countResponse = searchService.searchForCount(WikiDocument.class,keyword);
+//        allCountResponse.getResponseList().add(countResponse);
+//
+//        return Result.ok(allCountResponse);
+//    }
 
-        //搜索项目
-        CountResponse countResponse = searchService.searchForCount(WikiRepository.class,keyword);
-        allCountResponse.getResponseList().add(countResponse);
 
-        //搜索事项
-        countResponse = searchService.searchForCount(WikiDocument.class,keyword);
-        allCountResponse.getResponseList().add(countResponse);
-
-        return Result.ok(allCountResponse);
-    }
-
-
-    @RequestMapping(path="/searchForPage",method = RequestMethod.POST)
-    @ApiMethod(name = "searchForPage",desc = "按索引名称、关键字分页搜索")
-    @ApiParam(name = "pageRequest",desc = "分页搜索条件",required = true)
-    public Result<PageResponse> searchForPage(@RequestBody @Valid @NotNull PageRequest pageRequest){
-        String index = pageRequest.getIndex();
-        Class entityClass = getEntityClass(index);
-        if(entityClass == null){
-            throw new ApplicationException("not found index:" + index);
-        }
-        String keyword = pageRequest.getKeyword();
-        PageCondition pageCondition = pageRequest.getPageCondition();
-        if(pageCondition == null){
-            pageCondition = PageCondition.instance();
-        }
-
-        //分页搜索
-        PageResponse pageResponse = searchService.searchForPage(entityClass,keyword,pageCondition);
-        return Result.ok(pageResponse);
-    }
+//    @RequestMapping(path="/searchForPage",method = RequestMethod.POST)
+//    @ApiMethod(name = "searchForPage",desc = "按索引名称、关键字分页搜索")
+//    @ApiParam(name = "pageRequest",desc = "分页搜索条件",required = true)
+//    public Result<PageResponse> searchForPage(@RequestBody @Valid @NotNull PageRequest pageRequest){
+//        String index = pageRequest.getIndex();
+//        Class entityClass = getEntityClass(index);
+//        if(entityClass == null){
+//            throw new ApplicationException("not found index:" + index);
+//        }
+//        String keyword = pageRequest.getKeyword();
+//        PageCondition pageCondition = pageRequest.getPageCondition();
+//        if(pageCondition == null){
+//            pageCondition = PageCondition.instance();
+//        }
+//
+//        //分页搜索
+//        PageResponse pageResponse = searchService.searchForPage(entityClass,keyword,pageCondition);
+//        return Result.ok(pageResponse);
+//    }
 
     @RequestMapping(path="/initIndex",method = RequestMethod.POST)
     @ApiMethod(name = "initIndex",desc = "初始化索引")
