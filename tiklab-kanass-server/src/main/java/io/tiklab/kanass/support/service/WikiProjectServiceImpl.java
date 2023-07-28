@@ -20,6 +20,7 @@ import io.tiklab.user.dmUser.model.DmUserQuery;
 import io.tiklab.user.dmUser.service.DmUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,14 +152,20 @@ public class WikiProjectServiceImpl implements WikiProjectService {
     @Override
     public WikiWorkItem findWorkItem(String workItemId) {
         WorkItem workItem = workItemServiceRpc().findWorkItem(workItemId);
-
         WikiWorkItem wikiWorkItem = new WikiWorkItem();
-        wikiWorkItem.setId(workItem.getId());
-        wikiWorkItem.setTitle(workItem.getTitle());
-        wikiWorkItem.setProjectName(workItem.getProject().getProjectName());
-        wikiWorkItem.setProjectId(workItem.getProject().getId());
-        wikiWorkItem.setWorkTypeName(workItem.getWorkTypeSys().getName());
-        wikiWorkItem.setWorkStatusName(workItem.getWorkStatusNode().getName());
+        if(!ObjectUtils.isEmpty(workItem)){
+
+            wikiWorkItem.setId(workItem.getId());
+            wikiWorkItem.setTitle(workItem.getTitle());
+            wikiWorkItem.setProjectName(workItem.getProject().getProjectName());
+            wikiWorkItem.setProjectId(workItem.getProject().getId());
+            wikiWorkItem.setWorkTypeName(workItem.getWorkTypeSys().getName());
+            wikiWorkItem.setWorkStatusName(workItem.getWorkStatusNode().getName());
+        }else {
+            wikiWorkItem.setTitle("事项已被删除");
+        }
+
+
         return wikiWorkItem;
     }
 

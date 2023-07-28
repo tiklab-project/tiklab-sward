@@ -125,7 +125,6 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    @Bean
     public void initIndex() {
         dssClient.deleteAll(WikiRepository.class);
         dssClient.deleteAll(WikiDocument.class);
