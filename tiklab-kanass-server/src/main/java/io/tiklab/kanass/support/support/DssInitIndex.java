@@ -1,4 +1,4 @@
-package io.tiklab.kanass.support.service;
+package io.tiklab.kanass.support.support;
 
 import io.tiklab.dss.client.DssClient;
 import io.tiklab.dss.client.initdata.executer.IndexInitCallback;
