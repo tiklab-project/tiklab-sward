@@ -31,7 +31,7 @@ CREATE TABLE kanass_document(
         category_id VARCHAR (12) ,
         master VARCHAR(12) NOT NULL,
         update_time  VARCHAR(64),
-        details TEXT
+        details TEXT,
         detail_text TEXT
 );
 
