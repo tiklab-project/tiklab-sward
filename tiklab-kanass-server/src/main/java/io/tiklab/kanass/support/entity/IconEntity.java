@@ -6,7 +6,7 @@ import io.tiklab.dal.jpa.annotation.*;
  * 图标实例
  */
 @Entity
-@Table(name="pmc_icon")
+@Table(name="kanass_icon")
 public class IconEntity {
     @Id
     @GeneratorValue(length = 12)
