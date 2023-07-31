@@ -32,6 +32,7 @@ CREATE TABLE kanass_document(
         master VARCHAR(12) NOT NULL,
         update_time  VARCHAR(64),
         details TEXT
+        detail_text TEXT
 );
 
 
