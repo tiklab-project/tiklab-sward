@@ -20,7 +20,6 @@ public class ShareCodeGeneratorTest extends CodeGeneratorTemplate {
     @Override
     protected CodeGeneratorConfig getCodeGeneratorConfig() {
         CodeGeneratorConfig config = new CodeGeneratorConfig();
-        config.setProjectGeneratorConfig(projectGeneratorConfig);
         config.setEntity(ShareEntity.class);
         config.setPkg("io.tiklab.kanass.repository");
         config.setModel("Share");

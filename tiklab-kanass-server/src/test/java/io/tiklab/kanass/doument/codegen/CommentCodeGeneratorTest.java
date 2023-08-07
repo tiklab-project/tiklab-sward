@@ -20,7 +20,6 @@ public class CommentCodeGeneratorTest extends CodeGeneratorTemplate {
     @Override
     protected CodeGeneratorConfig getCodeGeneratorConfig() {
         CodeGeneratorConfig config = new CodeGeneratorConfig();
-        config.setProjectGeneratorConfig(projectGeneratorConfig);
         config.setEntity(CommentEntity.class);
         config.setPkg("io.tiklab.kanass.repository");
         config.setModel("Comment");

@@ -20,7 +20,6 @@ public class LikeCodeGeneratorTest extends CodeGeneratorTemplate {
     @Override
     protected CodeGeneratorConfig getCodeGeneratorConfig() {
         CodeGeneratorConfig config = new CodeGeneratorConfig();
-        config.setProjectGeneratorConfig(projectGeneratorConfig);
         config.setEntity(LikeEntity.class);
         config.setPkg("io.tiklab.kanass.repository");
         config.setModel("Like");

@@ -20,7 +20,6 @@ public class WikiDocumentAttachCodeGeneratorTest extends CodeGeneratorTemplate {
     @Override
     protected CodeGeneratorConfig getCodeGeneratorConfig() {
         CodeGeneratorConfig config = new CodeGeneratorConfig();
-        config.setProjectGeneratorConfig(projectGeneratorConfig);
         config.setEntity(DocumentAttachEntity.class);
         config.setPkg("io.tiklab.kanass.repository");
         config.setModel("DocumentAttach");

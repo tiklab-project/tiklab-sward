@@ -20,7 +20,6 @@ public class WikiDocumentTemplateCodeGeneratorTest extends CodeGeneratorTemplate
     @Override
     protected CodeGeneratorConfig getCodeGeneratorConfig() {
         CodeGeneratorConfig config = new CodeGeneratorConfig();
-        config.setProjectGeneratorConfig(projectGeneratorConfig);
         config.setEntity(DocumentTemplateEntity.class);
         config.setPkg("io.tiklab.kanass.repository");
         config.setModel("DocumentTemplate");

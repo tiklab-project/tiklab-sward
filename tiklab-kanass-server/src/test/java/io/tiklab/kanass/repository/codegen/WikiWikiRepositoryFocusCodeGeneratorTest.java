@@ -20,7 +20,6 @@ public class WikiWikiRepositoryFocusCodeGeneratorTest extends CodeGeneratorTempl
     @Override
     protected CodeGeneratorConfig getCodeGeneratorConfig() {
         CodeGeneratorConfig config = new CodeGeneratorConfig();
-        config.setProjectGeneratorConfig(projectGeneratorConfig);
         config.setEntity(WikiRepositoryFocusEntity.class);
         config.setPkg("io.tiklab.kanass.repository");
         config.setModel("RepositoryFocus");

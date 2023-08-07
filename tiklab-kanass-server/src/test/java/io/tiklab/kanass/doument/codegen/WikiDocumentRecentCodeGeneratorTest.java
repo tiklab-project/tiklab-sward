@@ -20,7 +20,6 @@ public class WikiDocumentRecentCodeGeneratorTest extends CodeGeneratorTemplate {
     @Override
     protected CodeGeneratorConfig getCodeGeneratorConfig() {
         CodeGeneratorConfig config = new CodeGeneratorConfig();
-        config.setProjectGeneratorConfig(projectGeneratorConfig);
         config.setEntity(DocumentRecentEntity.class);
         config.setPkg("io.tiklab.kanass.document");
         config.setModel("DocumentRecent");

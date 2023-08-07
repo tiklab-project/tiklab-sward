@@ -20,7 +20,6 @@ public class WikiRepositoryCodeGeneratorTest extends CodeGeneratorTemplate {
     @Override
     protected CodeGeneratorConfig getCodeGeneratorConfig() {
         CodeGeneratorConfig config = new CodeGeneratorConfig();
-        config.setProjectGeneratorConfig(projectGeneratorConfig);
         config.setEntity(WikiCategoryEntity.class);
         config.setPkg("io.tiklab.kanass.category");
         config.setModel("Category");
