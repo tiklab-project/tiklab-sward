@@ -7,12 +7,12 @@
     <parent>
         <groupId>io.tiklab</groupId>
         <artifactId>tiklab-dependencies</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <artifactId>tiklab-kanass</artifactId>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <modules>
         <module>tiklab-kanass-api</module>
@@ -21,7 +21,7 @@
     </modules>
 
     <properties>
-        <tiklab.version>1.0.0-SNAPSHOT</tiklab.version>
+        <tiklab.version>1.0.0</tiklab.version>
     </properties>
 
     <dependencyManagement>
@@ -35,12 +35,12 @@
             <dependency>
                 <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-toolkit-annotation</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-toolkit-core</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
@@ -70,7 +70,7 @@
             <dependency>
                 <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-dcs-spring-boot-starter</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
