@@ -7,22 +7,52 @@
     <parent>
         <groupId>io.tiklab</groupId>
         <artifactId>tiklab-dependencies</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.0.3</version>
     </parent>
     <artifactId>tiklab-kanass</artifactId>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.0.3</version>
+    <properties>
 
+        <tiklab-gateway.version>1.0.0.3</tiklab-gateway.version>
+        <tiklab-core.version>1.0.0.3</tiklab-core.version>
+        <tiklab-dal.version>1.0.0.3</tiklab-dal.version>
+        <tiklab-dfs.version>1.0.0.3</tiklab-dfs.version>
+        <tiklab-dcs.version>1.0.0.3</tiklab-dcs.version>
+        <tiklab-dss.version>1.0.0.3</tiklab-dss.version>
+        <tiklab-toolkit.version>1.0.0.3</tiklab-toolkit.version>
+        <tiklab-postgresql.version>1.0.0.3</tiklab-postgresql.version>
+        <tiklab-upgrade.version>1.0.0.3</tiklab-upgrade.version>
+        <tiklab-rpc.version>1.0.0.3</tiklab-rpc.version>
+        <tiklab-plugin.version>1.0.0.3</tiklab-plugin.version>
+        <tiklab-mysql.version>1.0.0.3</tiklab-mysql.version>
+        <tiklab-jdk.version>1.0.0.3</tiklab-jdk.version>
+
+        <tiklab-form.version>1.0.0.3</tiklab-form.version>
+        <tiklab-flow.version>1.0.0.3</tiklab-flow.version>
+        <tiklab-user.version>1.0.0.3</tiklab-user.version>
+        <tiklab-eam.version>1.0.0.3</tiklab-eam.version>
+        <tiklab-privilege.version>1.0.0.3</tiklab-privilege.version>
+        <tiklab-licence.version>1.0.0.3</tiklab-licence.version>
+        <tiklab-message.version>1.0.0.3</tiklab-message.version>
+        <tiklab-todotask.version>1.0.0.3</tiklab-todotask.version>
+        <tiklab-security.version>1.0.0.3</tiklab-security.version>
+        <tiklab-postin.version>1.0.0.3</tiklab-postin.version>
+        <tiklab-teston.version>1.0.0.3</tiklab-teston.version>
+        <tiklab-teamwire.version>1.0.0.3</tiklab-teamwire.version>
+
+        <itextpdf.version>5.5.5</itextpdf.version>
+        <itextasian.version>5.2.0</itextasian.version>
+
+    </properties>
     <modules>
         <module>tiklab-kanass-api</module>
         <module>tiklab-kanass-server</module>
         <module>tiklab-kanass-starter</module>
     </modules>
 
-    <properties>
-        <tiklab.version>1.0.0</tiklab.version>
-    </properties>
+
 
     <dependencyManagement>
         <dependencies>
@@ -30,63 +60,179 @@
             <dependency>
                 <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-core</artifactId>
-                <version>${project.version}</version>
+                <version>${tiklab-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-toolkit-spring-boot-starter</artifactId>
+                <version>${tiklab-toolkit.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-toolkit-annotation</artifactId>
-                <version>1.0.0</version>
+                <version>${tiklab-toolkit.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-toolkit-core</artifactId>
-                <version>1.0.0</version>
+                <version>${tiklab-toolkit.version}</version>
             </dependency>
-            <dependency>
-                <groupId>io.tiklab</groupId>
-                <artifactId>tiklab-dss-annotation</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+
+
+
             <dependency>
                 <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-dal-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${tiklab-dal.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-rpc-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${tiklab-rpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-rpc-annotation</artifactId>
+                <version>${tiklab-rpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-rpc-client</artifactId>
+                <version>${tiklab-rpc.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-dss-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${tiklab-dss.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-dss-annotation</artifactId>
+                <version>${tiklab-dss.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-dfs-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
+                <version>${tiklab-dfs.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-dcs-spring-boot-starter</artifactId>
-                <version>1.0.0</version>
+                <version>${tiklab-dcs.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-plugin-spring-boot-starter</artifactId>
+                <version>${tiklab-plugin.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-user-spring-boot-starter</artifactId>
+                <version>${tiklab-user.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
-                <artifactId>tiklab-codegen-core</artifactId>
-                <version>${project.version}</version>
+                <artifactId>tiklab-user-api</artifactId>
+                <version>${tiklab-user.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-eam-spring-boot-starter</artifactId>
+                <version>${tiklab-eam.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-eam-api</artifactId>
+                <version>${tiklab-eam.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-privilege-spring-boot-starter</artifactId>
+                <version>${tiklab-privilege.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-todotask-spring-boot-starter</artifactId>
+                <version>${tiklab-todotask.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-security-spring-boot-starter</artifactId>
+                <version>${tiklab-security.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-security-api</artifactId>
+                <version>${tiklab-security.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-message-spring-boot-starter</artifactId>
+                <version>${tiklab-message.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-message-api</artifactId>
+                <version>${tiklab-message.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-licence-spring-boot-starter</artifactId>
+                <version>${tiklab-licence.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-licence-api</artifactId>
+                <version>${tiklab-licence.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-form-spring-boot-starter</artifactId>
+                <version>${tiklab-form.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-form-api</artifactId>
+                <version>${tiklab-form.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-flow-spring-boot-starter</artifactId>
+                <version>${tiklab-flow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-flow-api</artifactId>
+                <version>${tiklab-flow.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-postin-annotation</artifactId>
-                <version>${project.version}</version>
+                <version>${tiklab-postin.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.tiklab</groupId>
                 <artifactId>tiklab-postin-client</artifactId>
-                <version>${project.version}</version>
+                <version>${tiklab-postin.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.tiklab</groupId>
+                <artifactId>tiklab-teamwire-api</artifactId>
+                <version>${tiklab-teamwire.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
