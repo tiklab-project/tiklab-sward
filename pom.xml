@@ -29,18 +29,20 @@
         <tiklab-mysql.version>1.0.0.3</tiklab-mysql.version>
         <tiklab-jdk.version>1.0.0.3</tiklab-jdk.version>
 
-        <tiklab-form.version>1.0.0.3</tiklab-form.version>
-        <tiklab-flow.version>1.0.0.3</tiklab-flow.version>
-        <tiklab-user.version>1.0.0.3</tiklab-user.version>
-        <tiklab-eam.version>1.0.0.3</tiklab-eam.version>
-        <tiklab-privilege.version>1.0.0.3</tiklab-privilege.version>
-        <tiklab-licence.version>1.0.0.3</tiklab-licence.version>
-        <tiklab-message.version>1.0.0.3</tiklab-message.version>
-        <tiklab-todotask.version>1.0.0.3</tiklab-todotask.version>
-        <tiklab-security.version>1.0.0.3</tiklab-security.version>
+
+        <tiklab-user.version>1.0.0.5</tiklab-user.version>
+        <tiklab-eam.version>1.0.0.5</tiklab-eam.version>
+        <tiklab-privilege.version>1.0.0.5</tiklab-privilege.version>
+        <tiklab-licence.version>1.0.0.5</tiklab-licence.version>
+        <tiklab-message.version>1.0.0.5</tiklab-message.version>
+        <tiklab-todotask.version>1.0.0.5</tiklab-todotask.version>
+        <tiklab-security.version>1.0.0.5</tiklab-security.version>
+
         <tiklab-postin.version>1.0.0.3</tiklab-postin.version>
         <tiklab-teston.version>1.0.0.3</tiklab-teston.version>
-        <tiklab-teamwire.version>1.0.0.4</tiklab-teamwire.version>
+        <tiklab-teamwire.version>1.0.0.4-SNAPSHOT</tiklab-teamwire.version>
+        <tiklab-form.version>1.0.0.3</tiklab-form.version>
+        <tiklab-flow.version>1.0.0.3</tiklab-flow.version>
 
         <itextpdf.version>5.5.5</itextpdf.version>
         <itextasian.version>5.2.0</itextasian.version>
