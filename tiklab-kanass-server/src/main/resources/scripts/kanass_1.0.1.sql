@@ -79,7 +79,6 @@ INSERT INTO pcs_prc_function (id, name, code, parent_function_id, sort, type) VA
 INSERT INTO pcs_prc_function (id, name, code, parent_function_id, sort, type) VALUES ('4f3307200787', '操作日志', 'SysLogList', '5d2518f49057', 45, '1');
 INSERT INTO pcs_prc_function (id, name, code, parent_function_id, sort, type) VALUES ('5d5b64c3d172', '待办类型', 'SysTodoList', '48717b977129', 54, '1');
 INSERT INTO pcs_prc_function (id, name, code, parent_function_id, sort, type) VALUES ('63fd58715558', '权限中心', 'SysPriviliege', NULL, 1, '1');
-INSERT INTO pcs_prc_function (id, name, code, parent_function_id, sort, type) VALUES ('64bdf62686a4', '版本与许可证', 'SysVersion', NULL, 1, '1');
 INSERT INTO pcs_prc_function (id, name, code, parent_function_id, sort, type) VALUES ('746c3becb86f', '消息类型', 'SysMessageType', '47fb980c2919', 49, '1');
 INSERT INTO pcs_prc_function (id, name, code, parent_function_id, sort, type) VALUES ('7ff4702ebe64', '项目功能管理', 'SysFeatrueProject', '63fd58715558', 0, '1');
 INSERT INTO pcs_prc_function (id, name, code, parent_function_id, sort, type) VALUES ('86db94ef62a6', '用户管理', 'SysUser', '1465dc3ae3c4', NULL, '2');
