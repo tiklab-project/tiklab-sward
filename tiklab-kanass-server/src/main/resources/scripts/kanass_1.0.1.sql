@@ -42,7 +42,6 @@ INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('372b926725
 INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('38e1a4b17302', '1', '4235d2624bdf');
 INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('439aee3f4884', '1', '925371be8ec6');
 INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('4577fab27e46', '1', '6b61fbe5091a');
-INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('484ef66818cb', '1', '64bdf62686a4');
 INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('4d5003c74262', '1', '57a3bcd1e5fe');
 INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('5a7f18ed6188', '1', '043e412151db');
 INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('5e0bf237dbb1', '1', '890e7d41decf');
