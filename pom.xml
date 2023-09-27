@@ -12,7 +12,7 @@
     <artifactId>tiklab-kanass</artifactId>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
-    <version>1.0.0.3</version>
+    <version>1.0.0.3-SNAPSHOT</version>
     <properties>
 
         <tiklab-gateway.version>1.0.0.3</tiklab-gateway.version>
@@ -41,7 +41,7 @@
         <tiklab-postin.version>1.0.2-SNAPSHOT</tiklab-postin.version>
         <tiklab-teston.version>1.0.2-SNAPSHOT</tiklab-teston.version>
         <tiklab-teamwire.version>1.0.0.4-SNAPSHOT</tiklab-teamwire.version>
-
+        <tiklab-kanass.version>1.0.0.3-SNAPSHOT</tiklab-kanass.version>
         <itextpdf.version>5.5.5</itextpdf.version>
         <itextasian.version>5.2.0</itextasian.version>
 
