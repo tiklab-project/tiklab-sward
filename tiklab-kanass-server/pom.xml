@@ -136,16 +136,6 @@
         </dependency>
         <dependency>
             <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-form-api</artifactId>
-            <version>${tiklab-form.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-flow-api</artifactId>
-            <version>${tiklab-flow.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-teamwire-api</artifactId>
             <version>${tiklab-teamwire.version}</version>
         </dependency>

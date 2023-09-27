@@ -38,11 +38,9 @@
         <tiklab-todotask.version>1.0.0-SNAPSHOT</tiklab-todotask.version>
         <tiklab-security.version>1.0.0-SNAPSHOT</tiklab-security.version>
 
-        <tiklab-postin.version>1.0.0.3</tiklab-postin.version>
-        <tiklab-teston.version>1.0.0.3</tiklab-teston.version>
+        <tiklab-postin.version>1.0.2-SNAPSHOT</tiklab-postin.version>
+        <tiklab-teston.version>1.0.2-SNAPSHOT</tiklab-teston.version>
         <tiklab-teamwire.version>1.0.0.4-SNAPSHOT</tiklab-teamwire.version>
-        <tiklab-form.version>1.0.0.3-SNAPSHOT</tiklab-form.version>
-        <tiklab-flow.version>1.0.0.3</tiklab-flow.version>
 
         <itextpdf.version>5.5.5</itextpdf.version>
         <itextasian.version>5.2.0</itextasian.version>
@@ -197,27 +195,6 @@
                 <version>${tiklab-licence.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.tiklab</groupId>
-                <artifactId>tiklab-form-spring-boot-starter</artifactId>
-                <version>${tiklab-form.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.tiklab</groupId>
-                <artifactId>tiklab-form-api</artifactId>
-                <version>${tiklab-form.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.tiklab</groupId>
-                <artifactId>tiklab-flow-spring-boot-starter</artifactId>
-                <version>${tiklab-flow.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.tiklab</groupId>
-                <artifactId>tiklab-flow-api</artifactId>
-                <version>${tiklab-flow.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>io.tiklab</groupId>
