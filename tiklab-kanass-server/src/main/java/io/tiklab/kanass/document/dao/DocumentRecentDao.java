@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class DocumentRecentDao{
         if(documentRecentList.size() > 0){
             deleteDocumentRecent(documentRecentList.get(0).getId());
         }
-        documentRecentEntity.setRecentTime(new Date());
+        documentRecentEntity.setRecentTime(new Timestamp(System.currentTimeMillis()));
         return jpaTemplate.save(documentRecentEntity,String.class);
     }
 
@@ -93,7 +94,6 @@ public class DocumentRecentDao{
                 .orders(documentRecentQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, DocumentRecentEntity.class);
-//        return jpaTemplate.findList(documentRecentQuery,DocumentRecentEntity.class);
     }
 
     public Pagination<DocumentRecentEntity> findDocumentRecentPage(DocumentRecentQuery documentRecentQuery) {

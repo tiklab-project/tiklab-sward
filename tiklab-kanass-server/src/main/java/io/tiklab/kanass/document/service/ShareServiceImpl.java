@@ -218,7 +218,7 @@ public class ShareServiceImpl implements ShareService {
         shareRelationQuery.setType("document");
         List<ShareRelation> shareDocumentList = shareRelationService.findShareRelationList(shareRelationQuery);
         if(shareDocumentList.size() > 0){
-            List<WikiDocument> allWikiDocument = shareDocumentList.stream().map(ShareRelation::getDocument).collect(Collectors.toList());
+            List<WikiDocument> allWikiDocument = shareDocumentList.stream().map(ShareRelation::getWikiDocument).collect(Collectors.toList());
             List<String> allDocumentIds = allWikiDocument.stream().map(document -> document.getId()).collect(Collectors.toList());
             wikiDocumentList = documentService.findList(allDocumentIds);
         }

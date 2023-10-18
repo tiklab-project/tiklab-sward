@@ -1,6 +1,7 @@
 package io.tiklab.kanass.document.service;
 
 import com.alibaba.fastjson.JSONObject;
+import io.tiklab.dal.jpa.JpaTemplate;
 import io.tiklab.dss.client.DssClient;
 import io.tiklab.eam.common.context.LoginContext;
 import io.tiklab.kanass.document.entity.WikiDocumentEntity;
@@ -39,7 +40,8 @@ import java.util.stream.Collectors;
 @Service
 
 public class DocumentServiceImpl implements DocumentService {
-
+    @Autowired
+    JpaTemplate jpaTemplate;
     @Autowired
     DocumentDao documentDao;
     @Autowired
@@ -208,6 +210,13 @@ public class DocumentServiceImpl implements DocumentService {
         }
         joinTemplate.joinQuery(wikiDocument);
         return wikiDocument;
+    }
+
+    @Override
+    public List<Map<String, Object>> findDocumentByRepositoryIds(String repositoryIds) {
+        String sql = "select repository_id from kanass_document t where t.repository_id in "+ repositoryIds;
+        List<Map<String, Object>> documentList = this.jpaTemplate.getJdbcTemplate().queryForList(sql);
+        return documentList;
     }
 
     @Override

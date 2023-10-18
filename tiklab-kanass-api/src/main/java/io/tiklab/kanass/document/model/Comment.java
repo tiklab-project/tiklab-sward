@@ -26,7 +26,7 @@ public class Comment extends BaseModel{
     @NotNull
     @ApiProperty(name="document",desc="文档",eg="@selectOne")
     @Mappings({
-            @Mapping(source = "document.id",target = "documentId")
+            @Mapping(source = "wikiDocument.id",target = "documentId")
     })
     @JoinQuery(key = "id")
     private WikiDocument wikiDocument;
@@ -82,11 +82,11 @@ public class Comment extends BaseModel{
         this.id = id;
     }
 
-    public WikiDocument getDocument() {
+    public WikiDocument getWikiDocument() {
         return wikiDocument;
     }
 
-    public void setDocument(WikiDocument wikiDocument) {
+    public void setWikiDocument(WikiDocument wikiDocument) {
         this.wikiDocument = wikiDocument;
     }
 

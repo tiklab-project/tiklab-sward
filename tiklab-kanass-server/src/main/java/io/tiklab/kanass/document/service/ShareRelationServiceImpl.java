@@ -60,7 +60,7 @@ public class ShareRelationServiceImpl implements ShareRelationService {
                 ShareRelation shareRelation1 = new ShareRelation();
                 WikiDocument wikiDocument = new WikiDocument();
                 wikiDocument.setId(documentId);
-                shareRelation1.setDocument(wikiDocument);
+                shareRelation1.setWikiDocument(wikiDocument);
                 shareRelation1.setType("document");
                 shareRelation1.setShareId(shareId);
                 createShareRelation(shareRelation1);

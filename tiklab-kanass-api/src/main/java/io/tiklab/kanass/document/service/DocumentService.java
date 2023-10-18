@@ -12,6 +12,7 @@ import io.tiklab.join.annotation.JoinProvider;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 /**
 * DocumentService
@@ -58,7 +59,7 @@ public interface DocumentService {
      * @return
      */
      WikiDocument findDocumentById(@NotNull String id);
-
+     List<Map<String, Object>> findDocumentByRepositoryIds(@NotNull String repositoryIds);
     /**
     * 查找所有
     * @return

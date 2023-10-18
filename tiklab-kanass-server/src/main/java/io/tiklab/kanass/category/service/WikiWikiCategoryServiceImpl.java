@@ -1,6 +1,7 @@
 package io.tiklab.kanass.category.service;
 
 import com.alibaba.fastjson.JSONObject;
+import io.tiklab.dal.jpa.JpaTemplate;
 import io.tiklab.eam.common.context.LoginContext;
 import io.tiklab.kanass.category.entity.WikiCategoryEntity;
 import io.tiklab.kanass.category.model.WikiCategory;
@@ -40,7 +41,8 @@ import java.util.stream.Collectors;
 @Service
 @Exporter
 public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
-
+    @Autowired
+    JpaTemplate jpaTemplate;
     @Autowired
     WikiCategoryDao wikiCategoryDao;
 
@@ -223,6 +225,12 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
         joinTemplate.joinQuery(wikiCategoryList);
 
         return wikiCategoryList;
+    }
+
+    public List<Map<String, Object>> findCategoryByRepositoryIds(String repositoryIds) {
+        String sql = "select repository_id from kanass_category t where t.repository_id in "+ repositoryIds;
+        List<Map<String, Object>> categoryList = this.jpaTemplate.getJdbcTemplate().queryForList(sql);
+        return categoryList;
     }
 
     @Override

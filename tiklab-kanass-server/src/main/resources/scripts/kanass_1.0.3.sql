@@ -1,4 +1,3 @@
-INSERT INTO kanass_system_url (id, name, system_url, web_url) VALUES ('f7ee9a10', 'teamwire', 'http://teamwire.tiklab.net', 'http://teamwire.tiklab.net');
 ALTER TABLE kanass_share_relation ALTER COLUMN document_id type VARCHAR(12);
 ALTER TABLE kanass_share_relation ALTER COLUMN document_id DROP NOT NULL;
 ALTER TABLE kanass_share_relation ALTER COLUMN category_id DROP NOT NULL;

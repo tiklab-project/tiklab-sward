@@ -18,6 +18,7 @@ import io.tiklab.kanass.repository.support.OpLogTemplateRepository;
 import io.tiklab.message.message.model.SendMessageNotice;
 import io.tiklab.message.message.service.SendMessageNoticeService;
 import io.tiklab.privilege.dmRole.service.DmRoleService;
+import io.tiklab.privilege.role.model.PatchUser;
 import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.security.logging.model.Logging;
 import io.tiklab.security.logging.model.LoggingType;
@@ -41,10 +42,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -153,13 +151,14 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         String id = wikiRepositoryDao.createRepository(wikiRepositoryEntity);
 
         //初始化项目成员
-        DmUser dmUser = new DmUser();
-        dmUser.setDomainId(id);
-        dmUser.setUser(user);
-        dmUserService.createDmUser(dmUser);
-
-        //初始化项目权限
-        dmRoleService.initDmRoles(id,masterId, "kanass");
+//        DmUser dmUser = new DmUser();
+//        dmUser.setDomainId(id);
+//        dmUser.setUser(user);
+//        dmUserService.createDmUser(dmUser);
+//
+//        //初始化项目权限
+//        dmRoleService.initDmRoles(id,masterId, "kanass");
+        initRepositoryDmRole(masterId, id);
 
         WikiRepository wikiRepository1 = findRepository(id);
         Map<String, String> content = new HashMap<>();
@@ -172,6 +171,46 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         WikiRepository entity = findRepository(id);
         dssClient.save(entity);
         return id;
+    }
+
+    public void initRepositoryDmRole(String masterId, String repositoryId){
+        List<PatchUser> patchUsers = new ArrayList<PatchUser>();
+        if(!masterId.equals("111111")){
+            // 初始化创建者
+            PatchUser patchUser = new PatchUser();
+            DmUser dmUser = new DmUser();
+            dmUser.setDomainId(repositoryId);
+            User user = new User();
+            user.setId(masterId);
+            dmUser.setUser(user);
+            patchUser.setId(masterId);
+            patchUser.setAdminRole(true);
+            patchUsers.add(patchUser);
+
+            // 初始化"111111"
+            PatchUser patchUser1 = new PatchUser();
+            DmUser dmUser1 = new DmUser();
+            dmUser1.setDomainId(repositoryId);
+            User user1 = new User();
+            user1.setId("111111");
+            dmUser1.setUser(user1);
+
+            patchUser1.setId("111111");
+            patchUser1.setAdminRole(true);
+            patchUsers.add(patchUser1);
+
+        }else {
+            PatchUser patchUser = new PatchUser();
+            DmUser dmUser = new DmUser();
+            dmUser.setDomainId(repositoryId);
+            User user = new User();
+            user.setId(masterId);
+            dmUser.setUser(user);
+            patchUser.setId(masterId);
+            patchUser.setAdminRole(true);
+            patchUsers.add(patchUser);
+        }
+        dmRoleService.initPatchDmRole(repositoryId,patchUsers, "kanass");
     }
 
     @Override
@@ -303,21 +342,19 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         wikiRepositoryQuery.setMasterId(createUserId);
         List<WikiRepositoryEntity> recentRepositoryList = wikiRepositoryDao.findRecentRepositoryList(wikiRepositoryQuery);
 
-
         List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(recentRepositoryList, WikiRepository.class);
 
+        String repositoryIds = "(" + wikiRepositoryList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
+        List<Map<String, Object>> categoryList = wikiCategoryService.findCategoryByRepositoryIds(repositoryIds);
+        List<Map<String, Object>> documentList = documentService.findDocumentByRepositoryIds(repositoryIds);
         for (WikiRepository wikiRepository : wikiRepositoryList) {
             String id = wikiRepository.getId();
 
-            WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
-            wikiCategoryQuery.setRepositoryId(id);
-            List<WikiCategory> wikiCategoryList = wikiCategoryService.findCategoryList(wikiCategoryQuery);
-            wikiRepository.setCategoryNum(wikiCategoryList.size());
+            List<Map<String, Object>> categorys = categoryList.stream().filter(category -> category.get("repository_id").equals(id)).collect(Collectors.toList());
+            wikiRepository.setCategoryNum(categorys.size());
 
-            DocumentQuery documentQuery = new DocumentQuery();
-            documentQuery.setRepositoryId(id);
-            Integer documentCount = documentService.findDocumentCount(documentQuery);
-            wikiRepository.setDocumentNum(documentCount);
+            List<Map<String, Object>> documents = documentList.stream().filter(document -> document.get("repository_id").equals(id)).collect(Collectors.toList());
+            wikiRepository.setDocumentNum(documents.size());
         }
 
         joinTemplate.joinQuery(wikiRepositoryList);

@@ -12,6 +12,7 @@ import io.tiklab.kanass.category.model.WikiCategory;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 /**
 * CategoryService
@@ -69,6 +70,8 @@ public interface WikiCategoryService {
     * @return
     */
     List<WikiCategory> findCategoryList(WikiCategoryQuery wikiCategoryQuery);
+
+    List<Map<String, Object>> findCategoryByRepositoryIds(String repositoryIds);
 
     /**
     * 按分页查询

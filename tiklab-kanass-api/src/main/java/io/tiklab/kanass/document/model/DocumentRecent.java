@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.tiklab.user.user.model.User;
 
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 
 @ApiModel
 @Join
@@ -52,9 +53,8 @@ public class DocumentRecent extends BaseModel {
 
 
     @ApiProperty(name="recentTime",desc="recentTime")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:MM:ss")
-    @JSONField(format = "yyyy-MM-dd hh:MM:ss")
-    private java.util.Date recentTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Timestamp recentTime;
 
     public java.lang.String getId() {
         return id;
@@ -93,11 +93,11 @@ public class DocumentRecent extends BaseModel {
         this.wikiRepository = wikiRepository;
     }
 
-    public java.util.Date getRecentTime() {
+    public Timestamp getRecentTime() {
         return recentTime;
     }
 
-    public void setRecentTime(java.util.Date recentTime) {
+    public void setRecentTime(Timestamp recentTime) {
         this.recentTime = recentTime;
     }
 

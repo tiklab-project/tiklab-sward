@@ -20,7 +20,7 @@ public class ShareRelation extends BaseModel{
 
     @NotNull
     @ApiProperty(name="type",desc="类型")
-    private String type;
+    private String type = "document";
 
     @NotNull
     @ApiProperty(name="shareId",desc="类型")
@@ -35,7 +35,7 @@ public class ShareRelation extends BaseModel{
 
     @ApiProperty(name="document",desc="文档",required = true)
     @Mappings({
-            @Mapping(source = "document.id",target = "documentId")
+            @Mapping(source = "wikiDocument.id",target = "documentId")
     })
     @JoinQuery(key = "id")
     private WikiDocument wikiDocument;
@@ -80,13 +80,7 @@ public class ShareRelation extends BaseModel{
         this.categoryIds = categoryIds;
     }
 
-    public WikiDocument getDocument() {
-        return wikiDocument;
-    }
 
-    public void setDocument(WikiDocument wikiDocument) {
-        this.wikiDocument = wikiDocument;
-    }
 
     public WikiCategory getWikiCategory() {
         return wikiCategory;
@@ -102,5 +96,13 @@ public class ShareRelation extends BaseModel{
 
     public void setShareId(String shareId) {
         this.shareId = shareId;
+    }
+
+    public WikiDocument getWikiDocument() {
+        return wikiDocument;
+    }
+
+    public void setWikiDocument(WikiDocument wikiDocument) {
+        this.wikiDocument = wikiDocument;
     }
 }

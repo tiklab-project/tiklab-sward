@@ -1,7 +1,10 @@
 package io.tiklab.kanass.document.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.tiklab.dal.jpa.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -34,9 +37,8 @@ public class DocumentRecentEntity {
     private String repositoryId;
 
     //动态
-    @Column(name = "recent_time",notNull = true)
-    private Date recentTime;
-
+    @Column(name = "recent_time")
+    private Timestamp recentTime;
     public String getId() {
         return id;
     }
@@ -85,11 +87,11 @@ public class DocumentRecentEntity {
         this.repositoryId = repositoryId;
     }
 
-    public Date getRecentTime() {
+    public Timestamp getRecentTime() {
         return recentTime;
     }
 
-    public void setRecentTime(Date recentTime) {
+    public void setRecentTime(Timestamp recentTime) {
         this.recentTime = recentTime;
     }
 }
