@@ -303,4 +303,14 @@ public class DocumentServiceImpl implements DocumentService {
         }
     }
 
+    @Override
+    public List<WikiDocument> findRecentDocumentList(DocumentRecentQuery documentRecentQuery) {
+        List<WikiDocumentEntity> wikiDocumentEntityList = documentDao.findRecentDocumentList(documentRecentQuery);
+
+        List<WikiDocument> wikiDocumentList = BeanMapper.mapList(wikiDocumentEntityList, WikiDocument.class);
+
+        joinTemplate.joinQuery(wikiDocumentList);
+
+        return wikiDocumentList;
+    }
 }

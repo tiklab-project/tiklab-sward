@@ -1,5 +1,6 @@
 package io.tiklab.kanass.document.controller;
 
+import io.tiklab.kanass.document.model.DocumentRecentQuery;
 import io.tiklab.kanass.document.model.WikiDocument;
 import io.tiklab.kanass.document.model.DocumentQuery;
 import io.tiklab.postin.annotation.Api;
@@ -129,6 +130,14 @@ public class DocumentController {
         return Result.ok(wikiDocument);
     }
 
+    @RequestMapping(path="/findRecentDocumentList",method = RequestMethod.POST)
+    @ApiMethod(name = "findRecentDocumentList",desc = "通过id查询")
+    @ApiParam(name = "documentRecentQuery",desc = "documentRecentQuery",required = true)
+    public Result<WikiDocument> findRecentDocumentList(@RequestBody @Valid @NotNull DocumentRecentQuery documentRecentQuery){
+        List<WikiDocument> recentDocumentList = documentService.findRecentDocumentList(documentRecentQuery);
+
+        return Result.ok(recentDocumentList);
+    }
     @RequestMapping(path="/view",method = RequestMethod.POST)
     @ApiMethod(name = "view",desc = "通过id查询")
     @ApiParam(name = "id",desc = "id",required = true)
