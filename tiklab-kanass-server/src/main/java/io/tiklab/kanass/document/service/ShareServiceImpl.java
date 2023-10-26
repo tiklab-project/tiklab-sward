@@ -212,8 +212,6 @@ public class ShareServiceImpl implements ShareService {
         shareRelationQuery.setShareId(shareId);
         List<ShareRelation> shareRelationList = shareRelationService.findShareRelationList(shareRelationQuery);
 
-
-
         // 查找分享的所有文档
         shareRelationQuery.setType("document");
         List<ShareRelation> shareDocumentList = shareRelationService.findShareRelationList(shareRelationQuery);

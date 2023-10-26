@@ -95,9 +95,9 @@ public class CommentDao{
                 .eq("parentCommentId", commentQuery.getParentCommentId())
                 .orders(commentQuery.getOrderParams())
                 .pagination(commentQuery.getPageParam());
-        if(commentQuery.getFirstCommentNull()){
-            queryBuilders.isNull("firstOneCommentId");
-        }
+//        if(commentQuery.getFirstCommentNull()){
+//            queryBuilders.isNull("firstOneCommentId");
+//        }
         QueryCondition queryCondition = queryBuilders.get();
         return jpaTemplate.findPage(queryCondition, CommentEntity.class);
     }

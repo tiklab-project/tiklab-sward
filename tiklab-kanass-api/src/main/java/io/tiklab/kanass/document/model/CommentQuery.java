@@ -12,7 +12,7 @@ import java.util.List;
 @ApiModel
 public class CommentQuery  extends BaseModel {
         @ApiProperty(name ="orderParams",desc = "排序参数")
-        private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
+        private List<Order> orderParams = OrderBuilders.instance().desc("createTime").get();
 
         @ApiProperty(name ="pageParam",desc = "分页参数")
         private Page pageParam = new Page();

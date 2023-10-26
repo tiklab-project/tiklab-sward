@@ -127,7 +127,7 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
         Map<String, String> content = new HashMap<>();
         content.put("categoryId", wikiCategory1.getId());
         content.put("categoryName", wikiCategory1.getName());
-        content.put("repositoryId", wikiCategory1.getParentWikiCategory().getId());
+        content.put("repositoryId", wikiCategory1.getWikiRepository().getId());
 
         creatDynamic(content);
     }

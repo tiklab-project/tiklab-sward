@@ -7,6 +7,7 @@ import io.tiklab.dal.jpa.annotation.Id;
 import io.tiklab.dal.jpa.annotation.Table;import io.tiklab.dal.jpa.annotation.Entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -39,7 +40,7 @@ public class WikiRepositoryEntity implements Serializable {
 
     //添加时间
     @Column(name = "create_time")
-    private Date createTime;
+    private Timestamp createTime;
 
     //描述
     @Column(name = "description",length = 64)
@@ -93,11 +94,11 @@ public class WikiRepositoryEntity implements Serializable {
         this.limits = limits;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 

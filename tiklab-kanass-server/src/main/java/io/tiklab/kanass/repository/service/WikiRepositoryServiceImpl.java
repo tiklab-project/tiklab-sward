@@ -139,9 +139,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     }
     @Override
     public String createRepository(@NotNull @Valid WikiRepository wikiRepository) {
-        Date date = new java.sql.Date(new Date().getTime());
-        wikiRepository.setCreateTime(date);
-
+        wikiRepository.setCreateTime(new Timestamp(System.currentTimeMillis()));
         String masterId = LoginContext.getLoginId();;
         User user = new User();
         user.setId(masterId);
@@ -150,21 +148,14 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         WikiRepositoryEntity wikiRepositoryEntity = BeanMapper.map(wikiRepository, WikiRepositoryEntity.class);
         String id = wikiRepositoryDao.createRepository(wikiRepositoryEntity);
 
-        //初始化项目成员
-//        DmUser dmUser = new DmUser();
-//        dmUser.setDomainId(id);
-//        dmUser.setUser(user);
-//        dmUserService.createDmUser(dmUser);
-//
-//        //初始化项目权限
-//        dmRoleService.initDmRoles(id,masterId, "kanass");
+
         initRepositoryDmRole(masterId, id);
 
         WikiRepository wikiRepository1 = findRepository(id);
         Map<String, String> content = new HashMap<>();
         content.put("repositoryId", wikiRepository1.getId());
         content.put("repositoryName", wikiRepository1.getName());
-        content.put("repositoryIcon", "/images/" + wikiRepository1.getIconUrl());
+        content.put("repositoryIcon", wikiRepository1.getIconUrl());
         creatDynamic(content);
         sendMessageForCreat(content);
         //构建索引

@@ -15,6 +15,7 @@ import io.tiklab.join.annotation.JoinQuery;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.tiklab.user.user.model.User;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @ApiModel
@@ -57,10 +58,11 @@ public class WikiRepository extends BaseModel{
     @ApiProperty(name="documentNum",desc="iconUrl")
     private Integer documentNum;
 
+
+
     @ApiProperty(name="createTime",desc="createTime")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @JSONField(format = "yyyy-MM-dd")
-    private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    private Timestamp createTime;
 
     @ApiProperty(name="desc",desc="desc")
     private java.lang.String desc;
@@ -127,11 +129,11 @@ public class WikiRepository extends BaseModel{
         this.documentNum = documentNum;
     }
 
-    public Date getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 
