@@ -41,7 +41,7 @@
         <tiklab-postin.version>1.0.0</tiklab-postin.version>
         <tiklab-teston.version>1.0.0</tiklab-teston.version>
         <tiklab-teamwire.version>1.0.0</tiklab-teamwire.version>
-        <tiklab-kanass.version>1.0.0</tiklab-kanass.version>
+        <tiklab-kanass.version>1.0.0-SNAPSHOT</tiklab-kanass.version>
         <itextpdf.version>5.5.5</itextpdf.version>
         <itextasian.version>5.2.0</itextasian.version>
 
