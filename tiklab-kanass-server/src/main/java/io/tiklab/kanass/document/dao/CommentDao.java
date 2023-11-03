@@ -10,10 +10,12 @@ import io.tiklab.dal.jpa.JpaTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 /**
  * CommentDao
@@ -100,5 +102,14 @@ public class CommentDao{
 //        }
         QueryCondition queryCondition = queryBuilders.get();
         return jpaTemplate.findPage(queryCondition, CommentEntity.class);
+    }
+
+    public List<CommentEntity> findCommentChildren(String commentIds) {
+        String sql = "select * from kanass_comment t where t.parent_comment_id in "+ commentIds;
+//        List<CommentEntity> commentEntitiyList = this.jpaTemplate.getJdbcTemplate().queryForList(sql, CommentEntity.class);
+
+        List<CommentEntity> commentEntitiyList = this.jpaTemplate.getJdbcTemplate().query(sql, new BeanPropertyRowMapper(CommentEntity.class));
+
+        return commentEntitiyList;
     }
 }

@@ -123,8 +123,8 @@ public class CommentServiceImpl implements CommentService {
         return commentList;
     }
 
-    @Override
-    public Pagination<Comment> findCommentTreePage(CommentQuery commentQuery) {
+
+    public Pagination<Comment> findCommentTreePage1(CommentQuery commentQuery) {
         commentQuery.setFirstCommentNull(true);
         Pagination<CommentEntity> pagination = commentDao.findCommentPage(commentQuery);
 
@@ -137,6 +137,31 @@ public class CommentServiceImpl implements CommentService {
             commentQuery.setFirstOneCommentId(id);
             List<Comment> commentList1 = findCommentList(commentQuery);
             comment.setCommentList(commentList1);
+        }
+
+        return PaginationBuilder.build(pagination,commentList);
+    }
+
+    @Override
+    public Pagination<Comment> findCommentTreePage(CommentQuery commentQuery) {
+        commentQuery.setFirstCommentNull(true);
+        Pagination<CommentEntity> pagination = commentDao.findCommentPage(commentQuery);
+
+        List<Comment> commentList = BeanMapper.mapList(pagination.getDataList(),Comment.class);
+        joinTemplate.joinQuery(commentList);
+
+        String commentIds = "(" + commentList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
+        List<CommentEntity> commentChildrenList = commentDao.findCommentChildren(commentIds);
+        joinTemplate.joinQuery(commentChildrenList);
+        for (Comment comment : commentList) {
+            String id = comment.getId();
+//            commentQuery.setFirstCommentNull(false);
+//            commentQuery.setFirstOneCommentId(id);
+            List<CommentEntity> listEntity = commentChildrenList.stream().filter(chidrenComment -> chidrenComment.getParentCommentId().equals(id)).collect(Collectors.toList());
+
+            List<Comment> comments = BeanMapper.mapList(listEntity, Comment.class);
+            joinTemplate.joinQuery(comments);
+            comment.setCommentList(comments);
         }
 
         return PaginationBuilder.build(pagination,commentList);
