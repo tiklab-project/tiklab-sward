@@ -33,6 +33,7 @@ public interface WikiCategoryService {
     */
     void updateCategory(@NotNull @Valid WikiCategory wikiCategory);
 
+    void updateSort(@NotNull @Valid WikiCategory wikiCategory);
     /**
     * 删除
     * @param id

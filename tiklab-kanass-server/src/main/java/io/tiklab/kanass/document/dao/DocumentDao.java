@@ -9,6 +9,7 @@ import io.tiklab.dal.jpa.criterial.condition.QueryCondition;
 import io.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import io.tiklab.dal.jpa.JpaTemplate;
 import io.tiklab.kanass.document.model.DocumentRecentQuery;
+import io.tiklab.kanass.document.model.WikiDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,28 @@ public class DocumentDao{
     public String createDocument(WikiDocumentEntity wikiDocumentEntity) {
         wikiDocumentEntity.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         return jpaTemplate.save(wikiDocumentEntity,String.class);
+    }
+
+    // 获取父级所有的文档和目录的个数
+    public Integer getBrotherNum(String repositoryId, String categoryId){
+        String sql = "";
+        Integer num = 0;
+        if(categoryId == null){
+            sql = "select count(1) as totalCount from kanass_document where repository_id = '" + repositoryId + "'";
+            Integer totalDocumentCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
+
+            sql = "select count(1) as totalCount from kanass_category where repository_id = '" + repositoryId + "'";
+            Integer totalCategoryCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
+            num = totalDocumentCount + totalCategoryCount;
+        }else {
+            sql = "select count(1) as totalCount from kanass_document where category_id = '" + categoryId + "'";
+            Integer totalDocumentCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
+
+            sql = "select count(1) as totalCount from kanass_category where parent_category_id = '" + categoryId + "'";
+            Integer totalCategoryCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
+            num = totalDocumentCount + totalCategoryCount;
+        }
+        return num;
     }
 
     /**
@@ -82,14 +105,17 @@ public class DocumentDao{
     }
 
     public List<WikiDocumentEntity> findDocumentList(DocumentQuery documentQuery) {
-        QueryCondition queryCondition = QueryBuilders.createQuery(WikiDocumentEntity.class)
+        QueryBuilders queryBuilders = QueryBuilders.createQuery(WikiDocumentEntity.class)
                 .eq("id", documentQuery.getId())
                 .like("name", documentQuery.getName())
                 .eq("repositoryId", documentQuery.getRepositoryId())
                 .in("repositoryId", documentQuery.getRepositoryIds())
                 .eq("categoryId", documentQuery.getCategoryId())
-                .orders(documentQuery.getOrderParams())
-                .get();
+                .orders(documentQuery.getOrderParams());
+        if(documentQuery.getParentWikiCategoryIsNull() != null && documentQuery.getParentWikiCategoryIsNull() == true){
+            queryBuilders.isNull("categoryId");
+        }
+        QueryCondition queryCondition = queryBuilders.get();
         return jpaTemplate.findList(queryCondition, WikiDocumentEntity.class);
     }
 

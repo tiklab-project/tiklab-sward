@@ -14,6 +14,7 @@ import io.tiklab.beans.BeanMapper;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.core.page.PaginationBuilder;
 import io.tiklab.join.JoinTemplate;
+import io.tiklab.kanass.repository.model.WikiRepository;
 import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.kanass.category.dao.WikiCategoryDao;
 import io.tiklab.kanass.document.service.DocumentService;
@@ -34,6 +35,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
 * CategoryServiceImpl
@@ -85,7 +87,7 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
         log.setBaseUrl(baseUrl);
         loggingByTemplService.createLog(log);
     }
-    
+
     @Override
     public String createCategory(@NotNull @Valid WikiCategory wikiCategory) {
         wikiCategory.setUpdateTime(new Timestamp(System.currentTimeMillis()));
@@ -93,6 +95,11 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
         String createUserId = LoginContext.getLoginId();
         User user = userService.findOne(createUserId);
         wikiCategory.setMaster(user);
+
+        String parentWikiCategoryId = wikiCategory.getParentWikiCategory().getId();
+        String repositoryId = wikiCategory.getWikiRepository().getId();
+        Integer brotherNum = documentService.getBrotherNum(repositoryId, parentWikiCategoryId);
+        wikiCategory.setSort(brotherNum);
 
         WikiCategoryEntity wikiCategoryEntity = BeanMapper.map(wikiCategory, WikiCategoryEntity.class);
         String categoryId = wikiCategoryDao.createCategory(wikiCategoryEntity);
@@ -105,6 +112,8 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
         creatDynamic(content);
         return categoryId;
     }
+
+
 
     @Override
     public void updateCategory(@NotNull @Valid WikiCategory wikiCategory) {
@@ -121,6 +130,9 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
         } else {
             wikiCategoryDao.updateCategory(wikiCategoryEntity);
         }
+        // 更新排序
+        updateSort(wikiCategory);
+
         String id = wikiCategory.getId();
 
         WikiCategory wikiCategory1 = findCategory(id);
@@ -128,14 +140,49 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
         content.put("categoryId", wikiCategory1.getId());
         content.put("categoryName", wikiCategory1.getName());
         content.put("repositoryId", wikiCategory1.getWikiRepository().getId());
-
         creatDynamic(content);
     }
 
+    public void updateSort(@NotNull @Valid WikiCategory wikiCategory){
+        Integer sort = wikiCategory.getSort();
+        if(sort != null){
+            String repositoryId = wikiCategory.getWikiRepository().getId();
+            String parentWikiCategoryId = new String();
+            WikiCategory parentWikiCategory = wikiCategory.getParentWikiCategory();
+            if(parentWikiCategory != null){
+                parentWikiCategoryId = wikiCategory.getParentWikiCategory().getId();
+            }
+
+            String oldParentId = wikiCategory.getOldParentId();
+            Integer oldSort = wikiCategory.getOldSort();
+            // 知识库到知识库
+            if(((parentWikiCategoryId == null && parentWikiCategory == null) || parentWikiCategoryId =="nullString") && oldParentId == null){
+                wikiCategoryDao.updateOnRepository(repositoryId, oldSort, sort );
+            }
+            // 知识库到目录
+            if(parentWikiCategoryId != null && oldParentId == null){
+                wikiCategoryDao.updateRepositoryToCategory(repositoryId, parentWikiCategoryId, oldSort, sort );
+            }
+
+            // 目录到知识库
+            if(parentWikiCategoryId == null && oldParentId != null){
+                wikiCategoryDao.updateCategoryToRepository(repositoryId, parentWikiCategoryId, oldSort, sort );
+            }
+
+            // 目录到目录
+            if(parentWikiCategoryId != null && oldParentId != null && !parentWikiCategoryId.equals(oldParentId)){
+                wikiCategoryDao.updateOnCategory(oldParentId, parentWikiCategoryId, oldSort, sort );
+            }
+
+            // 本目录到本目录
+            if(parentWikiCategoryId != null && oldParentId != null && parentWikiCategoryId.equals(oldParentId)){
+                wikiCategoryDao.updateCurrentCategory(parentWikiCategoryId, oldSort, sort );
+            }
+        }
+    }
     @Override
     public void deleteCategory(@NotNull String id) {
         //删除下面相关联的目录和文档
-        
         wikiCategoryDao.deleteCategory(id);
     }
 
@@ -245,8 +292,8 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
         return PaginationBuilder.build(pagination, wikiCategoryList);
     }
 
-    @Override
-    public List<Object> findCategoryListTree(WikiCategoryQuery wikiCategoryQuery) {
+//    @Override
+    public List<Object> findCategoryListTree1(WikiCategoryQuery wikiCategoryQuery) {
         ArrayList<Object> objects = new ArrayList<>();
         //查询符合条件的所有目录
         List<WikiCategory> wikiCategoryList = this.findCategoryList(wikiCategoryQuery);
@@ -276,6 +323,61 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
             for(WikiDocument wikiDocument :collect){
                 objects.add(wikiDocument);
             }
+        }
+        return objects;
+    }
+
+    @Override
+    public List<Object> findCategoryListTree(WikiCategoryQuery wikiCategoryQuery) {
+        ArrayList<Object> objects = new ArrayList<>();
+        HashMap<Integer, Object> sortMap = new HashMap<>();
+        ArrayList<HashMap<Integer, Object>> sortMapList = new ArrayList<>();
+
+        //查询符合条件的所有目录
+        List<WikiCategory> wikiCategoryList = this.findCategoryList(wikiCategoryQuery);
+        if(wikiCategoryList.size() > 0){
+            String wikiCategoryIds = "(" + wikiCategoryList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
+            List<Map<String, Object>> categoryChidrenList = wikiCategoryDao.findCategoryChidrenList(wikiCategoryIds);
+            List<Map<String, Object>> documentChidrenList = wikiCategoryDao.findDocumentChidrenList(wikiCategoryIds);
+            for (WikiCategory wikiCategory : wikiCategoryList) {
+                List<Map<String, Object>> childrenCategoryList = categoryChidrenList.stream().
+                        filter(categoryChidren -> wikiCategory.getId().equals(categoryChidren.get("parent_category_id"))).collect(Collectors.toList());
+                List<Map<String, Object>> childrenDocumentList = documentChidrenList.stream().
+                        filter(documentChidren -> wikiCategory.getId().equals(documentChidren.get("category_id"))).collect(Collectors.toList());
+                int childrenCategoryNum = childrenCategoryList.size();
+                int childrenDocumentNum = childrenDocumentList.size();
+                wikiCategory.setChildrenNum(childrenCategoryNum + childrenDocumentNum);
+                Integer sort = wikiCategory.getSort();
+                sortMap.put(sort, wikiCategory);
+            }
+        }else {
+            for (WikiCategory wikiCategory : wikiCategoryList) {
+                wikiCategory.setChildrenNum(0);
+                Integer sort = wikiCategory.getSort();
+                sortMap.put(sort, wikiCategory);
+            }
+        }
+
+
+
+        //查询符合条件的所有文档
+        DocumentQuery documentQuery = new DocumentQuery();
+        documentQuery.setCategoryId(wikiCategoryQuery.getParentWikiCategory());
+        documentQuery.setRepositoryId(wikiCategoryQuery.getRepositoryId());
+        documentQuery.setParentWikiCategoryIsNull(wikiCategoryQuery.getParentWikiCategoryIsNull());
+        List<WikiDocument> wikiDocumentList = documentService.findDocumentList(documentQuery);
+
+        for (WikiDocument wikiDocument : wikiDocumentList) {
+            Integer sort = wikiDocument.getSort();
+            sortMap.put(sort, wikiDocument);
+        }
+        Set<Integer> sorts = sortMap.keySet();
+        System.out.println(sorts);
+        Set<Integer> sortedSet = new TreeSet<>(sorts);
+        System.out.println(sortedSet);
+        for(Integer i:sortedSet){
+            Object o = sortMap.get(i);
+            objects.add(o);
         }
         return objects;
     }

@@ -21,6 +21,11 @@ import java.util.List;
 @Mapper
 @Join
 public class WikiCategory extends BaseModel{
+    @ApiProperty(name="oldParentId",desc="更新之前的父级")
+    private String oldParentId;
+
+    @ApiProperty(name="oldSort",desc="更新之前的位置")
+    private Integer oldSort;
 
     @ApiProperty(name="id",desc="id")
     private java.lang.String id;
@@ -57,7 +62,10 @@ public class WikiCategory extends BaseModel{
     @ApiProperty(name="children",desc="下级目录列表")
     private ArrayList<Object> children = new ArrayList<>();
 
-   @ApiProperty(name="categoryMethod",desc="")
+    @ApiProperty(name="childrenNum",desc="下级目录列表")
+    private Integer childrenNum;
+
+    @ApiProperty(name="categoryMethod",desc="")
     private List<WikiDocument> wikiDocuments =new ArrayList<>();
 
    @ApiProperty(name="formatType",desc="格式类型  category 目录  document 文档")
@@ -144,5 +152,29 @@ public class WikiCategory extends BaseModel{
 
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getChildrenNum() {
+        return childrenNum;
+    }
+
+    public void setChildrenNum(Integer childrenNum) {
+        this.childrenNum = childrenNum;
+    }
+
+    public Integer getOldSort() {
+        return oldSort;
+    }
+
+    public void setOldSort(Integer oldSort) {
+        this.oldSort = oldSort;
+    }
+
+    public String getOldParentId() {
+        return oldParentId;
+    }
+
+    public void setOldParentId(String oldParentId) {
+        this.oldParentId = oldParentId;
     }
 }

@@ -90,7 +90,10 @@ public class WikiDocument extends BaseModel{
     private boolean isLike;
 
     @ApiProperty(name="isRele",desc="是否关联事项")
-    private  java.lang.Boolean isRele;
+    private java.lang.Boolean isRele;
+
+    @ApiProperty(name="sort",desc="是否关联事项")
+    private Integer sort = 0;
 
     public java.lang.String getId() {
         return id;
@@ -208,5 +211,13 @@ public class WikiDocument extends BaseModel{
 
     public void setDetailText(String detailText) {
         this.detailText = detailText;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }

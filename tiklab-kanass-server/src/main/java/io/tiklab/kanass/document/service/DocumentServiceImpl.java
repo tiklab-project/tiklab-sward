@@ -95,6 +95,11 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public String createDocument(@NotNull @Valid WikiDocument wikiDocument) {
+        String categoryId = wikiDocument.getWikiCategory().getId();
+        String repositoryId = wikiDocument.getWikiRepository().getId();
+        Integer brotherNum = documentDao.getBrotherNum(repositoryId, categoryId);
+        wikiDocument.setSort(brotherNum);
+
         WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
         String documentId = documentDao.createDocument(wikiDocumentEntity);
 
@@ -113,6 +118,12 @@ public class DocumentServiceImpl implements DocumentService {
         WikiDocument wikiDocument2 = findDocument(documentId);
         dssClient.save(wikiDocument2);
         return documentId;
+    }
+
+    @Override
+    public Integer getBrotherNum(String repositoryId, String categoryId) {
+        Integer brotherNum = documentDao.getBrotherNum(repositoryId, categoryId);
+        return brotherNum;
     }
 
     @Override

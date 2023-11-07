@@ -11,11 +11,9 @@ import java.util.List;
 
 @ApiModel
 public class DocumentQuery implements Serializable {
-        @ApiProperty(name ="orderParams",desc = "排序参数")
-        private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
 
-        @ApiProperty(name ="pageParam",desc = "分页参数")
-        private Page pageParam = new Page();
+        @ApiProperty(name ="parentWikiCategoryIsNull",desc = "是否为空")
+        private Boolean parentWikiCategoryIsNull;
 
         @ApiProperty(name ="categoryId",desc = "目录id")
         private String categoryId;
@@ -35,6 +33,11 @@ public class DocumentQuery implements Serializable {
         @ApiProperty(name ="id",desc = "文档id")
         private String id;
 
+        @ApiProperty(name ="orderParams",desc = "排序参数")
+        private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
+
+        @ApiProperty(name ="pageParam",desc = "分页参数")
+        private Page pageParam = new Page();
         public List<Order> getOrderParams() {
             return orderParams;
         }
@@ -98,5 +101,13 @@ public class DocumentQuery implements Serializable {
 
     public void setIds(String[] ids) {
         this.ids = ids;
+    }
+
+    public Boolean getParentWikiCategoryIsNull() {
+        return parentWikiCategoryIsNull;
+    }
+
+    public void setParentWikiCategoryIsNull(Boolean parentWikiCategoryIsNull) {
+        this.parentWikiCategoryIsNull = parentWikiCategoryIsNull;
     }
 }

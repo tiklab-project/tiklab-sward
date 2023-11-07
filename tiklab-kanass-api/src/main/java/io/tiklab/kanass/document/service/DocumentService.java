@@ -27,7 +27,7 @@ public interface DocumentService {
     * @return
     */
     String createDocument(@NotNull @Valid WikiDocument wikiDocument);
-
+    Integer getBrotherNum(String repositoryId, String categoryId);
     /**
     * 更新
     * @param wikiDocument

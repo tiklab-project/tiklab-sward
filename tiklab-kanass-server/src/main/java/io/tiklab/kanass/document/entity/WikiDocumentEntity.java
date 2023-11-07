@@ -43,6 +43,9 @@ public class WikiDocumentEntity implements Serializable {
     @Column(name = "update_time")
     private Timestamp updateTime;
 
+    @Column(name = "sort")
+    private Integer sort;
+
     private java.lang.String formatType = "document";
 
 
@@ -124,6 +127,14 @@ public class WikiDocumentEntity implements Serializable {
 
     public void setDetailText(String detailText) {
         this.detailText = detailText;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }
 

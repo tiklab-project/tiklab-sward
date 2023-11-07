@@ -14,6 +14,12 @@ public class WikiCategoryQuery extends BaseModel {
         @ApiProperty(name ="repositoryId",desc = "空间id")
         private String repositoryId;
 
+        @ApiProperty(name ="parentWikiCategory",desc = "父级目录id")
+        private String parentWikiCategory;
+
+        @ApiProperty(name ="parentWikiCategoryIsNull",desc = "是否为空")
+        private Boolean parentWikiCategoryIsNull;
+
         @ApiProperty(name ="orderParams",desc = "排序参数")
         private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
 
@@ -44,4 +50,21 @@ public class WikiCategoryQuery extends BaseModel {
         public void setRepositoryId(String repositoryId) {
             this.repositoryId = repositoryId;
         }
+
+    public String getParentWikiCategory() {
+        return parentWikiCategory;
+    }
+
+    public void setParentWikiCategory(String parentWikiCategory) {
+        this.parentWikiCategory = parentWikiCategory;
+    }
+
+
+    public Boolean getParentWikiCategoryIsNull() {
+        return parentWikiCategoryIsNull;
+    }
+
+    public void setParentWikiCategoryIsNull(Boolean parentWikiCategoryIsNull) {
+        this.parentWikiCategoryIsNull = parentWikiCategoryIsNull;
+    }
 }
