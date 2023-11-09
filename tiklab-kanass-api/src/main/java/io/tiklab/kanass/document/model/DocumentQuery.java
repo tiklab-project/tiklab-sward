@@ -33,6 +33,12 @@ public class DocumentQuery implements Serializable {
         @ApiProperty(name ="id",desc = "文档id")
         private String id;
 
+        @ApiProperty(name ="dimension",desc = "层级")
+        private Integer dimension;
+
+        @ApiProperty(name ="dimensions",desc = "层级")
+        private Integer[] dimensions;
+
         @ApiProperty(name ="orderParams",desc = "排序参数")
         private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
 
@@ -109,5 +115,21 @@ public class DocumentQuery implements Serializable {
 
     public void setParentWikiCategoryIsNull(Boolean parentWikiCategoryIsNull) {
         this.parentWikiCategoryIsNull = parentWikiCategoryIsNull;
+    }
+
+    public Integer getDimension() {
+        return dimension;
+    }
+
+    public void setDimension(Integer dimension) {
+        this.dimension = dimension;
+    }
+
+    public Integer[] getDimensions() {
+        return dimensions;
+    }
+
+    public void setDimensions(Integer[] dimensions) {
+        this.dimensions = dimensions;
     }
 }

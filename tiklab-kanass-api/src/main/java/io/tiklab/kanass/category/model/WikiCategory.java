@@ -75,6 +75,9 @@ public class WikiCategory extends BaseModel{
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp updateTime;
 
+    @ApiProperty(name="dimension",desc="层级")
+    private Integer dimension;
+
     public java.lang.String getId() {
         return id;
     }
@@ -176,5 +179,13 @@ public class WikiCategory extends BaseModel{
 
     public void setOldParentId(String oldParentId) {
         this.oldParentId = oldParentId;
+    }
+
+    public Integer getdimension() {
+        return dimension;
+    }
+
+    public void setdimension(Integer dimension) {
+        this.dimension = dimension;
     }
 }

@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import io.tiklab.dal.jpa.JpaTemplate;
 import io.tiklab.dss.client.DssClient;
 import io.tiklab.eam.common.context.LoginContext;
+import io.tiklab.kanass.category.model.WikiCategory;
+import io.tiklab.kanass.category.service.WikiCategoryService;
 import io.tiklab.kanass.document.entity.WikiDocumentEntity;
 import io.tiklab.kanass.document.model.*;
 import io.tiklab.kanass.document.support.OpLogTemplateDocument;
@@ -64,6 +66,9 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     LikeService likeService;
+
+    @Autowired
+    WikiCategoryService wikiCategoryService;
 
     @Value("${base.url:null}")
     String baseUrl;
@@ -136,6 +141,17 @@ public class DocumentServiceImpl implements DocumentService {
         content.put("documentName", wikiDocument1.getName());
         content.put("repositoryId", wikiDocument1.getWikiRepository().getId());
         String typeId = wikiDocument1.getTypeId();
+        Integer sort = wikiDocument.getSort();
+        if(sort != null){
+            WikiCategory wikiCategory = new WikiCategory();
+            wikiCategory.setWikiRepository(wikiDocument.getWikiRepository());
+            wikiCategory.setParentWikiCategory(wikiDocument.getWikiCategory());
+            wikiCategory.setSort(wikiDocument.getSort());
+            wikiCategory.setOldParentId(wikiDocument.getOldParentId());
+            wikiCategory.setOldSort(wikiDocument.getOldSort());
+            wikiCategoryService.updateSort(wikiCategory);
+        }
+
         if(typeId.equals("document")){
             content.put("iconUrl", "/images/mindMap.png");
         }else {

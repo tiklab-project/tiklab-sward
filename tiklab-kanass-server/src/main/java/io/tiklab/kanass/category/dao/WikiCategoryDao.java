@@ -200,10 +200,12 @@ public class WikiCategoryDao {
         QueryBuilders queryBuilders = QueryBuilders.createQuery(WikiCategoryEntity.class)
                 .eq("repositoryId", wikiCategoryQuery.getRepositoryId())
                 .eq("parentCategoryId", wikiCategoryQuery.getParentWikiCategory())
+                .eq("dimension", wikiCategoryQuery.getDimensions())
+                .in("dimension", wikiCategoryQuery.getDimensions())
                 .orders(wikiCategoryQuery.getOrderParams());
-        if(wikiCategoryQuery.getParentWikiCategoryIsNull() != null && wikiCategoryQuery.getParentWikiCategoryIsNull() == true){
-            queryBuilders.isNull("parentCategoryId");
-        }
+//        if(wikiCategoryQuery.getParentWikiCategoryIsNull() != null && wikiCategoryQuery.getParentWikiCategoryIsNull() == true){
+//            queryBuilders.isNull("parentCategoryId");
+//        }
 
         QueryCondition queryCondition = queryBuilders.get();
         return jpaTemplate.findList(queryCondition, WikiCategoryEntity.class);

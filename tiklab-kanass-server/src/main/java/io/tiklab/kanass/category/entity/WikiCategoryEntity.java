@@ -40,6 +40,8 @@ public class WikiCategoryEntity implements Serializable {
     @Column(name = "sort")
     private Integer sort;
 
+    @Column(name = "dimension")
+    private Integer dimension;
     public String getId() {
         return id;
     }
@@ -94,5 +96,13 @@ public class WikiCategoryEntity implements Serializable {
 
     public void setUpdateTime(Timestamp updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getdimension() {
+        return dimension;
+    }
+
+    public void setdimension(Integer dimension) {
+        this.dimension = dimension;
     }
 }

@@ -14,7 +14,6 @@ import io.tiklab.beans.BeanMapper;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.core.page.PaginationBuilder;
 import io.tiklab.join.JoinTemplate;
-import io.tiklab.kanass.repository.model.WikiRepository;
 import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.kanass.category.dao.WikiCategoryDao;
 import io.tiklab.kanass.document.service.DocumentService;
@@ -35,14 +34,13 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
 * CategoryServiceImpl
 */
 @Service
 @Exporter
-public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
+public class WikiCategoryServiceImpl implements WikiCategoryService {
     @Autowired
     JpaTemplate jpaTemplate;
     @Autowired
@@ -96,7 +94,14 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
         User user = userService.findOne(createUserId);
         wikiCategory.setMaster(user);
 
-        String parentWikiCategoryId = wikiCategory.getParentWikiCategory().getId();
+        WikiCategory parentWikiCategory = wikiCategory.getParentWikiCategory();
+        String parentWikiCategoryId = new String();
+        if(parentWikiCategory == null){
+            parentWikiCategoryId = null;
+        }else {
+            parentWikiCategoryId = parentWikiCategory.getId();
+        }
+
         String repositoryId = wikiCategory.getWikiRepository().getId();
         Integer brotherNum = documentService.getBrotherNum(repositoryId, parentWikiCategoryId);
         wikiCategory.setSort(brotherNum);
@@ -155,27 +160,28 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
 
             String oldParentId = wikiCategory.getOldParentId();
             Integer oldSort = wikiCategory.getOldSort();
+            boolean haveParent =  (parentWikiCategoryId == null && parentWikiCategory == null) || parentWikiCategoryId =="nullString";
             // 知识库到知识库
-            if(((parentWikiCategoryId == null && parentWikiCategory == null) || parentWikiCategoryId =="nullString") && oldParentId == null){
+            if(!haveParent && oldParentId == null){
                 wikiCategoryDao.updateOnRepository(repositoryId, oldSort, sort );
             }
             // 知识库到目录
-            if(parentWikiCategoryId != null && oldParentId == null){
+            if(haveParent && oldParentId == null){
                 wikiCategoryDao.updateRepositoryToCategory(repositoryId, parentWikiCategoryId, oldSort, sort );
             }
 
             // 目录到知识库
-            if(parentWikiCategoryId == null && oldParentId != null){
+            if(!haveParent && oldParentId != null){
                 wikiCategoryDao.updateCategoryToRepository(repositoryId, parentWikiCategoryId, oldSort, sort );
             }
 
             // 目录到目录
-            if(parentWikiCategoryId != null && oldParentId != null && !parentWikiCategoryId.equals(oldParentId)){
+            if(haveParent && oldParentId != null && !parentWikiCategoryId.equals(oldParentId)){
                 wikiCategoryDao.updateOnCategory(oldParentId, parentWikiCategoryId, oldSort, sort );
             }
 
             // 本目录到本目录
-            if(parentWikiCategoryId != null && oldParentId != null && parentWikiCategoryId.equals(oldParentId)){
+            if(haveParent && oldParentId != null && parentWikiCategoryId.equals(oldParentId)){
                 wikiCategoryDao.updateCurrentCategory(parentWikiCategoryId, oldSort, sort );
             }
         }
@@ -357,8 +363,6 @@ public class WikiWikiCategoryServiceImpl implements WikiCategoryService {
                 sortMap.put(sort, wikiCategory);
             }
         }
-
-
 
         //查询符合条件的所有文档
         DocumentQuery documentQuery = new DocumentQuery();

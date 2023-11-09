@@ -25,6 +25,12 @@ import java.util.List;
 @Document
 public class WikiDocument extends BaseModel{
 
+    @ApiProperty(name="oldParentId",desc="更新之前的父级")
+    private String oldParentId;
+
+    @ApiProperty(name="oldSort",desc="更新之前的位置")
+    private Integer oldSort;
+
     @ApiProperty(name="id",desc="id")
     @DocumentField
     @DocumentId
@@ -93,7 +99,10 @@ public class WikiDocument extends BaseModel{
     private java.lang.Boolean isRele;
 
     @ApiProperty(name="sort",desc="是否关联事项")
-    private Integer sort = 0;
+    private Integer sort;
+
+    @ApiProperty(name="dimension",desc="层级")
+    private Integer dimension;
 
     public java.lang.String getId() {
         return id;
@@ -219,5 +228,29 @@ public class WikiDocument extends BaseModel{
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public String getOldParentId() {
+        return oldParentId;
+    }
+
+    public void setOldParentId(String oldParentId) {
+        this.oldParentId = oldParentId;
+    }
+
+    public Integer getOldSort() {
+        return oldSort;
+    }
+
+    public void setOldSort(Integer oldSort) {
+        this.oldSort = oldSort;
+    }
+
+    public Integer getdimension() {
+        return dimension;
+    }
+
+    public void setdimension(Integer dimension) {
+        this.dimension = dimension;
     }
 }

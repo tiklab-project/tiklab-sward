@@ -46,6 +46,9 @@ public class WikiDocumentEntity implements Serializable {
     @Column(name = "sort")
     private Integer sort;
 
+    @Column(name = "dimension")
+    private Integer dimension;
+
     private java.lang.String formatType = "document";
 
 
@@ -135,6 +138,14 @@ public class WikiDocumentEntity implements Serializable {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public Integer getdimension() {
+        return dimension;
+    }
+
+    public void setdimension(Integer dimension) {
+        this.dimension = dimension;
     }
 }
 
