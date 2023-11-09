@@ -17,6 +17,9 @@ public class WikiCategoryQuery extends BaseModel {
         @ApiProperty(name ="parentWikiCategory",desc = "父级目录id")
         private String parentWikiCategory;
 
+        @ApiProperty(name ="parentWikiCategorys",desc = "父级目录ids")
+        private String[] parentWikiCategorys;
+
         @ApiProperty(name ="dimension",desc = "层级")
         private Integer dimension;
         @ApiProperty(name ="dimensions",desc = "层级")
@@ -87,5 +90,13 @@ public class WikiCategoryQuery extends BaseModel {
 
     public void setDimension(Integer dimension) {
         this.dimension = dimension;
+    }
+
+    public String[] getParentWikiCategorys() {
+        return parentWikiCategorys;
+    }
+
+    public void setParentWikiCategorys(String[] parentWikiCategorys) {
+        this.parentWikiCategorys = parentWikiCategorys;
     }
 }

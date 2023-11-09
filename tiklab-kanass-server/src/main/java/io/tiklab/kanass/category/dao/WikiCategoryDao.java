@@ -72,18 +72,19 @@ public class WikiCategoryDao {
         // 更新库下的文档和目录
         sql = " UPDATE kanass_category SET sort = sort - 1 where repository_id = '" +repository
                 + "' and parent_category_id is null and sort >= '" +oldSort + "'";
-        this.jpaTemplate.getJdbcTemplate().update(sql);
+        this.jpaTemplate.getJdbcTemplate().execute(sql);
+//        this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Void.class);
         sql = " UPDATE kanass_document SET sort = sort - 1 where repository_id = '" +repository
                 + "' and category_id is null and sort >'" + oldSort + "'";
-        this.jpaTemplate.getJdbcTemplate().update(sql);
+        this.jpaTemplate.getJdbcTemplate().execute(sql);
 
         // 更新目录下的文档和目录
         sql = " UPDATE kanass_category SET sort = sort + 1 where repository_id = '" +repository
                 + "' and parent_category_id = '" + parentWikiCategoryId +"' and sort >= '" +sort + "'";
-        this.jpaTemplate.getJdbcTemplate().update(sql);
+        this.jpaTemplate.getJdbcTemplate().execute(sql);
         sql = " UPDATE kanass_document SET sort = sort + 1 where repository_id = '" +repository
                 + "' and category_id  = '" + parentWikiCategoryId + "' and sort >='" + sort + "'";
-        this.jpaTemplate.getJdbcTemplate().update(sql);
+        this.jpaTemplate.getJdbcTemplate().execute(sql);
     }
 
     public void  updateCategoryToRepository(String repository, String parentWikiCategoryId,Integer oldSort, Integer sort ){
@@ -200,7 +201,8 @@ public class WikiCategoryDao {
         QueryBuilders queryBuilders = QueryBuilders.createQuery(WikiCategoryEntity.class)
                 .eq("repositoryId", wikiCategoryQuery.getRepositoryId())
                 .eq("parentCategoryId", wikiCategoryQuery.getParentWikiCategory())
-                .eq("dimension", wikiCategoryQuery.getDimensions())
+                .in("parentCategoryId", wikiCategoryQuery.getParentWikiCategorys())
+                .eq("dimension", wikiCategoryQuery.getDimension())
                 .in("dimension", wikiCategoryQuery.getDimensions())
                 .orders(wikiCategoryQuery.getOrderParams());
 //        if(wikiCategoryQuery.getParentWikiCategoryIsNull() != null && wikiCategoryQuery.getParentWikiCategoryIsNull() == true){

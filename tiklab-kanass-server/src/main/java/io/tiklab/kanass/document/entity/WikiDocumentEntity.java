@@ -140,11 +140,11 @@ public class WikiDocumentEntity implements Serializable {
         this.sort = sort;
     }
 
-    public Integer getdimension() {
+    public Integer getDimension() {
         return dimension;
     }
 
-    public void setdimension(Integer dimension) {
+    public void setDimension(Integer dimension) {
         this.dimension = dimension;
     }
 }

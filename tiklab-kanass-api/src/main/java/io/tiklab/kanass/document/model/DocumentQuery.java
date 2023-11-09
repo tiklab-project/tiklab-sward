@@ -18,6 +18,9 @@ public class DocumentQuery implements Serializable {
         @ApiProperty(name ="categoryId",desc = "目录id")
         private String categoryId;
 
+        @ApiProperty(name ="categoryIds",desc = "目录id")
+        private String[] categoryIds;
+
         @ApiProperty(name ="repositoryId",desc = "空间id")
         private String repositoryId;
 
@@ -131,5 +134,13 @@ public class DocumentQuery implements Serializable {
 
     public void setDimensions(Integer[] dimensions) {
         this.dimensions = dimensions;
+    }
+
+    public String[] getCategoryIds() {
+        return categoryIds;
+    }
+
+    public void setCategoryIds(String[] categoryIds) {
+        this.categoryIds = categoryIds;
     }
 }

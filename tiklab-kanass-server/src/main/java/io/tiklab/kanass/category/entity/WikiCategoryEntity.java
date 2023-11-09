@@ -98,11 +98,11 @@ public class WikiCategoryEntity implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public Integer getdimension() {
+    public Integer getDimension() {
         return dimension;
     }
 
-    public void setdimension(Integer dimension) {
+    public void setDimension(Integer dimension) {
         this.dimension = dimension;
     }
 }

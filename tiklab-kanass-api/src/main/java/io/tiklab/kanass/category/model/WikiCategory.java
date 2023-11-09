@@ -68,7 +68,7 @@ public class WikiCategory extends BaseModel{
     @ApiProperty(name="categoryMethod",desc="")
     private List<WikiDocument> wikiDocuments =new ArrayList<>();
 
-   @ApiProperty(name="formatType",desc="格式类型  category 目录  document 文档")
+    @ApiProperty(name="formatType",desc="格式类型  category 目录  document 文档")
     private java.lang.String formatType="category";
 
     @ApiProperty(name="updateTime",desc="updateTime",required = true)
@@ -181,11 +181,11 @@ public class WikiCategory extends BaseModel{
         this.oldParentId = oldParentId;
     }
 
-    public Integer getdimension() {
+    public Integer getDimension() {
         return dimension;
     }
 
-    public void setdimension(Integer dimension) {
+    public void setDimension(Integer dimension) {
         this.dimension = dimension;
     }
 }

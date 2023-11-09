@@ -45,10 +45,10 @@ public class DocumentDao{
         String sql = "";
         Integer num = 0;
         if(categoryId == null){
-            sql = "select count(1) as totalCount from kanass_document where repository_id = '" + repositoryId + "'";
+            sql = "select count(1) as totalCount from kanass_document where category_id is null and repository_id = '" + repositoryId + "'";
             Integer totalDocumentCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
 
-            sql = "select count(1) as totalCount from kanass_category where repository_id = '" + repositoryId + "'";
+            sql = "select count(1) as totalCount from kanass_category where parent_category_id is null and repository_id = '" + repositoryId + "'";
             Integer totalCategoryCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
             num = totalDocumentCount + totalCategoryCount;
         }else {
@@ -111,10 +111,13 @@ public class DocumentDao{
                 .eq("repositoryId", documentQuery.getRepositoryId())
                 .in("repositoryId", documentQuery.getRepositoryIds())
                 .eq("categoryId", documentQuery.getCategoryId())
+                .in("categoryId", documentQuery.getCategoryIds())
+                .eq("dimension", documentQuery.getDimension())
+                .in("dimension", documentQuery.getDimensions())
                 .orders(documentQuery.getOrderParams());
-        if(documentQuery.getParentWikiCategoryIsNull() != null && documentQuery.getParentWikiCategoryIsNull() == true){
-            queryBuilders.isNull("categoryId");
-        }
+//        if(documentQuery.getParentWikiCategoryIsNull() != null && documentQuery.getParentWikiCategoryIsNull() == true){
+//            queryBuilders.isNull("categoryId");
+//        }
         QueryCondition queryCondition = queryBuilders.get();
         return jpaTemplate.findList(queryCondition, WikiDocumentEntity.class);
     }

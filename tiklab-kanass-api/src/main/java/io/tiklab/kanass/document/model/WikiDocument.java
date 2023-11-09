@@ -246,11 +246,11 @@ public class WikiDocument extends BaseModel{
         this.oldSort = oldSort;
     }
 
-    public Integer getdimension() {
+    public Integer getDimension() {
         return dimension;
     }
 
-    public void setdimension(Integer dimension) {
+    public void setDimension(Integer dimension) {
         this.dimension = dimension;
     }
 }
