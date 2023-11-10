@@ -40,6 +40,7 @@ public interface DocumentService {
     */
     void deleteDocument(@NotNull String id);
 
+    void deleteDocumentAndSort(@NotNull @Valid WikiDocument wikiDocument);
     @FindOne
     WikiDocument findOne(@NotNull String id);
 

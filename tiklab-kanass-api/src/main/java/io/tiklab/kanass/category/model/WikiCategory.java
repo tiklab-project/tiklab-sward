@@ -24,6 +24,8 @@ public class WikiCategory extends BaseModel{
     @ApiProperty(name="oldParentId",desc="更新之前的父级")
     private String oldParentId;
 
+    @ApiProperty(name="oldDimension",desc="更新之前的层级")
+    private Integer oldDimension;
     @ApiProperty(name="oldSort",desc="更新之前的位置")
     private Integer oldSort;
 
@@ -187,5 +189,13 @@ public class WikiCategory extends BaseModel{
 
     public void setDimension(Integer dimension) {
         this.dimension = dimension;
+    }
+
+    public Integer getOldDimension() {
+        return oldDimension;
+    }
+
+    public void setOldDimension(Integer oldDimension) {
+        this.oldDimension = oldDimension;
     }
 }

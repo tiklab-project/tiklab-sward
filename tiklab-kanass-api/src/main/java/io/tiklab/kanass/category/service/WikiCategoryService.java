@@ -11,6 +11,7 @@ import io.tiklab.kanass.category.model.WikiCategory;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,12 +34,15 @@ public interface WikiCategoryService {
     */
     void updateCategory(@NotNull @Valid WikiCategory wikiCategory);
 
-    void updateSort(@NotNull @Valid WikiCategory wikiCategory);
+    void updateSort(@NotNull @Valid WikiCategory wikiCategory, String type);
     /**
     * 删除
     * @param id
     */
     void deleteCategory(@NotNull String id);
+    void deleteCategoryAndSort(@NotNull @Valid WikiCategory wikiCategory);
+    void updateSortAfterDelete(@NotNull @Valid String repositoryId, @Valid String parentWikiCategoryId, @Valid Integer sort);
+    HashMap<String, List<String>> findCategoryChildren(@NotNull String parentWikiCategoryId);
     @FindOne
     WikiCategory findOne(@NotNull String id);
 

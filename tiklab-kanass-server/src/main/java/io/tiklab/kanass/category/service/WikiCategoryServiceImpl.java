@@ -22,6 +22,7 @@ import io.tiklab.security.logging.model.LoggingType;
 import io.tiklab.security.logging.service.LoggingByTemplService;
 import io.tiklab.user.user.model.User;
 import io.tiklab.user.user.service.UserService;
+import jdk.jfr.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -127,7 +128,7 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         String createUserId = LoginContext.getLoginId();
         User user = userService.findOne(createUserId);
         wikiCategory.setMaster(user);
-
+        updateSort(wikiCategory, "category");
         WikiCategoryEntity wikiCategoryEntity = BeanMapper.map(wikiCategory, WikiCategoryEntity.class);
         if (wikiCategory.getParentWikiCategory() != null && wikiCategory.getParentWikiCategory().getId() == "nullString"){
             wikiCategoryEntity.setParentCategoryId(null);
@@ -136,7 +137,7 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
             wikiCategoryDao.updateCategory(wikiCategoryEntity);
         }
         // 更新排序
-        updateSort(wikiCategory);
+
 
         String id = wikiCategory.getId();
 
@@ -148,7 +149,7 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         creatDynamic(content);
     }
 
-    public void updateSort(@NotNull @Valid WikiCategory wikiCategory){
+    public void updateSort(@NotNull @Valid WikiCategory wikiCategory, String type){
         Integer sort = wikiCategory.getSort();
         if(sort != null){
             String repositoryId = wikiCategory.getWikiRepository().getId();
@@ -160,7 +161,7 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
 
             String oldParentId = wikiCategory.getOldParentId();
             Integer oldSort = wikiCategory.getOldSort();
-            boolean haveParent =  (parentWikiCategory != null && parentWikiCategoryId != null ) || parentWikiCategoryId.equals("nullString");
+            boolean haveParent =  parentWikiCategory != null && parentWikiCategoryId != null && !parentWikiCategoryId.equals("nullString");
             boolean haveOldParent = (oldParentId != null && !oldParentId.equals("nullString") );
             // 知识库到知识库
             if(!haveParent && !haveOldParent){
@@ -179,13 +180,51 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
             // 目录到目录
             if(haveParent && haveOldParent && !parentWikiCategoryId.equals(oldParentId)){
                 wikiCategoryDao.updateOnCategory(oldParentId, parentWikiCategoryId, oldSort, sort );
+
             }
 
             // 本目录到本目录
             if(haveParent && haveOldParent && parentWikiCategoryId.equals(oldParentId)){
                 wikiCategoryDao.updateCurrentCategory(parentWikiCategoryId, oldSort, sort );
             }
+
+            if(type.equals("category") && !(haveParent && haveOldParent && parentWikiCategoryId.equals(oldParentId)) ){
+                Integer oldDimension = wikiCategory.getOldDimension();
+                Integer dimension = wikiCategory.getDimension();
+                Integer distance = dimension - oldDimension;
+                if(distance != 0){
+                    updateChildrenDimension(wikiCategory);
+                }
+
+            }
+
+
         }
+    }
+
+    public void updateChildrenDimension(@NotNull @Valid WikiCategory wikiCategory){
+        HashMap<String, List<String>> categoryChildren = wikiCategoryDao.findCategoryChildren(wikiCategory.getId());
+        Integer oldDimension = wikiCategory.getOldDimension();
+        Integer dimension = wikiCategory.getDimension();
+        Integer distance = dimension - oldDimension;
+        List<String> document = categoryChildren.get("document");
+        String documentIds = new String();
+        if(document.size() > 0){
+            documentIds = "(" + document.stream().map(item -> "'" + item + "'").
+                    collect(Collectors.joining(", ")) + ")";
+        }else {
+            documentIds = null;
+        }
+        List<String> category = categoryChildren.get("category");
+        String categoryIds = new String();
+        if(category.size() >0 ){
+            categoryIds = "(" + category.stream().map(item -> "'" + item + "'").
+                    collect(Collectors.joining(", ")) + ")";
+        }else {
+            categoryIds = null;
+        }
+        wikiCategoryDao.updateDimension(documentIds, categoryIds, distance);
+
     }
     @Override
     public void deleteCategory(@NotNull String id) {
@@ -193,6 +232,30 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         wikiCategoryDao.deleteCategory(id);
     }
 
+    public void deleteCategoryAndSort(@NotNull @Valid WikiCategory wikiCategory) {
+        //删除下面相关联的目录和文档
+        String id = wikiCategory.getId();
+        String repositoryId = wikiCategory.getWikiRepository().getId();
+        WikiCategory parentWikiCategory = wikiCategory.getParentWikiCategory();
+        Integer sort = wikiCategory.getSort();
+        String parentWikiCategoryId = new String();
+        if(parentWikiCategory != null){
+            parentWikiCategoryId = parentWikiCategory.getId();
+        }
+        wikiCategoryDao.updateSortAfterDelete(repositoryId, parentWikiCategoryId, sort);
+        wikiCategoryDao.deleteCategory(id);
+    }
+    @Override
+    public void updateSortAfterDelete(@NotNull String repositoryId, String parentWikiCategoryId, Integer sort){
+        wikiCategoryDao.updateSortAfterDelete(repositoryId, parentWikiCategoryId, sort);
+    }
+
+    @Override
+    public HashMap<String, List<String>> findCategoryChildren(@NotNull String parentWikiCategoryId) {
+        //删除下面相关联的目录和文档
+        HashMap<String, List<String>> categoryChildren = wikiCategoryDao.findCategoryChildren(parentWikiCategoryId);
+        return categoryChildren;
+    }
     @Override
     public WikiCategory findOne(String id) {
         WikiCategoryEntity wikiCategoryEntity = wikiCategoryDao.findCategory(id);
@@ -352,6 +415,8 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
             wikiCategoryQuery.setParentWikiCategory(null);
             wikiCategoryList = this.findCategoryList(wikiCategoryQuery);
             documentQuery.setCategoryIds(wikiCategoryIds);
+        }else {
+            documentQuery.setCategoryId(parentWikiCategory);
         }
         //查询符合条件的所有文档
         documentQuery.setRepositoryId(wikiCategoryQuery.getRepositoryId());

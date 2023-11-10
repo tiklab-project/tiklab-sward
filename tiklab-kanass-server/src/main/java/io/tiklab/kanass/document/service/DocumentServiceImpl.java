@@ -133,14 +133,6 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public void updateDocument(@NotNull @Valid WikiDocument wikiDocument) {
-        WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
-        documentDao.updateDocument(wikiDocumentEntity);
-        WikiDocument wikiDocument1 = findDocumentById(wikiDocumentEntity.getId());
-        Map<String, String> content = new HashMap<>();
-        content.put("documentId", wikiDocument1.getId());
-        content.put("documentName", wikiDocument1.getName());
-        content.put("repositoryId", wikiDocument1.getWikiRepository().getId());
-        String typeId = wikiDocument1.getTypeId();
         Integer sort = wikiDocument.getSort();
         if(sort != null){
             WikiCategory wikiCategory = new WikiCategory();
@@ -149,8 +141,16 @@ public class DocumentServiceImpl implements DocumentService {
             wikiCategory.setSort(wikiDocument.getSort());
             wikiCategory.setOldParentId(wikiDocument.getOldParentId());
             wikiCategory.setOldSort(wikiDocument.getOldSort());
-            wikiCategoryService.updateSort(wikiCategory);
+            wikiCategoryService.updateSort(wikiCategory, "document");
         }
+        WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
+        documentDao.updateDocument(wikiDocumentEntity);
+        WikiDocument wikiDocument1 = findDocumentById(wikiDocumentEntity.getId());
+        Map<String, String> content = new HashMap<>();
+        content.put("documentId", wikiDocument1.getId());
+        content.put("documentName", wikiDocument1.getName());
+        content.put("repositoryId", wikiDocument1.getWikiRepository().getId());
+        String typeId = wikiDocument1.getTypeId();
 
         if(typeId.equals("document")){
             content.put("iconUrl", "/images/mindMap.png");
@@ -165,8 +165,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public void deleteDocument(@NotNull String id) {
         //删除事项的关联
-   //     workItemDocumentController.delete(id);
-//        WikiDocumentEntity wikiDocumentEntity = documentDao.findDocument(id);
+    //    workItemDocumentController.delete(id);
+    //    WikiDocumentEntity wikiDocumentEntity = documentDao.findDocument(id);
         DocumentRecentQuery documentRecentQuery = new DocumentRecentQuery();
         documentRecentQuery.setModelId(id);
         List<DocumentRecent> documentRecentList = documentRecentService.findDocumentRecentList(documentRecentQuery);
@@ -177,6 +177,20 @@ public class DocumentServiceImpl implements DocumentService {
         dssClient.delete(WikiDocument.class, id);
         documentDao.deleteDocument(id);
 
+    }
+    @Override
+    public void deleteDocumentAndSort(@NotNull @Valid WikiDocument wikiDocument) {
+        //删除下面相关联的目录和文档
+        String id = wikiDocument.getId();
+        String repositoryId = wikiDocument.getWikiRepository().getId();
+        WikiCategory wikiCategory = wikiDocument.getWikiCategory();
+        Integer sort = wikiDocument.getSort();
+        String parentWikiCategoryId = new String();
+        if(wikiCategory != null){
+            parentWikiCategoryId = wikiCategory.getId();
+        }
+        wikiCategoryService.updateSortAfterDelete(repositoryId, parentWikiCategoryId, sort);
+        documentDao.deleteDocument(id);
     }
 
     @Override

@@ -64,6 +64,14 @@ public class DocumentController {
         return Result.ok();
     }
 
+    @RequestMapping(path="/deleteDocumentAndSort",method = RequestMethod.POST)
+    @ApiMethod(name = "deleteDocument",desc = "通过id删除文档")
+    @ApiParam(name = "wikiDocument",desc = "wikiDocument",required = true)
+    public Result<Void> deleteDocumentAndSort(@RequestBody @Valid @NotNull WikiDocument wikiDocument){
+        documentService.deleteDocumentAndSort(wikiDocument);
+        return Result.ok();
+    }
+
 
     @RequestMapping(path="/findDocument",method = RequestMethod.POST)
     @ApiMethod(name = "findDocument",desc = "通过id查询文档")

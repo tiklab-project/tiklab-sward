@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -58,6 +59,24 @@ public class WikiCategoryController {
         wikiCategoryService.deleteCategory(id);
 
         return Result.ok();
+    }
+
+    @RequestMapping(path="/deleteCategoryAndSort",method = RequestMethod.POST)
+    @ApiMethod(name = "deleteCategoryAndSort",desc = "删除目录")
+    @ApiParam(name = "wikiCategory",desc = "wikiCategory",required = true)
+    public Result<Void> deleteCategory(@RequestBody @Valid @NotNull WikiCategory wikiCategory){
+        wikiCategoryService.deleteCategoryAndSort(wikiCategory);
+
+        return Result.ok();
+    }
+
+    @RequestMapping(path="/findCategoryChildren",method = RequestMethod.POST)
+    @ApiMethod(name = "findCategoryChildren",desc = "删除目录")
+    @ApiParam(name = "parentWikiCategoryId",desc = "parentWikiCategoryId",required = true)
+    public HashMap<String, List<String>> findCategoryChildren(@NotNull String parentWikiCategoryId){
+        HashMap<String, List<String>> categoryChildren = wikiCategoryService.findCategoryChildren(parentWikiCategoryId);
+
+        return categoryChildren;
     }
 
     @RequestMapping(path="/findCategory",method = RequestMethod.POST)
