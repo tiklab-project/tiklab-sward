@@ -38,7 +38,7 @@ public class RepositoryCategroySortInit implements ApplicationRunner {
     }
 
     public void initWorkTypeEpicForProject(){
-        List<WikiRepository> repositoryList = wikiRepositoryService.findRepositoryList("2023-10-27");
+        List<WikiRepository> repositoryList = wikiRepositoryService.findRepositoryList("2023-11-10");
         for (WikiRepository wikiRepository : repositoryList) {
             String id = wikiRepository.getId();
             WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
