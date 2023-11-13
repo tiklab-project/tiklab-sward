@@ -14,9 +14,11 @@ import io.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * RepositoryDao
@@ -79,8 +81,12 @@ public class WikiRepositoryDao {
 
         return jpaTemplate.findList(WikiRepositoryEntity.class,idList);
     }
-
-    public List<WikiRepositoryEntity> findRepositoryList(WikiRepositoryQuery wikiRepositoryQuery) {
+    public List<WikiRepositoryEntity> findRepositoryList(String time) {
+        String sql = "SELECT * from kanass_repository WHERE create_time < '" + time +"'";
+        List<WikiRepositoryEntity> wikiRepositoryEntityList = jpaTemplate.getJdbcTemplate().query(sql, new BeanPropertyRowMapper<>(WikiRepositoryEntity.class));
+        return wikiRepositoryEntityList;
+    }
+    public List<WikiRepositoryEntity> findRepositoryListByUser(WikiRepositoryQuery wikiRepositoryQuery) {
         QueryBuilders queryBuilders = QueryBuilders.createQuery(WikiRepositoryEntity.class, "rs");
         OrQueryCondition orQueryBuildCondition = OrQueryBuilders.instance()
                 .eq("limits","0")

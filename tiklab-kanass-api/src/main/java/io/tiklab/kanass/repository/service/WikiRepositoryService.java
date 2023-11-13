@@ -57,13 +57,13 @@ public interface WikiRepositoryService {
     */
     @FindAll
     List<WikiRepository> findAllRepository();
-
+    List<WikiRepository> findRepositoryList(String time);
     /**
     * 查询列表
     * @param wikiRepositoryQuery
     * @return
     */
-    List<WikiRepository> findRepositoryList(WikiRepositoryQuery wikiRepositoryQuery);
+    List<WikiRepository> findRepositoryListByUser(WikiRepositoryQuery wikiRepositoryQuery);
 
     /**
     * 按分页查询

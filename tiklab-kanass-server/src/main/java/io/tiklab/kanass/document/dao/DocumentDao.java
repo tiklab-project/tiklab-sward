@@ -115,9 +115,9 @@ public class DocumentDao{
                 .eq("dimension", documentQuery.getDimension())
                 .in("dimension", documentQuery.getDimensions())
                 .orders(documentQuery.getOrderParams());
-//        if(documentQuery.getParentWikiCategoryIsNull() != null && documentQuery.getParentWikiCategoryIsNull() == true){
-//            queryBuilders.isNull("categoryId");
-//        }
+        if(documentQuery.getParentWikiCategoryIsNull() != null && documentQuery.getParentWikiCategoryIsNull() == true){
+            queryBuilders.isNull("categoryId");
+        }
         QueryCondition queryCondition = queryBuilders.get();
         return jpaTemplate.findList(queryCondition, WikiDocumentEntity.class);
     }

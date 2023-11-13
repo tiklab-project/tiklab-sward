@@ -78,11 +78,11 @@ public class WikiRepositoryController {
         return Result.ok(wikiRepositoryList);
     }
 
-    @RequestMapping(path = "/findRepositoryList",method = RequestMethod.POST)
-    @ApiMethod(name = "findRepositoryList",desc = "findRepositoryList")
+    @RequestMapping(path = "/findRepositoryListByUser",method = RequestMethod.POST)
+    @ApiMethod(name = "findRepositoryListByUser",desc = "findRepositoryList")
     @ApiParam(name = "repositoryQuery",desc = "repositoryQuery",required = true)
-    public Result<List<WikiRepository>> findRepositoryList(@RequestBody @Valid @NotNull WikiRepositoryQuery wikiRepositoryQuery){
-        List<WikiRepository> wikiRepositoryList = wikiRepositoryService.findRepositoryList(wikiRepositoryQuery);
+    public Result<List<WikiRepository>> findRepositoryListByUser(@RequestBody @Valid @NotNull WikiRepositoryQuery wikiRepositoryQuery){
+        List<WikiRepository> wikiRepositoryList = wikiRepositoryService.findRepositoryListByUser(wikiRepositoryQuery);
 
         return Result.ok(wikiRepositoryList);
     }

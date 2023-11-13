@@ -288,7 +288,18 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     }
 
     @Override
-    public List<WikiRepository> findRepositoryList(WikiRepositoryQuery wikiRepositoryQuery) {
+    public List<WikiRepository> findRepositoryList(String time) {
+        List<WikiRepositoryEntity> wikiRepositoryEntityList =  wikiRepositoryDao.findRepositoryList(time);
+
+        List<WikiRepository> wikiRepositoryList =  BeanMapper.mapList(wikiRepositoryEntityList, WikiRepository.class);
+
+        joinTemplate.joinQuery(wikiRepositoryList);
+        return wikiRepositoryList;
+    }
+
+
+    @Override
+    public List<WikiRepository> findRepositoryListByUser(WikiRepositoryQuery wikiRepositoryQuery) {
 
         String userId = LoginContext.getLoginId();
         DmUserQuery dmUserQuery = new DmUserQuery();
@@ -298,7 +309,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         String[] arr = collect.toArray(new String[collect.size()]);
         wikiRepositoryQuery.setRepositoryIds(arr);
 
-        List<WikiRepositoryEntity> wikiRepositoryEntityList = wikiRepositoryDao.findRepositoryList(wikiRepositoryQuery);
+        List<WikiRepositoryEntity> wikiRepositoryEntityList = wikiRepositoryDao.findRepositoryListByUser(wikiRepositoryQuery);
 
         List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(wikiRepositoryEntityList, WikiRepository.class);
 
@@ -334,18 +345,20 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         List<WikiRepositoryEntity> recentRepositoryList = wikiRepositoryDao.findRecentRepositoryList(wikiRepositoryQuery);
 
         List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(recentRepositoryList, WikiRepository.class);
+        if(wikiRepositoryList.size() > 0){
+            String repositoryIds = "(" + wikiRepositoryList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
+            List<Map<String, Object>> categoryList = wikiCategoryService.findCategoryByRepositoryIds(repositoryIds);
+            List<Map<String, Object>> documentList = documentService.findDocumentByRepositoryIds(repositoryIds);
+            for (WikiRepository wikiRepository : wikiRepositoryList) {
+                String id = wikiRepository.getId();
 
-        String repositoryIds = "(" + wikiRepositoryList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
-        List<Map<String, Object>> categoryList = wikiCategoryService.findCategoryByRepositoryIds(repositoryIds);
-        List<Map<String, Object>> documentList = documentService.findDocumentByRepositoryIds(repositoryIds);
-        for (WikiRepository wikiRepository : wikiRepositoryList) {
-            String id = wikiRepository.getId();
+                List<Map<String, Object>> categorys = categoryList.stream().filter(category -> category.get("repository_id").equals(id)).collect(Collectors.toList());
+                wikiRepository.setCategoryNum(categorys.size());
 
-            List<Map<String, Object>> categorys = categoryList.stream().filter(category -> category.get("repository_id").equals(id)).collect(Collectors.toList());
-            wikiRepository.setCategoryNum(categorys.size());
+                List<Map<String, Object>> documents = documentList.stream().filter(document -> document.get("repository_id").equals(id)).collect(Collectors.toList());
+                wikiRepository.setDocumentNum(documents.size());
+            }
 
-            List<Map<String, Object>> documents = documentList.stream().filter(document -> document.get("repository_id").equals(id)).collect(Collectors.toList());
-            wikiRepository.setDocumentNum(documents.size());
         }
 
         joinTemplate.joinQuery(wikiRepositoryList);

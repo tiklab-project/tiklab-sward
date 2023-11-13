@@ -33,7 +33,7 @@ public interface DocumentService {
     * @param wikiDocument
     */
     void updateDocument(@NotNull @Valid WikiDocument wikiDocument);
-
+    void updateDocumentInit(@NotNull @Valid WikiDocument wikiDocument);
     /**
     * 删除
     * @param id

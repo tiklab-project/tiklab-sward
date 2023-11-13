@@ -161,6 +161,12 @@ public class DocumentServiceImpl implements DocumentService {
         dssClient.update(wikiDocument1);
     }
 
+    @Override
+    public void updateDocumentInit(WikiDocument wikiDocument) {
+        WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
+        documentDao.updateDocument(wikiDocumentEntity);
+    }
+
 
     @Override
     public void deleteDocument(@NotNull String id) {

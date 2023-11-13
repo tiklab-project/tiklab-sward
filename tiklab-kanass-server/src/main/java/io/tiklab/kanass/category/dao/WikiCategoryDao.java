@@ -188,7 +188,7 @@ public class WikiCategoryDao {
     public void updateSortAfterDelete(String repositoryId, String parentWikiCategoryId, Integer sort){
         String sql = "";
         // 更新库下的文档和目录
-        if(parentWikiCategoryId == null || parentWikiCategoryId.length() <= 0){
+        if(parentWikiCategoryId == null || parentWikiCategoryId.length() <= 0 || parentWikiCategoryId.equals("nullString")){
             sql = " UPDATE kanass_category SET sort = sort - 1 where repository_id = '" +repositoryId
                     + "' and parent_category_id is null and sort > '" + sort + "'";
             this.jpaTemplate.getJdbcTemplate().execute(sql);
@@ -214,6 +214,8 @@ public class WikiCategoryDao {
      */
     public void deleteCategory(String id){
         jpaTemplate.delete(WikiCategoryEntity.class,id);
+
+
     }
 
     public void deleteCategory(DeleteCondition deleteCondition){
@@ -268,9 +270,9 @@ public class WikiCategoryDao {
                 .eq("dimension", wikiCategoryQuery.getDimension())
                 .in("dimension", wikiCategoryQuery.getDimensions())
                 .orders(wikiCategoryQuery.getOrderParams());
-//        if(wikiCategoryQuery.getParentWikiCategoryIsNull() != null && wikiCategoryQuery.getParentWikiCategoryIsNull() == true){
-//            queryBuilders.isNull("parentCategoryId");
-//        }
+        if(wikiCategoryQuery.getParentWikiCategoryIsNull() != null && wikiCategoryQuery.getParentWikiCategoryIsNull() == true){
+            queryBuilders.isNull("parentCategoryId");
+        }
 
         QueryCondition queryCondition = queryBuilders.get();
         return jpaTemplate.findList(queryCondition, WikiCategoryEntity.class);

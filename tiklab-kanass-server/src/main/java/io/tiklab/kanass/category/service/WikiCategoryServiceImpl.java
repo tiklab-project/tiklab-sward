@@ -119,7 +119,15 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         return categoryId;
     }
 
-
+    /**
+     * 洗数据
+     * @param wikiCategory
+     */
+    @Override
+    public void updateCategoryInit(@NotNull @Valid WikiCategory wikiCategory){
+        WikiCategoryEntity wikiCategoryEntity = BeanMapper.map(wikiCategory, WikiCategoryEntity.class);
+        wikiCategoryDao.updateCategory(wikiCategoryEntity);
+    }
 
     @Override
     public void updateCategory(@NotNull @Valid WikiCategory wikiCategory) {
@@ -137,8 +145,6 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
             wikiCategoryDao.updateCategory(wikiCategoryEntity);
         }
         // 更新排序
-
-
         String id = wikiCategory.getId();
 
         WikiCategory wikiCategory1 = findCategory(id);
@@ -406,7 +412,8 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         DocumentQuery documentQuery = new DocumentQuery();
         // 查找某个目录下的子级查找的时候，要带上要查找第一级的目录
         if(parentWikiCategory != null && wikiCategoryList.size() > 0){
-            List<String> wikiCategoryIdList = wikiCategoryList.stream().map(item -> item.getId() ).collect(Collectors.toList());
+            List<String> wikiCategoryIdList = wikiCategoryList.stream().map(item -> item.getId() ).
+                    collect(Collectors.toList());
             wikiCategoryIdList.add(wikiCategoryQuery.getParentWikiCategory());
             String[] wikiCategoryIds = new String[wikiCategoryIdList.size()];
             wikiCategoryIds = wikiCategoryIdList.toArray(wikiCategoryIds);
