@@ -122,6 +122,14 @@ public class WikiCategoryController {
         return Result.ok(categoryListTree);
     }
 
+    @RequestMapping(path = "/findCategoryListTreeById",method = RequestMethod.POST)
+    @ApiMethod(name = "findCategoryListTreeById",desc = "条件查询目录树")
+    @ApiParam(name = "category",desc = "category",required = true)
+    public Result<List<Object>> findCategoryListTreeById(@NotNull String id, String treePath){
+        List categoryListTree = wikiCategoryService.findCategoryListTreeById(id, treePath);
+        return Result.ok(categoryListTree);
+    }
+
     @RequestMapping(path = "/findCategoryPage",method = RequestMethod.POST)
     @ApiMethod(name = "findCategoryPage",desc = "条件分页查询目录")
     @ApiParam(name = "categoryQuery",desc = "categoryQuery",required = true)

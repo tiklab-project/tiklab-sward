@@ -18,7 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public class RepositoryCategroySortInit implements ApplicationRunner {
+@Component
+public class RepositoryCategroyTreePathInit implements ApplicationRunner {
 
     @Autowired
     WikiRepositoryService wikiRepositoryService;
@@ -29,16 +30,15 @@ public class RepositoryCategroySortInit implements ApplicationRunner {
     @Autowired
     DocumentService wikiDocumentService;
 
-    private static Logger logger = LoggerFactory.getLogger(RepositoryCategroySortInit.class);
+    private static Logger logger = LoggerFactory.getLogger(RepositoryCategroyTreePathInit.class);
     @Override
     @Transactional
     public void run(ApplicationArguments args) {
-        System.out.println("");
-//        initWorkTypeEpicForProject();
+        initTreePath();
     }
 
-    public void initWorkTypeEpicForProject(){
-        List<WikiRepository> repositoryList = wikiRepositoryService.findRepositoryList("2023-11-10");
+    public void initTreePath(){
+        List<WikiRepository> repositoryList = wikiRepositoryService.findAllRepository();
         for (WikiRepository wikiRepository : repositoryList) {
             String id = wikiRepository.getId();
             WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
@@ -50,11 +50,11 @@ public class RepositoryCategroySortInit implements ApplicationRunner {
             documentQuery.setRepositoryId(id);
             documentQuery.setParentWikiCategoryIsNull(true);
             List<WikiDocument> documentList = wikiDocumentService.findDocumentList(documentQuery);
-            updateSort(categoryList, documentList, 1);
+            updateTreePath(categoryList, documentList, null);
         }
     }
 
-    public void updateSort(List<WikiCategory> categoryList, List<WikiDocument> documentList, Integer dimension){
+    public void updateTreePath(List<WikiCategory> categoryList, List<WikiDocument> documentList, String treePath){
         if(categoryList.size() == 0 && documentList.size() == 0){
             return;
         }
@@ -62,10 +62,8 @@ public class RepositoryCategroySortInit implements ApplicationRunner {
         if(categoryList.size() > 0){
             for (WikiCategory wikiCategory : categoryList) {
                 String id = wikiCategory.getId();
-                wikiCategory.setSort(size);
-                wikiCategory.setDimension(dimension);
+                wikiCategory.setTreePath(treePath);
                 wikiCategoryService.updateCategoryInit(wikiCategory);
-                ++size;
 
                 WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
                 wikiCategoryQuery.setParentWikiCategory(id);
@@ -74,13 +72,20 @@ public class RepositoryCategroySortInit implements ApplicationRunner {
                 DocumentQuery documentQuery = new DocumentQuery();
                 documentQuery.setCategoryId(id);
                 List<WikiDocument> documentList1 = wikiDocumentService.findDocumentList(documentQuery);
-                updateSort(categoryList1, documentList1, dimension+1);
+
+                String path = new String();
+                if(treePath != null){
+                    path = treePath + id + ";";
+                }else {
+                    path = id + ";";
+                }
+
+                updateTreePath(categoryList1, documentList1, path);
             }
         }
         if(documentList.size() >0){
             for (WikiDocument wikiDocument : documentList) {
-                wikiDocument.setSort(size);
-                wikiDocument.setDimension(dimension);
+                wikiDocument.setTreePath(treePath);
                 wikiDocumentService.updateDocumentInit(wikiDocument);
                 ++size;
             }

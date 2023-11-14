@@ -34,19 +34,23 @@ public class WikiDocument extends BaseModel{
     @ApiProperty(name="id",desc="id")
     @DocumentField
     @DocumentId
-    private java.lang.String id;
+    private String id;
 
    // @NotNull
     @ApiProperty(name="name",desc="name",required = true)
     @DocumentField(queryField = true)
-    private java.lang.String name;
+    private String name;
 
     @ApiProperty(name="typeId",desc="typeId",required = true)
-    private java.lang.String typeId;
+    private String typeId;
+
+    @ApiProperty(name ="treePath",desc = "路径")
+    private String treePath;
 
     @ApiProperty(name="updateTime",desc="updateTime",required = true)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp updateTime;
+
 
 
     @ApiProperty(name="master",desc="负责人",eg="@selectOne")
@@ -252,5 +256,13 @@ public class WikiDocument extends BaseModel{
 
     public void setDimension(Integer dimension) {
         this.dimension = dimension;
+    }
+
+    public String getTreePath() {
+        return treePath;
+    }
+
+    public void setTreePath(String treePath) {
+        this.treePath = treePath;
     }
 }

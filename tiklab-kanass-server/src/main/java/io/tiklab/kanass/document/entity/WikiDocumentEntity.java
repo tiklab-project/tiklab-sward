@@ -40,6 +40,10 @@ public class WikiDocumentEntity implements Serializable {
 
     @Column(name = "detail_text")
     private String detailText;
+
+    @Column(name = "tree_path")
+    private String treePath;
+
     @Column(name = "update_time")
     private Timestamp updateTime;
 
@@ -146,6 +150,14 @@ public class WikiDocumentEntity implements Serializable {
 
     public void setDimension(Integer dimension) {
         this.dimension = dimension;
+    }
+
+    public String getTreePath() {
+        return treePath;
+    }
+
+    public void setTreePath(String treePath) {
+        this.treePath = treePath;
     }
 }
 

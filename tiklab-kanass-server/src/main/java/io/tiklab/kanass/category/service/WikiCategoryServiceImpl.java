@@ -435,6 +435,40 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         return  objects;
     }
 
+
+    /**
+     * 点击文档或者目录从概况页跳转获取当前文档的上级树
+     * @return
+     */
+    @Override
+    public List<Object> findCategoryListTreeById(String id, String treePath){
+        List<Object> objects = new ArrayList<>();
+        if(treePath == null){
+            return objects;
+        }else {
+            treePath = treePath + id + ";";
+            String[] categoryIds = treePath.split(";");
+            List<String> categoryIdList = Arrays.asList(categoryIds);
+
+            // 获取第二级极以下目录
+            WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
+            wikiCategoryQuery.setParentWikiCategorys(categoryIds);
+            List<WikiCategory> categoryList = findCategoryList(wikiCategoryQuery);
+
+            // 获取第一级的目录
+            String firstIds = categoryIdList.get(0);
+            WikiCategory category = findCategory(firstIds);
+            categoryList.add(category);
+
+            DocumentQuery documentQuery = new DocumentQuery();
+            documentQuery.setCategoryIds(categoryIds);
+            List<WikiDocument> documentList = documentService.findDocumentList(documentQuery);
+
+            // 拼接数组
+            objects = setTreeBySort(categoryList, documentList, null);
+        }
+        return objects;
+    }
     public ArrayList<Object> setTreeBySort(List<WikiCategory> wikiCategoryList, List<WikiDocument> wikiDocumentList, String parentWikiCategory){
         // 按照排序组装树
         ArrayList<Object> objects = new ArrayList<>();

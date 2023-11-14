@@ -42,6 +42,9 @@ public class WikiCategoryEntity implements Serializable {
 
     @Column(name = "dimension")
     private Integer dimension;
+
+    @Column(name = "tree_path")
+    private String treePath;
     public String getId() {
         return id;
     }
@@ -104,5 +107,13 @@ public class WikiCategoryEntity implements Serializable {
 
     public void setDimension(Integer dimension) {
         this.dimension = dimension;
+    }
+
+    public String getTreePath() {
+        return treePath;
+    }
+
+    public void setTreePath(String treePath) {
+        this.treePath = treePath;
     }
 }

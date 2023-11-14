@@ -100,6 +100,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public String createDocument(@NotNull @Valid WikiDocument wikiDocument) {
+        // 设置顺序
         String categoryId = wikiDocument.getWikiCategory().getId();
         String repositoryId = wikiDocument.getWikiRepository().getId();
         Integer brotherNum = documentDao.getBrotherNum(repositoryId, categoryId);
@@ -107,8 +108,9 @@ public class DocumentServiceImpl implements DocumentService {
 
         WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
         String documentId = documentDao.createDocument(wikiDocumentEntity);
-
         WikiDocument wikiDocument1 = findDocumentById(documentId);
+
+
         Map<String, String> content = new HashMap<>();
         content.put("documentId", wikiDocument1.getId());
         content.put("documentName", wikiDocument1.getName());

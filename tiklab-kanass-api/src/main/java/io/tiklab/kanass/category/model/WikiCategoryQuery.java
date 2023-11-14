@@ -11,6 +11,7 @@ import java.util.List;
 
 @ApiModel
 public class WikiCategoryQuery extends BaseModel {
+
         @ApiProperty(name ="repositoryId",desc = "空间id")
         private String repositoryId;
 
@@ -27,6 +28,9 @@ public class WikiCategoryQuery extends BaseModel {
 
         @ApiProperty(name ="parentWikiCategoryIsNull",desc = "是否为空")
         private Boolean parentWikiCategoryIsNull;
+
+        @ApiProperty(name ="treePath",desc = "路径")
+        private String treePath;
 
         @ApiProperty(name ="orderParams",desc = "排序参数")
         private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
@@ -98,5 +102,13 @@ public class WikiCategoryQuery extends BaseModel {
 
     public void setParentWikiCategorys(String[] parentWikiCategorys) {
         this.parentWikiCategorys = parentWikiCategorys;
+    }
+
+    public String getTreePath() {
+        return treePath;
+    }
+
+    public void setTreePath(String treePath) {
+        this.treePath = treePath;
     }
 }

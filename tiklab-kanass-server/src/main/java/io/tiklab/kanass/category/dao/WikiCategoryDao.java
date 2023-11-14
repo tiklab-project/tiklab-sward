@@ -14,10 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * CategoryDao
@@ -273,10 +271,12 @@ public class WikiCategoryDao {
         if(wikiCategoryQuery.getParentWikiCategoryIsNull() != null && wikiCategoryQuery.getParentWikiCategoryIsNull() == true){
             queryBuilders.isNull("parentCategoryId");
         }
-
         QueryCondition queryCondition = queryBuilders.get();
         return jpaTemplate.findList(queryCondition, WikiCategoryEntity.class);
     }
+
+
+
 
     public List<Map<String, Object>> findCategoryChidrenList(String wikiCategoryIds) {
         String sql = "SELECT id, parent_category_id from kanass_category WHERE parent_category_id in " + wikiCategoryIds;

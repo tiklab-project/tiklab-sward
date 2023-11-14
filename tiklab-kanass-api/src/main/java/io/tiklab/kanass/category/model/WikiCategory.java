@@ -29,6 +29,9 @@ public class WikiCategory extends BaseModel{
     @ApiProperty(name="oldSort",desc="更新之前的位置")
     private Integer oldSort;
 
+    @ApiProperty(name ="treePath",desc = "路径")
+    private String treePath;
+
     @ApiProperty(name="id",desc="id")
     private java.lang.String id;
 
@@ -197,5 +200,13 @@ public class WikiCategory extends BaseModel{
 
     public void setOldDimension(Integer oldDimension) {
         this.oldDimension = oldDimension;
+    }
+
+    public String getTreePath() {
+        return treePath;
+    }
+
+    public void setTreePath(String treePath) {
+        this.treePath = treePath;
     }
 }

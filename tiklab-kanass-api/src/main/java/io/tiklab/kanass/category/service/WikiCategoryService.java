@@ -89,5 +89,8 @@ public interface WikiCategoryService {
      * @param wikiCategoryQuery
      * @return
      */
-    List findCategoryListTree(WikiCategoryQuery wikiCategoryQuery);
+    List<Object> findCategoryListTree(WikiCategoryQuery wikiCategoryQuery);
+
+    List<Object> findCategoryListTreeById(String id, String treePath);
+
 }
