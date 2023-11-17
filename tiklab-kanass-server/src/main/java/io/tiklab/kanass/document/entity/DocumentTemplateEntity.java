@@ -26,6 +26,9 @@ public class DocumentTemplateEntity implements Serializable {
     @Column(name = "details",length = 32)
     private String details;
 
+    @Column(name = "icon_url",length = 32,notNull = true)
+    private String iconUrl;
+
     public String getId() {
         return id;
     }
@@ -56,5 +59,13 @@ public class DocumentTemplateEntity implements Serializable {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 }
