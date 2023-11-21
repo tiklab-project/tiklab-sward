@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * RepositoryDao
@@ -56,6 +57,127 @@ public class WikiRepositoryDao {
         jpaTemplate.delete(WikiRepositoryEntity.class,id);
     }
 
+    public void deleteRepositoryAndRelation(String repositoryId){
+        // 关注的知识库
+        String sql = "DELETE FROM kanass_repository_focus where repository_id = '" + repositoryId + "'";
+        Integer update =  jpaTemplate.getJdbcTemplate().update(sql);
+        if(update >= 0){
+            logger.info("删除被关注的知识库成功");
+        }else {
+            logger.info("删除被关注的知识库是吧");
+        }
+        // 删除最近查看的知识库的文档，目录，知识库
+        sql = "DELETE FROM kanass_document_recent where repository_id = '" + repositoryId + "'";
+        update = jpaTemplate.getJdbcTemplate().update(sql);
+        if(update >= 0){
+            logger.info("删除最近查看的知识库成功");
+        }else {
+            logger.info("删除最近查看的知识库失败");
+        }
+        deleteDocument(repositoryId);
+        deleteCategory(repositoryId);
+    }
+
+    public void deleteDocument(String repositoryId){
+        String sql = "SELECT id FROM kanass_document where repository_id = '" + repositoryId + "'";
+        List<String> documentIdList = jpaTemplate.getJdbcTemplate().queryForList(sql, String.class);
+
+        if(documentIdList.size() > 0){
+            String documentIds = documentIdList.stream().map(id -> "'" + id + "'").collect(Collectors.joining(", "));
+            // 删除文档附件
+            sql = "DELETE FROM kanass_document_attach where document_id in (" + documentIds + ")";
+            int update = jpaTemplate.getJdbcTemplate().update(sql);
+            if(update >= 0){
+                logger.info("删除文档关联的附件成功");
+            }else {
+                logger.info("删除文档关联的附件失败");
+            }
+
+            // 删除评论
+            sql = "DELETE FROM kanass_comment where document_id in (" + documentIds + ")";
+            update = jpaTemplate.getJdbcTemplate().update(sql);
+            if(update >= 0){
+                logger.info("删除文档评论成功");
+            }else {
+                logger.info("删除文档评论失败");
+            }
+
+            // 删除文档点赞
+            sql = "DELETE FROM kanass_like where to_whom_id in (" + documentIds + ")";
+            update = jpaTemplate.getJdbcTemplate().update(sql);
+            if(update >= 0){
+                logger.info("删除事项的点赞成功");
+            }else {
+                logger.info("删除事项的点赞失败");
+            }
+
+            // 删除分享的文档数据
+            sql = "SELECT share_id FROM kanass_share_relation where document_id in (" + documentIds + ")";
+            List<String> shareIdList = jpaTemplate.getJdbcTemplate().queryForList(sql, String.class);
+            String shareIds = shareIdList.stream().map(id -> "'" + id + "'").collect(Collectors.joining(", "));
+            if(shareIdList.size() > 0){
+                sql = "DELETE FROM kanass_share where id in (" + shareIds + ")";
+                update = jpaTemplate.getJdbcTemplate().update(sql);
+
+                sql = "DELETE FROM kanass_share_relation where document_id in (" + documentIds + ")";
+                update = jpaTemplate.getJdbcTemplate().update(sql);
+                if(update >= 0){
+                    logger.info("删除文档分享数据成功");
+                }else {
+                    logger.info("删除文档分享数据失败");
+                }
+            }
+
+
+            // 删除文档
+            sql = "DELETE FROM kanass_document where repository_id  = '" + repositoryId + "'";
+            update = jpaTemplate.getJdbcTemplate().update(sql);
+            if(update >= 0){
+                logger.info("删除文档成功");
+            }else {
+                logger.info("删除文档失败");
+            }
+
+        }else {
+            return;
+        }
+    }
+
+    public void deleteCategory(String repositoryId){
+        String sql = "SELECT id FROM kanass_category where repository_id = '" + repositoryId + "'";
+        List<String> categoryIdList = jpaTemplate.getJdbcTemplate().queryForList(sql, String.class);
+
+        if(categoryIdList.size() > 0){
+            String categoryIds = categoryIdList.stream().map(id -> "'" + id + "'").collect(Collectors.joining(", "));
+
+
+            // 删除分享的文档数据
+            sql = "SELECT share_id FROM kanass_share_relation where category_id in (" + categoryIds + ")";
+            List<String> shareIdList = jpaTemplate.getJdbcTemplate().queryForList(sql, String.class);
+            String shareIds = shareIdList.stream().map(id -> "'" + id + "'").collect(Collectors.joining(", "));
+
+            sql = "DELETE FROM kanass_share where id in (" + shareIds + ")";
+            int update = jpaTemplate.getJdbcTemplate().update(sql);
+
+            sql = "DELETE FROM kanass_share_relation where category_id in (" + categoryIds + ")";
+            update = jpaTemplate.getJdbcTemplate().update(sql);
+            if(update >= 0){
+                logger.info("删除目录分享数据成功");
+            }else {
+                logger.info("删除目录分享数据失败");
+            }
+
+            sql = "DELETE FROM kanass_category where repository_id  = '" + repositoryId + "'";
+            update = jpaTemplate.getJdbcTemplate().update(sql);
+            if(update >= 0){
+                logger.info("删除目录成功");
+            }else {
+                logger.info("删除目录失败");
+            }
+        }else {
+            return;
+        }
+    }
     public void deleteRepository(DeleteCondition deleteCondition){
         jpaTemplate.delete(deleteCondition);
     }

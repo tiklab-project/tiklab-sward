@@ -218,26 +218,12 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
     @Override
     public void deleteRepository(@NotNull String id) {
-        //删除相关联的目录和内容
-//        DeleteCondition deleteCondition = DeleteBuilders.createDelete(DocumentEntity.class)
-//                .eq("repositoryId", id)
-//                .get();
-        documentService.deleteDocument(id);
-        DocumentRecentQuery documentRecentQuery = new DocumentRecentQuery();
-        documentRecentQuery.setModelId(id);
-        documentRecentQuery.setModel("kanass");
-
-        List<DocumentRecent> documentRecentList = documentRecentService.findDocumentRecentList(documentRecentQuery);
-            if(documentRecentList.size() >0){
-            String id1 = documentRecentList.get(0).getId();
-            documentRecentService.deleteDocumentRecent(id1);
-        }
-
-//        deleteCondition = DeleteBuilders.createDelete(CategoryEntity.class)
-//                .eq("repositoryId", id)
-//                .get();
-        wikiCategoryService.deleteCategory(id);
-
+        wikiRepositoryDao.deleteRepositoryAndRelation(id);
+        // 项目成员
+        dmUserService.deleteDmUserByDomainId(id);
+        // 项目角色、权限
+        dmRoleService.deleteDmRoleByDomainId(id);
+        // 删除知识库
         wikiRepositoryDao.deleteRepository(id);
     }
 
