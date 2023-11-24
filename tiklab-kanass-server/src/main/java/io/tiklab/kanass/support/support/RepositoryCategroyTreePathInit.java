@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Component
+
 public class RepositoryCategroyTreePathInit implements ApplicationRunner {
 
     @Autowired
