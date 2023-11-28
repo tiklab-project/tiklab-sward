@@ -11,47 +11,50 @@ import java.util.List;
 
 @ApiModel
 public class WikiRepositoryQuery extends BaseModel {
-        @ApiProperty(name ="orderParams",desc = "排序参数")
-        private List<Order> orderParams = OrderBuilders.instance().desc("createTime").get();
+    @ApiProperty(name ="orderParams",desc = "排序参数")
+    private List<Order> orderParams = OrderBuilders.instance().desc("createTime").get();
 
-        @ApiProperty(name ="repositoryIds",desc = "文档id")
-        private String[] repositoryIds;
+    @ApiProperty(name ="repositoryIds",desc = "知识库ids")
+    private String[] repositoryIds;
 
-        @ApiProperty(name="masterId",desc="masterId")
-        private String masterId;
+    @ApiProperty(name ="repositoryId",desc = "知识库id")
+    private String repositoryId;
 
-        @ApiProperty(name="limits",desc="limits")
-        private String limits;
+    @ApiProperty(name="masterId",desc="masterId")
+    private String masterId;
 
-        @ApiProperty(name ="pageParam",desc = "分页参数")
-        private Page pageParam = new Page();
+    @ApiProperty(name="limits",desc="limits")
+    private String limits;
 
-        @ApiProperty(name ="name",desc = "名字，模糊匹配")
-        private String name;
+    @ApiProperty(name ="pageParam",desc = "分页参数")
+    private Page pageParam = new Page();
 
-        public List<Order> getOrderParams() {
-            return orderParams;
-        }
+    @ApiProperty(name ="name",desc = "名字，模糊匹配")
+    private String name;
 
-        public void setOrderParams(List<Order> orderParams) {
-            this.orderParams = orderParams;
-        }
+    public List<Order> getOrderParams() {
+        return orderParams;
+    }
 
-        public Page getPageParam() {
-            return pageParam;
-        }
+    public void setOrderParams(List<Order> orderParams) {
+        this.orderParams = orderParams;
+    }
 
-        public void setPageParam(Page pageParam) {
-            this.pageParam = pageParam;
-        }
+    public Page getPageParam() {
+        return pageParam;
+    }
 
-        public String getName() {
-            return name;
-        }
+    public void setPageParam(Page pageParam) {
+        this.pageParam = pageParam;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String[] getRepositoryIds() {
         return repositoryIds;
@@ -75,5 +78,13 @@ public class WikiRepositoryQuery extends BaseModel {
 
     public void setMasterId(String masterId) {
         this.masterId = masterId;
+    }
+
+    public String getRepositoryId() {
+        return repositoryId;
+    }
+
+    public void setRepositoryId(String repositoryId) {
+        this.repositoryId = repositoryId;
     }
 }

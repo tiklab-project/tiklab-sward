@@ -1,6 +1,6 @@
 package io.tiklab.kanass.document.dao;
 
-import io.tiklab.kanass.document.entity.DocumentRecentEntity;
+import io.tiklab.kanass.support.entity.RecentEntity;
 import io.tiklab.kanass.document.entity.WikiDocumentEntity;
 import io.tiklab.kanass.document.model.DocumentQuery;
 import io.tiklab.core.page.Pagination;
@@ -8,8 +8,7 @@ import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
 import io.tiklab.dal.jpa.criterial.condition.QueryCondition;
 import io.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import io.tiklab.dal.jpa.JpaTemplate;
-import io.tiklab.kanass.document.model.DocumentRecentQuery;
-import io.tiklab.kanass.document.model.WikiDocument;
+import io.tiklab.kanass.support.model.RecentQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,14 +173,14 @@ public class DocumentDao{
         return wikiDocumentEntityList;
     }
 
-    public List<WikiDocumentEntity> findRecentDocumentList(DocumentRecentQuery documentRecentQuery) {
+    public List<WikiDocumentEntity> findRecentDocumentList(RecentQuery recentQuery) {
         QueryCondition queryCondition = QueryBuilders.createQuery(WikiDocumentEntity.class,"wd")
-                .leftJoin(DocumentRecentEntity.class, "dr","dr.modelId=wd.id")
-                .eq("dr.modelId", documentRecentQuery.getModelId())
-                .eq("dr.masterId", documentRecentQuery.getMasterId())
-                .eq("dr.repositoryId", documentRecentQuery.getRepositoryId())
-                .eq("dr.model", documentRecentQuery.getModel())
-                .orders(documentRecentQuery.getOrderParams())
+                .leftJoin(RecentEntity.class, "dr","dr.modelId=wd.id")
+                .eq("dr.modelId", recentQuery.getModelId())
+                .eq("dr.masterId", recentQuery.getMasterId())
+                .eq("dr.repositoryId", recentQuery.getRepositoryId())
+                .eq("dr.model", recentQuery.getModel())
+                .orders(recentQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, WikiDocumentEntity.class);
     }

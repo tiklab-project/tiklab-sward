@@ -1,6 +1,5 @@
-package io.tiklab.kanass.document.model;
+package io.tiklab.kanass.support.model;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
 import io.tiklab.beans.annotation.Mapper;
@@ -19,7 +18,7 @@ import java.sql.Timestamp;
 @ApiModel
 @Join
 @Mapper
-public class DocumentRecent extends BaseModel {
+public class Recent extends BaseModel {
 
     @ApiProperty(name="id",desc="id",required = true)
     private java.lang.String id;

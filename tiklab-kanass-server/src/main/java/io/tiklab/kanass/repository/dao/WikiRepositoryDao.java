@@ -1,6 +1,6 @@
 package io.tiklab.kanass.repository.dao;
 
-import io.tiklab.kanass.document.entity.DocumentRecentEntity;
+import io.tiklab.kanass.support.entity.RecentEntity;
 import io.tiklab.kanass.repository.entity.WikiRepositoryEntity;
 import io.tiklab.kanass.repository.entity.WikiRepositoryFocusEntity;
 import io.tiklab.kanass.repository.model.WikiRepositoryQuery;
@@ -18,7 +18,6 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -67,7 +66,7 @@ public class WikiRepositoryDao {
             logger.info("删除被关注的知识库是吧");
         }
         // 删除最近查看的知识库的文档，目录，知识库
-        sql = "DELETE FROM kanass_document_recent where repository_id = '" + repositoryId + "'";
+        sql = "DELETE FROM kanass_recent where repository_id = '" + repositoryId + "'";
         update = jpaTemplate.getJdbcTemplate().update(sql);
         if(update >= 0){
             logger.info("删除最近查看的知识库成功");
@@ -210,6 +209,7 @@ public class WikiRepositoryDao {
     }
     public List<WikiRepositoryEntity> findRepositoryListByUser(WikiRepositoryQuery wikiRepositoryQuery) {
         QueryBuilders queryBuilders = QueryBuilders.createQuery(WikiRepositoryEntity.class, "rs");
+        // 查找是公共知识库或者当前用户有权限的知识库
         OrQueryCondition orQueryBuildCondition = OrQueryBuilders.instance()
                 .eq("limits","0")
                 .in("id", wikiRepositoryQuery.getRepositoryIds())
@@ -239,7 +239,7 @@ public class WikiRepositoryDao {
 
     public List<WikiRepositoryEntity> findRecentRepositoryList(WikiRepositoryQuery wikiRepositoryQuery) {
         QueryCondition queryCondition = QueryBuilders.createQuery(WikiRepositoryEntity.class, "re")
-                .leftJoin(DocumentRecentEntity.class,"dr","dr.modelId=re.id")
+                .leftJoin(RecentEntity.class,"dr","dr.modelId=re.id")
                 .eq("dr.masterId", wikiRepositoryQuery.getMasterId())
                 .eq("dr.model","repository")
                 .like("re.name", wikiRepositoryQuery.getName())

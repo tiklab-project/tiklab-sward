@@ -1,6 +1,6 @@
 package io.tiklab.kanass.document.service;
 
-import io.tiklab.kanass.document.model.DocumentRecentQuery;
+import io.tiklab.kanass.support.model.RecentQuery;
 import io.tiklab.kanass.document.model.WikiDocument;
 import io.tiklab.kanass.document.model.DocumentQuery;
 import io.tiklab.core.page.Pagination;
@@ -92,6 +92,6 @@ public interface DocumentService {
 
     List<WikiDocument> findDocuementByKeyWork(String keyWork);
 
-    List<WikiDocument> findRecentDocumentList(DocumentRecentQuery documentRecentQuery);
+    List<WikiDocument> findRecentDocumentList(RecentQuery recentQuery);
 
 }

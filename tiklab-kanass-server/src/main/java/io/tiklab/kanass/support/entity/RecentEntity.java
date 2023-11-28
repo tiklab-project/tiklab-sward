@@ -1,15 +1,12 @@
-package io.tiklab.kanass.document.entity;
+package io.tiklab.kanass.support.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.tiklab.dal.jpa.annotation.*;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
-@Table(name="kanass_document_recent")
-public class DocumentRecentEntity {
+@Table(name="kanass_recent")
+public class RecentEntity {
     @Id
     @GeneratorValue(length = 12)
     @Column(name = "id",length = 12,notNull = true)

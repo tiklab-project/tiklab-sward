@@ -22,8 +22,8 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * ManagerController
- * Created by Zhangzhihua on 2017/9/25.
+ * @pi.protocol: http
+ * @pi.groupName: 项目管理
  */
 @RestController
 @RequestMapping("/project")
@@ -36,6 +36,13 @@ public class TeamWireController {
     @Reference(address = "${project.address}")
     private ProjectService projectService;
 
+    /**
+     * @pi.name:创建项目
+     * @pi.path:/project/createProject
+     * @pi.methodType:post
+     * @pi.request-type:json
+     * @pi.param: model=Project
+     */
     @RequestMapping(path="/createProject",method = RequestMethod.POST)
     @ApiMethod(name = "createProject",desc = "创建项目")
     @ApiParam(name = "project",desc = "项目DTO",required = true)
@@ -47,6 +54,13 @@ public class TeamWireController {
         return Result.ok(id);
     }
 
+    /**
+     * @pi.name:创建项目
+     * @pi.path:/project/updateProject
+     * @pi.methodType:post
+     * @pi.request-type:json
+     * @pi.param: model=Project
+     */
     @RequestMapping(path="/updateProject",method = RequestMethod.POST)
     @ApiMethod(name = "updateProject",desc = "更新项目")
     @ApiParam(name = "project",desc = "项目DTO",required = true)
@@ -56,7 +70,13 @@ public class TeamWireController {
         return Result.ok();
     }
 
-
+    /**
+     * @pi.name:根据项目ID删除项目
+     * @pi.path:/project/deleteProject
+     * @pi.methodType:post
+     * @pi.request-type:formdata
+     * @pi.param: name=id;dataType=string;value=id
+     */
     @RequestMapping(path="/deleteProject",method = RequestMethod.POST)
     @ApiMethod(name = "deleteProject",desc = "根据项目ID删除项目")
     @ApiParam(name = "id",desc = "项目ID",required = true)
@@ -66,7 +86,13 @@ public class TeamWireController {
         return Result.ok();
     }
 
-
+    /**
+     * @pi.name:根据项目ID查找项目
+     * @pi.path:/project/findProject
+     * @pi.methodType:post
+     * @pi.request-type:formdata
+     * @pi.param: name=id;dataType=string;value=id
+     */
     @RequestMapping(path="/findProject",method = RequestMethod.POST)
     @ApiMethod(name = "findProject",desc = "根据项目ID查找项目")
     @ApiParam(name = "id",desc = "项目ID",required = true)
@@ -76,6 +102,12 @@ public class TeamWireController {
         return Result.ok(project);
     }
 
+    /**
+     * @pi.name:查找所有项目
+     * @pi.path:/project/findAllProject
+     * @pi.methodType:post
+     * @pi.request-type:formdata
+     */
     @RequestMapping(path="/findAllProject",method = RequestMethod.POST)
     @ApiMethod(name = "findAllProject",desc = "查找所有项目")
     public Result<List<Project>> findAllProject(){

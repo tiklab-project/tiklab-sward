@@ -76,7 +76,7 @@ public class UpdateMySqlDao {
                 }
 
 
-                if (("kanass_document_recent").equals(tableName)){
+                if (("kanass_recent").equals(tableName)){
                     exeSql(tableName,"id", 12);
                     exeSql(tableName,"model_id", 12);
                     exeSql(tableName,"master_id", 12);

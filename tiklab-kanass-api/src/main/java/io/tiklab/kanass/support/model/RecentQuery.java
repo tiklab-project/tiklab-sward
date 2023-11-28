@@ -1,4 +1,4 @@
-package io.tiklab.kanass.document.model;
+package io.tiklab.kanass.support.model;
 
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
@@ -9,7 +9,7 @@ import io.tiklab.core.page.Page;
 import java.util.List;
 
 @ApiModel
-public class DocumentRecentQuery {
+public class RecentQuery {
 
         @ApiProperty(name ="modelId",desc = "目录id")
         private String modelId;

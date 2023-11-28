@@ -14,6 +14,9 @@ import io.tiklab.core.page.Pagination;
 import io.tiklab.core.page.PaginationBuilder;
 import io.tiklab.join.JoinTemplate;
 import io.tiklab.kanass.document.dao.DocumentDao;
+import io.tiklab.kanass.support.model.Recent;
+import io.tiklab.kanass.support.model.RecentQuery;
+import io.tiklab.kanass.support.service.RecentService;
 import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.security.logging.model.Logging;
 import io.tiklab.security.logging.model.LoggingType;
@@ -56,7 +59,7 @@ public class DocumentServiceImpl implements DocumentService {
     UserService userService;
 
     @Autowired
-    DocumentRecentService documentRecentService;
+    RecentService recentService;
 
     @Autowired
     LoggingByTemplService loggingByTemplService;
@@ -175,11 +178,11 @@ public class DocumentServiceImpl implements DocumentService {
         //删除事项的关联
     //    workItemDocumentController.delete(id);
     //    WikiDocumentEntity wikiDocumentEntity = documentDao.findDocument(id);
-        DocumentRecentQuery documentRecentQuery = new DocumentRecentQuery();
-        documentRecentQuery.setModelId(id);
-        List<DocumentRecent> documentRecentList = documentRecentService.findDocumentRecentList(documentRecentQuery);
-        for (DocumentRecent documentRecent : documentRecentList) {
-            documentRecentService.deleteDocumentRecent(documentRecent.getId());
+        RecentQuery recentQuery = new RecentQuery();
+        recentQuery.setModelId(id);
+        List<Recent> recentList = recentService.findRecentList(recentQuery);
+        for (Recent recent : recentList) {
+            recentService.deleteRecent(recent.getId());
         }
 
         dssClient.delete(WikiDocument.class, id);
@@ -353,8 +356,8 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public List<WikiDocument> findRecentDocumentList(DocumentRecentQuery documentRecentQuery) {
-        List<WikiDocumentEntity> wikiDocumentEntityList = documentDao.findRecentDocumentList(documentRecentQuery);
+    public List<WikiDocument> findRecentDocumentList(RecentQuery recentQuery) {
+        List<WikiDocumentEntity> wikiDocumentEntityList = documentDao.findRecentDocumentList(recentQuery);
 
         List<WikiDocument> wikiDocumentList = BeanMapper.mapList(wikiDocumentEntityList, WikiDocument.class);
 

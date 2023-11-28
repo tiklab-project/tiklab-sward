@@ -39,8 +39,8 @@
         <tiklab-todotask.version>1.0.0</tiklab-todotask.version>
         <tiklab-security.version>1.0.0</tiklab-security.version>
 
-        <tiklab-postin.version>1.0.0</tiklab-postin.version>
-        <tiklab-teston.version>1.0.0</tiklab-teston.version>
+        <tiklab-postin.version>1.0.1-SNAPSHOT</tiklab-postin.version>
+        <tiklab-teston.version>1.0.1-SNAPSHOT</tiklab-teston.version>
 
         <itextpdf.version>5.5.5</itextpdf.version>
         <itextasian.version>5.2.0</itextasian.version>

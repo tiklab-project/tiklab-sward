@@ -1,11 +1,11 @@
 package io.tiklab.kanass.repository.service;
 
 import com.alibaba.fastjson.JSONObject;
+import io.tiklab.core.order.Order;
+import io.tiklab.core.order.OrderBuilders;
 import io.tiklab.eam.common.context.LoginContext;
 import io.tiklab.kanass.document.model.DocumentQuery;
-import io.tiklab.kanass.document.model.DocumentRecent;
-import io.tiklab.kanass.document.model.DocumentRecentQuery;
-import io.tiklab.kanass.document.service.DocumentRecentService;
+import io.tiklab.kanass.support.service.RecentService;
 import io.tiklab.beans.BeanMapper;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.core.page.PaginationBuilder;
@@ -34,6 +34,8 @@ import io.tiklab.kanass.repository.dao.WikiRepositoryDao;
 import io.tiklab.kanass.repository.entity.WikiRepositoryEntity;
 import io.tiklab.kanass.repository.model.WikiRepository;
 import io.tiklab.kanass.repository.model.WikiRepositoryQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -51,7 +53,7 @@ import java.util.stream.Collectors;
 @Service
 @Exporter
 public class WikiRepositoryServiceImpl implements WikiRepositoryService {
-
+    private static Logger logger = LoggerFactory.getLogger(WikiRepositoryServiceImpl.class);
     @Autowired
     WikiRepositoryDao wikiRepositoryDao;
 
@@ -65,7 +67,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     DocumentService documentService;
 
     @Autowired
-    DocumentRecentService documentRecentService;
+    RecentService recentService;
 
     @Autowired
     DmUserService dmUserService;
@@ -295,6 +297,9 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         String[] arr = collect.toArray(new String[collect.size()]);
         wikiRepositoryQuery.setRepositoryIds(arr);
 
+
+        // 修改排序参数
+
         List<WikiRepositoryEntity> wikiRepositoryEntityList = wikiRepositoryDao.findRepositoryListByUser(wikiRepositoryQuery);
 
         List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(wikiRepositoryEntityList, WikiRepository.class);
@@ -328,9 +333,44 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     public List<WikiRepository> findRecentRepositoryList(WikiRepositoryQuery wikiRepositoryQuery) {
         String createUserId = LoginContext.getLoginId();
         wikiRepositoryQuery.setMasterId(createUserId);
-        List<WikiRepositoryEntity> recentRepositoryList = wikiRepositoryDao.findRecentRepositoryList(wikiRepositoryQuery);
 
+        long aTime1 = System.currentTimeMillis();
+        List<WikiRepositoryEntity> recentRepositoryList = wikiRepositoryDao.findRecentRepositoryList(wikiRepositoryQuery);
         List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(recentRepositoryList, WikiRepository.class);
+        joinTemplate.joinQuery(wikiRepositoryList);
+        long bTime1 = System.currentTimeMillis();
+
+        logger.info("joinQuery cost time:{}",bTime1-aTime1);
+        String repositoryId = wikiRepositoryQuery.getRepositoryId();
+        // 如果在切换知识库的时候查找最近项目，去掉当前项目
+        if(repositoryId != null){
+
+            wikiRepositoryList = wikiRepositoryList.stream().
+                    filter(wikiRepository -> !wikiRepository.getId().equals(repositoryId)).collect(Collectors.toList());
+        }
+        List<String> wikiRepositoryIds = wikiRepositoryList.stream().map(wikiRepository -> wikiRepository.getId()).collect(Collectors.toList());
+        wikiRepositoryIds.add(repositoryId);
+        int size = recentRepositoryList.size();
+
+        // 判断查看的知识库是否小于5个
+        if(size < 5){
+            int lackSize = 5 - size;
+
+            List<Order> order = OrderBuilders.instance().desc("createTime").get();
+            wikiRepositoryQuery.setOrderParams(order);
+            List<WikiRepository> repositoryListByUser = findRepositoryListByUser(wikiRepositoryQuery);
+            long cTime1 = System.currentTimeMillis();
+            logger.info("joinQuery cost time:{}",cTime1-bTime1);
+            // 去掉与点击过的重复
+            repositoryListByUser = repositoryListByUser.stream().filter(item -> !wikiRepositoryIds.contains(item.getId())).collect(Collectors.toList());
+
+            if(repositoryListByUser.size() > lackSize){
+                List<WikiRepository> repositoryList = repositoryListByUser.subList(0, lackSize);
+                wikiRepositoryList.addAll(repositoryList);
+            }else {
+                wikiRepositoryList.addAll(repositoryListByUser);
+            }
+        }
         if(wikiRepositoryList.size() > 0){
             String repositoryIds = "(" + wikiRepositoryList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
             List<Map<String, Object>> categoryList = wikiCategoryService.findCategoryByRepositoryIds(repositoryIds);
@@ -347,7 +387,6 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
         }
 
-        joinTemplate.joinQuery(wikiRepositoryList);
 
         return wikiRepositoryList;
     }
