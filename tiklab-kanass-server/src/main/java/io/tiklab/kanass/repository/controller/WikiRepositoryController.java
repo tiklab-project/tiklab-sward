@@ -20,21 +20,31 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+
+
 /**
- * RepositoryController
+ * @pi.protocol: http
+ * @pi.groupName: 知识库控制器
  */
 @RestController
 @RequestMapping("/repository")
-@Api(name = "RepositoryController",desc = "")
+@Api(name = "WikiRepositoryController",desc = "")
 public class WikiRepositoryController {
-    //
+
     private static Logger logger = LoggerFactory.getLogger(WikiRepositoryController.class);
 
     @Autowired
     private WikiRepositoryService wikiRepositoryService;
 
+    /**
+     * @pi.name:创建知识库
+     * @pi.path:/repository/createRepository
+     * @pi.method:post
+     * @pi.request-type:json
+     * @pi.param: model=WikiRepository
+     */
     @RequestMapping(path="/createRepository",method = RequestMethod.POST)
-    @ApiMethod(name = "createRepository",desc = "createRepository")
+    @ApiMethod(name = "createRepository",desc = "创建知识库")
     @ApiParam(name = "repository",desc = "repository",required = true)
     public Result<String> createRepository(@RequestBody @NotNull @Valid WikiRepository wikiRepository){
         String id = wikiRepositoryService.createRepository(wikiRepository);
@@ -42,8 +52,15 @@ public class WikiRepositoryController {
         return Result.ok(id);
     }
 
+    /**
+     * @pi.name:更新项目
+     * @pi.path:/repository/updateRepository
+     * @pi.method:post
+     * @pi.request-type:json
+     * @pi.param: model=WikiRepository
+     */
     @RequestMapping(path="/updateRepository",method = RequestMethod.POST)
-    @ApiMethod(name = "updateRepository",desc = "updateRepository")
+    @ApiMethod(name = "updateRepository",desc = "更新知识库")
     @ApiParam(name = "repository",desc = "repository",required = true)
     public Result<Void> updateRepository(@RequestBody @NotNull @Valid WikiRepository wikiRepository){
         wikiRepositoryService.updateRepository(wikiRepository);
@@ -52,8 +69,15 @@ public class WikiRepositoryController {
         return Result.ok();
     }
 
+    /**
+     * @pi.name:删除知识库
+     * @pi.path:/repository/deleteRepository
+     * @pi.method:post
+     * @pi.request-type:formdata
+     * @pi.param: name=id;dataType=string;value=id;
+     */
     @RequestMapping(path="/deleteRepository",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteRepository",desc = "deleteRepository")
+    @ApiMethod(name = "deleteRepository",desc = "删除知识库")
     @ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteRepository(@NotNull String id){
         wikiRepositoryService.deleteRepository(id);
@@ -61,6 +85,13 @@ public class WikiRepositoryController {
         return Result.ok();
     }
 
+    /**
+     * @pi.name:根据查找知识库
+     * @pi.path:/repository/findRepository
+     * @pi.method:post
+     * @pi.request-type:formdata
+     * @pi.param: name=id;dataType=string;value=id;
+     */
     @RequestMapping(path="/findRepository",method = RequestMethod.POST)
     @ApiMethod(name = "findRepository",desc = "findRepository")
     @ApiParam(name = "id",desc = "id",required = true)
@@ -70,6 +101,27 @@ public class WikiRepositoryController {
         return Result.ok(wikiRepository);
     }
 
+    /**
+     * @pi.name:根据id查找知识库
+     * @pi.path:/repository/findList
+     * @pi.method:post
+     * @pi.request-type:json
+     * @pi.param: List<String>
+     */
+    @RequestMapping(path="/findList",method = RequestMethod.POST)
+    @ApiMethod(name = "findList",desc = "findRepository")
+    @ApiParam(name = "idList",desc = "idList",required = true)
+    public Result<WikiRepository> findRepository(@RequestBody @NotNull @Valid List<String> idList){
+        List<WikiRepository> wikiRepositoryList = wikiRepositoryService.findList(idList);
+
+        return Result.ok(wikiRepositoryList);
+    }
+
+    /**
+     * @pi.name:查找所有知识库
+     * @pi.path:/repository/findAllRepository
+     * @pi.method:post
+     */
     @RequestMapping(path="/findAllRepository",method = RequestMethod.POST)
     @ApiMethod(name = "findAllRepository",desc = "findAllRepository")
     public Result<List<WikiRepository>> findAllRepository(){
@@ -78,6 +130,13 @@ public class WikiRepositoryController {
         return Result.ok(wikiRepositoryList);
     }
 
+    /**
+     * @pi.name:根据当前用户可查看的所有知识库
+     * @pi.path:/repository/findRepositoryListByUser
+     * @pi.method:post
+     * @pi.request-type:json
+     * @pi.param: WikiRepositoryQuery
+     */
     @RequestMapping(path = "/findRepositoryListByUser",method = RequestMethod.POST)
     @ApiMethod(name = "findRepositoryListByUser",desc = "findRepositoryList")
     @ApiParam(name = "repositoryQuery",desc = "repositoryQuery",required = true)
@@ -87,6 +146,13 @@ public class WikiRepositoryController {
         return Result.ok(wikiRepositoryList);
     }
 
+    /**
+     * @pi.name:按分页查找知识库
+     * @pi.path:/repository/findRepositoryPage
+     * @pi.method:post
+     * @pi.request-type:json
+     * @pi.param: WikiRepositoryQuery
+     */
     @RequestMapping(path = "/findRepositoryPage",method = RequestMethod.POST)
     @ApiMethod(name = "findRepositoryPage",desc = "findRepositoryPage")
     @ApiParam(name = "repositoryQuery",desc = "repositoryQuery",required = true)
@@ -96,6 +162,13 @@ public class WikiRepositoryController {
         return Result.ok(pagination);
     }
 
+    /**
+     * @pi.name:按最近点击的知识库
+     * @pi.path:/repository/findRecentRepositoryList
+     * @pi.method:post
+     * @pi.request-type:json
+     * @pi.param: WikiRepositoryQuery
+     */
     @RequestMapping(path = "/findRecentRepositoryList",method = RequestMethod.POST)
     @ApiMethod(name = "findRecentRepositoryList",desc = "findRepositoryPage")
     @ApiParam(name = "repositoryQuery",desc = "repositoryQuery",required = true)
@@ -105,6 +178,13 @@ public class WikiRepositoryController {
         return Result.ok(pagination);
     }
 
+    /**
+     * @pi.name:按我关注的知识库
+     * @pi.path:/repository/findFocusRepositoryList
+     * @pi.method:post
+     * @pi.request-type:json
+     * @pi.param: WikiRepositoryQuery
+     */
     @RequestMapping(path = "/findFocusRepositoryList",method = RequestMethod.POST)
     @ApiMethod(name = "findFocusRepositoryList",desc = "findRepositoryPage")
     @ApiParam(name = "repositoryQuery",desc = "repositoryQuery",required = true)

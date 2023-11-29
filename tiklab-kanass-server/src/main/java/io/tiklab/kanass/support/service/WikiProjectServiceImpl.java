@@ -2,24 +2,16 @@ package io.tiklab.kanass.support.service;
 
 
 import io.tiklab.core.page.Pagination;
-import io.tiklab.kanass.document.service.DocumentService;
 import io.tiklab.kanass.support.model.*;
-import io.tiklab.kanass.support.support.SystemId;
-import io.tiklab.kanass.support.util.RpcClientTeamWireUtil;
-import io.tiklab.rpc.client.router.lookup.FixedLookup;
-import io.tiklab.teamwire.project.project.model.Project;
-import io.tiklab.teamwire.project.project.service.ProjectService;
-import io.tiklab.teamwire.workitem.model.WorkItem;
-import io.tiklab.teamwire.workitem.model.WorkItemQuery;
-import io.tiklab.teamwire.workitem.model.WorkTypeDm;
-import io.tiklab.teamwire.workitem.model.WorkTypeDmQuery;
-import io.tiklab.teamwire.workitem.service.WorkItemService;
-import io.tiklab.teamwire.workitem.service.WorkTypeDmService;
+import io.tiklab.kanass.support.util.HttpRequestUtil;
 import io.tiklab.user.dmUser.model.DmUser;
 import io.tiklab.user.dmUser.model.DmUserQuery;
-import io.tiklab.user.dmUser.service.DmUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
@@ -30,91 +22,58 @@ public class WikiProjectServiceImpl implements WikiProjectService {
     @Autowired
     SystemUrlService systemUrlService;
 
-    ProjectService projectServiceRpc(){
+    @Autowired
+    HttpRequestUtil httpRequestUtil;
+
+    String getSystemUrl(){
         SystemUrlQuery systemUrlQuery = new SystemUrlQuery();
         systemUrlQuery.setName("teamwire");
         List<SystemUrl> systemUrlList = systemUrlService.findSystemUrlList(systemUrlQuery);
         String url = systemUrlList.get(0).getSystemUrl();
-        return new RpcClientTeamWireUtil().rpcClient().getBean(ProjectService.class, new FixedLookup(url));
+        return url;
     }
 
-    WorkItemService workItemServiceRpc(){
-        SystemUrlQuery systemUrlQuery = new SystemUrlQuery();
-        systemUrlQuery.setName("teamwire");
-        List<SystemUrl> systemUrlList = systemUrlService.findSystemUrlList(systemUrlQuery);
-        String url = systemUrlList.get(0).getSystemUrl();
-        return new RpcClientTeamWireUtil().rpcClient().getBean(WorkItemService.class, new FixedLookup(url));
-    }
 
-    WorkTypeDmService workTypeDmServiceRpc(){
-        SystemUrlQuery systemUrlQuery = new SystemUrlQuery();
-        systemUrlQuery.setName("teamwire");
-        List<SystemUrl> systemUrlList = systemUrlService.findSystemUrlList(systemUrlQuery);
-        String url = systemUrlList.get(0).getSystemUrl();
-        return new RpcClientTeamWireUtil().rpcClient().getBean(WorkTypeDmService.class, new FixedLookup(url));
-    }
+    @Override
+    public List<Project> findAllProject() {
 
-    DmUserService dmUserServiceRpc(){
-        SystemUrlQuery systemUrlQuery = new SystemUrlQuery();
-        systemUrlQuery.setName("teamwire");
-        List<SystemUrl> systemUrlList = systemUrlService.findSystemUrlList(systemUrlQuery);
-        String url = systemUrlList.get(0).getSystemUrl();
-        return new RpcClientTeamWireUtil().rpcClient().getBean(DmUserService.class, new FixedLookup(url));
+        HttpHeaders httpHeaders = httpRequestUtil.initHeaders(MediaType.APPLICATION_JSON, null);
+        String systemUrl = getSystemUrl();
+        List<Project> allProject = httpRequestUtil.requestPostList(httpHeaders, systemUrl + "/api/project/findAllProject", null, Project.class);
+
+
+//        List<WikiProject> wikiProjectList = new ArrayList<>();
+//        for (Project project : allProject) {
+//            WikiProject wikiProject = new WikiProject();
+//            wikiProject.setId(project.getId());
+//            wikiProject.setProjectName(project.getProjectName());
+//            wikiProject.setProjectTypeName(project.getProjectType().getName());
+//            wikiProject.setMasterName(project.getMaster().getName());
+//            wikiProjectList.add(wikiProject);
+//        }
+
+        return allProject;
     }
 
     @Override
-    public List<WikiProject> findAllProject() {
-        List<Project> allProject = projectServiceRpc().findAllProject();
-        List<WikiProject> wikiProjectList = new ArrayList<>();
-        for (Project project : allProject) {
-            WikiProject wikiProject = new WikiProject();
-            wikiProject.setId(project.getId());
-            wikiProject.setProjectName(project.getProjectName());
-            wikiProject.setProjectTypeName(project.getProjectType().getName());
-            wikiProject.setMasterName(project.getMaster().getName());
-            wikiProjectList.add(wikiProject);
-        }
+    public Pagination<WorkItem> findWorkItemPage(WorkItemQuery workItemQuery) {
+        HttpHeaders httpHeaders = httpRequestUtil.initHeaders(MediaType.APPLICATION_JSON, null);
+        String systemUrl = getSystemUrl();
+        Pagination<WorkItem> workItemPage = httpRequestUtil.requestPostPage(httpHeaders, systemUrl + "/api/workItem/findWorkItemPage", workItemQuery, WorkItem.class);
 
-        return wikiProjectList;
-    }
 
-    @Override
-    public Pagination<WikiWorkItem> findWorkItemPage(WikiWorkItemQuery wikiWorkItemQuery) {
-        WorkItemQuery workItemQuery = new WorkItemQuery();
-        workItemQuery.setProjectId(wikiWorkItemQuery.getProjectId());
-        workItemQuery.setWorkTypeId(wikiWorkItemQuery.getWorkTypeId());
-        workItemQuery.setPageParam(wikiWorkItemQuery.getPageParam());
-        Pagination<WorkItem> workItemPage = workItemServiceRpc().findWorkItemPage(workItemQuery);
-
-        Pagination<WikiWorkItem> wikiWorkItemPagination = new Pagination<>();
-
-        wikiWorkItemPagination.setBeginIndex(workItemPage.getBeginIndex());
-        wikiWorkItemPagination.setCurrentPage(workItemPage.getCurrentPage());
-        wikiWorkItemPagination.setEndIndex(workItemPage.getEndIndex());
-        wikiWorkItemPagination.setPageSize(workItemPage.getPageSize());
-        wikiWorkItemPagination.setTotalPage(workItemPage.getTotalPage());
-        wikiWorkItemPagination.setTotalRecord(workItemPage.getTotalRecord());
-
-        List<WikiWorkItem> wikiWorkItemList = new ArrayList<>();
-        for (WorkItem workItem : workItemPage.getDataList()) {
-            WikiWorkItem wikiWorkItem = new WikiWorkItem();
-            wikiWorkItem.setId(workItem.getId());
-            wikiWorkItem.setTitle(workItem.getTitle());
-            wikiWorkItem.setProjectName(workItem.getProject().getProjectName());
-            wikiWorkItem.setWorkTypeName(workItem.getWorkTypeSys().getName());
-            wikiWorkItem.setWorkStatusName(workItem.getWorkStatusNode().getName());
-            wikiWorkItem.setProjectId(workItem.getProject().getId());
-            wikiWorkItemList.add(wikiWorkItem);
-        }
-        wikiWorkItemPagination.setDataList(wikiWorkItemList);
-        return wikiWorkItemPagination;
+        return workItemPage;
     }
 
     @Override
     public List<WikiWorkType> findWorkTypeList(WikiWorkItemQuery wikiWorkItemQuery) {
         WorkTypeDmQuery workTypeDmQuery = new WorkTypeDmQuery();
         workTypeDmQuery.setProjectId(wikiWorkItemQuery.getProjectId());
-        List<WorkTypeDm> workTypeDmList = workTypeDmServiceRpc().findWorkTypeDmList(workTypeDmQuery);
+
+        HttpHeaders httpHeaders = httpRequestUtil.initHeaders(MediaType.APPLICATION_JSON, null);
+        String systemUrl = getSystemUrl();
+        List<WorkTypeDm> workTypeDmList = httpRequestUtil.requestPostList(httpHeaders, systemUrl + "/api/workTypeDm/findWorkTypeDmList", workTypeDmQuery, WorkTypeDm.class);
+
 
         List<WikiWorkType> wikiWorkTypeList = new ArrayList<>();
         for (WorkTypeDm workTypeDm : workTypeDmList) {
@@ -134,7 +93,9 @@ public class WikiProjectServiceImpl implements WikiProjectService {
         DmUserQuery dmUserQuery = new DmUserQuery();
         dmUserQuery.setDomainId(wikiWorkItemQuery.getProjectId());
 
-        List<DmUser> dmUserList = dmUserServiceRpc().findDmUserList(dmUserQuery);
+        HttpHeaders httpHeaders = httpRequestUtil.initHeaders(MediaType.APPLICATION_JSON, null);
+        String systemUrl = getSystemUrl();
+        List<DmUser> dmUserList = httpRequestUtil.requestPostList(httpHeaders, systemUrl + "/api/dmUser/findDmUserList", dmUserQuery, DmUser.class);
 
         List<WikiDmUser> wikiDmUserList = new ArrayList<>();
         for (DmUser dmUser : dmUserList) {
@@ -150,23 +111,29 @@ public class WikiProjectServiceImpl implements WikiProjectService {
     }
 
     @Override
-    public WikiWorkItem findWorkItem(String workItemId) {
-        WorkItem workItem = workItemServiceRpc().findWorkItem(workItemId);
-        WikiWorkItem wikiWorkItem = new WikiWorkItem();
-        if(!ObjectUtils.isEmpty(workItem)){
+    public WorkItem findWorkItem(String workItemId) {
+        HttpHeaders httpHeaders = httpRequestUtil.initHeaders(MediaType.APPLICATION_JSON, null);
+        String systemUrl = getSystemUrl();
+        MultiValueMap param = new LinkedMultiValueMap<>();
+        param.add("id",workItemId);
+        WorkItem workItem = httpRequestUtil.requestPost(httpHeaders, systemUrl + "/api/workItem/findWorkItem", param, WorkItem.class);
 
-            wikiWorkItem.setId(workItem.getId());
-            wikiWorkItem.setTitle(workItem.getTitle());
-            wikiWorkItem.setProjectName(workItem.getProject().getProjectName());
-            wikiWorkItem.setProjectId(workItem.getProject().getId());
-            wikiWorkItem.setWorkTypeName(workItem.getWorkTypeSys().getName());
-            wikiWorkItem.setWorkStatusName(workItem.getWorkStatusNode().getName());
-        }else {
-            wikiWorkItem.setTitle("事项已被删除");
-        }
+//
+//        WikiWorkItem wikiWorkItem = new WikiWorkItem();
+//        if(!ObjectUtils.isEmpty(workItem)){
+//
+//            wikiWorkItem.setId(workItem.getId());
+//            wikiWorkItem.setTitle(workItem.getTitle());
+//            wikiWorkItem.setProjectName(workItem.getProject().getProjectName());
+//            wikiWorkItem.setProjectId(workItem.getProject().getId());
+//            wikiWorkItem.setWorkTypeName(workItem.getWorkTypeSys().getName());
+//            wikiWorkItem.setWorkStatusName(workItem.getWorkStatusNode().getName());
+//        }else {
+//            wikiWorkItem.setTitle("事项已被删除");
+//        }
 
 
-        return wikiWorkItem;
+        return workItem;
     }
 
 

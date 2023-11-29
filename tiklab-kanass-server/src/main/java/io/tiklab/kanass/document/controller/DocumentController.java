@@ -34,7 +34,13 @@ public class DocumentController {
     @Autowired
     private DocumentService documentService;
 
-
+    /**
+     * @pi.name:创建文档
+     * @pi.path:/document/createDocument
+     * @pi.method:post
+     * @pi.request-type:json
+     * @pi.param: model=WikiDocument
+     */
     @RequestMapping(path="/createDocument",method = RequestMethod.POST)
     @ApiMethod(name = "createDocument",desc = "创建文档")
     @ApiParam(name = "document",desc = "document",required = true)
@@ -44,7 +50,13 @@ public class DocumentController {
         return Result.ok(id);
     }
 
-
+    /**
+     * @pi.name:创建文档
+     * @pi.path:/document/updateDocument
+     * @pi.method:post
+     * @pi.request-type:json
+     * @pi.param: model=WikiDocument
+     */
     @RequestMapping(path="/updateDocument",method = RequestMethod.POST)
     @ApiMethod(name = "updateDocument",desc = "修改文档")
     @ApiParam(name = "document",desc = "document",required = true)
@@ -55,6 +67,13 @@ public class DocumentController {
     }
 
 
+    /**
+     * @pi.name:通过id删除文档
+     * @pi.path:/document/deleteDocument
+     * @pi.method:post
+     * @pi.request-type:formdata
+     * @pi.param: name=id;dataType=string;value=id;
+     */
     @RequestMapping(path="/deleteDocument",method = RequestMethod.POST)
     @ApiMethod(name = "deleteDocument",desc = "通过id删除文档")
     @ApiParam(name = "id",desc = "id",required = true)
@@ -64,6 +83,13 @@ public class DocumentController {
         return Result.ok();
     }
 
+    /**
+     * @pi.name:通过id删除文档
+     * @pi.path:/document/deleteDocumentAndSort
+     * @pi.method:post
+     * @pi.request-type:formdata
+     * @pi.param: model=WikiDocument
+     */
     @RequestMapping(path="/deleteDocumentAndSort",method = RequestMethod.POST)
     @ApiMethod(name = "deleteDocument",desc = "通过id删除文档")
     @ApiParam(name = "wikiDocument",desc = "wikiDocument",required = true)
@@ -72,7 +98,13 @@ public class DocumentController {
         return Result.ok();
     }
 
-
+    /**
+     * @pi.name:通过id查询文档
+     * @pi.path:/document/findDocument
+     * @pi.method:post
+     * @pi.request-type:formdata
+     * @pi.param: name=id;dataType=string;value=id;
+     */
     @RequestMapping(path="/findDocument",method = RequestMethod.POST)
     @ApiMethod(name = "findDocument",desc = "通过id查询文档")
     @ApiParam(name = "id",desc = "id",required = true)
@@ -82,6 +114,11 @@ public class DocumentController {
         return Result.ok(wikiDocument);
     }
 
+    /**
+     * @pi.name:通过id删除文档
+     * @pi.path:/document/findAllDocument
+     * @pi.method:post
+     */
     @RequestMapping(path="/findAllDocument",method = RequestMethod.POST)
     @ApiMethod(name = "findAllDocument",desc = "findAllDocument")
     public Result<List<WikiDocument>> findAllDocument(){
@@ -91,8 +128,15 @@ public class DocumentController {
     }
 
 
+    /**
+     * @pi.name:查找文档列表
+     * @pi.path:/document/findDocumentList
+     * @pi.method:post
+     * @pi.request-type:json
+     * @pi.param: model=DocumentQuery
+     */
     @RequestMapping(path = "/findDocumentList",method = RequestMethod.POST)
-    @ApiMethod(name = "findDocumentList",desc = "findDocumentList")
+    @ApiMethod(name = "findDocumentList",desc = "查找文档列表")
     @ApiParam(name = "documentQuery",desc = "documentQuery",required = true)
     public Result<List<WikiDocument>> findDocumentList(@RequestBody @Valid @NotNull DocumentQuery documentQuery){
         List<WikiDocument> wikiDocumentList = documentService.findDocumentList(documentQuery);
@@ -100,9 +144,15 @@ public class DocumentController {
         return Result.ok(wikiDocumentList);
     }
 
-
+    /**
+     * @pi.name:根据分页查找文档
+     * @pi.path:/document/findDocumentPage
+     * @pi.method:post
+     * @pi.request-type:json
+     * @pi.param: model=DocumentQuery
+     */
     @RequestMapping(path = "/findDocumentPage",method = RequestMethod.POST)
-    @ApiMethod(name = "findDocumentPage",desc = "findDocumentPage")
+    @ApiMethod(name = "findDocumentPage",desc = "根据分页查找文档")
     @ApiParam(name = "documentQuery",desc = "documentQuery",required = true)
     public Result<Pagination<WikiDocument>> findDocumentPage(@RequestBody @Valid @NotNull DocumentQuery documentQuery){
         Pagination<WikiDocument> pagination = documentService.findDocumentPage(documentQuery);
@@ -110,6 +160,13 @@ public class DocumentController {
         return Result.ok(pagination);
     }
 
+    /**
+     * @pi.name:查找文档数量
+     * @pi.path:/document/findDocumentCount
+     * @pi.method:post
+     * @pi.request-type:json
+     * @pi.param: model=DocumentQuery
+     */
     @RequestMapping(path = "/findDocumentCount",method = RequestMethod.POST)
     @ApiMethod(name = "findDocumentCount",desc = "findDocumentPage")
     @ApiParam(name = "documentQuery",desc = "documentQuery",required = true)
@@ -119,6 +176,13 @@ public class DocumentController {
         return Result.ok(documentCount);
     }
 
+    /**
+     * @pi.name:根据关键字查找文档数量
+     * @pi.path:/document/findDocuementByKeyWork
+     * @pi.method:post
+     * @pi.request-type:formdata
+     * @pi.param: name=keyWord;dataType=string;value=keyWord;
+     */
     @RequestMapping(path = "/findDocuementByKeyWork",method = RequestMethod.POST)
     @ApiMethod(name = "findDocuementByKeyWork",desc = "findDocuementByKeyWork")
     @ApiParam(name = "keyWord",desc = "keyWord",required = true)
@@ -128,7 +192,13 @@ public class DocumentController {
         return Result.ok(docuementByKeyWork);
     }
 
-
+    /**
+     * @pi.name:通过id查询
+     * @pi.path:/document/findDocumentById
+     * @pi.method:post
+     * @pi.request-type:formdata
+     * @pi.param: name=id;dataType=string;value=id;
+     */
     @RequestMapping(path="/findDocumentById",method = RequestMethod.POST)
     @ApiMethod(name = "findDocumentById",desc = "通过id查询")
     @ApiParam(name = "id",desc = "id",required = true)
@@ -138,14 +208,29 @@ public class DocumentController {
         return Result.ok(wikiDocument);
     }
 
+    /**
+     * @pi.name:最近查看的文档
+     * @pi.path:/document/findRecentDocumentList
+     * @pi.method:post
+     * @pi.request-type:json
+     * @pi.param: model=RecentQuery
+     */
     @RequestMapping(path="/findRecentDocumentList",method = RequestMethod.POST)
-    @ApiMethod(name = "findRecentDocumentList",desc = "通过id查询")
+    @ApiMethod(name = "findRecentDocumentList",desc = "最近查看的文档")
     @ApiParam(name = "recentQuery",desc = "recentQuery",required = true)
     public Result<WikiDocument> findRecentDocumentList(@RequestBody @Valid @NotNull RecentQuery recentQuery){
         List<WikiDocument> recentDocumentList = documentService.findRecentDocumentList(recentQuery);
 
         return Result.ok(recentDocumentList);
     }
+
+    /**
+     * @pi.name:分享的文档
+     * @pi.path:/document/view
+     * @pi.method:post
+     * @pi.request-type:formdata
+     * @pi.param: name=id;dataType=string;value=id;
+     */
     @RequestMapping(path="/view",method = RequestMethod.POST)
     @ApiMethod(name = "view",desc = "通过id查询")
     @ApiParam(name = "id",desc = "id",required = true)

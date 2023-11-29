@@ -11,13 +11,13 @@ import java.util.List;
 */
 public interface WikiProjectService {
 
-    List<WikiProject> findAllProject();
+    List<Project> findAllProject();
 
-    Pagination<WikiWorkItem> findWorkItemPage(WikiWorkItemQuery wikiWorkItemQuery);
+    Pagination<WorkItem> findWorkItemPage(WorkItemQuery workItemQuery);
 
     List<WikiWorkType> findWorkTypeList(WikiWorkItemQuery wikiWorkItemQuery);
 
     List<WikiDmUser> findDmUserList(WikiWorkItemQuery wikiWorkItemQuery);
 
-    WikiWorkItem findWorkItem(String workItemId);
+    WorkItem findWorkItem(String workItemId);
 }

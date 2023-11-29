@@ -132,11 +132,6 @@
             <artifactId>tiklab-postin-client</artifactId>
             <version>${tiklab-postin.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-teamwire-api</artifactId>
-            <version>${tiklab-teamwire.version}</version>
-        </dependency>
 
 
 

@@ -30,8 +30,8 @@ public class WikiProjectController {
 
     @RequestMapping(path="/findAllProject",method = RequestMethod.POST)
     @ApiMethod(name = "findAllProject",desc = "findAllProject")
-    public Result<List<WikiProject>> findAllProject(){
-        List<WikiProject> wikiProjectList =  wikiProjectService.findAllProject();
+    public Result<List<Project>> findAllProject(){
+        List<Project> wikiProjectList =  wikiProjectService.findAllProject();
 
         return Result.ok(wikiProjectList);
     }
@@ -39,8 +39,8 @@ public class WikiProjectController {
     @RequestMapping(path = "/findWorkItemPage",method = RequestMethod.POST)
     @ApiMethod(name = "findWorkItemPage",desc = "findWorkItemList")
     @ApiParam(name = "wikiWorkItemQuery",desc = "wikiWorkItemQuery",required = true)
-    public Result<Pagination<WikiWorkItem>> findWorkItemPage(@RequestBody @Valid @NotNull WikiWorkItemQuery wikiWorkItemQuery){
-        Pagination<WikiWorkItem> workItemList = wikiProjectService.findWorkItemPage(wikiWorkItemQuery);
+    public Result<Pagination<WorkItem>> findWorkItemPage(@RequestBody @Valid @NotNull WorkItemQuery workItemQuery){
+        Pagination<WorkItem> workItemList = wikiProjectService.findWorkItemPage(workItemQuery);
 
         return Result.ok(workItemList);
     }
@@ -66,8 +66,8 @@ public class WikiProjectController {
     @RequestMapping(path = "/findWorkItem",method = RequestMethod.POST)
     @ApiMethod(name = "findWorkItem",desc = "findWorkTypeList")
     @ApiParam(name = "workItemId",desc = "workItemId",required = true)
-    public Result<WikiWorkType> findWorkItem(@Valid @NotNull String workItemId){
-        WikiWorkItem workItem = wikiProjectService.findWorkItem(workItemId);
+    public Result<WorkItem> findWorkItem(@Valid @NotNull String workItemId){
+        WorkItem workItem = wikiProjectService.findWorkItem(workItemId);
 
         return Result.ok(workItem);
     }
