@@ -21,8 +21,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+
 /**
- * DocumentController
+ * @pi.protocol: http
+ * @pi.groupName: 文档控制器
  */
 @RestController
 @RequestMapping("/document")
@@ -37,7 +39,7 @@ public class DocumentController {
     /**
      * @pi.name:创建文档
      * @pi.path:/document/createDocument
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=WikiDocument
      */
@@ -53,7 +55,7 @@ public class DocumentController {
     /**
      * @pi.name:创建文档
      * @pi.path:/document/updateDocument
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=WikiDocument
      */
@@ -70,7 +72,7 @@ public class DocumentController {
     /**
      * @pi.name:通过id删除文档
      * @pi.path:/document/deleteDocument
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=id;dataType=string;value=id;
      */
@@ -86,7 +88,7 @@ public class DocumentController {
     /**
      * @pi.name:通过id删除文档
      * @pi.path:/document/deleteDocumentAndSort
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: model=WikiDocument
      */
@@ -101,7 +103,7 @@ public class DocumentController {
     /**
      * @pi.name:通过id查询文档
      * @pi.path:/document/findDocument
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=id;dataType=string;value=id;
      */
@@ -117,7 +119,8 @@ public class DocumentController {
     /**
      * @pi.name:通过id删除文档
      * @pi.path:/document/findAllDocument
-     * @pi.method:post
+     * @pi.methodType:post
+     * @pi.request-type:none
      */
     @RequestMapping(path="/findAllDocument",method = RequestMethod.POST)
     @ApiMethod(name = "findAllDocument",desc = "findAllDocument")
@@ -131,7 +134,7 @@ public class DocumentController {
     /**
      * @pi.name:查找文档列表
      * @pi.path:/document/findDocumentList
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=DocumentQuery
      */
@@ -147,7 +150,7 @@ public class DocumentController {
     /**
      * @pi.name:根据分页查找文档
      * @pi.path:/document/findDocumentPage
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=DocumentQuery
      */
@@ -163,7 +166,7 @@ public class DocumentController {
     /**
      * @pi.name:查找文档数量
      * @pi.path:/document/findDocumentCount
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=DocumentQuery
      */
@@ -179,7 +182,7 @@ public class DocumentController {
     /**
      * @pi.name:根据关键字查找文档数量
      * @pi.path:/document/findDocuementByKeyWork
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=keyWord;dataType=string;value=keyWord;
      */
@@ -195,7 +198,7 @@ public class DocumentController {
     /**
      * @pi.name:通过id查询
      * @pi.path:/document/findDocumentById
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=id;dataType=string;value=id;
      */
@@ -211,7 +214,7 @@ public class DocumentController {
     /**
      * @pi.name:最近查看的文档
      * @pi.path:/document/findRecentDocumentList
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=RecentQuery
      */
@@ -227,7 +230,7 @@ public class DocumentController {
     /**
      * @pi.name:分享的文档
      * @pi.path:/document/view
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=id;dataType=string;value=id;
      */

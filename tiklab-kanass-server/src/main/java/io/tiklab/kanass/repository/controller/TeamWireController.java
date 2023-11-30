@@ -31,7 +31,7 @@ public class TeamWireController {
      * @pi.name:查找所有项目
      * @pi.path:/project/findAllProject
      * @pi.methodType:post
-     * @pi.request-type:formdata
+     * @pi.request-type:none
      */
     @RequestMapping(path="/findAllProject",method = RequestMethod.POST)
     @ApiMethod(name = "findAllProject",desc = "查找所有项目")

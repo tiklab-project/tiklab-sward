@@ -39,7 +39,7 @@ public class WikiRepositoryController {
     /**
      * @pi.name:创建知识库
      * @pi.path:/repository/createRepository
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=WikiRepository
      */
@@ -55,7 +55,7 @@ public class WikiRepositoryController {
     /**
      * @pi.name:更新项目
      * @pi.path:/repository/updateRepository
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=WikiRepository
      */
@@ -72,7 +72,7 @@ public class WikiRepositoryController {
     /**
      * @pi.name:删除知识库
      * @pi.path:/repository/deleteRepository
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=id;dataType=string;value=id;
      */
@@ -88,7 +88,7 @@ public class WikiRepositoryController {
     /**
      * @pi.name:根据查找知识库
      * @pi.path:/repository/findRepository
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=id;dataType=string;value=id;
      */
@@ -101,13 +101,7 @@ public class WikiRepositoryController {
         return Result.ok(wikiRepository);
     }
 
-    /**
-     * @pi.name:根据id查找知识库
-     * @pi.path:/repository/findList
-     * @pi.method:post
-     * @pi.request-type:json
-     * @pi.param: List<String>
-     */
+
     @RequestMapping(path="/findList",method = RequestMethod.POST)
     @ApiMethod(name = "findList",desc = "findRepository")
     @ApiParam(name = "idList",desc = "idList",required = true)
@@ -120,7 +114,8 @@ public class WikiRepositoryController {
     /**
      * @pi.name:查找所有知识库
      * @pi.path:/repository/findAllRepository
-     * @pi.method:post
+     * @pi.methodType:post
+     * @pi.request-type:none
      */
     @RequestMapping(path="/findAllRepository",method = RequestMethod.POST)
     @ApiMethod(name = "findAllRepository",desc = "findAllRepository")
@@ -133,9 +128,9 @@ public class WikiRepositoryController {
     /**
      * @pi.name:根据当前用户可查看的所有知识库
      * @pi.path:/repository/findRepositoryListByUser
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:json
-     * @pi.param: WikiRepositoryQuery
+     * @pi.param: model= moWikiRepositoryQuery
      */
     @RequestMapping(path = "/findRepositoryListByUser",method = RequestMethod.POST)
     @ApiMethod(name = "findRepositoryListByUser",desc = "findRepositoryList")
@@ -149,9 +144,9 @@ public class WikiRepositoryController {
     /**
      * @pi.name:按分页查找知识库
      * @pi.path:/repository/findRepositoryPage
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:json
-     * @pi.param: WikiRepositoryQuery
+     * @pi.param: model= WikiRepositoryQuery
      */
     @RequestMapping(path = "/findRepositoryPage",method = RequestMethod.POST)
     @ApiMethod(name = "findRepositoryPage",desc = "findRepositoryPage")
@@ -165,9 +160,9 @@ public class WikiRepositoryController {
     /**
      * @pi.name:按最近点击的知识库
      * @pi.path:/repository/findRecentRepositoryList
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:json
-     * @pi.param: WikiRepositoryQuery
+     * @pi.param: model=WikiRepositoryQuery
      */
     @RequestMapping(path = "/findRecentRepositoryList",method = RequestMethod.POST)
     @ApiMethod(name = "findRecentRepositoryList",desc = "findRepositoryPage")
@@ -181,9 +176,9 @@ public class WikiRepositoryController {
     /**
      * @pi.name:按我关注的知识库
      * @pi.path:/repository/findFocusRepositoryList
-     * @pi.method:post
+     * @pi.methodType:post
      * @pi.request-type:json
-     * @pi.param: WikiRepositoryQuery
+     * @pi.param: model=WikiRepositoryQuery
      */
     @RequestMapping(path = "/findFocusRepositoryList",method = RequestMethod.POST)
     @ApiMethod(name = "findFocusRepositoryList",desc = "findRepositoryPage")
