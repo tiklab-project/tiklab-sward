@@ -16,7 +16,7 @@
     <properties>
         <tiklab-teamwire.version>1.0.0-SNAPSHOT</tiklab-teamwire.version>
         <tiklab-kanass.version>1.0.1-SNAPSHOT</tiklab-kanass.version>
-        <tiklab-gateway.version>1.0.0</tiklab-gateway.version>
+        <tiklab-gateway.version>1.0.1-SNAPSHOT</tiklab-gateway.version>
         <tiklab-core.version>1.0.0</tiklab-core.version>
         <tiklab-dal.version>1.0.0</tiklab-dal.version>
         <tiklab-dfs.version>1.0.0</tiklab-dfs.version>
@@ -31,13 +31,13 @@
         <tiklab-jdk.version>1.0.0</tiklab-jdk.version>
 
 
-        <tiklab-user.version>1.0.0</tiklab-user.version>
-        <tiklab-eam.version>1.0.0</tiklab-eam.version>
-        <tiklab-privilege.version>1.0.0</tiklab-privilege.version>
-        <tiklab-licence.version>1.0.0</tiklab-licence.version>
-        <tiklab-message.version>1.0.0</tiklab-message.version>
-        <tiklab-todotask.version>1.0.0</tiklab-todotask.version>
-        <tiklab-security.version>1.0.0</tiklab-security.version>
+        <tiklab-user.version>1.0.1-SNAPSHOT</tiklab-user.version>
+        <tiklab-eam.version>1.0.1-SNAPSHOT</tiklab-eam.version>
+        <tiklab-privilege.version>1.0.1-SNAPSHOT</tiklab-privilege.version>
+        <tiklab-licence.version>1.0.1-SNAPSHOT</tiklab-licence.version>
+        <tiklab-message.version>1.0.1-SNAPSHOT</tiklab-message.version>
+        <tiklab-todotask.version>1.0.1-SNAPSHOT</tiklab-todotask.version>
+        <tiklab-security.version>1.0.1-SNAPSHOT</tiklab-security.version>
 
         <tiklab-postin.version>1.0.1-SNAPSHOT</tiklab-postin.version>
         <tiklab-teston.version>1.0.1-SNAPSHOT</tiklab-teston.version>
