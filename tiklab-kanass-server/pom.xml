@@ -112,11 +112,6 @@
         </dependency>
         <dependency>
             <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-licence-api</artifactId>
-            <version>${tiklab-licence.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.tiklab</groupId>
             <artifactId>tiklab-security-api</artifactId>
             <version>${tiklab-security.version}</version>
         </dependency>
