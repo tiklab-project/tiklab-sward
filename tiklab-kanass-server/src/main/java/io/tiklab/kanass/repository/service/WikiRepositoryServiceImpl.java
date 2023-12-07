@@ -358,6 +358,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
             List<Order> order = OrderBuilders.instance().desc("createTime").get();
             wikiRepositoryQuery.setOrderParams(order);
+            wikiRepositoryQuery.setMasterId(null);
             List<WikiRepository> repositoryListByUser = findRepositoryListByUser(wikiRepositoryQuery);
             long cTime1 = System.currentTimeMillis();
             logger.info("joinQuery cost time:{}",cTime1-bTime1);
