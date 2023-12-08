@@ -1,0 +1,109 @@
+#application config
+app:
+  name: tiklab-sward
+spring:
+  profiles:
+    active: dev
+
+application: "sward"
+
+#web config
+server:
+  port: 8060
+
+jdbc:
+  driverClassName: org.postgresql.Driver
+  url: jdbc:postgresql://172.10.1.10:5432/tiklab_kanass?stringtype=unspecified
+  username: postgres
+  password: darth2020
+
+postgresql:
+  type: local
+  embbed:
+    enable: false
+  database: tiklab_kanass
+
+DATA_HOME: ${user.home}/tiklab/sward
+
+#dfs config
+dfs:
+  server:
+    enabled: true
+    port: 4001
+    datapath: ${DATA_HOME}/files
+  client:
+    url: 127.0.0.1:4001
+    group: g1
+    bucket: sward
+
+#dcs config
+#dcs.server.enabled=false
+dcs:
+  server:
+    enabled: true
+    port: 5001
+    datapath: ${DATA_HOME}/caches
+  client:
+    url: 127.0.0.1:5001
+    group: g1
+    database: dcs1
+    expire: 7200
+
+#dss config
+#dss.server.enabled=false
+dss:
+  server:
+    enabled: true
+    port: 6001
+    datapath: ${DATA_HOME}/index
+  client:
+    url: 127.0.0.1:6001
+    group: g1
+    index: index1
+
+#eas config
+eas:
+  embbed:
+    enable: true
+  web:
+    address: http://192.168.10.25:3012
+  address: http://192.168.10.6:8082
+
+
+
+#license
+licences:
+    path: ${APP_HOME}/licences
+
+#plugin config
+plugin:
+    path: ${APP_HOME}/plugin
+
+#zip config
+unzip:
+    path: ${DATA_HOME}/unzip/Confluence
+homes:
+  address: http://172.11.1.11:8080
+
+file:
+  path: http://file.dev.tiklab.io
+version: ce
+client: web
+
+postin:
+  enable: false
+  scan:
+    package: io.tiklab
+  report:
+    workspaceId: b4a2fc3a3d73
+    server: http://192.168.10.3:8090
+
+base:
+  url: http://192.168.10.14:8060
+
+
+backups:
+  time: 0 0 2 * * ?
+  dir: ${DATA_HOME}
+  dfs:
+    dir: ${DATA_HOME}/files

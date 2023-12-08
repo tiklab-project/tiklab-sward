@@ -1,0 +1,90 @@
+#application config
+app:
+    name: tiklab-sward
+spring:
+    profiles:
+        active: demo
+
+#web config
+server:
+    port: 8080
+
+
+jdbc:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5010/sward?stringtype=unspecified
+    username: postgres
+    password: darth2020
+
+postgresql:
+    embbed:
+        enable: true
+    database: sward
+    db:
+        port: 5010
+        username: postgres
+        password: darth2020
+        address: ${DATA_HOME}/postgresql
+
+#eas
+eas:
+    embbed:
+        enable: false
+    address: http://eas-ce.demo.tiklab.net
+
+DATA_HOME: /opt/tiklab/sward
+
+#dfs config
+#dfs.server.enabled=false
+dfs:
+    server:
+        enabled: true
+        port: 4001
+        datapath: ${DATA_HOME}/files
+    client:
+        url: 127.0.0.1:4001
+        group: g1
+        bucket: sward
+
+
+#dss config
+#dss.server.enabled=false
+dss:
+    server:
+        enabled: true
+        port: 6001
+        datapath: ${DATA_HOME}/index
+    client:
+        url: 127.0.0.1:6001
+        group: g1
+        index: index1
+
+#auth config
+
+#integration config
+
+
+
+#plugin config
+plugin:
+    path: ${DATA_HOME}/plugin
+
+#zip config
+unzip:
+    path: ${DATA_HOME}/unzip/Jire
+
+#license
+licences:
+     path: ${DATA_HOME}/licences
+
+homes:
+    address: http://172.11.1.11:8080
+file:
+   path: http://file.demo.tiklab.io
+
+base:
+    url: http://sward-ce.demo.tiklab.net
+
+backups:
+    time: 0 0 2 * * ?
+    dir: /data/sward
