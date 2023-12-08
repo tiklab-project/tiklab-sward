@@ -2,11 +2,11 @@ package io.thoughtware.sward.repository.dao;
 
 import io.thoughtware.sward.repository.entity.WikiRepositoryFocusEntity;
 import io.thoughtware.sward.repository.model.WikiRepositoryFocusQuery;
-import io.tiklab.core.page.Pagination;
-import io.tiklab.dal.jpa.JpaTemplate;
-import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
-import io.tiklab.dal.jpa.criterial.condition.QueryCondition;
-import io.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
+import io.thoughtware.core.page.Pagination;
+import io.thoughtware.dal.jpa.JpaTemplate;
+import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
+import io.thoughtware.dal.jpa.criterial.condition.QueryCondition;
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

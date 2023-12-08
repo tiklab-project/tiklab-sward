@@ -2,8 +2,8 @@
 package io.thoughtware.sward.support.service;
 
 import io.thoughtware.sward.support.model.*;
-import io.tiklab.core.page.Pagination;
-import io.tiklab.sward.support.model.*;
+import io.thoughtware.core.page.Pagination;
+import io.thoughtware.sward.support.model.*;
 
 import java.util.List;
 

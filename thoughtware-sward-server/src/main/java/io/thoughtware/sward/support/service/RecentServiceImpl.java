@@ -2,15 +2,15 @@ package io.thoughtware.sward.support.service;
 
 import io.thoughtware.sward.support.model.Recent;
 import io.thoughtware.sward.support.model.RecentQuery;
-import io.tiklab.eam.common.context.LoginContext;
+import io.thoughtware.eam.common.context.LoginContext;
 import io.thoughtware.sward.support.dao.RecentDao;
 import io.thoughtware.sward.support.entity.RecentEntity;
-import io.tiklab.core.page.Pagination;
-import io.tiklab.core.page.PaginationBuilder;
+import io.thoughtware.core.page.Pagination;
+import io.thoughtware.core.page.PaginationBuilder;
 
-import io.tiklab.beans.BeanMapper;
-import io.tiklab.join.JoinTemplate;
-import io.tiklab.user.user.model.User;
+import io.thoughtware.beans.BeanMapper;
+import io.thoughtware.join.JoinTemplate;
+import io.thoughtware.user.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

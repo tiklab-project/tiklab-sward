@@ -1,13 +1,13 @@
 package io.thoughtware.sward.document.model;
 
 import io.thoughtware.sward.category.model.WikiCategory;
-import io.tiklab.beans.annotation.Mapper;
-import io.tiklab.beans.annotation.Mapping;
-import io.tiklab.beans.annotation.Mappings;
-import io.tiklab.core.BaseModel;
-import io.tiklab.join.annotation.JoinQuery;
-import io.tiklab.postin.annotation.ApiModel;
-import io.tiklab.postin.annotation.ApiProperty;
+import io.thoughtware.beans.annotation.Mapper;
+import io.thoughtware.beans.annotation.Mapping;
+import io.thoughtware.beans.annotation.Mappings;
+import io.thoughtware.core.BaseModel;
+import io.thoughtware.join.annotation.JoinQuery;
+import io.thoughtware.postin.annotation.ApiModel;
+import io.thoughtware.postin.annotation.ApiProperty;
 
 import javax.validation.constraints.NotNull;
 

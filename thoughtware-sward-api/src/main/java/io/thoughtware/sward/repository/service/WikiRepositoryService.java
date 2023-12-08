@@ -1,13 +1,12 @@
 package io.thoughtware.sward.repository.service;
 
+import io.thoughtware.core.page.Pagination;
+import io.thoughtware.join.annotation.FindAll;
+import io.thoughtware.join.annotation.FindList;
+import io.thoughtware.join.annotation.FindOne;
+import io.thoughtware.join.annotation.JoinProvider;
 import io.thoughtware.sward.repository.model.WikiRepository;
 import io.thoughtware.sward.repository.model.WikiRepositoryQuery;
-import io.tiklab.core.page.Pagination;
-
-import io.tiklab.join.annotation.FindAll;
-import io.tiklab.join.annotation.FindList;
-import io.tiklab.join.annotation.FindOne;
-import io.tiklab.join.annotation.JoinProvider;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

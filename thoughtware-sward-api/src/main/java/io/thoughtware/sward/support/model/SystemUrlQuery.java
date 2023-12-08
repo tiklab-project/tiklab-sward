@@ -1,7 +1,7 @@
 package io.thoughtware.sward.support.model;
 
-import io.tiklab.postin.annotation.ApiModel;
-import io.tiklab.postin.annotation.ApiProperty;
+import io.thoughtware.postin.annotation.ApiModel;
+import io.thoughtware.postin.annotation.ApiProperty;
 
 /**
  * 查找最近访问的添加模型

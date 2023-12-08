@@ -1,9 +1,9 @@
 package io.thoughtware.sward.support.model;
 
-import io.tiklab.beans.annotation.Mapper;
-import io.tiklab.join.annotation.Join;
-import io.tiklab.postin.annotation.ApiModel;
-import io.tiklab.postin.annotation.ApiProperty;
+import io.thoughtware.beans.annotation.Mapper;
+import io.thoughtware.join.annotation.Join;
+import io.thoughtware.postin.annotation.ApiModel;
+import io.thoughtware.postin.annotation.ApiProperty;
 
 @ApiModel
 @Join

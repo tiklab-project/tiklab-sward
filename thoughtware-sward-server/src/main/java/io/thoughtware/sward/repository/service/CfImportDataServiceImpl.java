@@ -2,7 +2,7 @@ package io.thoughtware.sward.repository.service;
 
 
 import io.thoughtware.sward.document.dao.DocumentDao;
-import io.tiklab.dal.jpa.JpaTemplate;
+import io.thoughtware.dal.jpa.JpaTemplate;
 import io.thoughtware.sward.category.dao.WikiCategoryDao;
 import io.thoughtware.sward.repository.dao.WikiRepositoryDao;
 import org.springframework.beans.factory.annotation.Autowired;

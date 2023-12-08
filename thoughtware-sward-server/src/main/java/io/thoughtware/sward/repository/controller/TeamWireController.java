@@ -2,9 +2,9 @@ package io.thoughtware.sward.repository.controller;
 
 import io.thoughtware.sward.repository.service.TeamWireService;
 import io.thoughtware.sward.support.model.Project;
-import io.tiklab.postin.annotation.Api;
-import io.tiklab.postin.annotation.ApiMethod;
-import io.tiklab.core.Result;
+import io.thoughtware.postin.annotation.Api;
+import io.thoughtware.postin.annotation.ApiMethod;
+import io.thoughtware.core.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

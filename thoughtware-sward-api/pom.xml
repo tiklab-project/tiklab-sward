@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>io.tiklab</groupId>
-        <artifactId>tiklab-kanass</artifactId>
+        <groupId>io.thoughtware</groupId>
+        <artifactId>thoughtware-sward</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>tiklab-kanass-api</artifactId>
+    <artifactId>thoughtware-sward-api</artifactId>
     <name>${project.artifactId}</name>
 
     <dependencies>
@@ -19,31 +19,31 @@
             <artifactId>fastjson</artifactId>
 
         </dependency>
-        <!--tiklab-->
+        <!--thoughtware-->
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-core</artifactId>
-            <version>${tiklab-core.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-core</artifactId>
+            <version>${thoughtware-core.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-toolkit-annotation</artifactId>
-            <version>${tiklab-toolkit.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-toolkit-annotation</artifactId>
+            <version>${thoughtware-toolkit.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-dss-annotation</artifactId>
-            <version>${tiklab-dss.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-dss-annotation</artifactId>
+            <version>${thoughtware-dss.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-user-api</artifactId>
-            <version>${tiklab-user.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-user-api</artifactId>
+            <version>${thoughtware-user.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-postin-annotation</artifactId>
-            <version>${tiklab-postin.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-postin-annotation</artifactId>
+            <version>${thoughtware-postin.version}</version>
         </dependency>
     </dependencies>
 

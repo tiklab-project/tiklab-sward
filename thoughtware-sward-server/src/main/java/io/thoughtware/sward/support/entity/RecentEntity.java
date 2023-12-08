@@ -1,6 +1,6 @@
 package io.thoughtware.sward.support.entity;
 
-import io.tiklab.dal.jpa.annotation.*;
+import io.thoughtware.dal.jpa.annotation.*;
 
 import java.sql.Timestamp;
 

@@ -1,9 +1,9 @@
 package io.thoughtware.sward.document.model;
 
-import io.tiklab.postin.annotation.ApiModel;
-import io.tiklab.postin.annotation.ApiProperty;
-import io.tiklab.beans.annotation.Mapper;
-import io.tiklab.core.BaseModel;
+import io.thoughtware.postin.annotation.ApiModel;
+import io.thoughtware.postin.annotation.ApiProperty;
+import io.thoughtware.beans.annotation.Mapper;
+import io.thoughtware.core.BaseModel;
 
 import java.util.Date;
 

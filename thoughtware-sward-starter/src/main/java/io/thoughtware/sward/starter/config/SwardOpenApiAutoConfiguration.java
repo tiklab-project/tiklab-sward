@@ -1,16 +1,16 @@
 package io.thoughtware.sward.starter.config;
 
-import io.tiklab.openapi.router.Router;
-import io.tiklab.openapi.router.RouterBuilder;
-import io.tiklab.openapi.router.config.RouterConfig;
-import io.tiklab.openapi.router.config.RouterConfigBuilder;
+import io.thoughtware.openapi.router.Router;
+import io.thoughtware.openapi.router.RouterBuilder;
+import io.thoughtware.openapi.router.config.RouterConfig;
+import io.thoughtware.openapi.router.config.RouterConfigBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class KanassOpenApiAutoConfiguration {
+public class SwardOpenApiAutoConfiguration {
 
     @Value("${eas.address:null}")
     String authAddress;

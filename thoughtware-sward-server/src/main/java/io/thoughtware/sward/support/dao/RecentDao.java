@@ -2,11 +2,11 @@ package io.thoughtware.sward.support.dao;
 
 import io.thoughtware.sward.support.entity.RecentEntity;
 import io.thoughtware.sward.support.model.RecentQuery;
-import io.tiklab.core.page.Pagination;
-import io.tiklab.dal.jpa.criterial.condition.QueryCondition;
-import io.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
-import io.tiklab.dal.jpa.JpaTemplate;
-import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
+import io.thoughtware.core.page.Pagination;
+import io.thoughtware.dal.jpa.criterial.condition.QueryCondition;
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.QueryBuilders;
+import io.thoughtware.dal.jpa.JpaTemplate;
+import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

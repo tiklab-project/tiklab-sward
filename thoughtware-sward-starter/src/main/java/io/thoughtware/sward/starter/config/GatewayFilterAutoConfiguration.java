@@ -1,13 +1,13 @@
 package io.thoughtware.sward.starter.config;
 
-import io.tiklab.eam.author.Authenticator;
-import io.tiklab.eam.client.author.config.AuthorConfig;
-import io.tiklab.eam.client.author.config.AuthorConfigBuilder;
-import io.tiklab.eam.client.author.handler.AuthorHandler;
-import io.tiklab.gateway.router.Router;
-import io.tiklab.gateway.router.RouterBuilder;
-import io.tiklab.gateway.router.config.RouterConfig;
-import io.tiklab.gateway.router.config.RouterConfigBuilder;
+import io.thoughtware.eam.author.Authenticator;
+import io.thoughtware.eam.client.author.config.AuthorConfig;
+import io.thoughtware.eam.client.author.config.AuthorConfigBuilder;
+import io.thoughtware.eam.client.author.handler.AuthorHandler;
+import io.thoughtware.gateway.router.Router;
+import io.thoughtware.gateway.router.RouterBuilder;
+import io.thoughtware.gateway.router.config.RouterConfig;
+import io.thoughtware.gateway.router.config.RouterConfigBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

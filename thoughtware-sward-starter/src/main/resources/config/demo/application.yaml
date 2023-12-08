@@ -1,6 +1,6 @@
 #application config
 app:
-    name: tiklab-sward
+    name: thoughtware-sward
 spring:
     profiles:
         active: demo
@@ -30,9 +30,9 @@ postgresql:
 eas:
     embbed:
         enable: false
-    address: http://eas-ce.demo.tiklab.net
+    address: http://eas-ce.demo.thoughtware.net
 
-DATA_HOME: /opt/tiklab/sward
+DATA_HOME: /opt/thoughtware/sward
 
 #dfs config
 #dfs.server.enabled=false
@@ -80,10 +80,10 @@ licences:
 homes:
     address: http://172.11.1.11:8080
 file:
-   path: http://file.demo.tiklab.io
+   path: http://file.demo.thoughtware.io
 
 base:
-    url: http://sward-ce.demo.tiklab.net
+    url: http://sward-ce.demo.thoughtware.net
 
 backups:
     time: 0 0 2 * * ?

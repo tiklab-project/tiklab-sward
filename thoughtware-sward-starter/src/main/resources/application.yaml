@@ -1,6 +1,6 @@
 #application config
 app:
-  name: tiklab-sward
+  name: thoughtware-sward
 
 spring:
   profiles:
@@ -35,7 +35,7 @@ postgresql:
     password: darth2020
     address: ${DATA_HOME}/postgresql
 
-DATA_HOME: /opt/tiklab/sward
+DATA_HOME: /opt/thoughtware/sward
 
 #dfs config
 dfs:
@@ -90,11 +90,11 @@ homes:
   address: http://192.168.10.6:8070
 
 file:
-  path: http://file.dev.tiklab.io
+  path: http://file.dev.thoughtware.io
 
 
 base:
-  url: http://e.sward.tiklab.net
+  url: http://e.sward.thoughtware.net
 
 backups:
   time: 0 0 2 * * ?

@@ -1,8 +1,8 @@
 package io.thoughtware.sward.repository.controller;
 
 import io.thoughtware.sward.repository.service.UpdateMySqlService;
-import io.tiklab.postin.annotation.Api;
-import io.tiklab.postin.annotation.ApiMethod;
+import io.thoughtware.postin.annotation.Api;
+import io.thoughtware.postin.annotation.ApiMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

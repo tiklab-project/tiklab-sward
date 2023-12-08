@@ -4,11 +4,11 @@ import io.thoughtware.sward.document.dao.LikeDao;
 import io.thoughtware.sward.document.entity.LikeEntity;
 import io.thoughtware.sward.document.model.Like;
 import io.thoughtware.sward.document.model.LikeQuery;
-import io.tiklab.beans.BeanMapper;
-import io.tiklab.core.page.Pagination;
-import io.tiklab.core.page.PaginationBuilder;
-import io.tiklab.join.JoinTemplate;
-import io.tiklab.rpc.annotation.Exporter;
+import io.thoughtware.beans.BeanMapper;
+import io.thoughtware.core.page.Pagination;
+import io.thoughtware.core.page.PaginationBuilder;
+import io.thoughtware.join.JoinTemplate;
+import io.thoughtware.rpc.annotation.Exporter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

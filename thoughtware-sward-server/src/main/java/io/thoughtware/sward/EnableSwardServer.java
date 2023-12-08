@@ -7,6 +7,6 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({KanassServerAutoConfiguration.class})
-public @interface EnableKanassServer {
+@Import({SwardServerAutoConfiguration.class})
+public @interface EnableSwardServer {
 }

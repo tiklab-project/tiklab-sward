@@ -1,13 +1,13 @@
 package io.thoughtware.sward.document.controller;
 
-import io.tiklab.core.Result;
-import io.tiklab.core.page.Pagination;
+import io.thoughtware.core.Result;
+import io.thoughtware.core.page.Pagination;
 import io.thoughtware.sward.document.model.ShareRelation;
 import io.thoughtware.sward.document.model.ShareRelationQuery;
 import io.thoughtware.sward.document.service.ShareRelationService;
-import io.tiklab.postin.annotation.Api;
-import io.tiklab.postin.annotation.ApiMethod;
-import io.tiklab.postin.annotation.ApiParam;
+import io.thoughtware.postin.annotation.Api;
+import io.thoughtware.postin.annotation.ApiMethod;
+import io.thoughtware.postin.annotation.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

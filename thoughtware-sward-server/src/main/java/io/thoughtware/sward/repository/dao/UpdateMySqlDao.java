@@ -1,8 +1,8 @@
 package io.thoughtware.sward.repository.dao;
 
-import io.tiklab.core.exception.ApplicationException;
-import io.tiklab.dal.jdbc.JdbcTemplate;
-import io.tiklab.dal.jpa.JpaTemplate;
+import io.thoughtware.core.exception.ApplicationException;
+import io.thoughtware.dal.jdbc.JdbcTemplate;
+import io.thoughtware.dal.jpa.JpaTemplate;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

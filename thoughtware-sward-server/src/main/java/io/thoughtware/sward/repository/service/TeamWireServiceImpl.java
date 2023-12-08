@@ -3,7 +3,7 @@ package io.thoughtware.sward.repository.service;
 
 import io.thoughtware.sward.support.model.Project;
 import io.thoughtware.sward.support.service.SystemUrlService;
-import io.tiklab.dal.jpa.JpaTemplate;
+import io.thoughtware.dal.jpa.JpaTemplate;
 import io.thoughtware.sward.support.model.SystemUrl;
 import io.thoughtware.sward.support.model.SystemUrlQuery;
 import io.thoughtware.sward.support.util.HttpRequestUtil;

@@ -1,11 +1,11 @@
 package io.thoughtware.sward.repository.controller;
 
 import io.thoughtware.sward.repository.service.CfImportDataService;
-import io.tiklab.postin.annotation.Api;
-import io.tiklab.postin.annotation.ApiMethod;
-import io.tiklab.postin.annotation.ApiParam;
-import io.tiklab.core.Result;
-import io.tiklab.core.exception.ApplicationException;
+import io.thoughtware.postin.annotation.Api;
+import io.thoughtware.postin.annotation.ApiMethod;
+import io.thoughtware.postin.annotation.ApiParam;
+import io.thoughtware.core.Result;
+import io.thoughtware.core.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

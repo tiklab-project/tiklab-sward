@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <contextListener class="io.tiklab.logging.LoggingContextListener" />
+    <contextListener class="io.thoughtware.logging.LoggingContextListener" />
     <!-- 应用名称：和统一配置中的项目代码保持一致（小写） -->
-    <property name="app.name" value="tiklab-kanass" />
+    <property name="app.name" value="thoughtware-sward" />
     <property name="LOG_PATH" value="${APP_HOME}/logs" />
     <!--在没有定义${LOG_HOME}系统变量的时候，可以设置此本地变量。提交测试、上线时，要将其注释掉，使用系统变量。-->
     <!--

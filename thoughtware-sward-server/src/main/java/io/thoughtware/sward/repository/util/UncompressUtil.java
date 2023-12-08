@@ -41,7 +41,7 @@ public class UncompressUtil {
     public BufferedReader unZIP(InputStream InputStream,String path) throws IOException {
        // String property = System.getProperty("user.dir");
        // String all = property.replaceAll("\\\\", "/");
-       // String path =  all+"/tiklab-sward-server/src/main/resources/unzip";
+       // String path =  all+"/thoughtware-sward-server/src/main/resources/unzip";
         ZipInputStream zipInputStream = new ZipInputStream(InputStream);
         ZipEntry entry=null;
         File file=null;

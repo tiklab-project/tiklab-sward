@@ -1,6 +1,6 @@
 #!/bin/sh
 
-APP_MAIN="io.tiklab.kanass.starter.KanassApplication"
+APP_MAIN="io.thoughtware.kanass.starter.KanassApplication"
 
 DIRS=$(dirname "$PWD")
 JDK_VERSION=jdk-16.0.2

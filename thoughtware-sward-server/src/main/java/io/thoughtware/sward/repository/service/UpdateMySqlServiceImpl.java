@@ -1,7 +1,7 @@
 
 package io.thoughtware.sward.repository.service;
 
-import io.tiklab.dal.jpa.JpaTemplate;
+import io.thoughtware.dal.jpa.JpaTemplate;
 import io.thoughtware.sward.repository.dao.UpdateMySqlDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

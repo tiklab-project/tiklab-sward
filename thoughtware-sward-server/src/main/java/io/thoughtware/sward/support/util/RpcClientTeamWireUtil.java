@@ -1,7 +1,7 @@
 package io.thoughtware.sward.support.util;
 
-import io.tiklab.rpc.client.RpcClient;
-import io.tiklab.rpc.client.config.RpcClientConfig;
+import io.thoughtware.rpc.client.RpcClient;
+import io.thoughtware.rpc.client.config.RpcClientConfig;
 
 public class RpcClientTeamWireUtil {
     public RpcClient rpcClient(){

@@ -1,7 +1,7 @@
 package io.thoughtware.sward.starter.config;
 
 
-import io.tiklab.dfs.client.initdata.config.model.DfsConfig;
+import io.thoughtware.dfs.client.initdata.config.model.DfsConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

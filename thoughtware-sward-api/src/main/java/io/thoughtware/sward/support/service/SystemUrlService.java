@@ -1,6 +1,6 @@
 package io.thoughtware.sward.support.service;
 
-import io.tiklab.core.page.Pagination;
+import io.thoughtware.core.page.Pagination;
 import io.thoughtware.sward.support.model.SystemUrl;
 import io.thoughtware.sward.support.model.SystemUrlQuery;
 

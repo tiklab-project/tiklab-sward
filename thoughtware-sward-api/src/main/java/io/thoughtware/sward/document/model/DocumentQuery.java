@@ -1,10 +1,10 @@
 package io.thoughtware.sward.document.model;
 
-import io.tiklab.core.page.Page;
-import io.tiklab.core.order.Order;
-import io.tiklab.core.order.OrderBuilders;
-import io.tiklab.postin.annotation.ApiModel;
-import io.tiklab.postin.annotation.ApiProperty;
+import io.thoughtware.core.page.Page;
+import io.thoughtware.core.order.Order;
+import io.thoughtware.core.order.OrderBuilders;
+import io.thoughtware.postin.annotation.ApiModel;
+import io.thoughtware.postin.annotation.ApiProperty;
 
 import java.io.Serializable;
 import java.util.List;

@@ -1,6 +1,6 @@
 #application config
 app:
-  name: tiklab-sward
+  name: thoughtware-sward
 spring:
   profiles:
     active: dev
@@ -13,7 +13,7 @@ server:
 
 jdbc:
   driverClassName: org.postgresql.Driver
-  url: jdbc:postgresql://172.10.1.10:5432/tiklab_kanass?stringtype=unspecified
+  url: jdbc:postgresql://172.10.1.10:5432/thoughtware_kanass?stringtype=unspecified
   username: postgres
   password: darth2020
 
@@ -21,9 +21,9 @@ postgresql:
   type: local
   embbed:
     enable: false
-  database: tiklab_kanass
+  database: thoughtware_kanass
 
-DATA_HOME: ${user.home}/tiklab/sward
+DATA_HOME: ${user.home}/thoughtware/sward
 
 #dfs config
 dfs:
@@ -86,14 +86,14 @@ homes:
   address: http://172.11.1.11:8080
 
 file:
-  path: http://file.dev.tiklab.io
+  path: http://file.dev.thoughtware.io
 version: ce
 client: web
 
 postin:
   enable: false
   scan:
-    package: io.tiklab
+    package: io.thoughtware
   report:
     workspaceId: b4a2fc3a3d73
     server: http://192.168.10.3:8090

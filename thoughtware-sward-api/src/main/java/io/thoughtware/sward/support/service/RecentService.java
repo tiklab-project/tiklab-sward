@@ -3,7 +3,7 @@ package io.thoughtware.sward.support.service;
 
 import io.thoughtware.sward.support.model.Recent;
 import io.thoughtware.sward.support.model.RecentQuery;
-import io.tiklab.core.page.Pagination;
+import io.thoughtware.core.page.Pagination;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

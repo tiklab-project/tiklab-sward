@@ -1,12 +1,12 @@
 package io.thoughtware.sward.support.service;
 
 import io.thoughtware.sward.repository.service.WikiRepositoryService;
-import io.tiklab.core.exception.ApplicationException;
-import io.tiklab.dss.client.DssClient;
-import io.tiklab.dss.common.document.model.CountResponse;
-import io.tiklab.dss.common.document.model.PageCondition;
-import io.tiklab.dss.common.document.model.PageResponse;
-import io.tiklab.dss.common.document.model.TopResponse;
+import io.thoughtware.core.exception.ApplicationException;
+import io.thoughtware.dss.client.DssClient;
+import io.thoughtware.dss.common.document.model.CountResponse;
+import io.thoughtware.dss.common.document.model.PageCondition;
+import io.thoughtware.dss.common.document.model.PageResponse;
+import io.thoughtware.dss.common.document.model.TopResponse;
 import io.thoughtware.sward.document.model.WikiDocument;
 import io.thoughtware.sward.document.service.DocumentService;
 import io.thoughtware.sward.repository.model.WikiRepository;

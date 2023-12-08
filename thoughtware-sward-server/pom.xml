@@ -4,18 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>io.tiklab</groupId>
-        <artifactId>tiklab-kanass</artifactId>
+        <groupId>io.thoughtware</groupId>
+        <artifactId>thoughtware-sward</artifactId>
         <version>1.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>tiklab-kanass-server</artifactId>
+    <artifactId>thoughtware-sward-server</artifactId>
     <name>${project.artifactId}</name>
 
     <dependencies>
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-kanass-api</artifactId>
-            <version>${tiklab-kanass.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-sward-api</artifactId>
+            <version>${thoughtware-sward.version}</version>
         </dependency>
         <!--common-->
         <dependency>
@@ -72,60 +72,60 @@
             <scope>test</scope>
         </dependency>
 
-        <!--tiklab-->
+        <!--thoughtware-->
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-toolkit-core</artifactId>
-            <version>${tiklab-toolkit.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-toolkit-core</artifactId>
+            <version>${thoughtware-toolkit.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-dal-spring-boot-starter</artifactId>
-            <version>${tiklab-dal.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-dal-spring-boot-starter</artifactId>
+            <version>${thoughtware-dal.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-dss-spring-boot-starter</artifactId>
-            <version>${tiklab-dss.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-dss-spring-boot-starter</artifactId>
+            <version>${thoughtware-dss.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-rpc-annotation</artifactId>
-            <version>${tiklab-rpc.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-rpc-annotation</artifactId>
+            <version>${thoughtware-rpc.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-rpc-client</artifactId>
-            <version>${tiklab-rpc.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-rpc-client</artifactId>
+            <version>${thoughtware-rpc.version}</version>
         </dependency>
 
         <!--pcs-->
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-user-api</artifactId>
-            <version>${tiklab-user.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-user-api</artifactId>
+            <version>${thoughtware-user.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-eam-api</artifactId>
-            <version>${tiklab-eam.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-eam-api</artifactId>
+            <version>${thoughtware-eam.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-security-api</artifactId>
-            <version>${tiklab-security.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-security-api</artifactId>
+            <version>${thoughtware-security.version}</version>
         </dependency>
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-message-api</artifactId>
-            <version>${tiklab-message.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-message-api</artifactId>
+            <version>${thoughtware-message.version}</version>
         </dependency>
 
         <!--other-->
         <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-postin-client</artifactId>
-            <version>${tiklab-postin.version}</version>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-postin-client</artifactId>
+            <version>${thoughtware-postin.version}</version>
         </dependency>
 
 

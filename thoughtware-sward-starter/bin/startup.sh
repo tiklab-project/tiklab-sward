@@ -1,6 +1,6 @@
 #!/bin/sh
 #-------------------------------------------------------------------------------------------------------------
-APP_MAIN="io.tiklab.kanass.starter.KanassApplication"
+APP_MAIN="io.thoughtware.kanass.starter.KanassApplication"
 
 DIRS=$(dirname "$PWD")
 JDK_VERSION=jdk-16.0.2
@@ -25,7 +25,7 @@ enableApply(){
       if [ ! -e "${applyserver}" ]; then
 cat << EOF >  ${applyserver}
 [Unit]
-Description=Start Tiklab Apply
+Description=Start thoughtware Apply
 After=network.target remote-fs.target nss-lookup.target
 
 [Service]
@@ -48,7 +48,7 @@ EOF
   else
 cat << EOF >  ${applyserver}
 [Unit]
-Description=Start Tiklab Apply
+Description=Start thoughtware Apply
 After=network.target remote-fs.target nss-lookup.target
 
 [Service]

@@ -1,10 +1,10 @@
 package io.thoughtware.sward.repository.entity;
 
 
-import io.tiklab.dal.jpa.annotation.Column;
-import io.tiklab.dal.jpa.annotation.GeneratorValue;
-import io.tiklab.dal.jpa.annotation.Id;
-import io.tiklab.dal.jpa.annotation.Table;import io.tiklab.dal.jpa.annotation.Entity;
+import io.thoughtware.dal.jpa.annotation.Column;
+import io.thoughtware.dal.jpa.annotation.GeneratorValue;
+import io.thoughtware.dal.jpa.annotation.Id;
+import io.thoughtware.dal.jpa.annotation.Table;import io.thoughtware.dal.jpa.annotation.Entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

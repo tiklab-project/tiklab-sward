@@ -1,6 +1,6 @@
 #application config
 app:
-  name: tiklab-sward
+  name: thoughtware-sward
 
 spring:
   profiles:
@@ -15,12 +15,12 @@ server:
 
 jdbc:
   driverClassName: org.postgresql.Driver
-  url: jdbc:postgresql://172.13.1.13:5432/tiklab_kanass?stringtype=unspecified
+  url: jdbc:postgresql://172.13.1.13:5432/thoughtware_kanass?stringtype=unspecified
   username: postgres
   password: darth2020
 
 
-DATA_HOME: /opt/tiklab/sward
+DATA_HOME: /opt/thoughtware/sward
 
 #dfs config
 #dfs.server.enabled=false
@@ -63,7 +63,7 @@ dss:
 eas:
   embbed:
     enable: false
-  address: http://bac.eas.tiklab.net
+  address: http://bac.eas.thoughtware.net
 
 
 #plugin config
@@ -82,10 +82,10 @@ homes:
   address: http://172.11.1.11:8080
 
 file:
-  path: http://file.dev.tiklab.io
+  path: http://file.dev.thoughtware.io
 
 base:
-  url: http://e.sward.tiklab.net
+  url: http://e.sward.thoughtware.net
 backups:
   time: 0 0 2 * * ?
   dir: /data/sward

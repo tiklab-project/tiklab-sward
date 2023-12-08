@@ -2,10 +2,10 @@ package io.thoughtware.sward.support.util;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import io.tiklab.core.exception.ApplicationException;
-import io.tiklab.core.exception.SystemException;
-import io.tiklab.core.page.Pagination;
-import io.tiklab.core.page.PaginationBuilder;
+import io.thoughtware.core.exception.ApplicationException;
+import io.thoughtware.core.exception.SystemException;
+import io.thoughtware.core.page.Pagination;
+import io.thoughtware.core.page.PaginationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;

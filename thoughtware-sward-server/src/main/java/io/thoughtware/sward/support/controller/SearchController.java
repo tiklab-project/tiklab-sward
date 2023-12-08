@@ -2,13 +2,13 @@ package io.thoughtware.sward.support.controller;
 
 
 import io.thoughtware.sward.support.service.SearchService;
-import io.tiklab.core.Result;
-import io.tiklab.core.exception.ApplicationException;
+import io.thoughtware.core.Result;
+import io.thoughtware.core.exception.ApplicationException;
 import io.thoughtware.sward.document.model.WikiDocument;
 import io.thoughtware.sward.repository.model.WikiRepository;
-import io.tiklab.postin.annotation.Api;
-import io.tiklab.postin.annotation.ApiMethod;
-import io.tiklab.postin.annotation.ApiParam;
+import io.thoughtware.postin.annotation.Api;
+import io.thoughtware.postin.annotation.ApiMethod;
+import io.thoughtware.postin.annotation.ApiParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

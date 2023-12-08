@@ -3,10 +3,10 @@ package io.thoughtware.sward.support.service;
 
 import io.thoughtware.sward.support.model.*;
 import io.thoughtware.sward.support.util.HttpRequestUtil;
-import io.tiklab.core.page.Pagination;
-import io.tiklab.sward.support.model.*;
-import io.tiklab.user.dmUser.model.DmUser;
-import io.tiklab.user.dmUser.model.DmUserQuery;
+import io.thoughtware.core.page.Pagination;
+import io.thoughtware.sward.support.model.*;
+import io.thoughtware.user.dmUser.model.DmUser;
+import io.thoughtware.user.dmUser.model.DmUserQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

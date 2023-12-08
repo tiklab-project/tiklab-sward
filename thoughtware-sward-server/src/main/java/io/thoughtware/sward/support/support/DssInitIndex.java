@@ -1,8 +1,8 @@
 package io.thoughtware.sward.support.support;
 
 import io.thoughtware.sward.repository.service.WikiRepositoryService;
-import io.tiklab.dss.client.DssClient;
-import io.tiklab.dss.client.initdata.executer.IndexInitCallback;
+import io.thoughtware.dss.client.DssClient;
+import io.thoughtware.dss.client.initdata.executer.IndexInitCallback;
 import io.thoughtware.sward.document.model.WikiDocument;
 import io.thoughtware.sward.document.service.DocumentService;
 import io.thoughtware.sward.repository.model.WikiRepository;

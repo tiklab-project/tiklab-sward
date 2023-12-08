@@ -2,7 +2,7 @@ package io.thoughtware.sward.support.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.tiklab.postin.annotation.ApiProperty;
+import io.thoughtware.postin.annotation.ApiProperty;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Date;

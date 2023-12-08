@@ -1,7 +1,7 @@
 package io.thoughtware.sward.support.model;
 
-import io.tiklab.core.page.Page;
-import io.tiklab.postin.annotation.ApiProperty;
+import io.thoughtware.core.page.Page;
+import io.thoughtware.postin.annotation.ApiProperty;
 
 
 public class WikiWorkItemQuery {

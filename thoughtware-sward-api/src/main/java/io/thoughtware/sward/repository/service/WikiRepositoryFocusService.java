@@ -1,6 +1,6 @@
 package io.thoughtware.sward.repository.service;
 
-import io.tiklab.core.page.Pagination;
+import io.thoughtware.core.page.Pagination;
 import io.thoughtware.sward.repository.model.WikiRepositoryFocus;
 import io.thoughtware.sward.repository.model.WikiRepositoryFocusQuery;
 

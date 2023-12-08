@@ -1,7 +1,7 @@
 package io.thoughtware.sward.starter.config;
 
 
-import io.tiklab.dss.client.initdata.config.model.DssConfig;
+import io.thoughtware.dss.client.initdata.config.model.DssConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
