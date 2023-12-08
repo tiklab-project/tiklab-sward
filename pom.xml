@@ -14,7 +14,6 @@
     <packaging>pom</packaging>
     <version>1.0.1-SNAPSHOT</version>
     <properties>
-        <thoughtware-teamwire.version>1.0.0-SNAPSHOT</thoughtware-teamwire.version>
         <thoughtware-sward.version>1.0.1-SNAPSHOT</thoughtware-sward.version>
         <thoughtware-gateway.version>1.0.1-SNAPSHOT</thoughtware-gateway.version>
         <thoughtware-core.version>1.0.0</thoughtware-core.version>
