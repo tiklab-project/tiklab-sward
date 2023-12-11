@@ -20,7 +20,7 @@ jdbc:
   password: darth2020
 
 
-DATA_HOME: /opt/thoughtware/sward
+DATA_HOME: /opt/tiklab/sward
 
 #dfs config
 #dfs.server.enabled=false
