@@ -5,7 +5,7 @@ import io.thoughtware.dal.jpa.annotation.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="kanass_share_relation")
+@Table(name="wiki_share_relation")
 public class ShareRelationEntity implements Serializable {
 
     @Id

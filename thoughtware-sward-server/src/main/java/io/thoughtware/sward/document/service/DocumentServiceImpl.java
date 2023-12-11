@@ -1,6 +1,7 @@
 package io.thoughtware.sward.document.service;
 
 import com.alibaba.fastjson.JSONObject;
+import io.thoughtware.security.logging.service.LoggingByTempService;
 import io.thoughtware.sward.category.model.WikiCategory;
 import io.thoughtware.sward.document.model.*;
 import io.thoughtware.dal.jpa.JpaTemplate;
@@ -8,7 +9,6 @@ import io.thoughtware.dss.client.DssClient;
 import io.thoughtware.eam.common.context.LoginContext;
 import io.thoughtware.sward.category.service.WikiCategoryService;
 import io.thoughtware.sward.document.entity.WikiDocumentEntity;
-import io.thoughtware.sward.document.model.*;
 import io.thoughtware.sward.document.support.OpLogTemplateDocument;
 import io.thoughtware.beans.BeanMapper;
 import io.thoughtware.core.page.Pagination;
@@ -21,7 +21,6 @@ import io.thoughtware.sward.support.service.RecentService;
 import io.thoughtware.rpc.annotation.Exporter;
 import io.thoughtware.security.logging.model.Logging;
 import io.thoughtware.security.logging.model.LoggingType;
-import io.thoughtware.security.logging.service.LoggingByTemplService;
 import io.thoughtware.user.user.model.User;
 import io.thoughtware.user.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +49,9 @@ public class DocumentServiceImpl implements DocumentService {
     JpaTemplate jpaTemplate;
     @Autowired
     DocumentDao documentDao;
+
+    @Autowired
+    DocumentFocusService documentFocusService;
     @Autowired
     DssClient dssClient;
 
@@ -63,7 +65,7 @@ public class DocumentServiceImpl implements DocumentService {
     RecentService recentService;
 
     @Autowired
-    LoggingByTemplService loggingByTemplService;
+    LoggingByTempService loggingByTemplService;
 
     @Autowired
     CommentService commentService;
@@ -241,6 +243,7 @@ public class DocumentServiceImpl implements DocumentService {
                 wikiDocument.setCommentNumber(0);
             }
             findLike(wikiDocument);
+            findFocus(wikiDocument);
 
         }
         return wikiDocument;
@@ -267,7 +270,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public List<Map<String, Object>> findDocumentByRepositoryIds(String repositoryIds) {
-        String sql = "select repository_id from kanass_document t where t.repository_id in "+ repositoryIds;
+        String sql = "select repository_id from wiki_document t where t.repository_id in "+ repositoryIds;
         List<Map<String, Object>> documentList = this.jpaTemplate.getJdbcTemplate().queryForList(sql);
         return documentList;
     }
@@ -353,6 +356,20 @@ public class DocumentServiceImpl implements DocumentService {
         }else {
             wikiDocument.setLike(false);
             wikiDocument.setLikenumInt(0);
+        }
+    }
+
+    public void findFocus( WikiDocument wikiDocument){
+        DocumentFocusQuery documentFocusQuery = new DocumentFocusQuery();
+        documentFocusQuery.setDocumentId(wikiDocument.getId());
+        String createUserId = LoginContext.getLoginId();
+        documentFocusQuery.setMasterId(createUserId);
+        List<DocumentFocus> documentFocusList = documentFocusService.findDocumentFocusList(documentFocusQuery);
+
+        if (!documentFocusList.isEmpty()){
+            wikiDocument.setFocus(true);
+        }else {
+            wikiDocument.setFocus(false);
         }
     }
 

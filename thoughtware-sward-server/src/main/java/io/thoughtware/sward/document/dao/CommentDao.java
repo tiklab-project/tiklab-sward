@@ -104,7 +104,7 @@ public class CommentDao{
     }
 
     public List<CommentEntity> findCommentChildren(String commentIds) {
-        String sql = "select * from kanass_comment t where t.parent_comment_id in "+ commentIds;
+        String sql = "select * from wiki_comment t where t.parent_comment_id in "+ commentIds;
 //        List<CommentEntity> commentEntitiyList = this.jpaTemplate.getJdbcTemplate().queryForList(sql, CommentEntity.class);
 
         List<CommentEntity> commentEntitiyList = this.jpaTemplate.getJdbcTemplate().query(sql, new BeanPropertyRowMapper(CommentEntity.class));

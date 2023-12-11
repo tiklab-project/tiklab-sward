@@ -9,7 +9,7 @@ import io.thoughtware.dal.jpa.annotation.Table;import io.thoughtware.dal.jpa.ann
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-@Entity @Table(name="kanass_category")
+@Entity @Table(name="wiki_category")
 public class WikiCategoryEntity implements Serializable {
 
     @Id

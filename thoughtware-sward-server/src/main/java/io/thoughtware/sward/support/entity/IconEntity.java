@@ -6,7 +6,7 @@ import io.thoughtware.dal.jpa.annotation.*;
  * 图标实例
  */
 @Entity
-@Table(name="kanass_icon")
+@Table(name="wiki_icon")
 public class IconEntity {
     @Id
     @GeneratorValue(length = 12)

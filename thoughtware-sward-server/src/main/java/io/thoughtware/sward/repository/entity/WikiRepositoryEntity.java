@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="kanass_repository")
+@Table(name="wiki_repository")
 public class WikiRepositoryEntity implements Serializable {
 
     @Id

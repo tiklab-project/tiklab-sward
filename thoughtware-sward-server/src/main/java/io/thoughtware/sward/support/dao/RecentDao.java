@@ -59,7 +59,7 @@ public class RecentDao {
     }
 
     public void deleteRecentByIds(String ids){
-        String sql = "DELETE FROM kanass_recent where id in " + ids ;
+        String sql = "DELETE FROM wiki_recent where id in " + ids ;
         int update = jpaTemplate.getJdbcTemplate().update(sql);
         if(update >= 0){
             logger.info("删除多于的数据成功");

@@ -5,7 +5,7 @@ import io.thoughtware.dal.jpa.annotation.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="kanass_recent")
+@Table(name="wiki_recent")
 public class RecentEntity {
     @Id
     @GeneratorValue(length = 12)

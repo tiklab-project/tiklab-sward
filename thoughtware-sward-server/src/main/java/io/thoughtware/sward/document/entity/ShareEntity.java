@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name="kanass_share")
+@Table(name="wiki_share")
 public class ShareEntity implements Serializable {
     @Id
     @GeneratorValue(length = 12)

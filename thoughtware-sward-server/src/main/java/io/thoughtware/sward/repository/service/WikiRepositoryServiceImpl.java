@@ -1,6 +1,7 @@
 package io.thoughtware.sward.repository.service;
 
 import com.alibaba.fastjson.JSONObject;
+import io.thoughtware.security.logging.service.LoggingByTempService;
 import io.thoughtware.sward.category.model.WikiCategory;
 import io.thoughtware.sward.category.model.WikiCategoryQuery;
 import io.thoughtware.sward.category.service.WikiCategoryService;
@@ -28,7 +29,6 @@ import io.thoughtware.privilege.role.model.PatchUser;
 import io.thoughtware.rpc.annotation.Exporter;
 import io.thoughtware.security.logging.model.Logging;
 import io.thoughtware.security.logging.model.LoggingType;
-import io.thoughtware.security.logging.service.LoggingByTemplService;
 import io.thoughtware.user.dmUser.model.DmUser;
 import io.thoughtware.user.dmUser.model.DmUserQuery;
 import io.thoughtware.user.dmUser.service.DmUserService;
@@ -85,7 +85,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     SendMessageNoticeService sendMessageNoticeService;
 
     @Autowired
-    LoggingByTemplService loggingByTemplService;
+    LoggingByTempService loggingByTemplService;
 
     @Value("${base.url:null}")
     String baseUrl;

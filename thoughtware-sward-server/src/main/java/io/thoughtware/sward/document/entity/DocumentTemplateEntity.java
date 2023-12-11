@@ -9,7 +9,7 @@ import io.thoughtware.dal.jpa.annotation.Table;import io.thoughtware.dal.jpa.ann
 import java.io.Serializable;
 
 @Entity
-@Table(name="kanass_document_template")
+@Table(name="wiki_document_template")
 public class DocumentTemplateEntity implements Serializable {
 
     @Id

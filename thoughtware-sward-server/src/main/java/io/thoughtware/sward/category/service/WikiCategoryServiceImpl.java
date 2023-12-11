@@ -1,6 +1,7 @@
 package io.thoughtware.sward.category.service;
 
 import com.alibaba.fastjson.JSONObject;
+import io.thoughtware.security.logging.service.LoggingByTempService;
 import io.thoughtware.sward.category.model.WikiCategory;
 import io.thoughtware.sward.category.support.OpLogTemplateCategory;
 import io.thoughtware.dal.jpa.JpaTemplate;
@@ -19,7 +20,6 @@ import io.thoughtware.sward.category.dao.WikiCategoryDao;
 import io.thoughtware.sward.document.service.DocumentService;
 import io.thoughtware.security.logging.model.Logging;
 import io.thoughtware.security.logging.model.LoggingType;
-import io.thoughtware.security.logging.service.LoggingByTemplService;
 import io.thoughtware.user.user.model.User;
 import io.thoughtware.user.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
     UserService userService;
 
     @Autowired
-    LoggingByTemplService loggingByTemplService;
+    LoggingByTempService loggingByTemplService;
 
 
     @Autowired
@@ -350,7 +350,7 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
     }
 
     public List<Map<String, Object>> findCategoryByRepositoryIds(String repositoryIds) {
-        String sql = "select repository_id from kanass_category t where t.repository_id in "+ repositoryIds;
+        String sql = "select repository_id from wiki_category t where t.repository_id in "+ repositoryIds;
         List<Map<String, Object>> categoryList = this.jpaTemplate.getJdbcTemplate().queryForList(sql);
         return categoryList;
     }

@@ -24,7 +24,7 @@ public class UpdateMySqlDao {
 
         for (String tableName:stringList ){
             if (tableName.startsWith("sward")){
-                if (("kanass_repository").equals(tableName)){
+                if (("wiki_repository").equals(tableName)){
                     exeSql(tableName,"id", 12);
                     exeSql(tableName,"type_id", 8);
                     exeSql(tableName,"master", 12);
@@ -32,7 +32,7 @@ public class UpdateMySqlDao {
                     exeSql(tableName,"icon_url", 32);
                 }
 
-                if (("kanass_category").equals(tableName)){
+                if (("wiki_category").equals(tableName)){
                     exeSql(tableName,"id", 12);
                     exeSql(tableName,"repository_id", 12);
                     exeSql(tableName,"parent_category_id", 12);
@@ -40,23 +40,23 @@ public class UpdateMySqlDao {
                     exeSql(tableName,"icon_url", 32);
                 }
 
-                if (("kanass_document").equals(tableName)){
+                if (("wiki_document").equals(tableName)){
                     exeSql(tableName,"id", 12);
                     exeSql(tableName,"repository_id", 12);
                     exeSql(tableName,"category_id", 12);
                     exeSql(tableName,"master", 12);
                 }
 
-                if (("kanass_document_attach").equals(tableName)){
+                if (("wiki_document_attach").equals(tableName)){
                     exeSql(tableName,"id", 12);
                     exeSql(tableName,"document_id", 12);
                 }
 
-                if (("kanass_document_template").equals(tableName)){
+                if (("wiki_document_template").equals(tableName)){
                     exeSql(tableName,"id", 8);
                 }
 
-                if (("kanass_comment").equals(tableName)){
+                if (("wiki_comment").equals(tableName)){
                     exeSql(tableName,"id", 12);
                     exeSql(tableName,"document_id", 12);
                     exeSql(tableName,"parent_comment_id", 12);
@@ -65,29 +65,29 @@ public class UpdateMySqlDao {
                     exeSql(tableName,"user_id", 12);
                 }
 
-                if (("kanass_like").equals(tableName)){
+                if (("wiki_like").equals(tableName)){
                     exeSql(tableName,"id", 12);
                     exeSql(tableName,"to_whom_id", 12);
                     exeSql(tableName,"like_user", 12);
                 }
 
-                if (("kanass_share").equals(tableName)){
+                if (("wiki_share").equals(tableName)){
                     exeSql(tableName,"id", 12);
                 }
 
 
-                if (("kanass_recent").equals(tableName)){
+                if (("wiki_recent").equals(tableName)){
                     exeSql(tableName,"id", 12);
                     exeSql(tableName,"model_id", 12);
                     exeSql(tableName,"master_id", 12);
                     exeSql(tableName,"repository_id", 12);
                 }
-                if (("kanass_repository_focus").equals(tableName)){
+                if (("wiki_repository_focus").equals(tableName)){
                     exeSql(tableName,"id", 12);
                     exeSql(tableName,"repository_id", 12);
                     exeSql(tableName,"master_id", 12);
                 }
-                if (("kanass_share_relation").equals(tableName)){
+                if (("wiki_share_relation").equals(tableName)){
                     exeSql(tableName,"id", 12);
                     exeSql(tableName,"document_id", 12);
                     exeSql(tableName,"share_id", 12);

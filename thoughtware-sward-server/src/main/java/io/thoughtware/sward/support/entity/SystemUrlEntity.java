@@ -3,7 +3,7 @@ package io.thoughtware.sward.support.entity;
 import io.thoughtware.dal.jpa.annotation.*;
 
 @Entity
-@Table(name="kanass_system_url")
+@Table(name="wiki_system_url")
 public class SystemUrlEntity {
     @Id
     @GeneratorValue(length = 8)

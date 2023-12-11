@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name="kanass_like")
+@Table(name="wiki_like")
 public class LikeEntity implements Serializable {
 
     @Id

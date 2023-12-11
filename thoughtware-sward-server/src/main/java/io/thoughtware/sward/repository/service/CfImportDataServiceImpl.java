@@ -117,7 +117,7 @@ public class CfImportDataServiceImpl implements CfImportDataService {
 //        //将解析后的富文本内容转json
 //        String date = JSON.toJSON(textDates).toString();
 //        if (ObjectUtils.isEmpty(document)){
-//            String sql = "insert into kanass_document(id,name,repository_id,type_id,category_id,details) values(?,?,?,?,?,?)";
+//            String sql = "insert into wiki_document(id,name,repository_id,type_id,category_id,details) values(?,?,?,?,?,?)";
 //            getJdbcTemplet().update(sql,elementId,"***","***","**",null,date);
 //        }else {
 //            document.setDetails(date);
@@ -325,7 +325,7 @@ public class CfImportDataServiceImpl implements CfImportDataService {
 //        }
 //        RepositoryEntity repository = repositoryDao.findRepository(id);
 //        if (ObjectUtils.isEmpty(repository)){
-//            String sql = "insert into kanass_repository(id,name,type_id,master,description) values(?,?,?,?,?)";
+//            String sql = "insert into wiki_repository(id,name,type_id,master,description) values(?,?,?,?,?)";
 //            getJdbcTemplet().update(sql,id,reName,spaceType,creator,"描述");
 //            //给默认con的目录添加 空间
 //            CategoryEntity categoryEntity = new CategoryEntity();
@@ -369,7 +369,7 @@ public class CfImportDataServiceImpl implements CfImportDataService {
 //        DocumentEntity document = documentDao.findDocument(id);
 //        //为空添加
 //        if (ObjectUtils.isEmpty(document)){
-//            String sql = "insert into kanass_document(id,name,repository_id,type_id,category_id,details) values(?,?,?,?,?,?)";
+//            String sql = "insert into wiki_document(id,name,repository_id,type_id,category_id,details) values(?,?,?,?,?,?)";
 //            getJdbcTemplet().update(sql,id,docName,spaceId,"**",null,"**");
 //        }else {
 //            //不为空 修改

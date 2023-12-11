@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="kanass_comment")
+@Table(name="wiki_comment")
 public class CommentEntity implements Serializable {
 
     @Id

@@ -1,0 +1,91 @@
+package io.thoughtware.sward.document.dao;
+
+import io.thoughtware.sward.document.entity.DocumentFocusEntity;
+import io.thoughtware.core.page.Pagination;
+import io.thoughtware.dal.jpa.JpaTemplate;
+import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
+import io.thoughtware.dal.jpa.criterial.condition.QueryCondition;
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.QueryBuilders;
+import io.thoughtware.sward.document.model.DocumentFocusQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+/**
+ * DocumentFocusDao
+ */
+@Repository
+public class DocumentFocusDao {
+
+    private static Logger logger = LoggerFactory.getLogger(DocumentFocusDao.class);
+
+    @Autowired
+    JpaTemplate jpaTemplate;
+
+    /**
+     * 创建
+     * @param wikiDocumentFocusEntity
+     * @return
+     */
+    public String createDocumentFocus(DocumentFocusEntity wikiDocumentFocusEntity) {
+        return jpaTemplate.save(wikiDocumentFocusEntity,String.class);
+    }
+
+    /**
+     * 更新
+     * @param wikiDocumentFocusEntity
+     */
+    public void updateDocumentFocus(DocumentFocusEntity wikiDocumentFocusEntity){
+        jpaTemplate.update(wikiDocumentFocusEntity);
+    }
+
+    /**
+     * 删除
+     * @param id
+     */
+    public void deleteDocumentFocus(String id){
+        jpaTemplate.delete(DocumentFocusEntity.class,id);
+    }
+
+    public void deleteDocumentFocus(DeleteCondition deleteCondition){
+        jpaTemplate.delete(deleteCondition);
+    }
+
+    /**
+     * 查找
+     * @param id
+     * @return
+     */
+    public DocumentFocusEntity findDocumentFocus(String id){
+        return jpaTemplate.findOne(DocumentFocusEntity.class,id);
+    }
+
+    /**
+     * findAllDocumentFocus
+     * @return
+     */
+    public List<DocumentFocusEntity> findAllDocumentFocus() {
+        return jpaTemplate.findAll(DocumentFocusEntity.class);
+    }
+
+    public List<DocumentFocusEntity> findDocumentFocusList(List<String> idList) {
+        return jpaTemplate.findList(DocumentFocusEntity.class,idList);
+    }
+
+    public List<DocumentFocusEntity> findDocumentFocusList(DocumentFocusQuery wikiDocumentFocusQuery) {
+        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentFocusEntity.class)
+                .eq("documentId", wikiDocumentFocusQuery.getDocumentId())
+                .eq("masterId", wikiDocumentFocusQuery.getMasterId())
+                .orders(wikiDocumentFocusQuery.getOrderParams())
+                .get();
+
+        return jpaTemplate.findList(queryCondition, DocumentFocusEntity.class);
+    }
+
+    public Pagination<DocumentFocusEntity> findDocumentFocusPage(DocumentFocusQuery wikiDocumentFocusQuery) {
+        return jpaTemplate.findPage(wikiDocumentFocusQuery, DocumentFocusEntity.class);
+    }
+}

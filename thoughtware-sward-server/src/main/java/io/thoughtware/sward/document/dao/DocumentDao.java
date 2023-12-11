@@ -44,17 +44,17 @@ public class DocumentDao{
         String sql = "";
         Integer num = 0;
         if(categoryId == null){
-            sql = "select count(1) as totalCount from kanass_document where category_id is null and repository_id = '" + repositoryId + "'";
+            sql = "select count(1) as totalCount from wiki_document where category_id is null and repository_id = '" + repositoryId + "'";
             Integer totalDocumentCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
 
-            sql = "select count(1) as totalCount from kanass_category where parent_category_id is null and repository_id = '" + repositoryId + "'";
+            sql = "select count(1) as totalCount from wiki_category where parent_category_id is null and repository_id = '" + repositoryId + "'";
             Integer totalCategoryCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
             num = totalDocumentCount + totalCategoryCount;
         }else {
-            sql = "select count(1) as totalCount from kanass_document where category_id = '" + categoryId + "'";
+            sql = "select count(1) as totalCount from wiki_document where category_id = '" + categoryId + "'";
             Integer totalDocumentCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
 
-            sql = "select count(1) as totalCount from kanass_category where parent_category_id = '" + categoryId + "'";
+            sql = "select count(1) as totalCount from wiki_category where parent_category_id = '" + categoryId + "'";
             Integer totalCategoryCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
             num = totalDocumentCount + totalCategoryCount;
         }
@@ -138,16 +138,16 @@ public class DocumentDao{
     public List<WikiDocumentEntity> findDocuementByKeyWork(String keyWork) {
         String sql = "WITH RECURSIVE recursive_extract AS (\n" +
                 "    SELECT \n" +
-                "          kanass_document.id,\n" +
-                "      kanass_document.name,\n" +
-                "      kanass_document.details,\n" +
-                "      kanass_document.type_id,\n" +
-                "      kanass_document.repository_id,\n" +
-                "      kanass_document.category_id,\n" +
-                "      kanass_document.master,\n" +
-                "      kanass_document.update_time,\n" +
+                "          wiki_document.id,\n" +
+                "      wiki_document.name,\n" +
+                "      wiki_document.details,\n" +
+                "      wiki_document.type_id,\n" +
+                "      wiki_document.repository_id,\n" +
+                "      wiki_document.category_id,\n" +
+                "      wiki_document.master,\n" +
+                "      wiki_document.update_time,\n" +
                 "          jsonb_array_elements(details) AS element\n" +
-                "    FROM kanass_document\n" +
+                "    FROM wiki_document\n" +
                 "    UNION ALL\n" +
                 "    SELECT \n" +
                 "          recursive_extract.id,\n" +

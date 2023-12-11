@@ -46,20 +46,20 @@ public class WikiCategoryDao {
     public void updateOnRepository(String repository, Integer oldSort, Integer sort ){
         String sql = "";
         if(oldSort > sort){
-            sql = " UPDATE kanass_category SET sort = sort + 1 where repository_id = '" +repository
+            sql = " UPDATE wiki_category SET sort = sort + 1 where repository_id = '" +repository
                     + "' and parent_category_id is null and sort >= '" +sort + "' and sort < '" + oldSort + "'";
             this.jpaTemplate.getJdbcTemplate().execute(sql);
 
-            sql = " UPDATE kanass_document SET sort = sort + 1 where repository_id = '" +repository
+            sql = " UPDATE wiki_document SET sort = sort + 1 where repository_id = '" +repository
                     + "' and category_id is null and sort >= '" +sort + "' and sort < '" + oldSort + "'";
             this.jpaTemplate.getJdbcTemplate().execute(sql);
 
         }else {
-            sql = " UPDATE kanass_category SET sort = sort - 1 where repository_id = '" +repository
+            sql = " UPDATE wiki_category SET sort = sort - 1 where repository_id = '" +repository
                     + "' and parent_category_id is null and sort <= '" + sort + "' and sort > '" + oldSort + "'";
             this.jpaTemplate.getJdbcTemplate().execute(sql);
 
-            sql = " UPDATE kanass_document SET sort = sort - 1 where repository_id = '" +repository
+            sql = " UPDATE wiki_document SET sort = sort - 1 where repository_id = '" +repository
                     + "' and category_id is null and sort <= '" + sort + "' and sort > '" + oldSort + "'";
             this.jpaTemplate.getJdbcTemplate().execute(sql);
         }
@@ -68,19 +68,19 @@ public class WikiCategoryDao {
     public void updateRepositoryToCategory(String repository, String parentWikiCategoryId,Integer oldSort, Integer sort ){
         String sql = "";
         // 更新库下的文档和目录
-        sql = " UPDATE kanass_category SET sort = sort - 1 where repository_id = '" +repository
+        sql = " UPDATE wiki_category SET sort = sort - 1 where repository_id = '" +repository
                 + "' and parent_category_id is null and sort >= '" +oldSort + "'";
         this.jpaTemplate.getJdbcTemplate().execute(sql);
 //        this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Void.class);
-        sql = " UPDATE kanass_document SET sort = sort - 1 where repository_id = '" +repository
+        sql = " UPDATE wiki_document SET sort = sort - 1 where repository_id = '" +repository
                 + "' and category_id is null and sort >'" + oldSort + "'";
         this.jpaTemplate.getJdbcTemplate().execute(sql);
 
         // 更新目录下的文档和目录
-        sql = " UPDATE kanass_category SET sort = sort + 1 where repository_id = '" +repository
+        sql = " UPDATE wiki_category SET sort = sort + 1 where repository_id = '" +repository
                 + "' and parent_category_id = '" + parentWikiCategoryId +"' and sort >= '" +sort + "'";
         this.jpaTemplate.getJdbcTemplate().execute(sql);
-        sql = " UPDATE kanass_document SET sort = sort + 1 where repository_id = '" +repository
+        sql = " UPDATE wiki_document SET sort = sort + 1 where repository_id = '" +repository
                 + "' and category_id  = '" + parentWikiCategoryId + "' and sort >='" + sort + "'";
         this.jpaTemplate.getJdbcTemplate().execute(sql);
     }
@@ -88,18 +88,18 @@ public class WikiCategoryDao {
     public void  updateCategoryToRepository(String repository, String parentWikiCategoryId,Integer oldSort, Integer sort ){
         String sql = "";
         // 更新库下的文档和目录
-        sql = " UPDATE kanass_category SET sort = sort + 1 where repository_id = '" +repository
+        sql = " UPDATE wiki_category SET sort = sort + 1 where repository_id = '" +repository
                 + "' and parent_category_id is null and sort >= '" + sort + "'";
         this.jpaTemplate.getJdbcTemplate().execute(sql);
-        sql = " UPDATE kanass_document SET sort = sort + 1 where repository_id = '" +repository
+        sql = " UPDATE wiki_document SET sort = sort + 1 where repository_id = '" +repository
                 + "' and category_id is null and sort >='" + sort + "'";
         this.jpaTemplate.getJdbcTemplate().execute(sql);
 
         // 更新目录下的文档和目录
-        sql = " UPDATE kanass_category SET sort = sort - 1 where repository_id = '" +repository
+        sql = " UPDATE wiki_category SET sort = sort - 1 where repository_id = '" +repository
                 + "' and parent_category_id = '" + parentWikiCategoryId +"' and sort > '" +oldSort + "'";
         this.jpaTemplate.getJdbcTemplate().execute(sql);
-        sql = " UPDATE kanass_document SET sort = sort - 1 where repository_id = '" +repository
+        sql = " UPDATE wiki_document SET sort = sort - 1 where repository_id = '" +repository
                 + "' and category_id  = '" + parentWikiCategoryId + "' and sort > '" + oldSort + "'";
         this.jpaTemplate.getJdbcTemplate().execute(sql);
     }
@@ -107,18 +107,18 @@ public class WikiCategoryDao {
     public void  updateOnCategory(String oldParentId, String parentWikiCategoryId,Integer oldSort, Integer sort ){
         String sql = "";
         // 更新旧目录下的文档和目录
-        sql = " UPDATE kanass_category SET sort = sort - 1 where parent_category_id = '" + oldParentId
+        sql = " UPDATE wiki_category SET sort = sort - 1 where parent_category_id = '" + oldParentId
                 + "' and sort > '" +oldSort + "'";
         this.jpaTemplate.getJdbcTemplate().execute(sql);
-        sql = " UPDATE kanass_document SET sort = sort - 1 where category_id = '" +oldParentId
+        sql = " UPDATE wiki_document SET sort = sort - 1 where category_id = '" +oldParentId
                 + "' and sort >'" + oldSort + "'";
         this.jpaTemplate.getJdbcTemplate().execute(sql);
 
         // 更新新目录下的文档和目录
-        sql = " UPDATE kanass_category SET sort = sort + 1 where parent_category_id = '" + parentWikiCategoryId
+        sql = " UPDATE wiki_category SET sort = sort + 1 where parent_category_id = '" + parentWikiCategoryId
                 + "' and sort >= '" +sort + "'";
         this.jpaTemplate.getJdbcTemplate().execute(sql);
-        sql = " UPDATE kanass_document SET sort = sort + 1 where category_id = '" + parentWikiCategoryId
+        sql = " UPDATE wiki_document SET sort = sort + 1 where category_id = '" + parentWikiCategoryId
                 + "' and sort >='" + sort + "'";
         this.jpaTemplate.getJdbcTemplate().execute(sql);
     }
@@ -126,20 +126,20 @@ public class WikiCategoryDao {
     public void  updateCurrentCategory(String parentWikiCategoryId,Integer oldSort, Integer sort ){
         String sql = "";
         if(oldSort > sort){
-            sql = " UPDATE kanass_category SET sort = sort + 1 where parent_category_id = '" +
+            sql = " UPDATE wiki_category SET sort = sort + 1 where parent_category_id = '" +
                     parentWikiCategoryId  + "' and sort >= '" +sort + "' and sort < '" + oldSort + "'";
             this.jpaTemplate.getJdbcTemplate().execute(sql);
 
-            sql = " UPDATE kanass_document SET sort = sort + 1 where category_id = '" +
+            sql = " UPDATE wiki_document SET sort = sort + 1 where category_id = '" +
                     parentWikiCategoryId + "' and sort >= '" +sort + "' and sort < '" + oldSort + "'";
             this.jpaTemplate.getJdbcTemplate().execute(sql);
 
         }else {
-            sql = " UPDATE kanass_category SET sort = sort - 1 where parent_category_id = '" +
+            sql = " UPDATE wiki_category SET sort = sort - 1 where parent_category_id = '" +
                     parentWikiCategoryId  + "' and sort <= '" + sort + "' and sort > '" + oldSort + "'";
             this.jpaTemplate.getJdbcTemplate().execute(sql);
 
-            sql = " UPDATE kanass_document SET sort = sort - 1 where category_id = '" +
+            sql = " UPDATE wiki_document SET sort = sort - 1 where category_id = '" +
                     parentWikiCategoryId + "' and sort <= '" + sort + "' and sort > '" + oldSort + "'";
             this.jpaTemplate.getJdbcTemplate().execute(sql);
         }
@@ -147,11 +147,11 @@ public class WikiCategoryDao {
 
     public HashMap<String, List<String>> findCategoryChildren(String parentWikiCategoryId){
         HashMap<String, List<String>> ids = new HashMap<>();
-        String sql = "Select id from kanass_document where category_id = '" + parentWikiCategoryId + "'";
+        String sql = "Select id from wiki_document where category_id = '" + parentWikiCategoryId + "'";
         List<String> documents = this.jpaTemplate.getJdbcTemplate().queryForList(sql, String.class);
         ids.put("document", documents);
 
-        sql = "Select id from kanass_category where parent_category_id = '" + parentWikiCategoryId + "'";
+        sql = "Select id from wiki_category where parent_category_id = '" + parentWikiCategoryId + "'";
         List<String> categorys = this.jpaTemplate.getJdbcTemplate().queryForList(sql, String.class);
         ids.put("category", categorys);
         if(categorys.size() > 0){
@@ -171,11 +171,11 @@ public class WikiCategoryDao {
     public void updateDimension(String doumentIds, String categoryIds, Integer distence){
         String sql = null;
         if(doumentIds != null) {
-            sql = "UPDATE kanass_document SET dimension = dimension + " + distence + " where id in " + doumentIds;
+            sql = "UPDATE wiki_document SET dimension = dimension + " + distence + " where id in " + doumentIds;
             this.jpaTemplate.getJdbcTemplate().execute(sql);
         }
         if(categoryIds != null){
-            sql = "UPDATE kanass_category SET dimension = dimension + " + distence + " where id in " + categoryIds;
+            sql = "UPDATE wiki_category SET dimension = dimension + " + distence + " where id in " + categoryIds;
             this.jpaTemplate.getJdbcTemplate().execute(sql);
         }
 
@@ -185,18 +185,18 @@ public class WikiCategoryDao {
         String sql = "";
         // 更新库下的文档和目录
         if(parentWikiCategoryId == null || parentWikiCategoryId.length() <= 0 || parentWikiCategoryId.equals("nullString")){
-            sql = " UPDATE kanass_category SET sort = sort - 1 where repository_id = '" +repositoryId
+            sql = " UPDATE wiki_category SET sort = sort - 1 where repository_id = '" +repositoryId
                     + "' and parent_category_id is null and sort > '" + sort + "'";
             this.jpaTemplate.getJdbcTemplate().execute(sql);
-            sql = " UPDATE kanass_document SET sort = sort - 1 where repository_id = '" +repositoryId
+            sql = " UPDATE wiki_document SET sort = sort - 1 where repository_id = '" +repositoryId
                     + "' and category_id is null and sort >'" + sort + "'";
             this.jpaTemplate.getJdbcTemplate().execute(sql);
         }else {
             // 更新目录下的文档和目录
-            sql = " UPDATE kanass_category SET sort = sort - 1 where repository_id = '" +repositoryId
+            sql = " UPDATE wiki_category SET sort = sort - 1 where repository_id = '" +repositoryId
                     + "' and parent_category_id = '" + parentWikiCategoryId +"' and sort > '" +sort + "'";
             this.jpaTemplate.getJdbcTemplate().execute(sql);
-            sql = " UPDATE kanass_document SET sort = sort - 1 where repository_id = '" +repositoryId
+            sql = " UPDATE wiki_document SET sort = sort - 1 where repository_id = '" +repositoryId
                     + "' and category_id  = '" + parentWikiCategoryId + "' and sort > '" + sort + "'";
             this.jpaTemplate.getJdbcTemplate().execute(sql);
         }

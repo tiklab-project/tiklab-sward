@@ -8,7 +8,7 @@ import io.thoughtware.dal.jpa.annotation.Table;import io.thoughtware.dal.jpa.ann
 import java.io.Serializable;
 
 @Entity
-@Table(name="kanass_document_attach")
+@Table(name="wiki_document_attach")
 public class DocumentAttachEntity implements Serializable {
 
     @Id

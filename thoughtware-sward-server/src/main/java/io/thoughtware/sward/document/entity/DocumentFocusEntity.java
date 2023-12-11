@@ -1,20 +1,20 @@
-package io.thoughtware.sward.repository.entity;
+package io.thoughtware.sward.document.entity;
 
 import io.thoughtware.dal.jpa.annotation.*;
 
 import java.io.Serializable;
 
 @Entity
-@Table(name="wiki_repository_focus")
-public class WikiRepositoryFocusEntity implements Serializable {
+@Table(name="wiki_document_focus")
+public class DocumentFocusEntity implements Serializable {
 
     @Id
     @GeneratorValue(length = 12)
     @Column(name = "id",length = 12)
     private String id;
 
-    @Column(name = "repository_id",length = 64)
-    private String repositoryId;
+    @Column(name = "document_id",length = 64)
+    private String documentId;
 
     @Column(name = "master_id",length = 64)
     private String masterId;
@@ -46,11 +46,11 @@ public class WikiRepositoryFocusEntity implements Serializable {
         this.sort = sort;
     }
 
-    public String getRepositoryId() {
-        return repositoryId;
+    public String getDocumentId() {
+        return documentId;
     }
 
-    public void setRepositoryId(String repositoryId) {
-        this.repositoryId = repositoryId;
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 }

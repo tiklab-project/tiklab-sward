@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="kanass_document")
+@Table(name="wiki_document")
 public class WikiDocumentEntity implements Serializable {
 
     @Id

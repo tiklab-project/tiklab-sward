@@ -99,6 +99,9 @@ public class WikiDocument extends BaseModel{
     @ApiProperty(name="isLike",desc="查询人是否点赞")
     private boolean isLike;
 
+    @ApiProperty(name="isFocus",desc="查询人是否收藏")
+    private boolean isFocus;
+
     @ApiProperty(name="isRele",desc="是否关联事项")
     private java.lang.Boolean isRele;
 
@@ -264,5 +267,13 @@ public class WikiDocument extends BaseModel{
 
     public void setTreePath(String treePath) {
         this.treePath = treePath;
+    }
+
+    public boolean isFocus() {
+        return isFocus;
+    }
+
+    public void setFocus(boolean focus) {
+        isFocus = focus;
     }
 }
