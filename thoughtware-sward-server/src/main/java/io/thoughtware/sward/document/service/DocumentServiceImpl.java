@@ -86,20 +86,19 @@ public class DocumentServiceImpl implements DocumentService {
         String createUserId = LoginContext.getLoginId();
         User user = userService.findOne(createUserId);
         log.setUser(user);
-        content.put("master", user.getName());
+        content.put("createUser", user.getName());
         content.put("updateTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-
-        log.setLoggingTemplateId(OpLogTemplateDocument.TEAMWIRE_LOGTEMPLATE_DOCUMENTADD);
-
         LoggingType opLogType = new LoggingType();
-        opLogType.setId(OpLogTemplateDocument.TEAMWIRE_LOGTYPE_DOCUMENTADD);
+        opLogType.setId("SWARD_LOGTYPE_DOCUMENTADD");
         log.setActionType(opLogType);
 
         log.setModule("document");
         log.setCreateTime(new Timestamp(System.currentTimeMillis()));
         content.put("createUserIcon",user.getName().substring( 0, 1));
-        log.setContent(JSONObject.toJSONString(content));
+        log.setData(JSONObject.toJSONString(content));
         log.setBaseUrl(baseUrl);
+        log.setAction(content.get("documentName"));
+        log.setLink("/repositorydetail/${repositoryId}/doc/${documentId}");
         loggingByTemplService.createLog(log);
     }
 
@@ -116,20 +115,14 @@ public class DocumentServiceImpl implements DocumentService {
         String documentId = documentDao.createDocument(wikiDocumentEntity);
         WikiDocument wikiDocument1 = findDocumentById(documentId);
 
-
         Map<String, String> content = new HashMap<>();
         content.put("documentId", wikiDocument1.getId());
         content.put("documentName", wikiDocument1.getName());
         content.put("repositoryId", wikiDocument1.getWikiRepository().getId());
-        String typeId = wikiDocument1.getTypeId();
-        if(typeId.equals("document")){
-            content.put("iconUrl", "/images/mindMap.png");
-        }else {
-            content.put("iconUrl", "/images/document.png");
-        }
 
         WikiDocument wikiDocument2 = findDocument(documentId);
         dssClient.save(wikiDocument2);
+        creatDynamic(content);
         return documentId;
     }
 

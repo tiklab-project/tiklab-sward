@@ -100,8 +100,6 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         content.put("master", user.getName());
         content.put("updateTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 
-        log.setLoggingTemplateId(OpLogTemplateRepository.KANASS_LOGTEMPLATE_REPOSITORYADD);
-
         LoggingType opLogType = new LoggingType();
         opLogType.setId(OpLogTemplateRepository.KANASS_LOGTYPE_REPOSITORYADD);
         log.setActionType(opLogType);

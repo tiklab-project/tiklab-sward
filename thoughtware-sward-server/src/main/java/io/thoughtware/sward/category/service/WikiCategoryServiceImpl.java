@@ -72,8 +72,6 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         content.put("master", user.getName());
         content.put("updateTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 
-        log.setLoggingTemplateId(OpLogTemplateCategory.TEAMWIRE_LOGTEMPLATE_CATEGORYADD);
-
         LoggingType opLogType = new LoggingType();
         opLogType.setId(OpLogTemplateCategory.TEAMWIRE_LOGTYPE_CATEGORYADD);
         log.setActionType(opLogType);

@@ -32,11 +32,27 @@ public class SwardDsmAutoConfiguration {
                 //TodoTaskDsm
                 "todotask_1.0.0",
                 //kANASS
-                "kanass_1.0.0"
+                "kanass_1.0.0",
+                "backups_1.0.0",
+                "backups-cloud_1.0.0"
+
         });
 
         dsmConfig.newVersion("1.0.1", new String[]{
                 "kanass_1.0.1",
+                "message_1.0.1",
+                //SecurityDsm
+                "oplog_1.0.1",
+                //TodoTaskDsm
+                "todotask_1.0.1",
+
+        });
+        dsmConfig.newVersion("1.0.2", new String[]{
+                "message_1.0.2",
+                "oplog_1.0.2"
+        });
+        dsmConfig.newVersion("1.0.3", new String[]{
+                "message_1.0.3"
         });
         dsmConfig.newVersion("1.0.5", new String[]{
                 "kanass_1.0.5",
