@@ -79,7 +79,7 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         log.setModule("category");
         log.setCreateTime(new Timestamp(System.currentTimeMillis()));
         content.put("createUserIcon",user.getName().substring( 0, 1));
-        log.setContent(JSONObject.toJSONString(content));
+        log.setData(JSONObject.toJSONString(content));
         log.setBaseUrl(baseUrl);
         loggingByTemplService.createLog(log);
     }
@@ -112,7 +112,7 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         content.put("categoryId", wikiCategory1.getId());
         content.put("categoryName", wikiCategory1.getName());
         content.put("repositoryId", wikiCategory1.getWikiRepository().getId());
-        creatDynamic(content);
+//        creatDynamic(content);
         return categoryId;
     }
 
@@ -149,7 +149,7 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         content.put("categoryId", wikiCategory1.getId());
         content.put("categoryName", wikiCategory1.getName());
         content.put("repositoryId", wikiCategory1.getWikiRepository().getId());
-        creatDynamic(content);
+//        creatDynamic(content);
     }
 
     public void updateSort(@NotNull @Valid WikiCategory wikiCategory, String type){

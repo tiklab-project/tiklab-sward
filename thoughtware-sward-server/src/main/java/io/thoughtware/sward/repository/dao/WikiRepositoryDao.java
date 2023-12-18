@@ -148,15 +148,17 @@ public class WikiRepositoryDao {
 
         if(categoryIdList.size() > 0){
             String categoryIds = categoryIdList.stream().map(id -> "'" + id + "'").collect(Collectors.joining(", "));
+            int update = 0;
 
-
-            // 删除分享的文档数据
+                    // 删除分享的文档数据
             sql = "SELECT share_id FROM wiki_share_relation where category_id in (" + categoryIds + ")";
             List<String> shareIdList = jpaTemplate.getJdbcTemplate().queryForList(sql, String.class);
-            String shareIds = shareIdList.stream().map(id -> "'" + id + "'").collect(Collectors.joining(", "));
+            if(shareIdList.size() > 0){
+                String shareIds = shareIdList.stream().map(id -> "'" + id + "'").collect(Collectors.joining(", "));
+                sql = "DELETE FROM wiki_share where id in (" + shareIds + ")";
+                jpaTemplate.getJdbcTemplate().update(sql);
+            }
 
-            sql = "DELETE FROM wiki_share where id in (" + shareIds + ")";
-            int update = jpaTemplate.getJdbcTemplate().update(sql);
 
             sql = "DELETE FROM wiki_share_relation where category_id in (" + categoryIds + ")";
             update = jpaTemplate.getJdbcTemplate().update(sql);
