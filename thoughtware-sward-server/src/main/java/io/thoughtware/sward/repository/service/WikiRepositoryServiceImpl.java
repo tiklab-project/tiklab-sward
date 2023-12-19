@@ -107,8 +107,10 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         log.setModule("repository");
         log.setCreateTime(new Timestamp(System.currentTimeMillis()));
         content.put("createUserIcon",user.getName().substring( 0, 1));
-        log.setContent(JSONObject.toJSONString(content));
+        log.setData(JSONObject.toJSONString(content));
         log.setBaseUrl(baseUrl);
+        log.setAction(content.get("documentName"));
+        log.setLink("/repositorydetail/${repositoryId}/doc/${documentId}");
         loggingByTemplService.createLog(log);
 
 
@@ -156,8 +158,8 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         content.put("repositoryId", wikiRepository1.getId());
         content.put("repositoryName", wikiRepository1.getName());
         content.put("repositoryIcon", wikiRepository1.getIconUrl());
-        creatDynamic(content);
-        sendMessageForCreat(content);
+//        creatDynamic(content);
+//        sendMessageForCreat(content);
         //构建索引
         WikiRepository entity = findRepository(id);
         dssClient.save(entity);

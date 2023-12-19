@@ -474,30 +474,30 @@
 <!--                        <outputDirectory>${project.basedir}/plugin</outputDirectory>-->
 <!--                    </configuration>-->
 <!--                </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>exec-maven-plugin</artifactId>-->
-<!--                <version>3.0.0</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <phase>test</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>java</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <mainClass>io.thoughtware.postin.doclet.starter.DocletApplication</mainClass>-->
-<!--                    <arguments>-->
-<!--                        &lt;!&ndash; modules 传入api，server两个文件&ndash;&gt;-->
-<!--                        <argument>/Users/yuanjiexuan/Desktop/bate/project-server/thoughtware-sward/thoughtware-sward-api;/Users/yuanjiexuan/Desktop/bate/project-server/thoughtware-sward/thoughtware-sward-server</argument>-->
-<!--                        &lt;!&ndash; workspaceId 空间Id，放到哪个空间&ndash;&gt;-->
-<!--                        <argument>f0da2e3e4e84</argument>-->
-<!--                        &lt;!&ndash; server  postin服务&ndash;&gt;-->
-<!--                        <argument>http://192.168.10.21:8090</argument>-->
-<!--                    </arguments>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>io.thoughtware.postin.doclet.starter.DocletApplication</mainClass>
+                    <arguments>
+                        <!-- modules 传入api，server两个文件-->
+                        <argument>/Users/yuanjiexuan/Desktop/bate/project-server/thoughtware-sward/thoughtware-sward-api;/Users/yuanjiexuan/Desktop/bate/project-server/thoughtware-sward/thoughtware-sward-server</argument>
+                        <!-- workspaceId 空间Id，放到哪个空间-->
+                        <argument>a79bdd105434</argument>
+                        <!-- server  postin服务-->
+                        <argument>http://e.postin.thoughtware.cn</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
