@@ -23,7 +23,7 @@ public class StateNode extends BaseModel implements java.io.Serializable{
 
     @NotNull
     @ApiProperty(name="status",desc="状态",required = true)
-    private String status = "PROCESS";
+    private String status = "PROGRESS";
 
     private Integer workNum;
 
