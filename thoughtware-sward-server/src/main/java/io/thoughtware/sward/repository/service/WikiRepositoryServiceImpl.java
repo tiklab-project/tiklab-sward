@@ -137,7 +137,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         messageDispatchNotice.setQywechatData(msg);
         messageDispatchNotice.setEmailData(msg);
         messageDispatchNotice.setBaseUrl(baseUrl);
-        sendMessageNoticeService.createMessageItem(messageDispatchNotice);
+//        sendMessageNoticeService.createMessageItem(messageDispatchNotice);
     }
     @Override
     public String createRepository(@NotNull @Valid WikiRepository wikiRepository) {

@@ -99,7 +99,7 @@ postin:
     server: http://e.postin.thoughtware.cn/
 
 base:
-  url: http://192.168.10.14:8060
+  url: http://192.168.10.7:8060
 
 
 backups:

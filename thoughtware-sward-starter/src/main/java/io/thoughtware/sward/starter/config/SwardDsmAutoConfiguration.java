@@ -33,8 +33,7 @@ public class SwardDsmAutoConfiguration {
                 "todotask_1.0.0",
                 //kANASS
                 "kanass_1.0.0",
-                "backups_1.0.0",
-                "backups-cloud_1.0.0"
+                "backups_1.0.0"
 
         });
 
