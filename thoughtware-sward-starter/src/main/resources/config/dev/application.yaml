@@ -62,7 +62,7 @@ dss:
     index: index1
 
 #eas config
-darth:
+eas:
   embbed:
     enable: true
   web:
