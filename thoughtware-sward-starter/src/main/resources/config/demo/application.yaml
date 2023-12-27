@@ -30,7 +30,7 @@ postgresql:
 eas:
     embbed:
         enable: false
-    address: http://eas-ce.demo.thoughtware.net
+    address: http://eas-ce.demo.thoughtware.cn
 
 DATA_HOME: /opt/thoughtware/sward
 
@@ -39,10 +39,10 @@ DATA_HOME: /opt/thoughtware/sward
 dfs:
     server:
         enabled: true
-        port: 4001
+        port: 4000
         datapath: ${DATA_HOME}/files
     client:
-        url: 127.0.0.1:4001
+        url: 127.0.0.1:4000
         group: g1
         bucket: sward
 
@@ -52,10 +52,10 @@ dfs:
 dss:
     server:
         enabled: true
-        port: 6001
+        port: 6000
         datapath: ${DATA_HOME}/index
     client:
-        url: 127.0.0.1:6001
+        url: 127.0.0.1:6000
         group: g1
         index: index1
 
@@ -83,7 +83,7 @@ file:
    path: http://file.demo.thoughtware.io
 
 base:
-    url: http://sward-ce.demo.thoughtware.net
+    url: http://sward-ce.demo.thoughtware.cn
 
 backups:
     time: 0 0 2 * * ?
