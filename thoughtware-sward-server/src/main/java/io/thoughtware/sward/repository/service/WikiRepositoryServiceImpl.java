@@ -81,8 +81,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     @Autowired
     UserService userService;
 
-    @Autowired
-    SendMessageNoticeService sendMessageNoticeService;
+
 
     @Autowired
     LoggingByTempService loggingByTemplService;
