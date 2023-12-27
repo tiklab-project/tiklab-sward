@@ -1,7 +1,8 @@
 package io.thoughtware.sward.starter.config;
 
-import io.thoughtware.dal.dsm.config.model.DsmConfig;
-import io.thoughtware.dal.dsm.support.DsmConfigBuilder;
+
+import io.thoughtware.dsm.config.model.DsmConfig;
+import io.thoughtware.dsm.support.DsmConfigBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
