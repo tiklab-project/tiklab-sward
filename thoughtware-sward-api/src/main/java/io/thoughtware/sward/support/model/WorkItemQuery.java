@@ -3,7 +3,7 @@ package io.thoughtware.sward.support.model;
 import io.thoughtware.core.order.Order;
 import io.thoughtware.core.order.OrderBuilders;
 import io.thoughtware.core.page.Page;
-import io.thoughtware.join.annotation.Join;
+import io.thoughtware.toolkit.join.annotation.Join;
 import io.thoughtware.postin.annotation.ApiModel;
 import io.thoughtware.postin.annotation.ApiProperty;
 

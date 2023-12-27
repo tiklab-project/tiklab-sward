@@ -3,10 +3,10 @@ package io.thoughtware.sward.repository.service;
 import io.thoughtware.eam.common.context.LoginContext;
 import io.thoughtware.sward.repository.model.WikiRepositoryFocus;
 import io.thoughtware.sward.repository.model.WikiRepositoryFocusQuery;
-import io.thoughtware.beans.BeanMapper;
+import io.thoughtware.toolkit.beans.BeanMapper;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.core.page.PaginationBuilder;
-import io.thoughtware.join.JoinTemplate;
+import io.thoughtware.toolkit.join.JoinTemplate;
 import io.thoughtware.sward.repository.dao.WikiRepositoryFocusDao;
 import io.thoughtware.sward.repository.entity.WikiRepositoryFocusEntity;
 

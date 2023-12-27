@@ -1,8 +1,8 @@
 package io.thoughtware.sward.support.model;
 
-import io.thoughtware.beans.annotation.Mapper;
+import io.thoughtware.toolkit.beans.annotation.Mapper;
 import io.thoughtware.core.BaseModel;
-import io.thoughtware.join.annotation.Join;
+import io.thoughtware.toolkit.join.annotation.Join;
 import io.thoughtware.postin.annotation.ApiProperty;
 
 import javax.validation.constraints.NotNull;

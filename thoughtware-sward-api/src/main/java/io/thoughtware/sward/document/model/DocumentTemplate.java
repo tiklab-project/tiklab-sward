@@ -2,7 +2,7 @@ package io.thoughtware.sward.document.model;
 
 import io.thoughtware.postin.annotation.ApiModel;
 import io.thoughtware.postin.annotation.ApiProperty;
-import io.thoughtware.beans.annotation.Mapper;
+import io.thoughtware.toolkit.beans.annotation.Mapper;
 import io.thoughtware.core.BaseModel;
 
 import javax.validation.constraints.NotNull;

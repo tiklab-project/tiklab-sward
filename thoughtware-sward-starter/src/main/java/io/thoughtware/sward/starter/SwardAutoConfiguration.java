@@ -1,5 +1,6 @@
 package io.thoughtware.sward.starter;
 
+import io.thoughtware.dsm.boot.starter.annotation.EnableDsm;
 import io.thoughtware.sward.EnableSwardServer;
 import io.thoughtware.dal.boot.starter.annotation.EnableDal;
 import io.thoughtware.dcs.boot.starter.annotation.EnableDcsClient;
@@ -35,6 +36,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableToolkit
 @EnableDal
+@EnableDsm
 @EnableDfsClient
 @EnableDfsServer
 @EnableDssClient

@@ -2,12 +2,12 @@ package io.thoughtware.sward.document.model;
 
 import io.thoughtware.postin.annotation.ApiModel;
 import io.thoughtware.postin.annotation.ApiProperty;
-import io.thoughtware.beans.annotation.Mapper;
-import io.thoughtware.beans.annotation.Mapping;
-import io.thoughtware.beans.annotation.Mappings;
+import io.thoughtware.toolkit.beans.annotation.Mapper;
+import io.thoughtware.toolkit.beans.annotation.Mapping;
+import io.thoughtware.toolkit.beans.annotation.Mappings;
 import io.thoughtware.core.BaseModel;
-import io.thoughtware.join.annotation.Join;
-import io.thoughtware.join.annotation.JoinQuery;
+import io.thoughtware.toolkit.join.annotation.Join;
+import io.thoughtware.toolkit.join.annotation.JoinQuery;
 import io.thoughtware.user.user.model.User;
 
 import javax.validation.constraints.NotNull;

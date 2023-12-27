@@ -2,10 +2,10 @@ package io.thoughtware.sward.document.service;
 
 import io.thoughtware.sward.category.model.WikiCategory;
 import io.thoughtware.sward.document.dao.ShareRelationDao;
-import io.thoughtware.beans.BeanMapper;
+import io.thoughtware.toolkit.beans.BeanMapper;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.core.page.PaginationBuilder;
-import io.thoughtware.join.JoinTemplate;
+import io.thoughtware.toolkit.join.JoinTemplate;
 import io.thoughtware.sward.document.entity.ShareRelationEntity;
 import io.thoughtware.sward.document.model.WikiDocument;
 import io.thoughtware.sward.document.model.ShareRelation;

@@ -8,8 +8,8 @@ import io.thoughtware.sward.support.entity.RecentEntity;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.core.page.PaginationBuilder;
 
-import io.thoughtware.beans.BeanMapper;
-import io.thoughtware.join.JoinTemplate;
+import io.thoughtware.toolkit.beans.BeanMapper;
+import io.thoughtware.toolkit.join.JoinTemplate;
 import io.thoughtware.user.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

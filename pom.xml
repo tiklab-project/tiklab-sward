@@ -18,6 +18,7 @@
         <thoughtware-gateway.version>1.0.1-SNAPSHOT</thoughtware-gateway.version>
         <thoughtware-core.version>1.0.0</thoughtware-core.version>
         <thoughtware-dal.version>1.0.0</thoughtware-dal.version>
+        <thoughtware-dsm.version>1.0.0</thoughtware-dsm.version>
         <thoughtware-dfs.version>1.0.0</thoughtware-dfs.version>
         <thoughtware-dcs.version>1.0.0</thoughtware-dcs.version>
         <thoughtware-dss.version>1.0.0</thoughtware-dss.version>
@@ -82,6 +83,11 @@
                 <groupId>io.thoughtware</groupId>
                 <artifactId>thoughtware-dal-spring-boot-starter</artifactId>
                 <version>${thoughtware-dal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.thoughtware</groupId>
+                <artifactId>thoughtware-dsm-spring-boot-starter</artifactId>
+                <version>${thoughtware-dsm.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.thoughtware</groupId>
