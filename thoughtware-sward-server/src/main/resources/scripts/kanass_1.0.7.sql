@@ -1,1 +1,0 @@
-alter table kanass_document_recent rename to kanass_recent;

@@ -1,5 +1,5 @@
 
-CREATE TABLE kanass_repository(
+CREATE TABLE wiki_repository(
         id VARCHAR(12) PRIMARY KEY,
         name VARCHAR(64) NOT NULL,
         type_id VARCHAR(8) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE kanass_repository(
 );
 
 
-CREATE TABLE kanass_category(
+CREATE TABLE wiki_category(
         id VARCHAR(12) PRIMARY KEY,
         name VARCHAR(64) NOT NULL,
         repository_id VARCHAR(12) NOT NULL,
@@ -19,11 +19,13 @@ CREATE TABLE kanass_category(
         master VARCHAR(12) NOT NULL,
         update_time VARCHAR(64),
         icon_url VARCHAR(64),
-        sort int
+        sort int NOT NULL,
+        dimension int NOT NULL,
+        tree_path TEXT
 );
 
 
-CREATE TABLE kanass_document(
+CREATE TABLE wiki_document(
         id VARCHAR(12) PRIMARY KEY,
         name VARCHAR(64) NOT NULL,
         repository_id VARCHAR(12) NOT NULL,
@@ -32,11 +34,15 @@ CREATE TABLE kanass_document(
         master VARCHAR(12) NOT NULL,
         update_time  VARCHAR(64),
         details TEXT,
-        detail_text TEXT
+        detail_text TEXT,
+        sort int NOT NULL,
+        dimension int NOT NULL,
+        tree_path TEXT
+
 );
 
 
-CREATE TABLE kanass_document_attach(
+CREATE TABLE wiki_document_attach(
         id VARCHAR(12) PRIMARY KEY,
         document_id VARCHAR(12) NOT NULL,
         attachment VARCHAR(256) NOT NULL,
@@ -44,16 +50,17 @@ CREATE TABLE kanass_document_attach(
 );
 
 
-CREATE TABLE kanass_document_template(
+CREATE TABLE wiki_document_template(
         id VARCHAR(8) PRIMARY KEY,
         name VARCHAR(32) NOT NULL,
         description VARCHAR (64),
         details TEXT,
-        sort int
+        sort int,
+        icon_url VARCHAR(255)
 );
 
 
-CREATE TABLE kanass_comment(
+CREATE TABLE wiki_comment(
         id VARCHAR(12) PRIMARY KEY,
         document_id VARCHAR(12) NOT NULL,
         parent_comment_id VARCHAR (12),
@@ -66,7 +73,7 @@ CREATE TABLE kanass_comment(
 );
 
 
-CREATE TABLE kanass_like(
+CREATE TABLE wiki_like(
         id VARCHAR(12) PRIMARY KEY,
         to_whom_id varchar (12) not null,
         like_user varchar(12) not null,
@@ -74,7 +81,7 @@ CREATE TABLE kanass_like(
         create_time timestamp
 );
 
-CREATE TABLE kanass_share(
+CREATE TABLE wiki_share(
         id VARCHAR(12) PRIMARY KEY,
         auth_code varchar(6),
         create_time timestamp,
@@ -82,7 +89,7 @@ CREATE TABLE kanass_share(
 );
 
 
-CREATE TABLE kanass_document_recent(
+CREATE TABLE wiki_recent(
         id VARCHAR(12) NOT NULL PRIMARY KEY,
         name VARCHAR(64) NOT NULL,
         model VARCHAR(64) NOT NULL,
@@ -92,35 +99,40 @@ CREATE TABLE kanass_document_recent(
         recent_time timestamp NOT NULL
 );
 
-CREATE TABLE kanass_repository_focus(
+CREATE TABLE wiki_repository_focus(
         id VARCHAR(12) PRIMARY KEY,
         repository_id VARCHAR(12),
         master_id VARCHAR(12),
         sort int
 );
 
-CREATE TABLE kanass_share_relation(
+CREATE TABLE wiki_share_relation(
         id VARCHAR(12) PRIMARY KEY,
         type VARCHAR(8) NOT NULL,
-        document_id VARCHAR(64) NOT NULL,
-        category_id VARCHAR(12) NOT NULL,
+        document_id VARCHAR(12),
+        category_id VARCHAR(12),
         share_id VARCHAR(12) NOT NULL
 );
 
-CREATE TABLE kanass_system_url(
+CREATE TABLE wiki_system_url(
         id VARCHAR(8) PRIMARY KEY,
         name VARCHAR(32) NOT NULL,
         system_url VARCHAR(64) NOT NULL,
         web_url VARCHAR(64)
 );
 
-CREATE TABLE kanass_icon(
+CREATE TABLE wiki_icon(
         id VARCHAR(12) PRIMARY KEY,
         icon_name VARCHAR(64) NOT NULL,
         icon_url VARCHAR(64) NOT NULL,
         icon_type VARCHAR(32)
 );
-
+CREATE TABLE wiki_document_focus(
+        id VARCHAR(12) PRIMARY KEY,
+        document_id VARCHAR(12),
+        master_id VARCHAR(12),
+        sort int
+);
 
 
 
