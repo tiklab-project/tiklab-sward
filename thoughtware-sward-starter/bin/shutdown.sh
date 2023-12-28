@@ -10,7 +10,7 @@ else
 fi
 
 #APP_MAIN=${application.main.class}
-APP_MAIN="io.thoughtware.kanass.starter.KanassApplication"
+APP_MAIN="io.thoughtware.sward.starter.SwardApplication"
 
 PID=0
 getPID(){
