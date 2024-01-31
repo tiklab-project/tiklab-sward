@@ -2,7 +2,7 @@
 
 DIR=$(dirname "$PWD")
 
-JAR_DIR=`find ${DIR}/lib -name "thoughtware-upgrade-starter*.jar" -print`
+JAR_DIR=`find ${DIR}/lib -name "thoughtware-install-starter*.jar" -print`
 
 JAVA_HOME=${DIR}/embbed/jdk-16.0.2
 

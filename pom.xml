@@ -24,7 +24,7 @@
         <thoughtware-dss.version>1.0.0</thoughtware-dss.version>
         <thoughtware-toolkit.version>1.0.0</thoughtware-toolkit.version>
         <thoughtware-postgresql.version>1.0.1-SNAPSHOT</thoughtware-postgresql.version>
-        <thoughtware-upgrade.version>1.0.0</thoughtware-upgrade.version>
+        <thoughtware-install.version>1.0.0</thoughtware-install.version>
         <thoughtware-rpc.version>1.0.0</thoughtware-rpc.version>
         <thoughtware-plugin.version>1.0.1-SNAPSHOT</thoughtware-plugin.version>
         <thoughtware-mysql.version>1.0.0</thoughtware-mysql.version>
@@ -36,7 +36,6 @@
         <thoughtware-privilege.version>1.0.1-SNAPSHOT</thoughtware-privilege.version>
         <thoughtware-licence.version>1.0.1-SNAPSHOT</thoughtware-licence.version>
         <thoughtware-message.version>1.0.1-SNAPSHOT</thoughtware-message.version>
-        <thoughtware-todotask.version>1.0.1-SNAPSHOT</thoughtware-todotask.version>
         <thoughtware-security.version>1.0.1-SNAPSHOT</thoughtware-security.version>
 
         <thoughtware-postin.version>1.0.1-SNAPSHOT</thoughtware-postin.version>
@@ -160,12 +159,6 @@
                 <version>${thoughtware-privilege.version}</version>
             </dependency>
 
-
-            <dependency>
-                <groupId>io.thoughtware</groupId>
-                <artifactId>thoughtware-todotask-spring-boot-starter</artifactId>
-                <version>${thoughtware-todotask.version}</version>
-            </dependency>
             <dependency>
                 <groupId>io.thoughtware</groupId>
                 <artifactId>thoughtware-security-spring-boot-starter</artifactId>
