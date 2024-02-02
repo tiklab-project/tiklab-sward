@@ -94,7 +94,7 @@ file:
 
 
 base:
-  url: http://e.sward.thoughtware.net
+  url: http://e.sward.thoughtware.cn
 
 backups:
   time: 0 0 2 * * ?

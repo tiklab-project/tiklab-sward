@@ -20,7 +20,7 @@ jdbc:
 eas:
     embbed:
         enable: true
-    address: http://eas-ce.test.thoughtware.net
+    address: http://eas-ce.test.thoughtware.cn
 
 #enable mysql
 postgresql:
@@ -95,7 +95,7 @@ file:
     path: http://file.dev.thoughtware.io
 
 base:
-    url: http://sward-ce.test.thoughtware.net
+    url: http://sward-ce.test.thoughtware.cn
 
 backups:
     time: 0 0 2 * * ?

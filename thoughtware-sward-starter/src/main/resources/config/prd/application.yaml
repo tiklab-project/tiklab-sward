@@ -63,7 +63,7 @@ dss:
 eas:
   embbed:
     enable: false
-  address: http://bac.eas.thoughtware.net
+  address: http://bac.eas.thoughtware.cn
 
 
 #plugin config
@@ -85,7 +85,7 @@ file:
   path: http://file.dev.thoughtware.io
 
 base:
-  url: http://e.sward.thoughtware.net
+  url: http://e.sward.thoughtware.cn
 backups:
   time: 0 0 2 * * ?
   dir: /data/sward
