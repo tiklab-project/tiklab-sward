@@ -22,6 +22,8 @@ import io.thoughtware.security.logging.model.Logging;
 import io.thoughtware.security.logging.model.LoggingType;
 import io.thoughtware.user.user.model.User;
 import io.thoughtware.user.user.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,8 @@ import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 /**
@@ -41,6 +45,9 @@ import java.util.stream.Collectors;
 @Service
 @Exporter
 public class WikiCategoryServiceImpl implements WikiCategoryService {
+    private static Logger logger = LoggerFactory.getLogger(DocumentService.class);
+    // 新建锁
+    private final Lock lock = new ReentrantLock();
     @Autowired
     JpaTemplate jpaTemplate;
     @Autowired
@@ -86,26 +93,33 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
 
     @Override
     public String createCategory(@NotNull @Valid WikiCategory wikiCategory) {
-        wikiCategory.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        lock.lock();
+        String categoryId = new String();
+        try {
+            wikiCategory.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+            String createUserId = LoginContext.getLoginId();
+            User user = userService.findOne(createUserId);
+            wikiCategory.setMaster(user);
 
-        String createUserId = LoginContext.getLoginId();
-        User user = userService.findOne(createUserId);
-        wikiCategory.setMaster(user);
+            WikiCategory parentWikiCategory = wikiCategory.getParentWikiCategory();
+            String parentWikiCategoryId = new String();
+            if(parentWikiCategory == null){
+                parentWikiCategoryId = null;
+            }else {
+                parentWikiCategoryId = parentWikiCategory.getId();
+            }
 
-        WikiCategory parentWikiCategory = wikiCategory.getParentWikiCategory();
-        String parentWikiCategoryId = new String();
-        if(parentWikiCategory == null){
-            parentWikiCategoryId = null;
-        }else {
-            parentWikiCategoryId = parentWikiCategory.getId();
+            String repositoryId = wikiCategory.getWikiRepository().getId();
+            Integer brotherNum = documentService.getBrotherNum(repositoryId, parentWikiCategoryId);
+            wikiCategory.setSort(brotherNum);
+
+            WikiCategoryEntity wikiCategoryEntity = BeanMapper.map(wikiCategory, WikiCategoryEntity.class);
+            categoryId = wikiCategoryDao.createCategory(wikiCategoryEntity);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            lock.unlock();
         }
-
-        String repositoryId = wikiCategory.getWikiRepository().getId();
-        Integer brotherNum = documentService.getBrotherNum(repositoryId, parentWikiCategoryId);
-        wikiCategory.setSort(brotherNum);
-
-        WikiCategoryEntity wikiCategoryEntity = BeanMapper.map(wikiCategory, WikiCategoryEntity.class);
-        String categoryId = wikiCategoryDao.createCategory(wikiCategoryEntity);
 
         WikiCategory wikiCategory1 = findCategory(categoryId);
         Map<String, String> content = new HashMap<>();
@@ -198,10 +212,7 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
                 if(distance != 0){
                     updateChildrenDimension(wikiCategory);
                 }
-
             }
-
-
         }
     }
 
@@ -503,9 +514,8 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         }
 
         Set<Integer> sorts = sortMap.keySet();
-        System.out.println(sorts);
-        Set<Integer> sortedSet = new TreeSet<>(sorts);
-        System.out.println(sortedSet);
+        Set<Integer> sortedSet = new TreeSet<>(Comparator.reverseOrder());
+        sortedSet.addAll(sorts);
         for(Integer i:sortedSet){
             Object o = sortMap.get(i);
             objects.add(o);

@@ -1,7 +1,9 @@
 package io.thoughtware.sward.document.service;
 
 import com.alibaba.fastjson.JSONObject;
+import io.thoughtware.core.exception.ApplicationException;
 import io.thoughtware.security.logging.service.LoggingByTempService;
+import io.thoughtware.security.logging.service.LoggingService;
 import io.thoughtware.sward.category.model.WikiCategory;
 import io.thoughtware.sward.document.model.*;
 import io.thoughtware.dal.jpa.JpaTemplate;
@@ -23,19 +25,26 @@ import io.thoughtware.security.logging.model.Logging;
 import io.thoughtware.security.logging.model.LoggingType;
 import io.thoughtware.user.user.model.User;
 import io.thoughtware.user.user.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 /**
@@ -43,8 +52,10 @@ import java.util.stream.Collectors;
 */
 @Exporter
 @Service
-
 public class DocumentServiceImpl implements DocumentService {
+    private static Logger logger = LoggerFactory.getLogger(DocumentService.class);
+    // 新建锁
+    private final Lock lock = new ReentrantLock();
     @Autowired
     JpaTemplate jpaTemplate;
     @Autowired
@@ -76,6 +87,9 @@ public class DocumentServiceImpl implements DocumentService {
     @Autowired
     WikiCategoryService wikiCategoryService;
 
+    @Autowired
+    LoggingService loggingService;
+
     @Value("${base.url:null}")
     String baseUrl;
 
@@ -106,25 +120,33 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public String createDocument(@NotNull @Valid WikiDocument wikiDocument) {
         // 设置顺序
-        String categoryId = wikiDocument.getWikiCategory().getId();
-        String repositoryId = wikiDocument.getWikiRepository().getId();
-        Integer brotherNum = documentDao.getBrotherNum(repositoryId, categoryId);
-        wikiDocument.setSort(brotherNum);
+        String documentId = new String();
+        lock.lock();
+        try {
+            String categoryId = wikiDocument.getWikiCategory().getId();
+            String repositoryId = wikiDocument.getWikiRepository().getId();
+            Integer brotherNum = documentDao.getBrotherNum(repositoryId, categoryId);
+            wikiDocument.setSort(brotherNum);
 
-        WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
-        String documentId = documentDao.createDocument(wikiDocumentEntity);
+            WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
+            documentId = documentDao.createDocument(wikiDocumentEntity);
+        } catch (Exception e) {
+            throw new ApplicationException(2000, "文档添加失败" + e.getMessage());
+        } finally {
+            lock.unlock();
+        }
+
         WikiDocument wikiDocument1 = findDocumentById(documentId);
-
         Map<String, String> content = new HashMap<>();
         content.put("documentId", wikiDocument1.getId());
         content.put("documentName", wikiDocument1.getName());
         content.put("repositoryId", wikiDocument1.getWikiRepository().getId());
 
-        WikiDocument wikiDocument2 = findDocument(documentId);
-        dssClient.save(wikiDocument2);
+        dssClient.save(wikiDocument1);
         creatDynamic(content);
         return documentId;
     }
+
 
     @Override
     public Integer getBrotherNum(String repositoryId, String categoryId) {
@@ -132,6 +154,7 @@ public class DocumentServiceImpl implements DocumentService {
         return brotherNum;
     }
 
+//    public  void updateDyncmic(@NotNull @Valid )
     @Override
     public void updateDocument(@NotNull @Valid WikiDocument wikiDocument) {
         Integer sort = wikiDocument.getSort();

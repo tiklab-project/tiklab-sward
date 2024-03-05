@@ -14,6 +14,8 @@ import io.thoughtware.core.page.PaginationBuilder;
 import io.thoughtware.toolkit.join.JoinTemplate;
 import io.thoughtware.rpc.annotation.Exporter;
 import io.thoughtware.user.user.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -21,6 +23,8 @@ import org.springframework.util.ObjectUtils;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 /**
@@ -29,7 +33,6 @@ import java.util.stream.Collectors;
 @Service
 @Exporter
 public class CommentServiceImpl implements CommentService {
-
     @Autowired
     CommentDao commentDao;
 
@@ -42,6 +45,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public String createComment(@NotNull @Valid Comment comment) {
         CommentEntity commentEntity = BeanMapper.map(comment, CommentEntity.class);
+
         //添加评论人
 //        commentEntity.setUser(findCreatUser());
 //        commentEntity.setCreateTime(new Date());
@@ -150,19 +154,22 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> commentList = BeanMapper.mapList(pagination.getDataList(),Comment.class);
         joinTemplate.joinQuery(commentList);
 
-        String commentIds = "(" + commentList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
-        List<CommentEntity> commentChildrenList = commentDao.findCommentChildren(commentIds);
-        joinTemplate.joinQuery(commentChildrenList);
-        for (Comment comment : commentList) {
-            String id = comment.getId();
+        if(commentList.size() > 0){
+            String commentIds = "(" + commentList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
+            List<CommentEntity> commentChildrenList = commentDao.findCommentChildren(commentIds);
+            joinTemplate.joinQuery(commentChildrenList);
+            for (Comment comment : commentList) {
+                String id = comment.getId();
 //            commentQuery.setFirstCommentNull(false);
 //            commentQuery.setFirstOneCommentId(id);
-            List<CommentEntity> listEntity = commentChildrenList.stream().filter(chidrenComment -> chidrenComment.getParentCommentId().equals(id)).collect(Collectors.toList());
+                List<CommentEntity> listEntity = commentChildrenList.stream().filter(chidrenComment -> chidrenComment.getParentCommentId().equals(id)).collect(Collectors.toList());
 
-            List<Comment> comments = BeanMapper.mapList(listEntity, Comment.class);
-            joinTemplate.joinQuery(comments);
-            comment.setCommentList(comments);
+                List<Comment> comments = BeanMapper.mapList(listEntity, Comment.class);
+                joinTemplate.joinQuery(comments);
+                comment.setCommentList(comments);
+            }
         }
+
 
         return PaginationBuilder.build(pagination,commentList);
     }
