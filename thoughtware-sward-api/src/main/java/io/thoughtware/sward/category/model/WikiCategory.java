@@ -21,13 +21,14 @@ import java.util.List;
 @Mapper
 @Join
 public class WikiCategory extends BaseModel{
-    @ApiProperty(name="oldParentId",desc="更新之前的父级")
-    private String oldParentId;
+    // 移动到位置的id
+    private String moveToId;
 
-    @ApiProperty(name="oldDimension",desc="更新之前的层级")
-    private Integer oldDimension;
-    @ApiProperty(name="oldSort",desc="更新之前的位置")
-    private Integer oldSort;
+    // 根据前端传入的数据，与moveToId 2选1
+    private String moveType;
+
+    // 移动到位置的类型，文档，知识库
+    private String moveToType;
 
     @ApiProperty(name ="treePath",desc = "路径")
     private String treePath;
@@ -39,8 +40,8 @@ public class WikiCategory extends BaseModel{
     @ApiProperty(name="name",desc="name",required = true)
     private java.lang.String name;
 
-   // @NotNull
-    @ApiProperty(name="wikiRepository",desc="空间",eg="@selectOne")
+
+    @ApiProperty(name="wikiRepository",desc="知识库",eg="@selectOne")
     @Mappings({
             @Mapping(source = "wikiRepository.id",target = "repositoryId")
     })
@@ -82,6 +83,38 @@ public class WikiCategory extends BaseModel{
 
     @ApiProperty(name="dimension",desc="层级")
     private Integer dimension;
+
+    public String getMoveToId() {
+        return moveToId;
+    }
+
+    public void setMoveToId(String moveToId) {
+        this.moveToId = moveToId;
+    }
+
+    public String getMoveType() {
+        return moveType;
+    }
+
+    public void setMoveType(String moveType) {
+        this.moveType = moveType;
+    }
+
+    public String getMoveToType() {
+        return moveToType;
+    }
+
+    public void setMoveToType(String moveToType) {
+        this.moveToType = moveToType;
+    }
+
+    public List<WikiDocument> getWikiDocuments() {
+        return wikiDocuments;
+    }
+
+    public void setWikiDocuments(List<WikiDocument> wikiDocuments) {
+        this.wikiDocuments = wikiDocuments;
+    }
 
     public java.lang.String getId() {
         return id;
@@ -170,21 +203,7 @@ public class WikiCategory extends BaseModel{
         this.childrenNum = childrenNum;
     }
 
-    public Integer getOldSort() {
-        return oldSort;
-    }
 
-    public void setOldSort(Integer oldSort) {
-        this.oldSort = oldSort;
-    }
-
-    public String getOldParentId() {
-        return oldParentId;
-    }
-
-    public void setOldParentId(String oldParentId) {
-        this.oldParentId = oldParentId;
-    }
 
     public Integer getDimension() {
         return dimension;
@@ -194,13 +213,6 @@ public class WikiCategory extends BaseModel{
         this.dimension = dimension;
     }
 
-    public Integer getOldDimension() {
-        return oldDimension;
-    }
-
-    public void setOldDimension(Integer oldDimension) {
-        this.oldDimension = oldDimension;
-    }
 
     public String getTreePath() {
         return treePath;

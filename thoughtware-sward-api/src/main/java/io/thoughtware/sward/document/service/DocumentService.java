@@ -28,11 +28,15 @@ public interface DocumentService {
     */
     String createDocument(@NotNull @Valid WikiDocument wikiDocument);
     Integer getBrotherNum(String repositoryId, String categoryId);
+
+    Integer getMaxSort(String repositoryId, String categoryId);
     /**
     * 更新
     * @param wikiDocument
     */
     void updateDocument(@NotNull @Valid WikiDocument wikiDocument);
+
+    void updateDocumentSort(@NotNull @Valid WikiDocument wikiDocument);
     void updateDocumentInit(@NotNull @Valid WikiDocument wikiDocument);
     /**
     * 删除
@@ -94,4 +98,13 @@ public interface DocumentService {
 
     List<WikiDocument> findRecentDocumentList(RecentQuery recentQuery);
 
+    void addSortInCategory(String wikiCategoryId, Integer sort);
+
+    void addSortInRepository(String wikiCategoryId, Integer sort);
+
+    void reduceSortInCategory(String wikiCategoryId, Integer sort);
+
+    void reduceSortInRepository(String wikiCategoryId, Integer sort);
+
+    List<WikiDocument> findAllChildrenDocumentList(String categoryId);
 }

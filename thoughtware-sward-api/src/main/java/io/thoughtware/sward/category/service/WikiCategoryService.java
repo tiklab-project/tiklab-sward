@@ -34,7 +34,7 @@ public interface WikiCategoryService {
     */
     void updateCategory(@NotNull @Valid WikiCategory wikiCategory);
     void updateCategoryInit(@NotNull @Valid WikiCategory wikiCategory);
-    void updateSort(@NotNull @Valid WikiCategory wikiCategory, String type);
+    WikiCategory updateSort(@NotNull @Valid WikiCategory wikiCategory);
     /**
     * 删除
     * @param id
@@ -92,5 +92,13 @@ public interface WikiCategoryService {
     List<Object> findCategoryListTree(WikiCategoryQuery wikiCategoryQuery);
 
     List<Object> findCategoryListTreeById(String id, String treePath);
+    void addSortInCategory(String wikiCategoryId, Integer sort);
+
+    void addSortInRepository(String wikiCategoryId, Integer sort);
+
+    void reduceSortInCategory(String wikiCategoryId, Integer sort);
+
+    void reduceSortInRepository(String wikiCategoryId, Integer sort);
+
 
 }

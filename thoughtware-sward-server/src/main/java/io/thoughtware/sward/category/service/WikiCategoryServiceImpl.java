@@ -11,6 +11,7 @@ import io.thoughtware.sward.category.model.WikiCategoryQuery;
 import io.thoughtware.sward.document.entity.WikiDocumentEntity;
 import io.thoughtware.sward.document.model.WikiDocument;
 import io.thoughtware.sward.document.model.DocumentQuery;
+import io.thoughtware.sward.repository.model.WikiRepository;
 import io.thoughtware.toolkit.beans.BeanMapper;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.core.page.PaginationBuilder;
@@ -143,103 +144,319 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
     @Override
     public void updateCategory(@NotNull @Valid WikiCategory wikiCategory) {
         wikiCategory.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-
         String createUserId = LoginContext.getLoginId();
         User user = userService.findOne(createUserId);
         wikiCategory.setMaster(user);
-        updateSort(wikiCategory, "category");
-        WikiCategoryEntity wikiCategoryEntity = BeanMapper.map(wikiCategory, WikiCategoryEntity.class);
-        if (wikiCategory.getParentWikiCategory() != null && wikiCategory.getParentWikiCategory().getId() == "nullString"){
-            wikiCategoryEntity.setParentCategoryId(null);
+
+        // 更新排序
+        if(wikiCategory.getMoveToId() != null){
+            WikiCategory category = findCategory(wikiCategory.getId());
+            Integer oldDimension = category.getDimension();
+            wikiCategory = updateSort(wikiCategory);
+            WikiCategoryEntity wikiCategoryEntity = BeanMapper.map(wikiCategory, WikiCategoryEntity.class);
             wikiCategoryDao.updateCategory(wikiCategoryEntity);
-        } else {
+
+            category = findCategory(wikiCategory.getId());
+            Integer distance = category.getDimension() - oldDimension;
+            String treePath = category.getTreePath();
+            updateChildrenDimensionAndTreePath(wikiCategory, distance, treePath);
+        }else {
+            WikiCategoryEntity wikiCategoryEntity = BeanMapper.map(wikiCategory, WikiCategoryEntity.class);
             wikiCategoryDao.updateCategory(wikiCategoryEntity);
         }
-        // 更新排序
-        String id = wikiCategory.getId();
 
-        WikiCategory wikiCategory1 = findCategory(id);
-        Map<String, String> content = new HashMap<>();
-        content.put("categoryId", wikiCategory1.getId());
-        content.put("categoryName", wikiCategory1.getName());
-        content.put("repositoryId", wikiCategory1.getWikiRepository().getId());
+
+//        if (wikiCategory.getParentWikiCategory() != null && wikiCategory.getParentWikiCategory().getId() == "nullString")
+//        {
+//            wikiCategoryEntity.setParentCategoryId(null);
+//
+//        } else {
+//            wikiCategoryDao.updateCategory(wikiCategoryEntity);
+//        }
+        // 更新排序
+//        String id = wikiCategory.getId();
+//
+//        WikiCategory wikiCategory1 = findCategory(id);
+//        Map<String, String> content = new HashMap<>();
+//        content.put("categoryId", wikiCategory1.getId());
+//        content.put("categoryName", wikiCategory1.getName());
+//        content.put("repositoryId", wikiCategory1.getWikiRepository().getId());
 //        creatDynamic(content);
     }
 
-    public void updateSort(@NotNull @Valid WikiCategory wikiCategory, String type){
+
+    public WikiCategory updateSort(@NotNull @Valid WikiCategory wikiCategory){
+        String moveType = wikiCategory.getMoveType();
+        String moveToId = wikiCategory.getMoveToId();
+        String moveToType = wikiCategory.getMoveToType();
+        // 更新
+        // 被移动的id
+        String id = wikiCategory.getId();
+        wikiCategory = findCategory(id);
         Integer sort = wikiCategory.getSort();
-        if(sort != null){
-            String repositoryId = wikiCategory.getWikiRepository().getId();
-            String parentWikiCategoryId = new String();
-            WikiCategory parentWikiCategory = wikiCategory.getParentWikiCategory();
-            if(parentWikiCategory != null){
-                parentWikiCategoryId = wikiCategory.getParentWikiCategory().getId();
+        WikiCategory parentWikiCategory = wikiCategory.getParentWikiCategory();
+
+        // 第一步,先把大于被移动着的顺序的文档，目录的sort减一
+        // 判断被移动的文档有没有上级目录
+        if(parentWikiCategory != null){
+            String wikiParentCategoryId = parentWikiCategory.getId();
+            documentService.reduceSortInCategory(wikiParentCategoryId, sort);
+            reduceSortInCategory(wikiParentCategoryId, sort);
+        }else {
+            // 如果没有上级目录
+            WikiRepository wikiRepository = wikiCategory.getWikiRepository();
+            String repositoryId = wikiRepository.getId();
+            documentService.reduceSortInRepository(repositoryId, sort);
+            reduceSortInRepository(repositoryId, sort);
+        }
+
+        // 第二步, 把移动到的位置的， 大于移动位置的文档，目录排序都加一
+        // moveId 不为空的话，表示文档移动到moveToId的位置
+
+
+        // 拖动类型1，文档被托放在id 为moveToId 的目录或者文档存在的位置
+        if(moveType.equals("1")){
+            // 如果被插入位置原来是文档
+            if(moveToType.equals("document")){
+                WikiDocument toDocument = documentService.findDocument(moveToId);
+                Integer toSort = toDocument.getSort();
+                // 在同一个级别移动， 同目录或者同数据库
+                WikiCategory toWikiCategory = toDocument.getWikiCategory();
+
+                // 如果移动到的位置有上级
+                if(toWikiCategory != null){
+                    // 如果插入位置与之前的位置都在同一个目录下面
+                    if(toWikiCategory.getId().equals(parentWikiCategory.getId())){
+                        toSort = toSort - 1;
+                    }
+                    documentService.addSortInCategory(toWikiCategory.getId(), toSort);
+                    addSortInCategory(toWikiCategory.getId(), toSort);
+                    // 更新被拖动的文档的顺序，
+                    wikiCategory.setSort(toSort);
+                    wikiCategory.setDimension(toDocument.getDimension());
+                    wikiCategory.setTreePath(toDocument.getTreePath() != null ? toDocument.getTreePath(): "nullstring");
+                    wikiCategory.setParentWikiCategory(toWikiCategory);
+                }
+                // 如果移动到的位置没有上级, 就是在知识库下面
+                if(ObjectUtils.isEmpty(toWikiCategory)){
+                    // 如果插入位置与之前的位置都在知识库下
+                    if(ObjectUtils.isEmpty(parentWikiCategory)){
+                        toSort = toSort - 1;
+                    }
+                    WikiRepository wikiRepository = toDocument.getWikiRepository();
+                    String repositoryId = wikiRepository.getId();
+                    documentService.addSortInRepository(repositoryId, toSort);
+                    addSortInRepository(repositoryId, toSort);
+
+                    // 更新被拖动的文档的顺序，
+                    wikiCategory.setSort(toSort);
+                    wikiCategory.setDimension(toDocument.getDimension());
+                    wikiCategory.setTreePath("nullstring");
+                    WikiCategory wikiCategory1 = new WikiCategory();
+                    wikiCategory1.setId("nullstring");
+                    wikiCategory.setParentWikiCategory(wikiCategory1);
+                }
             }
 
-            String oldParentId = wikiCategory.getOldParentId();
-            Integer oldSort = wikiCategory.getOldSort();
-            boolean haveParent =  parentWikiCategory != null && parentWikiCategoryId != null && !parentWikiCategoryId.equals("nullString");
-            boolean haveOldParent = (oldParentId != null && !oldParentId.equals("nullString") );
-            // 知识库到知识库
-            if(!haveParent && !haveOldParent){
-                wikiCategoryDao.updateOnRepository(repositoryId, oldSort, sort );
-            }
-            // 知识库到目录
-            if(haveParent && !haveOldParent){
-                wikiCategoryDao.updateRepositoryToCategory(repositoryId, parentWikiCategoryId, oldSort, sort );
-            }
+            // 如果被插入位置原来是目录
+            if(moveToType.equals("category")){
+                WikiCategory toCategory = findCategory(moveToId);
+                Integer toSort = toCategory.getSort();
+                WikiCategory toWikiParentCategory = toCategory.getParentWikiCategory();
+                // 如果移动到的位置有上级
+                if(toWikiParentCategory != null){
+                    documentService.addSortInCategory(toWikiParentCategory.getId(), toSort);
+                    addSortInCategory(toWikiParentCategory.getId(), toSort);
+                    // 更新被拖动的文档的顺序，
+                    wikiCategory.setSort(toSort);
+                    wikiCategory.setDimension(toCategory.getDimension());
+                    wikiCategory.setTreePath(toCategory.getTreePath());
+                    wikiCategory.setParentWikiCategory(toWikiParentCategory);
+                }
+                // 如果移动到的位置没有上级, 就是在知识库下面
+                if(ObjectUtils.isEmpty(toWikiParentCategory)){
+                    WikiRepository wikiRepository = toCategory.getWikiRepository();
+                    String repositoryId = wikiRepository.getId();
+                    documentService.addSortInRepository(repositoryId, toSort);
+                    addSortInRepository(wikiRepository.getId(), toSort);
 
-            // 目录到知识库
-            if(!haveParent && haveOldParent){
-                wikiCategoryDao.updateCategoryToRepository(repositoryId, parentWikiCategoryId, oldSort, sort );
-            }
-
-            // 目录到目录
-            if(haveParent && haveOldParent && !parentWikiCategoryId.equals(oldParentId)){
-                wikiCategoryDao.updateOnCategory(oldParentId, parentWikiCategoryId, oldSort, sort );
-
-            }
-
-            // 本目录到本目录
-            if(haveParent && haveOldParent && parentWikiCategoryId.equals(oldParentId)){
-                wikiCategoryDao.updateCurrentCategory(parentWikiCategoryId, oldSort, sort );
-            }
-
-            if(type.equals("category") && !(haveParent && haveOldParent && parentWikiCategoryId.equals(oldParentId)) ){
-                Integer oldDimension = wikiCategory.getOldDimension();
-                Integer dimension = wikiCategory.getDimension();
-                Integer distance = dimension - oldDimension;
-                if(distance != 0){
-                    updateChildrenDimension(wikiCategory);
+                    wikiCategory.setSort(toSort);
+                    wikiCategory.setDimension(toCategory.getDimension());
+                    wikiCategory.setTreePath("nullstring");
+                    WikiCategory wikiCategory1 = new WikiCategory();
+                    wikiCategory1.setId("nullstring");
+                    wikiCategory.setParentWikiCategory(wikiCategory1);
                 }
             }
         }
+
+        //  拖动类型2，文档被托放在id 为moveToId 的目录下的最后一个位置
+        if(moveType.equals("2")){
+            WikiCategory toCategory = findCategory(moveToId);
+            WikiRepository wikiRepository = toCategory.getWikiRepository();
+            // 获取移动到的目录有多少个下级
+            Integer maxSort = documentService.getMaxSort(wikiRepository.getId(), moveToId);
+            // 判断是同一个目录移动还是不同目录移动
+            // parentWikiCategory移动之前目录的父级目录
+            if(parentWikiCategory != null){
+                if(parentWikiCategory.getId() != moveToId){
+                    wikiCategory.setSort(maxSort + 1);
+                }else {
+                    wikiCategory.setSort(maxSort);
+                }
+            }else {
+                wikiCategory.setSort(maxSort + 1);
+            }
+
+
+            wikiCategory.setDimension(toCategory.getDimension() + 1);
+            if(toCategory.getTreePath() != null){
+                wikiCategory.setTreePath(toCategory.getTreePath() + moveToId + ";");
+            }else {
+                wikiCategory.setTreePath(moveToId + ";");
+            }
+
+            wikiCategory.setParentWikiCategory(toCategory);
+        }
+
+        //  拖动类型3，文档被托放知识库最后
+        if(moveType.equals("3")){
+            // 获取移动到的目录有多少个下级
+            WikiRepository wikiRepository = wikiCategory.getWikiRepository();
+            Integer maxSort = documentService.getMaxSort(wikiRepository.getId(), null);
+            // 查看被插入的位置与被移动的目录是否都在知识库下
+            if(parentWikiCategory != null){
+                wikiCategory.setSort(maxSort + 1);
+            }else {
+                wikiCategory.setSort(maxSort);
+            }
+
+            wikiCategory.setDimension(1);
+            wikiCategory.setTreePath("nullstring");
+            WikiCategory wikiCategory1 = new WikiCategory();
+            wikiCategory1.setId("nullstring");
+            wikiCategory.setParentWikiCategory(wikiCategory1);
+        }
+        return wikiCategory;
     }
 
-    public void updateChildrenDimension(@NotNull @Valid WikiCategory wikiCategory){
-        HashMap<String, List<String>> categoryChildren = wikiCategoryDao.findCategoryChildren(wikiCategory.getId());
-        Integer oldDimension = wikiCategory.getOldDimension();
-        Integer dimension = wikiCategory.getDimension();
-        Integer distance = dimension - oldDimension;
-        List<String> document = categoryChildren.get("document");
-        String documentIds = new String();
-        if(document.size() > 0){
-            documentIds = "(" + document.stream().map(item -> "'" + item + "'").
-                    collect(Collectors.joining(", ")) + ")";
-        }else {
-            documentIds = null;
-        }
-        List<String> category = categoryChildren.get("category");
-        String categoryIds = new String();
-        if(category.size() >0 ){
-            categoryIds = "(" + category.stream().map(item -> "'" + item + "'").
-                    collect(Collectors.joining(", ")) + ")";
-        }else {
-            categoryIds = null;
-        }
-        wikiCategoryDao.updateDimension(documentIds, categoryIds, distance);
+    // 更新下级
+    public void updateChildrenDimensionAndTreePath(@NotNull @Valid WikiCategory wikiCategory, Integer distance, String treePath){
+        String id = wikiCategory.getId();
+        List<WikiCategoryEntity> allChildrenCategoryList = wikiCategoryDao.findAllChildrenCategoryList(id);
+        if(allChildrenCategoryList.size() > 0){
+            for (WikiCategoryEntity wikiCategoryEntity : allChildrenCategoryList) {
+                // wikiCategory 下
+                Integer dimension = wikiCategoryEntity.getDimension();
+                wikiCategoryEntity.setDimension(dimension + distance);
 
+                String treePath1 = wikiCategoryEntity.getTreePath();
+                int index = treePath1.indexOf(id);
+                treePath1 = treePath1.substring(index);
+                if(treePath != null){
+                    treePath1 = treePath + treePath1;
+                }
+
+                wikiCategoryEntity.setTreePath(treePath1);
+
+                wikiCategoryDao.updateCategory(wikiCategoryEntity);
+            }
+        }
+        List<WikiDocument> allChildrenDocumentList = documentService.findAllChildrenDocumentList(id);
+        if(allChildrenDocumentList.size() > 0){
+            for (WikiDocument wikiDocument : allChildrenDocumentList) {
+                // wikiCategory 下
+                Integer dimension = wikiDocument.getDimension();
+                wikiDocument.setDimension(dimension + distance);
+
+                String treePath1 = wikiDocument.getTreePath();
+                int index = treePath1.indexOf(id);
+                treePath1 = treePath1.substring(index);
+                if(treePath != null){
+                    treePath1 = treePath + treePath1;
+                }
+
+                wikiDocument.setTreePath(treePath1);
+
+                documentService.updateDocument(wikiDocument);
+            }
+        }
     }
+
+//    public void updateSort(@NotNull @Valid WikiCategory wikiCategory, String type){
+//        Integer sort = wikiCategory.getSort();
+//        if(sort != null){
+//            String repositoryId = wikiCategory.getWikiRepository().getId();
+//            String parentWikiCategoryId = new String();
+//            WikiCategory parentWikiCategory = wikiCategory.getParentWikiCategory();
+//            if(parentWikiCategory != null){
+//                parentWikiCategoryId = wikiCategory.getParentWikiCategory().getId();
+//            }
+//
+//            String oldParentId = wikiCategory.getOldParentId();
+//            Integer oldSort = wikiCategory.getOldSort();
+//            boolean haveParent =  parentWikiCategory != null && parentWikiCategoryId != null && !parentWikiCategoryId.equals("nullString");
+//            boolean haveOldParent = (oldParentId != null && !oldParentId.equals("nullString") );
+//            // 知识库到知识库
+//            if(!haveParent && !haveOldParent){
+//                wikiCategoryDao.updateOnRepository(repositoryId, oldSort, sort );
+//            }
+//            // 知识库到目录
+//            if(haveParent && !haveOldParent){
+//                wikiCategoryDao.updateRepositoryToCategory(repositoryId, parentWikiCategoryId, oldSort, sort );
+//            }
+//
+//            // 目录到知识库
+//            if(!haveParent && haveOldParent){
+//                wikiCategoryDao.updateCategoryToRepository(repositoryId, parentWikiCategoryId, oldSort, sort );
+//            }
+//
+//            // 目录到目录
+//            if(haveParent && haveOldParent && !parentWikiCategoryId.equals(oldParentId)){
+//                wikiCategoryDao.updateOnCategory(oldParentId, parentWikiCategoryId, oldSort, sort );
+//
+//            }
+//
+//            // 本目录到本目录
+//            if(haveParent && haveOldParent && parentWikiCategoryId.equals(oldParentId)){
+//                wikiCategoryDao.updateCurrentCategory(parentWikiCategoryId, oldSort, sort );
+//            }
+//
+//            if(type.equals("category") && !(haveParent && haveOldParent && parentWikiCategoryId.equals(oldParentId)) ){
+//                Integer oldDimension = wikiCategory.getOldDimension();
+//                Integer dimension = wikiCategory.getDimension();
+//                Integer distance = dimension - oldDimension;
+//                if(distance != 0){
+//                    updateChildrenDimension(wikiCategory);
+//                }
+//            }
+//        }
+//    }
+//
+//    public void updateChildrenDimension(@NotNull @Valid WikiCategory wikiCategory){
+//        HashMap<String, List<String>> categoryChildren = wikiCategoryDao.findCategoryChildren(wikiCategory.getId());
+//        Integer oldDimension = wikiCategory.getOldDimension();
+//        Integer dimension = wikiCategory.getDimension();
+//        Integer distance = dimension - oldDimension;
+//        List<String> document = categoryChildren.get("document");
+//        String documentIds = new String();
+//        if(document.size() > 0){
+//            documentIds = "(" + document.stream().map(item -> "'" + item + "'").
+//                    collect(Collectors.joining(", ")) + ")";
+//        }else {
+//            documentIds = null;
+//        }
+//        List<String> category = categoryChildren.get("category");
+//        String categoryIds = new String();
+//        if(category.size() >0 ){
+//            categoryIds = "(" + category.stream().map(item -> "'" + item + "'").
+//                    collect(Collectors.joining(", ")) + ")";
+//        }else {
+//            categoryIds = null;
+//        }
+//        wikiCategoryDao.updateDimension(documentIds, categoryIds, distance);
+//
+//    }
     @Override
     public void deleteCategory(@NotNull String id) {
         //删除下面相关联的目录和文档
@@ -586,5 +803,26 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         return wikiCategories;
     }
 
+
+    @Override
+    public void reduceSortInCategory(String wikiCategoryId, Integer sort) {
+        wikiCategoryDao.reduceSortInCategory(wikiCategoryId, sort);
+    }
+
+    @Override
+    public void reduceSortInRepository(String repositoryId, Integer sort) {
+        wikiCategoryDao.reduceSortInRepository(repositoryId, sort);
+    }
+
+    /**
+     * 用于更新目录排序，大于被插入位置的文档的sort的文档都加1
+     */
+    public void addSortInCategory(String wikiCategoryId, Integer sort){
+        wikiCategoryDao.addSortInCategory(wikiCategoryId, sort);
+    }
+
+    public void addSortInRepository(String repositoryId, Integer sort){
+        wikiCategoryDao.addSortInRepository(repositoryId, sort);
+    }
 
 }

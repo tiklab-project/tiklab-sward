@@ -25,11 +25,14 @@ import java.util.List;
 @Document
 public class WikiDocument extends BaseModel{
 
-    @ApiProperty(name="oldParentId",desc="更新之前的父级")
-    private String oldParentId;
+    // 移动到位置的id
+    private String moveToId;
 
-    @ApiProperty(name="oldSort",desc="更新之前的位置")
-    private Integer oldSort;
+    // 根据前端传入的数据，与moveToId 2选1
+    private String moveType;
+
+    // 移动到位置的类型，文档，知识库
+    private String moveToType;
 
     @ApiProperty(name="id",desc="id")
     @DocumentField
@@ -237,21 +240,6 @@ public class WikiDocument extends BaseModel{
         this.sort = sort;
     }
 
-    public String getOldParentId() {
-        return oldParentId;
-    }
-
-    public void setOldParentId(String oldParentId) {
-        this.oldParentId = oldParentId;
-    }
-
-    public Integer getOldSort() {
-        return oldSort;
-    }
-
-    public void setOldSort(Integer oldSort) {
-        this.oldSort = oldSort;
-    }
 
     public Integer getDimension() {
         return dimension;
@@ -275,5 +263,29 @@ public class WikiDocument extends BaseModel{
 
     public void setFocus(boolean focus) {
         isFocus = focus;
+    }
+
+    public String getMoveToId() {
+        return moveToId;
+    }
+
+    public void setMoveToId(String moveToId) {
+        this.moveToId = moveToId;
+    }
+
+    public String getMoveToType() {
+        return moveToType;
+    }
+
+    public void setMoveToType(String moveToType) {
+        this.moveToType = moveToType;
+    }
+
+    public String getMoveType() {
+        return moveType;
+    }
+
+    public void setMoveType(String moveType) {
+        this.moveType = moveType;
     }
 }

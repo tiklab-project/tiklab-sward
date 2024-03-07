@@ -1,5 +1,7 @@
 package io.thoughtware.sward.document.dao;
 
+import io.thoughtware.sward.category.entity.WikiCategoryEntity;
+import io.thoughtware.sward.document.model.WikiDocument;
 import io.thoughtware.sward.support.entity.RecentEntity;
 import io.thoughtware.sward.document.entity.WikiDocumentEntity;
 import io.thoughtware.sward.document.model.DocumentQuery;
@@ -12,6 +14,7 @@ import io.thoughtware.sward.support.model.RecentQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -57,6 +60,27 @@ public class DocumentDao{
             sql = "select count(1) as totalCount from wiki_category where parent_category_id = '" + categoryId + "'";
             Integer totalCategoryCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
             num = totalDocumentCount + totalCategoryCount;
+        }
+        return num;
+    }
+
+    public Integer getMaxSort(String repositoryId, String categoryId){
+        String sql = "";
+        Integer num = 0;
+        if(categoryId == null){
+            sql = "select coalesce(max(sort),0) from wiki_document where category_id is null and repository_id = '" + repositoryId + "'";
+            Integer totalDocumentCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
+
+            sql = "select coalesce(max(sort),0) from wiki_category where parent_category_id is null and repository_id = '" + repositoryId + "'";
+            Integer totalCategoryCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
+            num = (totalDocumentCount > totalCategoryCount ? totalDocumentCount : totalCategoryCount);
+        }else {
+            sql = "select coalesce(max(sort),0) from wiki_document where category_id = '" + categoryId + "'";
+            Integer totalDocumentCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
+
+            sql = "select coalesce(max(sort),0) from wiki_category where parent_category_id = '" + categoryId + "'";
+            Integer totalCategoryCount = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
+            num = (totalDocumentCount > totalCategoryCount ? totalDocumentCount : totalCategoryCount);
         }
         return num;
     }
@@ -183,6 +207,65 @@ public class DocumentDao{
                 .orders(recentQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, WikiDocumentEntity.class);
+    }
+
+    /**
+     * 用于更新文档排序，大于被拖动的文档的sort的文档都减1
+     */
+    public void reduceSortInCategory(String wikiCategoryId, Integer sort){
+        try {
+            String sql = "UPDATE wiki_document SET sort = sort - 1 WHERE category_id = '" + wikiCategoryId + "' and sort > " + sort;
+            this.jpaTemplate.getJdbcTemplate().execute(sql);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void reduceSortInRepository(String repositoryId, Integer sort){
+        try {
+            String sql = "UPDATE wiki_document SET sort = sort - 1 WHERE repository_id = '" +
+                    repositoryId + "' and sort > " + sort + " and category_id IS NULL";
+            this.jpaTemplate.getJdbcTemplate().execute(sql);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 用于更新文档排序，大于被插入位置的文档的sort的文档都加1
+     */
+    public void addSortInCategory(String wikiCategoryId, Integer sort){
+        try {
+            String sql = "UPDATE wiki_document SET sort = sort + 1 WHERE category_id = '" + wikiCategoryId + "' and sort >= " + sort;
+            this.jpaTemplate.getJdbcTemplate().execute(sql);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addSortInRepository(String repositoryId, Integer sort){
+
+        try {
+            String sql = "UPDATE wiki_document SET sort = sort + 1 WHERE repository_id = '" + repositoryId + "' and sort >= " + sort + " and category_id IS NULL";
+            this.jpaTemplate.getJdbcTemplate().execute(sql);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+//    public void findAllChildrenDocumentList(Integer dimension, String treePath, String categoryId){
+//        // 找出所有下级
+//        String sql = "UPDATE wiki_document SET dimension = " + dimension + ", tree_path = '" + treePath
+//                + "' WHERE category_id = '" + categoryId + "';";
+//        this.jpaTemplate.getJdbcTemplate().execute(sql);
+//    }
+
+    public List<WikiDocumentEntity> findAllChildrenDocumentList(String id){
+        // 找出所有下级
+        String sql = "SELECT * from wiki_document WHERE tree_path like '%" + id + "%';";
+        List<WikiDocumentEntity> wikiDocumentList = this.jpaTemplate.getJdbcTemplate().
+                query(sql, new BeanPropertyRowMapper(WikiDocumentEntity.class));
+        return wikiDocumentList;
     }
 
 }

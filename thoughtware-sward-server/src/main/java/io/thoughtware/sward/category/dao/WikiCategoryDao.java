@@ -11,6 +11,8 @@ import io.thoughtware.dal.jpa.JpaTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -295,5 +297,49 @@ public class WikiCategoryDao {
                 .pagination(wikiCategoryQuery.getPageParam())
                 .get();
         return jpaTemplate.findPage(queryCondition, WikiCategoryEntity.class);
+    }
+
+    public void reduceSortInCategory(String wikiCategoryId, Integer sort){
+        try {
+            String sql = "UPDATE wiki_category SET sort = sort - 1 WHERE parent_category_id ='" + wikiCategoryId + "' and sort > " + sort;
+            this.jpaTemplate.getJdbcTemplate().execute(sql);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void reduceSortInRepository(String repositoryId, Integer sort){
+        try {
+            String sql = "UPDATE wiki_category SET sort = sort - 1 WHERE repository_id ='" + repositoryId + "' and sort > " + sort + " and parent_category_id IS NULL";
+            this.jpaTemplate.getJdbcTemplate().execute(sql);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addSortInCategory(String wikiCategoryId, Integer sort){
+        try {
+            String sql = "UPDATE wiki_category SET sort = sort + 1 WHERE parent_category_id ='" + wikiCategoryId + "' and sort >= " + sort;
+            this.jpaTemplate.getJdbcTemplate().execute(sql);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addSortInRepository(String repositoryId, Integer sort){
+        try {
+            String sql = "UPDATE wiki_category SET sort = sort + 1 WHERE repository_id ='" + repositoryId + "' and sort >= " + sort + " and parent_category_id IS NULL";
+            this.jpaTemplate.getJdbcTemplate().execute(sql);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<WikiCategoryEntity> findAllChildrenCategoryList(String id){
+        // 找出所有下级
+        String sql = "SELECT * from wiki_category WHERE tree_path like '%" + id + "%';";
+        List<WikiCategoryEntity> wikiCategoryEntityList = this.jpaTemplate.getJdbcTemplate().
+                query(sql, new BeanPropertyRowMapper(WikiCategoryEntity.class));
+        return wikiCategoryEntityList;
     }
 }
