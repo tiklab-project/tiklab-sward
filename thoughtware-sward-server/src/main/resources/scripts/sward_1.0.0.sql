@@ -18,5 +18,5 @@ SELECT id, name,repository_id, parent_category_id, master, update_time, update_t
 FROM wiki_category;
 
 INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type)
-SELECT  id, name, repository_id, category_id, master, update_time,update_time, sort,dimension,tree_path, "document", type_id
+SELECT  id, name, repository_id, category_id, master, update_time,update_time, sort,dimension,tree_path, 'document', type_id
 FROM wiki_document;
