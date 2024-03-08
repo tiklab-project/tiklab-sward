@@ -18,11 +18,9 @@ public class ShareRelationEntity implements Serializable {
     @Column(name = "type",length = 32,notNull = true)
     private String type;
 
-    @Column(name = "document_id",length = 64)
-    private String documentId;
 
-    @Column(name = "category_id",length = 64)
-    private String categoryId;
+    @Column(name = "node_id",length = 64)
+    private String nodeId;
 
     @Column(name = "share_id",length = 64,notNull = true)
     private String shareId;
@@ -43,14 +41,6 @@ public class ShareRelationEntity implements Serializable {
         this.type = type;
     }
 
-    public String getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
-    }
-
     public String getShareId() {
         return shareId;
     }
@@ -59,11 +49,11 @@ public class ShareRelationEntity implements Serializable {
         this.shareId = shareId;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getNodeId() {
+        return nodeId;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setNodeId(String nodeId) {
+        this.nodeId = nodeId;
     }
 }

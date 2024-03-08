@@ -2,6 +2,7 @@ package io.thoughtware.sward.document.service;
 
 import io.thoughtware.sward.category.model.WikiCategory;
 import io.thoughtware.sward.document.dao.ShareRelationDao;
+import io.thoughtware.sward.node.model.Node;
 import io.thoughtware.toolkit.beans.BeanMapper;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.core.page.PaginationBuilder;
@@ -41,32 +42,18 @@ public class ShareRelationServiceImpl implements ShareRelationService {
 
     public void createShareDocumentCategory(@NotNull @Valid ShareRelation shareRelation){
         String shareId = shareRelation.getShareId();
-        String[] categoryIds = shareRelation.getCategoryIds();
-        String[] documentIds = shareRelation.getDocumentIds();
-        if(!ObjectUtils.isEmpty(categoryIds)){
-            for (String categoryId : categoryIds) {
+        String[] nodeIds = shareRelation.getNodeIds();
+        if(!ObjectUtils.isEmpty(nodeIds)){
+            for (String nodeId : nodeIds) {
                 ShareRelation shareRelation1 = new ShareRelation();
-                WikiCategory wikiCategory = new WikiCategory();
-                wikiCategory.setId(categoryId);
-                shareRelation1.setWikiCategory(wikiCategory);
+                Node node = new Node();
+                node.setId(nodeId);
+                shareRelation1.setNode(node);
                 shareRelation1.setType("category");
                 shareRelation1.setShareId(shareId);
                 createShareRelation(shareRelation1);
             }
         }
-
-        if(!ObjectUtils.isEmpty(documentIds)){
-            for (String documentId : documentIds) {
-                ShareRelation shareRelation1 = new ShareRelation();
-                WikiDocument wikiDocument = new WikiDocument();
-                wikiDocument.setId(documentId);
-                shareRelation1.setWikiDocument(wikiDocument);
-                shareRelation1.setType("document");
-                shareRelation1.setShareId(shareId);
-                createShareRelation(shareRelation1);
-            }
-        }
-
     }
 
     @Override

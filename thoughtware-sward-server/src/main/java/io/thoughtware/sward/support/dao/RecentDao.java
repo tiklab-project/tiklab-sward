@@ -1,5 +1,6 @@
 package io.thoughtware.sward.support.dao;
 
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.thoughtware.sward.support.entity.RecentEntity;
 import io.thoughtware.sward.support.model.RecentQuery;
 import io.thoughtware.core.page.Pagination;
@@ -57,7 +58,14 @@ public class RecentDao {
     public void deleteRecent(String id){
         jpaTemplate.delete(RecentEntity.class,id);
     }
-
+    public void deleteRecnetByCondition(RecentQuery recentQuery){
+        List<RecentEntity> recentList = findRecentList(recentQuery);
+        Object[] array = recentList.stream().map(RecentEntity::getId).toArray();
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(RecentEntity.class)
+                .in("id", array)
+                .get();
+        jpaTemplate.delete(deleteCondition);
+    }
     public void deleteRecentByIds(String ids){
         String sql = "DELETE FROM wiki_recent where id in " + ids ;
         int update = jpaTemplate.getJdbcTemplate().update(sql);

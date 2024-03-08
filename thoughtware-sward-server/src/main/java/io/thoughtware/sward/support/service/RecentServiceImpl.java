@@ -1,5 +1,7 @@
 package io.thoughtware.sward.support.service;
 
+import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.thoughtware.sward.support.model.Recent;
 import io.thoughtware.sward.support.model.RecentQuery;
 import io.thoughtware.eam.common.context.LoginContext;
@@ -115,6 +117,13 @@ public class RecentServiceImpl implements RecentService {
     public void deleteRecent(@NotNull String id) {
         recentDao.deleteRecent(id);
     }
+
+    @Override
+    public void deleteRecnetByCondition(RecentQuery recentQuery) {
+        recentDao.deleteRecnetByCondition(recentQuery);
+
+    }
+
 
     @Override
     public Recent findOne(String id) {

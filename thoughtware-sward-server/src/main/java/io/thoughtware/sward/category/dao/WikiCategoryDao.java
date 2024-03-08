@@ -1,5 +1,6 @@
 package io.thoughtware.sward.category.dao;
 
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.thoughtware.sward.category.entity.WikiCategoryEntity;
 import io.thoughtware.sward.category.model.WikiCategoryQuery;
 import io.thoughtware.sward.document.entity.WikiDocumentEntity;
@@ -8,6 +9,7 @@ import io.thoughtware.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
 import io.thoughtware.dal.jpa.criterial.condition.QueryCondition;
 import io.thoughtware.dal.jpa.JpaTemplate;
+import io.thoughtware.sward.node.entity.NodeEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,175 +47,19 @@ public class WikiCategoryDao {
         jpaTemplate.update(wikiCategoryEntity);
     }
 
-    public void updateOnRepository(String repository, Integer oldSort, Integer sort ){
-        String sql = "";
-        if(oldSort > sort){
-            sql = " UPDATE wiki_category SET sort = sort + 1 where repository_id = '" +repository
-                    + "' and parent_category_id is null and sort >= '" +sort + "' and sort < '" + oldSort + "'";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-
-            sql = " UPDATE wiki_document SET sort = sort + 1 where repository_id = '" +repository
-                    + "' and category_id is null and sort >= '" +sort + "' and sort < '" + oldSort + "'";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-
-        }else {
-            sql = " UPDATE wiki_category SET sort = sort - 1 where repository_id = '" +repository
-                    + "' and parent_category_id is null and sort <= '" + sort + "' and sort > '" + oldSort + "'";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-
-            sql = " UPDATE wiki_document SET sort = sort - 1 where repository_id = '" +repository
-                    + "' and category_id is null and sort <= '" + sort + "' and sort > '" + oldSort + "'";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-        }
-
-    }
-    public void updateRepositoryToCategory(String repository, String parentWikiCategoryId,Integer oldSort, Integer sort ){
-        String sql = "";
-        // 更新库下的文档和目录
-        sql = " UPDATE wiki_category SET sort = sort - 1 where repository_id = '" +repository
-                + "' and parent_category_id is null and sort >= '" +oldSort + "'";
-        this.jpaTemplate.getJdbcTemplate().execute(sql);
-//        this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Void.class);
-        sql = " UPDATE wiki_document SET sort = sort - 1 where repository_id = '" +repository
-                + "' and category_id is null and sort >'" + oldSort + "'";
-        this.jpaTemplate.getJdbcTemplate().execute(sql);
-
-        // 更新目录下的文档和目录
-        sql = " UPDATE wiki_category SET sort = sort + 1 where repository_id = '" +repository
-                + "' and parent_category_id = '" + parentWikiCategoryId +"' and sort >= '" +sort + "'";
-        this.jpaTemplate.getJdbcTemplate().execute(sql);
-        sql = " UPDATE wiki_document SET sort = sort + 1 where repository_id = '" +repository
-                + "' and category_id  = '" + parentWikiCategoryId + "' and sort >='" + sort + "'";
-        this.jpaTemplate.getJdbcTemplate().execute(sql);
-    }
-
-    public void  updateCategoryToRepository(String repository, String parentWikiCategoryId,Integer oldSort, Integer sort ){
-        String sql = "";
-        // 更新库下的文档和目录
-        sql = " UPDATE wiki_category SET sort = sort + 1 where repository_id = '" +repository
-                + "' and parent_category_id is null and sort >= '" + sort + "'";
-        this.jpaTemplate.getJdbcTemplate().execute(sql);
-        sql = " UPDATE wiki_document SET sort = sort + 1 where repository_id = '" +repository
-                + "' and category_id is null and sort >='" + sort + "'";
-        this.jpaTemplate.getJdbcTemplate().execute(sql);
-
-        // 更新目录下的文档和目录
-        sql = " UPDATE wiki_category SET sort = sort - 1 where repository_id = '" +repository
-                + "' and parent_category_id = '" + parentWikiCategoryId +"' and sort > '" +oldSort + "'";
-        this.jpaTemplate.getJdbcTemplate().execute(sql);
-        sql = " UPDATE wiki_document SET sort = sort - 1 where repository_id = '" +repository
-                + "' and category_id  = '" + parentWikiCategoryId + "' and sort > '" + oldSort + "'";
-        this.jpaTemplate.getJdbcTemplate().execute(sql);
-    }
-
-    public void  updateOnCategory(String oldParentId, String parentWikiCategoryId,Integer oldSort, Integer sort ){
-        String sql = "";
-        // 更新旧目录下的文档和目录
-        sql = " UPDATE wiki_category SET sort = sort - 1 where parent_category_id = '" + oldParentId
-                + "' and sort > '" +oldSort + "'";
-        this.jpaTemplate.getJdbcTemplate().execute(sql);
-        sql = " UPDATE wiki_document SET sort = sort - 1 where category_id = '" +oldParentId
-                + "' and sort >'" + oldSort + "'";
-        this.jpaTemplate.getJdbcTemplate().execute(sql);
-
-        // 更新新目录下的文档和目录
-        sql = " UPDATE wiki_category SET sort = sort + 1 where parent_category_id = '" + parentWikiCategoryId
-                + "' and sort >= '" +sort + "'";
-        this.jpaTemplate.getJdbcTemplate().execute(sql);
-        sql = " UPDATE wiki_document SET sort = sort + 1 where category_id = '" + parentWikiCategoryId
-                + "' and sort >='" + sort + "'";
-        this.jpaTemplate.getJdbcTemplate().execute(sql);
-    }
-
-    public void  updateCurrentCategory(String parentWikiCategoryId,Integer oldSort, Integer sort ){
-        String sql = "";
-        if(oldSort > sort){
-            sql = " UPDATE wiki_category SET sort = sort + 1 where parent_category_id = '" +
-                    parentWikiCategoryId  + "' and sort >= '" +sort + "' and sort < '" + oldSort + "'";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-
-            sql = " UPDATE wiki_document SET sort = sort + 1 where category_id = '" +
-                    parentWikiCategoryId + "' and sort >= '" +sort + "' and sort < '" + oldSort + "'";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-
-        }else {
-            sql = " UPDATE wiki_category SET sort = sort - 1 where parent_category_id = '" +
-                    parentWikiCategoryId  + "' and sort <= '" + sort + "' and sort > '" + oldSort + "'";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-
-            sql = " UPDATE wiki_document SET sort = sort - 1 where category_id = '" +
-                    parentWikiCategoryId + "' and sort <= '" + sort + "' and sort > '" + oldSort + "'";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-        }
-    }
-
-    public HashMap<String, List<String>> findCategoryChildren(String parentWikiCategoryId){
-        HashMap<String, List<String>> ids = new HashMap<>();
-        String sql = "Select id from wiki_document where category_id = '" + parentWikiCategoryId + "'";
-        List<String> documents = this.jpaTemplate.getJdbcTemplate().queryForList(sql, String.class);
-        ids.put("document", documents);
-
-        sql = "Select id from wiki_category where parent_category_id = '" + parentWikiCategoryId + "'";
-        List<String> categorys = this.jpaTemplate.getJdbcTemplate().queryForList(sql, String.class);
-        ids.put("category", categorys);
-        if(categorys.size() > 0){
-            for (String category : categorys) {
-                HashMap<String, List<String>> categoryChildren = findCategoryChildren(category);
-                List<String> documents1 = categoryChildren.get("document");
-                documents.addAll(documents1);
-                ids.put("document", documents);
-                List<String> category1 = categoryChildren.get("category");
-                categorys.addAll(category1);
-                ids.put("category", categorys);
-            }
-        }
-        return ids;
-    }
-
-    public void updateDimension(String doumentIds, String categoryIds, Integer distence){
-        String sql = null;
-        if(doumentIds != null) {
-            sql = "UPDATE wiki_document SET dimension = dimension + " + distence + " where id in " + doumentIds;
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-        }
-        if(categoryIds != null){
-            sql = "UPDATE wiki_category SET dimension = dimension + " + distence + " where id in " + categoryIds;
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-        }
-
-    }
-
-    public void updateSortAfterDelete(String repositoryId, String parentWikiCategoryId, Integer sort){
-        String sql = "";
-        // 更新库下的文档和目录
-        if(parentWikiCategoryId == null || parentWikiCategoryId.length() <= 0 || parentWikiCategoryId.equals("nullString")){
-            sql = " UPDATE wiki_category SET sort = sort - 1 where repository_id = '" +repositoryId
-                    + "' and parent_category_id is null and sort > '" + sort + "'";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-            sql = " UPDATE wiki_document SET sort = sort - 1 where repository_id = '" +repositoryId
-                    + "' and category_id is null and sort >'" + sort + "'";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-        }else {
-            // 更新目录下的文档和目录
-            sql = " UPDATE wiki_category SET sort = sort - 1 where repository_id = '" +repositoryId
-                    + "' and parent_category_id = '" + parentWikiCategoryId +"' and sort > '" +sort + "'";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-            sql = " UPDATE wiki_document SET sort = sort - 1 where repository_id = '" +repositoryId
-                    + "' and category_id  = '" + parentWikiCategoryId + "' and sort > '" + sort + "'";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-        }
-
-
-
-    }
     /**
      * 删除
      * @param id
      */
     public void deleteCategory(String id){
         jpaTemplate.delete(WikiCategoryEntity.class,id);
+    }
 
-
+    public void deleteCategoryByIds(Object[] ids){
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(WikiCategoryEntity.class)
+                .in("id", ids)
+                .get();
+        jpaTemplate.delete(deleteCondition);
     }
 
     public void deleteCategory(DeleteCondition deleteCondition){
@@ -235,18 +81,7 @@ public class WikiCategoryDao {
      * @param id
      * @return
      */
-    public List<WikiCategoryEntity> findCategoryDocument(String id){
-        QueryCondition queryCondition = QueryBuilders.createQuery(WikiCategoryEntity.class,"ce").eq("ce.parentCategoryId",id).get();
-        List<WikiCategoryEntity> wikiCategoryEntityList = jpaTemplate.findList(queryCondition, WikiCategoryEntity.class);
-        return wikiCategoryEntityList;
-    }
 
-    public List<WikiDocumentEntity> findDocumentDocument(String id){
-        QueryCondition queryCondition = QueryBuilders.createQuery(WikiDocumentEntity.class,"de").eq("de.categoryId",id).get();
-        List<WikiDocumentEntity> wikiDocumentEntityList = jpaTemplate.findList(queryCondition, WikiDocumentEntity.class);
-
-        return wikiDocumentEntityList;
-    }
 
     /**
     * findAllCategory
@@ -262,84 +97,18 @@ public class WikiCategoryDao {
 
     public List<WikiCategoryEntity> findCategoryList(WikiCategoryQuery wikiCategoryQuery) {
         QueryBuilders queryBuilders = QueryBuilders.createQuery(WikiCategoryEntity.class)
-                .eq("repositoryId", wikiCategoryQuery.getRepositoryId())
-                .eq("parentCategoryId", wikiCategoryQuery.getParentWikiCategory())
-                .in("parentCategoryId", wikiCategoryQuery.getParentWikiCategorys())
-                .eq("dimension", wikiCategoryQuery.getDimension())
-                .in("dimension", wikiCategoryQuery.getDimensions())
                 .orders(wikiCategoryQuery.getOrderParams());
-        if(wikiCategoryQuery.getParentWikiCategoryIsNull() != null && wikiCategoryQuery.getParentWikiCategoryIsNull() == true){
-            queryBuilders.isNull("parentCategoryId");
-        }
         QueryCondition queryCondition = queryBuilders.get();
         return jpaTemplate.findList(queryCondition, WikiCategoryEntity.class);
     }
 
 
-
-
-    public List<Map<String, Object>> findCategoryChidrenList(String wikiCategoryIds) {
-        String sql = "SELECT id, parent_category_id from kanass_category WHERE parent_category_id in " + wikiCategoryIds;
-        List<Map<String, Object>> categoryIds = this.jpaTemplate.getJdbcTemplate().queryForList(sql);
-        return categoryIds;
-    }
-
-    public List<Map<String, Object>> findDocumentChidrenList(String wikiCategoryIds) {
-        String sql = "SELECT id, category_id from kanass_document WHERE category_id in " + wikiCategoryIds;
-        List<Map<String, Object>> documentIds = this.jpaTemplate.getJdbcTemplate().queryForList(sql);
-        return documentIds;
-    }
-
     public Pagination<WikiCategoryEntity> findCategoryPage(WikiCategoryQuery wikiCategoryQuery) {
         QueryCondition queryCondition = QueryBuilders.createQuery(WikiCategoryEntity.class)
-                .eq("repositoryId", wikiCategoryQuery.getRepositoryId())
                 .orders(wikiCategoryQuery.getOrderParams())
                 .pagination(wikiCategoryQuery.getPageParam())
                 .get();
         return jpaTemplate.findPage(queryCondition, WikiCategoryEntity.class);
     }
 
-    public void reduceSortInCategory(String wikiCategoryId, Integer sort){
-        try {
-            String sql = "UPDATE wiki_category SET sort = sort - 1 WHERE parent_category_id ='" + wikiCategoryId + "' and sort > " + sort;
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-        } catch (DataAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void reduceSortInRepository(String repositoryId, Integer sort){
-        try {
-            String sql = "UPDATE wiki_category SET sort = sort - 1 WHERE repository_id ='" + repositoryId + "' and sort > " + sort + " and parent_category_id IS NULL";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-        } catch (DataAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void addSortInCategory(String wikiCategoryId, Integer sort){
-        try {
-            String sql = "UPDATE wiki_category SET sort = sort + 1 WHERE parent_category_id ='" + wikiCategoryId + "' and sort >= " + sort;
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-        } catch (DataAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void addSortInRepository(String repositoryId, Integer sort){
-        try {
-            String sql = "UPDATE wiki_category SET sort = sort + 1 WHERE repository_id ='" + repositoryId + "' and sort >= " + sort + " and parent_category_id IS NULL";
-            this.jpaTemplate.getJdbcTemplate().execute(sql);
-        } catch (DataAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public List<WikiCategoryEntity> findAllChildrenCategoryList(String id){
-        // 找出所有下级
-        String sql = "SELECT * from wiki_category WHERE tree_path like '%" + id + "%';";
-        List<WikiCategoryEntity> wikiCategoryEntityList = this.jpaTemplate.getJdbcTemplate().
-                query(sql, new BeanPropertyRowMapper(WikiCategoryEntity.class));
-        return wikiCategoryEntityList;
-    }
 }

@@ -2,11 +2,12 @@ package io.thoughtware.sward.repository.service;
 
 import com.alibaba.fastjson.JSONObject;
 import io.thoughtware.security.logging.service.LoggingByTempService;
-import io.thoughtware.sward.category.model.WikiCategory;
-import io.thoughtware.sward.category.model.WikiCategoryQuery;
 import io.thoughtware.sward.category.service.WikiCategoryService;
 import io.thoughtware.sward.document.model.DocumentQuery;
 import io.thoughtware.sward.document.service.DocumentService;
+import io.thoughtware.sward.node.model.Node;
+import io.thoughtware.sward.node.model.NodeQuery;
+import io.thoughtware.sward.node.service.NodeService;
 import io.thoughtware.sward.repository.dao.WikiRepositoryDao;
 import io.thoughtware.sward.repository.entity.WikiRepositoryEntity;
 import io.thoughtware.sward.repository.model.WikiRepository;
@@ -23,7 +24,6 @@ import io.thoughtware.core.page.PaginationBuilder;
 import io.thoughtware.dss.client.DssClient;
 import io.thoughtware.toolkit.join.JoinTemplate;
 import io.thoughtware.message.message.model.SendMessageNotice;
-import io.thoughtware.message.message.service.SendMessageNoticeService;
 import io.thoughtware.privilege.dmRole.service.DmRoleService;
 import io.thoughtware.privilege.role.model.PatchUser;
 import io.thoughtware.rpc.annotation.Exporter;
@@ -56,6 +56,9 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     private static Logger logger = LoggerFactory.getLogger(WikiRepositoryServiceImpl.class);
     @Autowired
     WikiRepositoryDao wikiRepositoryDao;
+
+    @Autowired
+    NodeService nodeService;
 
     @Autowired
     JoinTemplate joinTemplate;
@@ -250,16 +253,13 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     @Override
     public WikiRepository findRepository(@NotNull String id) {
         WikiRepository wikiRepository = findOne(id);
-        DocumentQuery documentQuery = new DocumentQuery();
-        documentQuery.setRepositoryId(id);
-        Integer documentCount = documentService.findDocumentCount(documentQuery);
-        wikiRepository.setDocumentNum(documentCount);
+        String repositoryIds = "('" + id + "')";
+        List<Node> childrenNodeList = nodeService.findChildrenNodeList(repositoryIds);
+        List<Node> document = childrenNodeList.stream().filter(node -> node.getType().equals("document")).collect(Collectors.toList());
 
-        WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
-        wikiCategoryQuery.setRepositoryId(id);
-        List<WikiCategory> wikiCategoryList = wikiCategoryService.findCategoryList(wikiCategoryQuery);
-        wikiRepository.setCategoryNum(wikiCategoryList.size());
-
+        int size = document.size();
+        wikiRepository.setDocumentNum(size);
+        wikiRepository.setCategoryNum(childrenNodeList.size() - size);
         joinTemplate.joinQuery(wikiRepository);
         return wikiRepository;
     }
@@ -373,20 +373,20 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         }
         if(wikiRepositoryList.size() > 0){
             String repositoryIds = "(" + wikiRepositoryList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
-            List<Map<String, Object>> categoryList = wikiCategoryService.findCategoryByRepositoryIds(repositoryIds);
-            List<Map<String, Object>> documentList = documentService.findDocumentByRepositoryIds(repositoryIds);
+            List<Node> childrenNodeList = nodeService.findChildrenNodeList(repositoryIds);
             for (WikiRepository wikiRepository : wikiRepositoryList) {
                 String id = wikiRepository.getId();
+                List<Node> document = childrenNodeList.stream().filter
+                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("document")).collect(Collectors.toList());
 
-                List<Map<String, Object>> categorys = categoryList.stream().filter(category -> category.get("repository_id").equals(id)).collect(Collectors.toList());
-                wikiRepository.setCategoryNum(categorys.size());
+                List<Node> category = childrenNodeList.stream().filter
+                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("category")).collect(Collectors.toList());
 
-                List<Map<String, Object>> documents = documentList.stream().filter(document -> document.get("repository_id").equals(id)).collect(Collectors.toList());
-                wikiRepository.setDocumentNum(documents.size());
+                wikiRepository.setDocumentNum(document.size());
+                wikiRepository.setCategoryNum(category.size());
             }
 
         }
-
 
         return wikiRepositoryList;
     }

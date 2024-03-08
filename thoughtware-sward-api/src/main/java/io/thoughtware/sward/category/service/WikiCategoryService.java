@@ -33,16 +33,12 @@ public interface WikiCategoryService {
     * @param wikiCategory
     */
     void updateCategory(@NotNull @Valid WikiCategory wikiCategory);
-    void updateCategoryInit(@NotNull @Valid WikiCategory wikiCategory);
-    WikiCategory updateSort(@NotNull @Valid WikiCategory wikiCategory);
     /**
     * 删除
     * @param id
     */
     void deleteCategory(@NotNull String id);
-    void deleteCategoryAndSort(@NotNull @Valid WikiCategory wikiCategory);
-    void updateSortAfterDelete(@NotNull @Valid String repositoryId, @Valid String parentWikiCategoryId, @Valid Integer sort);
-    HashMap<String, List<String>> findCategoryChildren(@NotNull String parentWikiCategoryId);
+    void deleteCategoryByIds(Object[] ids);
     @FindOne
     WikiCategory findOne(@NotNull String id);
 
@@ -57,12 +53,6 @@ public interface WikiCategoryService {
     WikiCategory findCategory(@NotNull String id);
 
     /**
-     * 查找
-     * @param id
-     * @return
-     */
-    List<Object> findCategoryDocument(@NotNull String id);
-    /**
     * 查找所有
     * @return
     */
@@ -76,29 +66,11 @@ public interface WikiCategoryService {
     */
     List<WikiCategory> findCategoryList(WikiCategoryQuery wikiCategoryQuery);
 
-    List<Map<String, Object>> findCategoryByRepositoryIds(String repositoryIds);
-
     /**
     * 按分页查询
     * @param wikiCategoryQuery
     * @return
     */
     Pagination<WikiCategory> findCategoryPage(WikiCategoryQuery wikiCategoryQuery);
-    /**
-     *查询目录树
-     * @param wikiCategoryQuery
-     * @return
-     */
-    List<Object> findCategoryListTree(WikiCategoryQuery wikiCategoryQuery);
-
-    List<Object> findCategoryListTreeById(String id, String treePath);
-    void addSortInCategory(String wikiCategoryId, Integer sort);
-
-    void addSortInRepository(String wikiCategoryId, Integer sort);
-
-    void reduceSortInCategory(String wikiCategoryId, Integer sort);
-
-    void reduceSortInRepository(String wikiCategoryId, Integer sort);
-
 
 }

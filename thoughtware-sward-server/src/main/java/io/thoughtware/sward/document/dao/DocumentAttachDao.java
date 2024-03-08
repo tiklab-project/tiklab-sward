@@ -1,5 +1,7 @@
 package io.thoughtware.sward.document.dao;
 
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
+import io.thoughtware.sward.document.entity.CommentEntity;
 import io.thoughtware.sward.document.entity.DocumentAttachEntity;
 import io.thoughtware.sward.document.model.DocumentAttachQuery;
 import io.thoughtware.core.page.Pagination;
@@ -48,6 +50,13 @@ public class DocumentAttachDao{
      */
     public void deleteDocumentAttach(String id){
         jpaTemplate.delete(DocumentAttachEntity.class,id);
+    }
+
+    public void deleteDocumentAttachCondition(DocumentAttachQuery documentAttachQuery){
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(CommentEntity.class)
+                .eq("documentId", documentAttachQuery.getDocumentId())
+                .get();
+        jpaTemplate.delete(deleteCondition);
     }
 
     public void deleteDocumentAttach(DeleteCondition deleteCondition){

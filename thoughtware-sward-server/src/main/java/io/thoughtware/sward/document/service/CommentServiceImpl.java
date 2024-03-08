@@ -71,15 +71,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteCommentCondition(CommentQuery commentQuery) {
-        deleteComment(commentQuery.getFirstOneCommentId());
-        List<Comment> commentList = findCommentList(commentQuery);
-
-        // 删除下面子级评论
-        for (Comment comment : commentList) {
-            deleteComment(comment.getId());
-        }
-
+    public void deleteCommentCondition(@NotNull @Valid CommentQuery commentQuery) {
+        commentDao.deleteCommentCondition(commentQuery);
     }
 
     @Override

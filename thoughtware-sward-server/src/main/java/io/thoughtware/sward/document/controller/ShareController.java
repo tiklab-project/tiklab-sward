@@ -8,6 +8,8 @@ import io.thoughtware.core.page.Pagination;
 import io.thoughtware.core.Result;
 import io.thoughtware.postin.annotation.ApiMethod;
 import io.thoughtware.postin.annotation.ApiParam;
+import io.thoughtware.sward.node.model.Node;
+import io.thoughtware.sward.node.model.NodeQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,9 +137,9 @@ public class ShareController {
     @RequestMapping(path="/findShareCategory",method = RequestMethod.POST)
     @ApiMethod(name = "findShareCategory",desc = "获取分享的目录")
     @ApiParam(name = "shareLink",desc = "shareLink",required = true)
-    public Result<ArrayList<Object>> findShareCategory(@NotNull String shareLink){
-        ArrayList<Object> categoryTreeList= shareService.findShareCategory(shareLink);
+    public Result<List<Node> > findShareCategory(@RequestBody @NotNull @Valid  NodeQuery nodeQuery){
+        List<Node> shareCategory = shareService.findShareCategory(nodeQuery);
 
-        return Result.ok(categoryTreeList);
+        return Result.ok(shareCategory);
     }
 }

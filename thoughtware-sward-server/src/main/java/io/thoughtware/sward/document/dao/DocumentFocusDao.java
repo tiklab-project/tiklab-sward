@@ -1,5 +1,6 @@
 package io.thoughtware.sward.document.dao;
 
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.thoughtware.sward.document.entity.DocumentFocusEntity;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.dal.jpa.JpaTemplate;
@@ -50,7 +51,10 @@ public class DocumentFocusDao {
         jpaTemplate.delete(DocumentFocusEntity.class,id);
     }
 
-    public void deleteDocumentFocus(DeleteCondition deleteCondition){
+    public void deleteDocumentFocusByCondition(DocumentFocusQuery documentFocusQuery){
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(DocumentFocusEntity.class)
+                .eq("documentId", documentFocusQuery.getDocumentId())
+                .get();
         jpaTemplate.delete(deleteCondition);
     }
 
@@ -75,14 +79,15 @@ public class DocumentFocusDao {
         return jpaTemplate.findList(DocumentFocusEntity.class,idList);
     }
 
-    public List<DocumentFocusEntity> findDocumentFocusList(DocumentFocusQuery wikiDocumentFocusQuery) {
+    public List<DocumentFocusEntity> findDocumentFocusList(DocumentFocusQuery documentFocusQuery) {
         QueryCondition queryCondition = QueryBuilders.createQuery(DocumentFocusEntity.class)
-                .eq("documentId", wikiDocumentFocusQuery.getDocumentId())
-                .eq("masterId", wikiDocumentFocusQuery.getMasterId())
-                .orders(wikiDocumentFocusQuery.getOrderParams())
+                .eq("documentId", documentFocusQuery.getDocumentId())
+                .eq("masterId", documentFocusQuery.getMasterId())
+                .orders(documentFocusQuery.getOrderParams())
                 .get();
 
         return jpaTemplate.findList(queryCondition, DocumentFocusEntity.class);
+
     }
 
     public Pagination<DocumentFocusEntity> findDocumentFocusPage(DocumentFocusQuery wikiDocumentFocusQuery) {

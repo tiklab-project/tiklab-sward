@@ -14,11 +14,9 @@ public class Share extends BaseModel{
     @ApiProperty(name="id",desc="id")
     private String id;
 
-    @ApiProperty(name="documentIds",desc="id")
-    private String[] documentIds;
+    @ApiProperty(name="nodeIds",desc="id")
+    private String[] nodeIds;
 
-    @ApiProperty(name="categoryIds",desc="id")
-    private String[] categoryIds;
 
     @ApiProperty(name="authCode",desc="验证码")
     private java.lang.String authCode;
@@ -47,22 +45,13 @@ public class Share extends BaseModel{
         this.authCode = authCode;
     }
 
-    public String[] getDocumentIds() {
-        return documentIds;
+    public String[] getNodeIds() {
+        return nodeIds;
     }
 
-    public void setDocumentIds(String[] documentIds) {
-        this.documentIds = documentIds;
+    public void setNodeIds(String[] nodeIds) {
+        this.nodeIds = nodeIds;
     }
-
-    public String[] getCategoryIds() {
-        return categoryIds;
-    }
-
-    public void setCategoryIds(String[] categoryIds) {
-        this.categoryIds = categoryIds;
-    }
-
 
     public Date getCreateTime() {
         return createTime;

@@ -1,4 +1,4 @@
-package io.thoughtware.sward.node.Entity;
+package io.thoughtware.sward.node.entity;
 
 
 import io.thoughtware.dal.jpa.annotation.Column;
@@ -9,7 +9,7 @@ import io.thoughtware.dal.jpa.annotation.Table;import io.thoughtware.dal.jpa.ann
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-@Entity @Table(name="wiki_category")
+@Entity @Table(name="wiki_node")
 public class NodeEntity implements Serializable {
 
     @Id
@@ -22,19 +22,23 @@ public class NodeEntity implements Serializable {
     private String name;
 
     //管理员
-    @Column(name = "master",length = 32,notNull = true)
+    @Column(name = "master",length = 12,notNull = true)
     private String master;
 
     //知识库id
-    @Column(name = "repository_id",length = 32,notNull = true)
+    @Column(name = "repository_id",length = 12,notNull = true)
     private String repositoryId;
 
     //上一级id
-    @Column(name = "parent_category_id",length = 32)
-    private String parentCategoryId;
+    @Column(name = "parent_id",length = 12)
+    private String parentId;
 
     @Column(name = "update_time")
-    private Timestamp updateTime;
+    private String updateTime;
+
+    //事项创建时间
+    @Column(name = "create_time")
+    private String createTime;
 
     //描述
     @Column(name = "sort")
@@ -45,6 +49,15 @@ public class NodeEntity implements Serializable {
 
     @Column(name = "tree_path")
     private String treePath;
+
+    // 类型， 目录 category, 文档 document
+    @Column(name = "type")
+    private String type;
+
+    // 文档类型 富文本， markdown
+    @Column(name = "document_type")
+    private String documentType;
+
     public String getId() {
         return id;
     }
@@ -69,13 +82,7 @@ public class NodeEntity implements Serializable {
         this.repositoryId = repositoryId;
     }
 
-    public String getParentCategoryId() {
-        return parentCategoryId;
-    }
 
-    public void setParentCategoryId(String parentCategoryId) {
-        this.parentCategoryId = parentCategoryId;
-    }
 
     public Integer getSort() {
         return sort;
@@ -93,12 +100,20 @@ public class NodeEntity implements Serializable {
         this.master = master;
     }
 
-    public Timestamp getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Timestamp updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
     public Integer getDimension() {
@@ -115,5 +130,30 @@ public class NodeEntity implements Serializable {
 
     public void setTreePath(String treePath) {
         this.treePath = treePath;
+    }
+
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
     }
 }

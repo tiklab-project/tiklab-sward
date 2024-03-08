@@ -36,7 +36,6 @@ public interface DocumentService {
     */
     void updateDocument(@NotNull @Valid WikiDocument wikiDocument);
 
-    void updateDocumentSort(@NotNull @Valid WikiDocument wikiDocument);
     void updateDocumentInit(@NotNull @Valid WikiDocument wikiDocument);
     /**
     * 删除
@@ -44,7 +43,6 @@ public interface DocumentService {
     */
     void deleteDocument(@NotNull String id);
 
-    void deleteDocumentAndSort(@NotNull @Valid WikiDocument wikiDocument);
     @FindOne
     WikiDocument findOne(@NotNull String id);
 

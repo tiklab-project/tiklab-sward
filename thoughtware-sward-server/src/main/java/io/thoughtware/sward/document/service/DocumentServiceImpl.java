@@ -12,6 +12,10 @@ import io.thoughtware.dss.client.DssClient;
 import io.thoughtware.eam.common.context.LoginContext;
 import io.thoughtware.sward.category.service.WikiCategoryService;
 import io.thoughtware.sward.document.entity.WikiDocumentEntity;
+import io.thoughtware.sward.node.dao.NodeDao;
+import io.thoughtware.sward.node.entity.NodeEntity;
+import io.thoughtware.sward.node.model.Node;
+import io.thoughtware.sward.node.service.NodeService;
 import io.thoughtware.sward.repository.model.WikiRepository;
 import io.thoughtware.toolkit.beans.BeanMapper;
 import io.thoughtware.core.page.Pagination;
@@ -80,6 +84,9 @@ public class DocumentServiceImpl implements DocumentService {
     CommentService commentService;
 
     @Autowired
+    DocumentAttachService documentAttachService;
+
+    @Autowired
     LikeService likeService;
 
     @Autowired
@@ -87,6 +94,12 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     LoggingService loggingService;
+
+    @Autowired
+    NodeService nodeService;
+
+    @Autowired
+    NodeDao nodeDao;
 
     @Value("${base.url:null}")
     String baseUrl;
@@ -119,28 +132,25 @@ public class DocumentServiceImpl implements DocumentService {
     public String createDocument(@NotNull @Valid WikiDocument wikiDocument) {
         // 设置顺序
         String documentId = new String();
-        lock.lock();
-        try {
-            String categoryId = wikiDocument.getWikiCategory().getId();
-            String repositoryId = wikiDocument.getWikiRepository().getId();
-            Integer brotherNum = documentDao.getBrotherNum(repositoryId, categoryId);
-            wikiDocument.setSort(brotherNum);
+        Node node = wikiDocument.getNode();
+        String nodeId = new String();
 
+        try {
+            nodeId = nodeService.createNode(node);
+
+            wikiDocument.setId(nodeId);
             WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
             documentId = documentDao.createDocument(wikiDocumentEntity);
         } catch (Exception e) {
             throw new ApplicationException(2000, "文档添加失败" + e.getMessage());
-        } finally {
-            lock.unlock();
         }
-
-        WikiDocument wikiDocument1 = findDocumentById(documentId);
+        node = nodeService.findNode(nodeId);
         Map<String, String> content = new HashMap<>();
-        content.put("documentId", wikiDocument1.getId());
-        content.put("documentName", wikiDocument1.getName());
-        content.put("repositoryId", wikiDocument1.getWikiRepository().getId());
+        content.put("documentId", node.getId());
+        content.put("documentName", node.getName());
+        content.put("repositoryId", node.getWikiRepository().getId());
 
-        dssClient.save(wikiDocument1);
+        dssClient.save(node);
         creatDynamic(content);
         return documentId;
     }
@@ -160,179 +170,25 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public void updateDocument(@NotNull @Valid WikiDocument wikiDocument) {
-        String moveToId = wikiDocument.getMoveToId();
-        if(moveToId != null){
-            updateDocumentSort(wikiDocument);
+
+        Node node = new Node();
+        if(wikiDocument.getNode() != null){
+            node = wikiDocument.getNode();
+        }else{
+            node.setId(wikiDocument.getId());
         }
-        WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
-        documentDao.updateDocument(wikiDocumentEntity);
+        nodeService.updateNode(node);
 
-        WikiDocument wikiDocument1 = findDocumentById(wikiDocumentEntity.getId());
-//        Map<String, String> content = new HashMap<>();
-//        content.put("documentId", wikiDocument1.getId());
-//        content.put("documentName", wikiDocument1.getName());
-//        content.put("repositoryId", wikiDocument1.getWikiRepository().getId());
-//        String typeId = wikiDocument1.getTypeId();
-//
-//        if(typeId.equals("document")){
-//            content.put("iconUrl", "/images/mindMap.png");
-//        }else {
-//            content.put("iconUrl", "/images/document.png");
-//        }
+        if(wikiDocument.getDetails() != null){
+            WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
+            documentDao.updateDocument(wikiDocumentEntity);
+        }
 
-        dssClient.update(wikiDocument1);
+
+
+//        dssClient.update(wikiDocument1);
     }
 
-    @Override
-    public void updateDocumentSort(WikiDocument wikiDocument) {
-        // 被移动的id
-        String id = wikiDocument.getId();
-        WikiDocument document = findDocument(id);
-        Integer sort = document.getSort();
-        WikiCategory wikiCategory = document.getWikiCategory();
-
-        // 第一步,先把大于被移动着的顺序的文档，目录的sort减一
-        // 判断被移动的文档有没有上级目录
-        if(wikiCategory != null){
-            String wikiCategoryId = wikiCategory.getId();
-            reduceSortInCategory(wikiCategoryId, sort);
-            wikiCategoryService.reduceSortInCategory(wikiCategoryId, sort);
-        }else {
-            // 如果没有上级目录
-            WikiRepository wikiRepository = document.getWikiRepository();
-            String repositoryId = wikiRepository.getId();
-            reduceSortInRepository(repositoryId, sort);
-            wikiCategoryService.reduceSortInRepository(repositoryId, sort);
-        }
-
-
-        // 第二步, 把移动到的位置的， 大于移动位置的文档，目录排序都加一
-        // moveId 不为空的话，表示文档移动到moveToId的位置
-        String moveType = wikiDocument.getMoveType();
-        String moveToId = wikiDocument.getMoveToId();
-
-        // 拖动类型1，文档被托放在id 为moveToId 的目录或者文档存在的位置
-        if(moveType.equals("1")){
-            String moveToType = wikiDocument.getMoveToType();
-            // 如果被插入位置原来是文档
-            if(moveToType.equals("document")){
-                WikiDocument toDocument = findDocument(moveToId);
-                Integer toSort = toDocument.getSort();
-                WikiCategory toWikiCategory = toDocument.getWikiCategory();
-
-                // 如果移动到的位置有上级
-                if(!ObjectUtils.isEmpty(toWikiCategory)){
-                    String toWikiCategoryId = toWikiCategory.getId();
-                    addSortInCategory(toWikiCategoryId, toSort);
-                    wikiCategoryService.addSortInCategory(toWikiCategoryId, toSort);
-                    // 更新被拖动的文档的顺序，
-                    wikiDocument.setSort(toSort);
-                    wikiDocument.setDimension(toDocument.getDimension());
-                    wikiDocument.setTreePath(toDocument.getTreePath());
-                    wikiDocument.setWikiCategory(toWikiCategory);
-                }
-                // 如果移动到的位置没有上级, 就是在知识库下面
-                if(ObjectUtils.isEmpty(toWikiCategory)){
-                    WikiRepository wikiRepository = toDocument.getWikiRepository();
-                    String repositoryId = wikiRepository.getId();
-                    addSortInRepository(repositoryId, toSort);
-                    wikiCategoryService.addSortInRepository(repositoryId, toSort);
-
-                    // 更新被拖动的文档的顺序，
-                    wikiDocument.setSort(toSort);
-                    wikiDocument.setDimension(toDocument.getDimension());
-                    wikiDocument.setTreePath(toDocument.getTreePath());
-                    WikiCategory wikiCategory1 = new WikiCategory();
-                    wikiCategory1.setId("nullstring");
-                    wikiDocument.setWikiCategory(wikiCategory1);
-                }
-            }
-
-            // 如果被插入位置原来是目录
-            if(moveToType.equals("category")){
-                WikiCategory toCategory = wikiCategoryService.findCategory(moveToId);
-                Integer toSort = toCategory.getSort();
-                WikiCategory toWikiParentCategory = toCategory.getParentWikiCategory();
-                // 如果移动到的位置有上级
-                if(!ObjectUtils.isEmpty(toWikiParentCategory)){
-                    // 如果插入位置与之前的位置都在同一个目录下面
-                    if(toWikiParentCategory.getId().equals(wikiCategory.getId())){
-                        toSort = toSort - 1;
-                    }
-                    addSortInCategory(toWikiParentCategory.getId(), toSort);
-                    wikiCategoryService.addSortInCategory(toWikiParentCategory.getId(), toSort);
-                    // 更新被拖动的文档的顺序，
-                    wikiDocument.setSort(toSort);
-                    wikiDocument.setDimension(toCategory.getDimension());
-                    wikiDocument.setTreePath(toCategory.getTreePath());
-                    wikiDocument.setWikiCategory(toWikiParentCategory);
-                }
-                // 如果移动到的位置没有上级, 就是在知识库下面
-                if(ObjectUtils.isEmpty(toWikiParentCategory)){
-                    if(ObjectUtils.isEmpty(wikiCategory)){
-                        toSort = toSort - 1;
-                    }
-                    WikiRepository wikiRepository = toCategory.getWikiRepository();
-                    String repositoryId = wikiRepository.getId();
-                    addSortInRepository(repositoryId, toSort);
-                    wikiCategoryService.addSortInRepository(repositoryId, toSort);
-
-                    wikiDocument.setSort(toSort);
-                    wikiDocument.setDimension(toCategory.getDimension());
-                    wikiDocument.setTreePath(toCategory.getTreePath() != null ? toCategory.getTreePath() : "nullstring");
-                    WikiCategory wikiCategory1 = new WikiCategory();
-                    wikiCategory1.setId("nullstring");
-                    wikiDocument.setWikiCategory(wikiCategory1);
-                }
-            }
-        }
-
-        //  拖动类型2，文档被托放在id 为moveToId 的目录下的最后一个位置
-        if(moveType.equals("2")){
-            WikiCategory toCategory = wikiCategoryService.findCategory(moveToId);
-            WikiRepository wikiRepository = toCategory.getWikiRepository();
-            // 获取移动到的目录有多少个下级
-            Integer maxSort = documentDao.getMaxSort(wikiRepository.getId(), moveToId);
-            // 判断是同一个目录移动还是不同目录移动
-            // wikiCategory移动之前文档所在的目录
-            if(wikiCategory != null){
-                if(wikiCategory.getId() != moveToId){
-                    wikiDocument.setSort(maxSort + 1);
-                }else {
-                    wikiDocument.setSort(maxSort);
-                }
-            }else {
-                wikiDocument.setSort(maxSort + 1);
-            }
-
-            wikiDocument.setDimension(toCategory.getDimension() + 1);
-            if(toCategory.getTreePath() != null){
-                wikiDocument.setTreePath(toCategory.getTreePath() + moveToId + ";");
-            }else {
-                wikiDocument.setTreePath(moveToId + ";");
-            }
-            wikiDocument.setWikiCategory(toCategory);
-        }
-
-        //  拖动类型3，文档被托放知识库最后
-        if(moveType.equals("3")){
-            // 获取移动到的目录有多少个下级
-            WikiRepository wikiRepository = document.getWikiRepository();
-            Integer maxSort = documentDao.getMaxSort(wikiRepository.getId(), null);
-            if(wikiCategory != null){
-                wikiDocument.setSort(maxSort + 1);
-            }else {
-                wikiDocument.setSort(maxSort);
-            }
-            // 找到当前目录或者知识库最大的顺序号
-            wikiDocument.setSort(maxSort + 1);
-            wikiDocument.setDimension(1);
-            wikiDocument.setTreePath("nullstring");
-            WikiCategory wikiCategory1 = new WikiCategory();
-            wikiCategory1.setId("nullstring");
-            wikiDocument.setWikiCategory(wikiCategory1);
-        }
-    }
 
     @Override
     public void updateDocumentInit(WikiDocument wikiDocument) {
@@ -343,34 +199,27 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public void deleteDocument(@NotNull String id) {
-        //删除事项的关联
-    //    workItemDocumentController.delete(id);
-    //    WikiDocumentEntity wikiDocumentEntity = documentDao.findDocument(id);
-        RecentQuery recentQuery = new RecentQuery();
-        recentQuery.setModelId(id);
-        List<Recent> recentList = recentService.findRecentList(recentQuery);
-        for (Recent recent : recentList) {
-            recentService.deleteRecent(recent.getId());
-        }
-
         dssClient.delete(WikiDocument.class, id);
         documentDao.deleteDocument(id);
+        nodeService.deleteNode(id);
+
+        // 删除文档关联的关注数据
+        DocumentFocusQuery documentFocusQuery = new DocumentFocusQuery();
+        documentFocusQuery.setDocumentId(id);
+        documentFocusService.deleteDocumentFocusByCondition(documentFocusQuery);
+
+        // 删除关联的评论
+        CommentQuery commentQuery = new CommentQuery();
+        commentQuery.setDocumentId(id);
+        commentService.deleteCommentCondition(commentQuery);
+
+        // 删除关联的附件
+        DocumentAttachQuery documentAttachQuery = new DocumentAttachQuery();
+        documentAttachQuery.setDocumentId(id);
+        documentAttachService.deleteDocumentAttachCondition(documentAttachQuery);
 
     }
-    @Override
-    public void deleteDocumentAndSort(@NotNull @Valid WikiDocument wikiDocument) {
-        //删除下面相关联的目录和文档
-        String id = wikiDocument.getId();
-        String repositoryId = wikiDocument.getWikiRepository().getId();
-        WikiCategory wikiCategory = wikiDocument.getWikiCategory();
-        Integer sort = wikiDocument.getSort();
-        String parentWikiCategoryId = new String();
-        if(wikiCategory != null){
-            parentWikiCategoryId = wikiCategory.getId();
-        }
-        wikiCategoryService.updateSortAfterDelete(repositoryId, parentWikiCategoryId, sort);
-        documentDao.deleteDocument(id);
-    }
+
 
     @Override
     public WikiDocument findOne(String id) {
@@ -393,7 +242,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public WikiDocument findDocument(@NotNull String id) {
         WikiDocument wikiDocument = findOne(id);
-
+        Node node = nodeService.findNode(id);
+        wikiDocument.setNode(node);
         joinTemplate.joinQuery(wikiDocument);
 
         if(!ObjectUtils.isEmpty(wikiDocument)){
@@ -418,6 +268,8 @@ public class DocumentServiceImpl implements DocumentService {
     public WikiDocument findDocumentById(@NotNull String id) {
         WikiDocumentEntity wikiDocumentEntity = documentDao.findDocument(id);
         WikiDocument wikiDocument = BeanMapper.map(wikiDocumentEntity, WikiDocument.class);
+        Node node = nodeService.findNode(id);
+        wikiDocument.setNode(node);
 
         CommentQuery commentQuery = new CommentQuery();
         commentQuery.setDocumentId(id);

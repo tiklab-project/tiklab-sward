@@ -1,6 +1,8 @@
 package io.thoughtware.sward.document.dao;
 
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.thoughtware.sward.document.entity.CommentEntity;
+import io.thoughtware.sward.document.entity.DocumentFocusEntity;
 import io.thoughtware.sward.document.model.CommentQuery;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
@@ -58,6 +60,13 @@ public class CommentDao{
         jpaTemplate.delete(deleteCondition);
     }
 
+
+    public void deleteCommentCondition(CommentQuery commentQuery){
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(CommentEntity.class)
+                .eq("documentId", commentQuery.getDocumentId())
+                .get();
+        jpaTemplate.delete(deleteCondition);
+    }
     /**
      * 查找
      * @param id

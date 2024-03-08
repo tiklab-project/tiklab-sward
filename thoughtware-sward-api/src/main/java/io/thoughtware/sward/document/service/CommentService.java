@@ -37,7 +37,7 @@ public interface CommentService {
     * @param id
     */
     void deleteComment(@NotNull String id);
-    void deleteCommentCondition(CommentQuery commentQuery);
+    void deleteCommentCondition(@NotNull @Valid CommentQuery commentQuery);
 
     @FindOne
     Comment findOne(@NotNull String id);
