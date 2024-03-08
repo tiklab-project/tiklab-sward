@@ -46,7 +46,8 @@ public class SwardDsmAutoConfiguration {
                 "oplog_1.0.1",
                 //TodoTaskDsm
                 "todotask_1.0.1",
-                "apply-auth_1.0.1"
+                "apply-auth_1.0.1",
+                "sward_1.0.1"
 
         });
         dsmConfig.newVersion("1.0.2", new String[]{
