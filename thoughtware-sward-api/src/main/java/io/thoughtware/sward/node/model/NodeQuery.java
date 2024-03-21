@@ -46,6 +46,9 @@ public class NodeQuery extends BaseModel {
         @ApiProperty(name ="masterId",desc = "负责人")
         private String masterId;
 
+        @ApiProperty(name ="type",desc = "类型")
+        private String type;
+
         @ApiProperty(name ="orderParams",desc = "排序参数")
         private List<Order> orderParams = OrderBuilders.instance().desc("sort").get();
 
@@ -165,5 +168,13 @@ public class NodeQuery extends BaseModel {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

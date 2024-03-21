@@ -40,8 +40,6 @@ public class LikeServiceImpl implements LikeService {
             return "已经点过赞了";
         }
         LikeEntity likeEntity = BeanMapper.map(like, LikeEntity.class);
-        //添加点赞人
-//        likeEntity.setLikeUser(findCreatUser());
         return likeDao.createLike(likeEntity);
     }
 
@@ -59,10 +57,7 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public void deleteLikeCondition(@NotNull LikeQuery likeQuery) {
-
-        List<Like> likeList = findLikeList(likeQuery);
-        String id = likeList.get(0).getId();
-        likeDao.deleteLike(id);
+        likeDao.deleteLikeCondition(likeQuery);
     }
     @Override
     public Like findOne(String id) {
