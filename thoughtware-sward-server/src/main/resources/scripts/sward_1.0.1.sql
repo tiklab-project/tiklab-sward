@@ -12,3 +12,6 @@ ALTER TABLE wiki_category ALTER COLUMN master DROP NOT NULL;
 ALTER TABLE wiki_category ALTER COLUMN repository_id DROP NOT NULL;
 ALTER TABLE wiki_category ALTER COLUMN sort DROP NOT NULL;
 ALTER TABLE wiki_category ALTER COLUMN dimension DROP NOT NULL;
+
+
+UPDATE "public"."pcs_op_log_type" SET "name" = '修改文档名称', "bgroup" = 'sward' WHERE "id" = 'SWARD_LOGTYPE_DOCUMENTUPDATENAME';
