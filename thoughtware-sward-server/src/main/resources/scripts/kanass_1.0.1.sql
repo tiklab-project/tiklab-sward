@@ -3,6 +3,12 @@ INSERT INTO wiki_document (id, name, repository_id, type_id, category_id, master
 INSERT INTO wiki_category (id, name, repository_id, parent_category_id, master, update_time, icon_url, sort, dimension, tree_path) VALUES ('b1bdd8940001', '目录1', '43ef04320e51', NULL, '111111', '2023-12-28 17:33:01.46+08', NULL, 0, 1, NULL);
 INSERT INTO wiki_category (id, name, repository_id, parent_category_id, master, update_time, icon_url, sort, dimension, tree_path) VALUES ('e0937312d93b', '目录1', '7904ebd674d2', NULL, '111111', '2023-12-28 17:33:41.898+08', NULL, 0, 1, NULL);
 
+INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type) VALUES ('b1bdd8940001', '目录1', '43ef04320e51', NULL, '111111', '2023-12-28 17:33:01.46+08', '2023-12-28 17:33:01.46+08', 0, 1, NULL, 'category', NULL);
+INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type) VALUES ('e0937312d93b', '目录1', '7904ebd674d2', NULL, '111111', '2023-12-28 17:33:41.898+08', '2023-12-28 17:33:41.898+08', 0, 1, NULL, 'category', NULL);
+INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type) VALUES ('8f1889bcfe9b', '文档', '43ef04320e51', NULL, '111111', '2023-12-28 17:33:22.377+08', '2023-12-28 17:33:22.377+08', 1, 1, NULL, 'document', 'document');
+INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type) VALUES ('81d30924eb59', '测试文档', '7904ebd674d2', NULL, '111111', '2023-12-28 17:33:52.717+08', '2023-12-28 17:33:52.717+08', 1, 1, NULL, 'document', 'document');
+
+
 INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('b6369775d80b', '知识库1', 'repository', '43ef04320e51', '111111', '43ef04320e51', '2023-12-28 17:36:16.354');
 INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('99284518de42', '文档', 'document', '8f1889bcfe9b', '111111', '43ef04320e51', '2023-12-28 17:36:17.537');
 INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('32f9adce051b', '知识库2', 'repository', '7904ebd674d2', '111111', '7904ebd674d2', '2023-12-28 17:36:21.767');
