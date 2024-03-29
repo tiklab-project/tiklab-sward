@@ -25,6 +25,8 @@ public class DocumentTemplate extends BaseModel{
     @ApiProperty(name="details",desc="详情")
     private java.lang.String details;
 
+    @ApiProperty(name="detailText",desc="详情文字")
+    private String detailText;
     @ApiProperty(name = "iconUrl",desc="缩略图",required = true)
     private String iconUrl;
 
@@ -63,5 +65,13 @@ public class DocumentTemplate extends BaseModel{
 
     public void setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+    }
+
+    public String getDetailText() {
+        return detailText;
+    }
+
+    public void setDetailText(String detailText) {
+        this.detailText = detailText;
     }
 }
