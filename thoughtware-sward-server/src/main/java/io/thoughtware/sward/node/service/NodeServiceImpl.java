@@ -1,6 +1,7 @@
 package io.thoughtware.sward.node.service;
 
 import io.thoughtware.sward.category.service.WikiCategoryService;
+import io.thoughtware.sward.document.model.DocumentQuery;
 import io.thoughtware.sward.document.service.DocumentService;
 import io.thoughtware.sward.node.dao.NodeDao;
 import io.thoughtware.sward.node.entity.NodeEntity;
@@ -264,11 +265,15 @@ public class NodeServiceImpl implements NodeService {
             nodeQuery.setParentId(id);
             // 删除公共表
             List<Node> nodeList = findNodeList(nodeQuery);
-            Object[] ids = nodeList.stream().map(Node::getId).toArray();
-            nodeDao.deleteNodeCondition(ids);
+            if(nodeList.size() > 0){
+                String[] ids = (String[]) nodeList.stream().map(Node::getId).toArray();
+                nodeDao.deleteNodeCondition(ids);
+                wikiCategoryService.deleteCategoryByIds(ids);
+                DocumentQuery documentQuery = new DocumentQuery();
+                documentQuery.setIds(ids);
+                documentService.deleteDocumentCondition(documentQuery);
+            }
 
-            // 删除目录表
-            wikiCategoryService.deleteCategoryByIds(ids);
         }
 
         nodeDao.deleteNode(id);

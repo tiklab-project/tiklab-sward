@@ -3,9 +3,12 @@ package io.thoughtware.sward.document.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.thoughtware.core.exception.ApplicationException;
+import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.thoughtware.security.logging.model.LoggingQuery;
 import io.thoughtware.security.logging.service.LoggingByTempService;
 import io.thoughtware.security.logging.service.LoggingService;
+import io.thoughtware.sward.category.entity.WikiCategoryEntity;
 import io.thoughtware.sward.document.model.*;
 import io.thoughtware.dal.jpa.JpaTemplate;
 import io.thoughtware.dss.client.DssClient;
@@ -272,6 +275,14 @@ public class DocumentServiceImpl implements DocumentService {
         documentAttachQuery.setDocumentId(id);
         documentAttachService.deleteDocumentAttachCondition(documentAttachQuery);
 
+    }
+
+    @Override
+    public void deleteDocumentCondition(DocumentQuery documentQuery ) {
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(WikiCategoryEntity.class)
+                .in("id", documentQuery.getIds())
+                .get();
+        jpaTemplate.delete(deleteCondition);
     }
 
 
