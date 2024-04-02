@@ -17,6 +17,12 @@ jdbc:
   username: postgres
   password: darth2020
 
+#jdbc:
+#  driverClassName: org.postgresql.Driver
+#  url: jdbc:postgresql://172.13.1.16:5432/sward_ee?stringtype=unspecified
+#  username: postgres
+#  password: darth2020
+
 postgresql:
   type: local
   embbed:
