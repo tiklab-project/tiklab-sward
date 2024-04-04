@@ -72,8 +72,8 @@ eas:
   embbed:
     enable: true
   web:
-    address: http://192.168.10.25:3012
-  address: http://192.168.10.6:8082
+    address: http://192.168.10.10:8080
+  address: http://192.168.10.10:8080
 
 
 

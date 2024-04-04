@@ -73,4 +73,6 @@ public interface SystemUrlService {
      */
     Pagination<SystemUrl> findSystemUrlPage(SystemUrlQuery systemUrlQuery);
 
+    Integer findSystemUrlNumber();
+
 }

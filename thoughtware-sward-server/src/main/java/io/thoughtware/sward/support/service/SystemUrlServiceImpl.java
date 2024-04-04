@@ -102,4 +102,10 @@ public class SystemUrlServiceImpl implements SystemUrlService {
 
         return PaginationBuilder.build(pagination,systemUrlList);
     }
+
+    @Override
+    public Integer findSystemUrlNumber() {
+        Integer systemUrlNumber = systemUrlDao.findSystemUrlNumber();
+        return systemUrlNumber;
+    }
 }
