@@ -65,7 +65,8 @@ public class SwardDsmAutoConfiguration {
         });
         dsmConfig.newVersion("1.0.4", new String[]{
                 "message_1.0.4",
-                "apply-auth_1.0.4"
+                "apply-auth_1.0.4",
+                "sward_1.0.4"
         });
         dsmConfig.newVersion("1.0.5", new String[]{
                 "message_1.0.5"
