@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -79,7 +80,12 @@ public class NodeServiceImpl implements NodeService {
                 String parentId = parent.getId();
                 NodeEntity parentNode = nodeDao.findNode(parentId);
                 String treePath = parentNode.getTreePath();
-                treePath = treePath + parentId + ";";
+                if(!StringUtils.isEmpty(treePath)){
+                    treePath = treePath + parentId + ";";
+                }else {
+                    treePath = parentId + ";";
+                }
+
                 node.setTreePath(treePath);
 
                 Integer dimension = parentNode.getDimension();
@@ -371,7 +377,6 @@ public class NodeServiceImpl implements NodeService {
                 }
             }
         }
-
     }
 
     @Override
