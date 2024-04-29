@@ -46,10 +46,9 @@
 		<fileSet>
 			<directory>${basedir}/bin</directory>
 			<fileMode>755</fileMode>
-			<excludes>
-				<exclude>*.classpath</exclude>
-				<exclude>*.bat</exclude>
-			</excludes>
+			<includes>
+				<include>*_mac.sh</include>
+			</includes>
 			<outputDirectory>/bin</outputDirectory>
 		</fileSet>
 		<fileSet>

@@ -68,15 +68,15 @@
             <dependencies>
                 <dependency>
                     <groupId>io.thoughtware</groupId>
-                    <artifactId>thoughtware-mysql-windows</artifactId>
-                    <version>${thoughtware-mysql.version}</version>
+                    <artifactId>thoughtware-jdk-windows</artifactId>
+                    <version>${thoughtware-jdk.version}</version>
                     <type>zip</type>
                     <scope>provided</scope>
                 </dependency>
                 <dependency>
                     <groupId>io.thoughtware</groupId>
-                    <artifactId>thoughtware-jdk-windows</artifactId>
-                    <version>${thoughtware-jdk.version}</version>
+                    <artifactId>thoughtware-postgresql-windows</artifactId>
+                    <version>${thoughtware-postgresql.version}</version>
                     <type>zip</type>
                     <scope>provided</scope>
                 </dependency>
@@ -102,15 +102,15 @@
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>io.thoughtware</groupId>
-                                            <artifactId>thoughtware-jdk-windows</artifactId>
-                                            <version>${project.version}</version>
+                                            <artifactId>thoughtware-postgresql-windows</artifactId>
+                                            <version>${thoughtware-postgresql.version}</version>
                                             <type>zip</type>
                                             <outputDirectory>embbed</outputDirectory>
                                         </artifactItem>
                                         <artifactItem>
                                             <groupId>io.thoughtware</groupId>
-                                            <artifactId>thoughtware-mysql-windows</artifactId>
-                                            <version>${project.version}</version>
+                                            <artifactId>thoughtware-jdk-windows</artifactId>
+                                            <version>${thoughtware-jdk.version}</version>
                                             <type>zip</type>
                                             <outputDirectory>embbed</outputDirectory>
                                         </artifactItem>
@@ -119,8 +119,6 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <!--clean-->
-
                 </plugins>
             </build>
         </profile>
@@ -128,6 +126,10 @@
         <!--mac-->
         <profile>
             <id>system-mac</id>
+            <properties>
+                <assembly>mac</assembly>
+                <systemType>mac</systemType>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>io.thoughtware</groupId>
@@ -138,16 +140,12 @@
                 </dependency>
                 <dependency>
                     <groupId>io.thoughtware</groupId>
-                    <artifactId>thoughtware-mysql-mac</artifactId>
-                    <version>${thoughtware-mysql.version}</version>
+                    <artifactId>thoughtware-postgresql-mac</artifactId>
+                    <version>${thoughtware-postgresql.version}</version>
                     <type>zip</type>
                     <scope>provided</scope>
                 </dependency>
             </dependencies>
-            <properties>
-                <assembly>mac</assembly>
-                <systemType>mac</systemType>
-            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -165,15 +163,15 @@
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>io.thoughtware</groupId>
-                                            <artifactId>thoughtware-jdk-mac</artifactId>
-                                            <version>${project.version}</version>
+                                            <artifactId>thoughtware-postgresql-mac</artifactId>
+                                            <version>${thoughtware-postgresql.version}</version>
                                             <type>zip</type>
                                             <outputDirectory>embbed</outputDirectory>
                                         </artifactItem>
                                         <artifactItem>
                                             <groupId>io.thoughtware</groupId>
-                                            <artifactId>thoughtware-mysql-mac</artifactId>
-                                            <version>${project.version}</version>
+                                            <artifactId>thoughtware-jdk-mac</artifactId>
+                                            <version>${thoughtware-jdk.version}</version>
                                             <type>zip</type>
                                             <outputDirectory>embbed</outputDirectory>
                                         </artifactItem>
