@@ -95,8 +95,6 @@ INSERT INTO pcs_op_log_template (id, title, content, link, bgroup, abstract_cont
 INSERT INTO pcs_op_log_type (id, name, bgroup) VALUES ('777da699a3d9', '知识库添加', 'kanass');
 INSERT INTO pcs_op_log_type (id, name, bgroup) VALUES ('c23cabd39186', '目录添加', 'kanass');
 
-INSERT INTO pcs_mec_message_notice_connect_user (id, message_notice_id, user_id) VALUES ('fbaffc35f451', '300e1bce86d1', '111111');
-INSERT INTO pcs_mec_message_notice_connect_user (id, message_notice_id, user_id) VALUES ('fc896ffe46d5', '097d6164bd56', '111111');
 INSERT INTO pcs_mec_message_notice (id, message_type_id, type, bgroup, message_send_type_id) VALUES ('097d6164bd56', '087db62560dc', 1, 'kanass', 'dingding,email,qywechat,site');
 
 

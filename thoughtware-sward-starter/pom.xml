@@ -382,9 +382,10 @@
                         <id>make-assembly</id>
                         <configuration>
                             <descriptors>
-                                <descriptor>assembly/distribution-${assembly}.xml</descriptor>
+                                <descriptor>assembly/distribution.xml</descriptor>
                             </descriptors>
-                            <finalName>thoughtware-sward-${version}-${timestamp}</finalName>
+<!--                            <finalName>thoughtware-sward-${version}-${timestamp}</finalName>-->
+                            <finalName>thoughtware-sward-1.0.1</finalName>
                             <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                         <phase>package</phase>

@@ -34,7 +34,7 @@ postgresql:
     password: darth2020
     address: ${DATA_HOME}/postgresql
 
-DATA_HOME: /opt/thoughtware/sward
+DATA_HOME: /opt/thoughtware/sward-ce
 
 #dfs config
 #dfs.server.enabled=false

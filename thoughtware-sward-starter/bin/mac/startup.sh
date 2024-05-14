@@ -2,7 +2,7 @@
 
 DIRS=$(dirname "$PWD")
 
-APP_MAIN="io.thoughtware.sward.starter.SwardApplicationn"
+APP_MAIN="io.thoughtware.sward.starter.SwardApplication"
 
 YAML=${DIRS}/conf/application.yaml
 create_home(){

@@ -2,7 +2,7 @@
 
 DIRS=$(dirname "$PWD")
 
-APP_MAIN="io.thoughtware.sward.starter.SwardApplicationn"
+APP_MAIN="io.thoughtware.sward.starter.SwardApplication"
 
 #jdk
 JDK_VERSION=jdk-16.0.2
