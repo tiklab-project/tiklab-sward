@@ -129,6 +129,7 @@ public class NodeDao {
                 .eq("type", nodeQuery.getType())
                 .in("dimension", nodeQuery.getDimensions())
                 .in("id", nodeQuery.getIds())
+                .notIn("id", nodeQuery.getNotIds())
                 .orders(nodeQuery.getOrderParams())
                 .pagination(nodeQuery.getPageParam());
 
