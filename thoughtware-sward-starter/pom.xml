@@ -201,9 +201,15 @@
         </profile>
 
         <profile>
-            <id>env-demo</id>
+            <id>env-democe</id>
             <properties>
-                <yaml-type>/config/demo</yaml-type>
+                <yaml-type>/config/demo/ce</yaml-type>
+            </properties>
+        </profile>
+        <profile>
+            <id>env-demoee</id>
+            <properties>
+                <yaml-type>/config/demo/ee</yaml-type>
             </properties>
         </profile>
 
