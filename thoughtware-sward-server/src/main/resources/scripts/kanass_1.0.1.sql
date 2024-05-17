@@ -95,6 +95,8 @@ INSERT INTO pcs_op_log_template (id, title, content, link, bgroup, abstract_cont
 INSERT INTO pcs_op_log_type (id, name, bgroup) VALUES ('777da699a3d9', '知识库添加', 'kanass');
 INSERT INTO pcs_op_log_type (id, name, bgroup) VALUES ('c23cabd39186', '目录添加', 'kanass');
 
+INSERT INTO pcs_mec_message_notice_connect_user (id, message_notice_id, user_id) VALUES ('fbaffc35f451', '300e1bce86d1', '111111');
+INSERT INTO pcs_mec_message_notice_connect_user (id, message_notice_id, user_id) VALUES ('fc896ffe46d5', '097d6164bd56', '111111');
 INSERT INTO pcs_mec_message_notice (id, message_type_id, type, bgroup, message_send_type_id) VALUES ('097d6164bd56', '087db62560dc', 1, 'kanass', 'dingding,email,qywechat,site');
 
 
@@ -126,4 +128,3 @@ INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('b5952fb1da49
 INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('f253b41fa064', 'repository4.png', '/image/8fc1ee4be3865cd4', 'repository');
 INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('7488124b1b12', 'repository5.png', '/image/52eed62513ef3b3b', 'repository');
 INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('55fde63c707e', 'repository6.png', '/image/c9724904fc5de37c', 'repository');
-
