@@ -276,8 +276,8 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     }
 
     @Override
-    public List<WikiRepository> findRepositoryList(String time) {
-        List<WikiRepositoryEntity> wikiRepositoryEntityList =  wikiRepositoryDao.findRepositoryList(time);
+    public List<WikiRepository> findRepositoryList(WikiRepositoryQuery wikiRepositoryQuery) {
+        List<WikiRepositoryEntity> wikiRepositoryEntityList =  wikiRepositoryDao.findRepositoryList(wikiRepositoryQuery);
 
         List<WikiRepository> wikiRepositoryList =  BeanMapper.mapList(wikiRepositoryEntityList, WikiRepository.class);
 

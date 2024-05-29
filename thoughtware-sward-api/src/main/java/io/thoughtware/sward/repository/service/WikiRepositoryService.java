@@ -56,7 +56,7 @@ public interface WikiRepositoryService {
     */
     @FindAll
     List<WikiRepository> findAllRepository();
-    List<WikiRepository> findRepositoryList(String time);
+    List<WikiRepository> findRepositoryList(WikiRepositoryQuery wikiRepositoryQuery);
     /**
     * 查询列表
     * @param wikiRepositoryQuery

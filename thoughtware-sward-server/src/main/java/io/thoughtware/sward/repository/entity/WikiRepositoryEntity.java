@@ -41,6 +41,27 @@ public class WikiRepositoryEntity implements Serializable {
     @Column(name = "create_time")
     private Timestamp createTime;
 
+    @Column(name = "status",length = 32)
+    private String status = "nomal";
+
+    @Column(name = "archived_time")
+    private String archivedTime;
+
+    @Column(name = "archived_user_id")
+    private String archivedUserId;
+
+    @Column(name = "archived_desc")
+    private String archivedDesc;
+
+    @Column(name = "recycle")
+    private String recycle;
+
+    @Column(name = "recycle_time")
+    private String recycleTime;
+
+    @Column(name = "recycle_user_id")
+    private String recycleUserId;
+
     //描述
     @Column(name = "description",length = 64)
     private String desc;
@@ -107,5 +128,61 @@ public class WikiRepositoryEntity implements Serializable {
 
     public void setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getArchivedTime() {
+        return archivedTime;
+    }
+
+    public void setArchivedTime(String archivedTime) {
+        this.archivedTime = archivedTime;
+    }
+
+    public String getArchivedUserId() {
+        return archivedUserId;
+    }
+
+    public void setArchivedUserId(String archivedUserId) {
+        this.archivedUserId = archivedUserId;
+    }
+
+    public String getArchivedDesc() {
+        return archivedDesc;
+    }
+
+    public void setArchivedDesc(String archivedDesc) {
+        this.archivedDesc = archivedDesc;
+    }
+
+    public String getRecycle() {
+        return recycle;
+    }
+
+    public void setRecycle(String recycle) {
+        this.recycle = recycle;
+    }
+
+    public String getRecycleTime() {
+        return recycleTime;
+    }
+
+    public void setRecycleTime(String recycleTime) {
+        this.recycleTime = recycleTime;
+    }
+
+    public String getRecycleUserId() {
+        return recycleUserId;
+    }
+
+    public void setRecycleUserId(String recycleUserId) {
+        this.recycleUserId = recycleUserId;
     }
 }

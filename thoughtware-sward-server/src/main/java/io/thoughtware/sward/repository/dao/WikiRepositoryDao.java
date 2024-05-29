@@ -204,10 +204,13 @@ public class WikiRepositoryDao {
 
         return jpaTemplate.findList(WikiRepositoryEntity.class,idList);
     }
-    public List<WikiRepositoryEntity> findRepositoryList(String time) {
-        String sql = "SELECT * from wiki_repository WHERE create_time < '" + time +"'";
-        List<WikiRepositoryEntity> wikiRepositoryEntityList = jpaTemplate.getJdbcTemplate().query(sql, new BeanPropertyRowMapper<>(WikiRepositoryEntity.class));
-        return wikiRepositoryEntityList;
+    public List<WikiRepositoryEntity> findRepositoryList(WikiRepositoryQuery wikiRepositoryQuery) {
+        QueryCondition queryCondition = QueryBuilders.createQuery(WikiRepositoryEntity.class)
+                .eq("status", wikiRepositoryQuery.getStatus())
+                .eq("recycle",wikiRepositoryQuery.getRecycle())
+                .orders(wikiRepositoryQuery.getOrderParams())
+                .get();
+        return jpaTemplate.findList(queryCondition, WikiRepositoryEntity.class);
     }
     public List<WikiRepositoryEntity> findRepositoryListByUser(WikiRepositoryQuery wikiRepositoryQuery) {
         QueryBuilders queryBuilders = QueryBuilders.createQuery(WikiRepositoryEntity.class, "rs");
@@ -219,6 +222,8 @@ public class WikiRepositoryDao {
         QueryCondition queryCondition = queryBuilders.or(orQueryBuildCondition)
                 .eq("master", wikiRepositoryQuery.getMasterId())
                 .like("name", wikiRepositoryQuery.getName())
+                .eq("status", wikiRepositoryQuery.getStatus())
+                .eq("recycle", wikiRepositoryQuery.getRecycle())
                 .orders(wikiRepositoryQuery.getOrderParams())
                 .get();
 
@@ -233,6 +238,8 @@ public class WikiRepositoryDao {
                 .in("id", wikiRepositoryQuery.getRepositoryIds())
                 .get();
         QueryCondition queryCondition = queryBuilders.or(orQueryBuildCondition)
+                .eq("status", wikiRepositoryQuery.getStatus())
+                .eq("recycle", wikiRepositoryQuery.getRecycle())
                 .orders(wikiRepositoryQuery.getOrderParams())
                 .pagination(wikiRepositoryQuery.getPageParam())
                 .get();
@@ -244,6 +251,8 @@ public class WikiRepositoryDao {
                 .leftJoin(RecentEntity.class,"dr","dr.modelId=re.id")
                 .eq("dr.masterId", wikiRepositoryQuery.getMasterId())
                 .eq("dr.model","repository")
+                .eq("re.status", wikiRepositoryQuery.getStatus())
+                .eq("re.recycle", wikiRepositoryQuery.getRecycle())
                 .like("re.name", wikiRepositoryQuery.getName())
                 .orders(wikiRepositoryQuery.getOrderParams())
                 .get();
@@ -255,6 +264,8 @@ public class WikiRepositoryDao {
                 .leftJoin(WikiRepositoryFocusEntity.class,"rf","rf.repositoryId=re.id")
                 .like("re.name", wikiRepositoryQuery.getName())
                 .eq("rf.masterId", wikiRepositoryQuery.getMasterId())
+                .eq("re.status", wikiRepositoryQuery.getStatus())
+                .eq("re.recycle", wikiRepositoryQuery.getRecycle())
                 .orders(wikiRepositoryQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryBuilders, WikiRepositoryEntity.class);

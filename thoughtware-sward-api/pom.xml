@@ -45,6 +45,10 @@
             <artifactId>thoughtware-postin-annotation</artifactId>
             <version>${thoughtware-postin.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-eam-api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
