@@ -6,6 +6,7 @@ import io.thoughtware.core.exception.ApplicationException;
 import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
 import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.thoughtware.security.logging.logging.model.Logging;
+import io.thoughtware.security.logging.logging.model.LoggingQuery;
 import io.thoughtware.security.logging.logging.model.LoggingType;
 import io.thoughtware.security.logging.logging.service.LoggingByTempService;
 import io.thoughtware.security.logging.logging.service.LoggingService;
@@ -14,11 +15,11 @@ import io.thoughtware.sward.document.model.*;
 import io.thoughtware.dal.jpa.JpaTemplate;
 import io.thoughtware.dss.client.DssClient;
 import io.thoughtware.eam.common.context.LoginContext;
-import io.thoughtware.sward.category.service.WikiCategoryService;
 import io.thoughtware.sward.document.entity.WikiDocumentEntity;
-import io.thoughtware.sward.node.dao.NodeDao;
 import io.thoughtware.sward.node.model.Node;
+import io.thoughtware.sward.node.model.NodeQuery;
 import io.thoughtware.sward.node.service.NodeService;
+import io.thoughtware.todotask.todo.model.TaskQuery;
 import io.thoughtware.toolkit.beans.BeanMapper;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.core.page.PaginationBuilder;
@@ -86,16 +87,13 @@ public class DocumentServiceImpl implements DocumentService {
     LikeService likeService;
 
     @Autowired
-    WikiCategoryService wikiCategoryService;
-
-    @Autowired
-    LoggingService loggingService;
-
-    @Autowired
     NodeService nodeService;
 
     @Autowired
-    NodeDao nodeDao;
+    ShareRelationService shareRelationService;
+
+    @Autowired
+    LoggingService loggingService;
 
     @Value("${base.url:null}")
     String baseUrl;
@@ -196,9 +194,6 @@ public class DocumentServiceImpl implements DocumentService {
             throw new ApplicationException(2000, "文档添加失败" + e.getMessage());
         }
         node = nodeService.findNode(nodeId);
-
-
-
         dssClient.save(node);
         createDynamic(node);
         return documentId;
@@ -254,9 +249,14 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public void deleteDocument(@NotNull String id) {
+
         dssClient.delete(WikiDocument.class, id);
         documentDao.deleteDocument(id);
-        nodeService.deleteNode(id);
+        nodeService.deleteNodeById(id);
+        // 删除最近查看的
+        RecentQuery recentQuery = new RecentQuery();
+        recentQuery.setModelId(id);
+        recentService.deleteRecnetByCondition(recentQuery);
 
         // 删除文档关联的关注数据
         DocumentFocusQuery documentFocusQuery = new DocumentFocusQuery();
@@ -268,19 +268,72 @@ public class DocumentServiceImpl implements DocumentService {
         commentQuery.setDocumentId(id);
         commentService.deleteCommentCondition(commentQuery);
 
+        LikeQuery likeQuery = new LikeQuery();
+        likeQuery.setToWhomId(id);
+        likeService.deleteLikeCondition(likeQuery);
+
         // 删除关联的附件
         DocumentAttachQuery documentAttachQuery = new DocumentAttachQuery();
         documentAttachQuery.setDocumentId(id);
         documentAttachService.deleteDocumentAttachCondition(documentAttachQuery);
 
+        // 删除分享的文档记录
+        ShareRelationQuery shareRelationQuery = new ShareRelationQuery();
+        shareRelationQuery.setNodeId(id);
+        shareRelationService.deleteShareRelationCondition(shareRelationQuery);
+
+
     }
 
     @Override
     public void deleteDocumentCondition(DocumentQuery documentQuery ) {
-        DeleteCondition deleteCondition = DeleteBuilders.createDelete(WikiCategoryEntity.class)
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(WikiDocumentEntity.class)
                 .in("id", documentQuery.getIds())
+                .eq("id", documentQuery.getId())
                 .get();
         jpaTemplate.delete(deleteCondition);
+    }
+
+    @Override
+    public void batchDeleteDocument(DocumentQuery documentQuery){
+        String[] ids = documentQuery.getIds();
+        // 删除文档本身和node
+        deleteDocumentCondition(documentQuery);
+
+
+        NodeQuery nodeQuery = new NodeQuery();
+        nodeQuery.setIds(ids);
+        nodeService.deleteNodeCondition(nodeQuery);
+
+        // 删除最近查看的
+        RecentQuery recentQuery = new RecentQuery();
+        recentQuery.setModelIds(ids);
+        recentService.deleteRecnetByCondition(recentQuery);
+
+
+        // 删除文档关联的关注数据
+        DocumentFocusQuery documentFocusQuery = new DocumentFocusQuery();
+        documentFocusQuery.setDocumentIds(ids);
+        documentFocusService.deleteDocumentFocusByCondition(documentFocusQuery);
+
+        // 删除关联的评论
+        CommentQuery commentQuery = new CommentQuery();
+        commentQuery.setDocumentIds(ids);
+        commentService.deleteCommentCondition(commentQuery);
+
+        // 删除关联的附件
+        DocumentAttachQuery documentAttachQuery = new DocumentAttachQuery();
+        documentAttachQuery.setDocumentIds(ids);
+        documentAttachService.deleteDocumentAttachCondition(documentAttachQuery);
+
+        LikeQuery likeQuery = new LikeQuery();
+        likeQuery.setToWhomIds(ids);
+        likeService.deleteLikeCondition(likeQuery);
+
+        // 删除分享的文档记录
+        ShareRelationQuery shareRelationQuery = new ShareRelationQuery();
+        shareRelationQuery.setNodeIds(ids);
+        shareRelationService.deleteShareRelationCondition(shareRelationQuery);
     }
 
 

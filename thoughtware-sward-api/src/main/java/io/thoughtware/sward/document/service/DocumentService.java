@@ -42,7 +42,11 @@ public interface DocumentService {
     * @param id
     */
     void deleteDocument(@NotNull String id);
-    void deleteDocumentCondition(@NotNull @Valid DocumentQuery documentQuery );
+    void deleteDocumentCondition(@NotNull @Valid DocumentQuery documentQuery);
+
+
+    void batchDeleteDocument(DocumentQuery documentQuery);
+
     @FindOne
     WikiDocument findOne(@NotNull String id);
 

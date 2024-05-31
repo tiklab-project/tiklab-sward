@@ -1,6 +1,7 @@
 package io.thoughtware.sward.node.service;
 
 import io.thoughtware.core.page.Pagination;
+import io.thoughtware.sward.document.model.DocumentQuery;
 import io.thoughtware.sward.node.model.Node;
 import io.thoughtware.sward.node.model.NodeQuery;
 import io.thoughtware.sward.support.model.RecentQuery;
@@ -39,6 +40,13 @@ public interface NodeService {
     * @param id
     */
     void deleteNode(@NotNull String id);
+
+    void deleteNodeById(String id);
+
+    void deleteNodeCondition(@NotNull @Valid NodeQuery nodeQuery );
+
+
+    void deleteRepositoryNodeCondition(String repositoryId);
 
     @FindOne
     Node findOne(@NotNull String id);

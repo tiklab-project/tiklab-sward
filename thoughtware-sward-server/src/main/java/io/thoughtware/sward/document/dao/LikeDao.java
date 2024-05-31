@@ -63,6 +63,7 @@ public class LikeDao{
                 .eq("toWhomId", likeQuery.getToWhomId())
                 .eq("likeUser", likeQuery.getLikeUser())
                 .eq("likeType", likeQuery.getLikeType())
+                .in("toWhomId", likeQuery.getToWhomIds())
                 .get();
         jpaTemplate.delete(deleteCondition);
     }

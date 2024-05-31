@@ -53,8 +53,9 @@ public class DocumentAttachDao{
     }
 
     public void deleteDocumentAttachCondition(DocumentAttachQuery documentAttachQuery){
-        DeleteCondition deleteCondition = DeleteBuilders.createDelete(CommentEntity.class)
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(DocumentAttachEntity.class)
                 .eq("documentId", documentAttachQuery.getDocumentId())
+                .in("documentId", documentAttachQuery.getDocumentIds())
                 .get();
         jpaTemplate.delete(deleteCondition);
     }

@@ -14,6 +14,9 @@ public class LikeQuery extends BaseModel {
         @ApiProperty(name ="toWhomId",desc = "id")
         private String toWhomId;
 
+        @ApiProperty(name ="toWhomIds",desc = "id")
+        private String[] toWhomIds;
+
         @ApiProperty(name ="likeType",desc = "点赞类型")
         private String likeType;
 
@@ -65,4 +68,12 @@ public class LikeQuery extends BaseModel {
         public void setLikeUser(String likeUser) {
             this.likeUser = likeUser;
         }
+
+    public String[] getToWhomIds() {
+        return toWhomIds;
+    }
+
+    public void setToWhomIds(String[] toWhomIds) {
+        this.toWhomIds = toWhomIds;
+    }
 }

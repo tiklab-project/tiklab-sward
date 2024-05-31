@@ -20,6 +20,12 @@ public class ShareRelationQuery extends BaseModel {
         @ApiProperty(name ="documentId",desc = "验证码")
         private String documentId;
 
+        @ApiProperty(name ="nodeId",desc = "节点id")
+        private String nodeId;
+
+        @ApiProperty(name ="nodeId",desc = "节点id")
+        private String[] nodeIds;
+
         public String getShareId() {
             return shareId;
         }
@@ -64,5 +70,21 @@ public class ShareRelationQuery extends BaseModel {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(String nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    public String[] getNodeIds() {
+        return nodeIds;
+    }
+
+    public void setNodeIds(String[] nodeIds) {
+        this.nodeIds = nodeIds;
     }
 }
