@@ -297,43 +297,46 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public void batchDeleteDocument(DocumentQuery documentQuery){
         String[] ids = documentQuery.getIds();
-        // 删除文档本身和node
-        deleteDocumentCondition(documentQuery);
+        if(ids.length > 0){
+            // 删除文档本身和node
+            deleteDocumentCondition(documentQuery);
 
 
-        NodeQuery nodeQuery = new NodeQuery();
-        nodeQuery.setIds(ids);
-        nodeService.deleteNodeCondition(nodeQuery);
+            NodeQuery nodeQuery = new NodeQuery();
+            nodeQuery.setIds(ids);
+            nodeService.deleteNodeCondition(nodeQuery);
 
-        // 删除最近查看的
-        RecentQuery recentQuery = new RecentQuery();
-        recentQuery.setModelIds(ids);
-        recentService.deleteRecnetByCondition(recentQuery);
+            // 删除最近查看的
+            RecentQuery recentQuery = new RecentQuery();
+            recentQuery.setModelIds(ids);
+            recentService.deleteRecnetByCondition(recentQuery);
 
 
-        // 删除文档关联的关注数据
-        DocumentFocusQuery documentFocusQuery = new DocumentFocusQuery();
-        documentFocusQuery.setDocumentIds(ids);
-        documentFocusService.deleteDocumentFocusByCondition(documentFocusQuery);
+            // 删除文档关联的关注数据
+            DocumentFocusQuery documentFocusQuery = new DocumentFocusQuery();
+            documentFocusQuery.setDocumentIds(ids);
+            documentFocusService.deleteDocumentFocusByCondition(documentFocusQuery);
 
-        // 删除关联的评论
-        CommentQuery commentQuery = new CommentQuery();
-        commentQuery.setDocumentIds(ids);
-        commentService.deleteCommentCondition(commentQuery);
+            // 删除关联的评论
+            CommentQuery commentQuery = new CommentQuery();
+            commentQuery.setDocumentIds(ids);
+            commentService.deleteCommentCondition(commentQuery);
 
-        // 删除关联的附件
-        DocumentAttachQuery documentAttachQuery = new DocumentAttachQuery();
-        documentAttachQuery.setDocumentIds(ids);
-        documentAttachService.deleteDocumentAttachCondition(documentAttachQuery);
+            // 删除关联的附件
+            DocumentAttachQuery documentAttachQuery = new DocumentAttachQuery();
+            documentAttachQuery.setDocumentIds(ids);
+            documentAttachService.deleteDocumentAttachCondition(documentAttachQuery);
 
-        LikeQuery likeQuery = new LikeQuery();
-        likeQuery.setToWhomIds(ids);
-        likeService.deleteLikeCondition(likeQuery);
+            LikeQuery likeQuery = new LikeQuery();
+            likeQuery.setToWhomIds(ids);
+            likeService.deleteLikeCondition(likeQuery);
 
-        // 删除分享的文档记录
-        ShareRelationQuery shareRelationQuery = new ShareRelationQuery();
-        shareRelationQuery.setNodeIds(ids);
-        shareRelationService.deleteShareRelationCondition(shareRelationQuery);
+            // 删除分享的文档记录
+            ShareRelationQuery shareRelationQuery = new ShareRelationQuery();
+            shareRelationQuery.setNodeIds(ids);
+            shareRelationService.deleteShareRelationCondition(shareRelationQuery);
+        }
+
     }
 
 

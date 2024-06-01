@@ -100,19 +100,25 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         List<Node> categoryList = allChildrenNodeList.stream().filter(item -> item.getType().equals("category")).collect(Collectors.toList());
         List<String> categoryIdList = categoryList.stream().map(item -> item.getId()).collect(Collectors.toList());
         categoryIdList.add(id);
-        String[] categoryIds = categoryIdList.toArray(new String[categoryIdList.size()]);
-        WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
-        wikiCategoryQuery.setIds(categoryIds);
-        // 删除包括当前目录在内的所有目录
-        batchDeleteCategory(wikiCategoryQuery);
+        if(categoryIdList.size() > 0){
+            String[] categoryIds = categoryIdList.toArray(new String[categoryIdList.size()]);
+            WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
+            wikiCategoryQuery.setIds(categoryIds);
+            // 删除包括当前目录在内的所有目录
+            batchDeleteCategory(wikiCategoryQuery);
+        }
+
 
         // 删除所有文档
         allChildrenNodeList.removeAll(categoryIdList);
         List<String> documentIdList = allChildrenNodeList.stream().map(item -> item.getId()).collect(Collectors.toList());
-        String[] documentIds = documentIdList.toArray(new String[documentIdList.size()]);
-        DocumentQuery documentQuery = new DocumentQuery();
-        documentQuery.setIds(documentIds);
-        documentService.batchDeleteDocument(documentQuery);
+        if(documentIdList.size() > 0){
+            String[] documentIds = documentIdList.toArray(new String[documentIdList.size()]);
+            DocumentQuery documentQuery = new DocumentQuery();
+            documentQuery.setIds(documentIds);
+            documentService.batchDeleteDocument(documentQuery);
+        }
+
     }
     @Override
     public void batchDeleteCategory(WikiCategoryQuery wikiCategoryQuery){
