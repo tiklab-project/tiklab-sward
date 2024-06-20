@@ -92,7 +92,14 @@ public class DocumentFocusDao {
 
     }
 
-    public Pagination<DocumentFocusEntity> findDocumentFocusPage(DocumentFocusQuery wikiDocumentFocusQuery) {
-        return jpaTemplate.findPage(wikiDocumentFocusQuery, DocumentFocusEntity.class);
+    public Pagination<DocumentFocusEntity> findDocumentFocusPage(DocumentFocusQuery documentFocusQuery) {
+        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentFocusEntity.class)
+                .eq("documentId", documentFocusQuery.getDocumentId())
+                .eq("masterId", documentFocusQuery.getMasterId())
+                .eq("repositoryId", documentFocusQuery.getRepositoryId())
+                .orders(documentFocusQuery.getOrderParams())
+                .pagination(documentFocusQuery.getPageParam())
+                .get();
+        return jpaTemplate.findPage(queryCondition, DocumentFocusEntity.class);
     }
 }

@@ -3,6 +3,10 @@ package io.thoughtware.sward.document.service;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.sward.document.model.DocumentFocus;
 import io.thoughtware.sward.document.model.DocumentFocusQuery;
+import io.thoughtware.sward.document.model.WikiDocument;
+import io.thoughtware.toolkit.join.annotation.FindList;
+import io.thoughtware.toolkit.join.annotation.FindOne;
+import io.thoughtware.toolkit.join.annotation.JoinProvider;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -11,6 +15,7 @@ import java.util.List;
 /**
 * DocumentFocusService
 */
+@JoinProvider(model = DocumentFocus.class)
 public interface DocumentFocusService {
 
     /**
@@ -35,8 +40,10 @@ public interface DocumentFocusService {
 
     void deleteDocumentFocusByCondition(@NotNull @Valid DocumentFocusQuery documentFocusQuery);
 
+    @FindOne
     DocumentFocus findOne(@NotNull String id);
 
+    @FindList
     List<DocumentFocus> findList(List<String> idList);
 
     /**

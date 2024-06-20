@@ -126,7 +126,6 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         DeleteCondition deleteCondition = DeleteBuilders.createDelete(WikiCategoryEntity.class)
                 .in("id", wikiCategoryQuery.getIds())
                 .eq("id", wikiCategoryQuery.getId())
-                .eq("repository", wikiCategoryQuery.getRepositoryId())
                 .get();
         wikiCategoryDao.deleteCategoryByIds(deleteCondition);
 

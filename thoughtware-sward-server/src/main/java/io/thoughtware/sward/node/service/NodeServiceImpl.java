@@ -71,6 +71,7 @@ public class NodeServiceImpl implements NodeService {
             SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String format = formater.format(new Date());
             node.setCreateTime(format);
+
             WikiRepository wikiRepository = node.getWikiRepository();
             String repositoryId = wikiRepository.getId();
 

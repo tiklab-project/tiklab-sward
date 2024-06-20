@@ -11,11 +11,14 @@ import io.thoughtware.sward.document.dao.DocumentFocusDao;
 import io.thoughtware.sward.document.entity.DocumentFocusEntity;
 
 
+import io.thoughtware.user.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,7 +36,14 @@ public class DocumentFocusServiceImpl implements DocumentFocusService {
     @Override
     public String createDocumentFocus(@NotNull @Valid DocumentFocus wikiDocumentFocus) {
         String userId = LoginContext.getLoginId();
-        wikiDocumentFocus.setMasterId(userId);
+        User user = new User();
+        user.setId(userId);
+        wikiDocumentFocus.setMaster(user);
+
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format = formater.format(new Date());
+        wikiDocumentFocus.setFocusTime(format);
+
         DocumentFocusEntity wikiDocumentFocusEntity = BeanMapper.map(wikiDocumentFocus, DocumentFocusEntity.class);
 
         return wikiDocumentFocusDao.createDocumentFocus(wikiDocumentFocusEntity);

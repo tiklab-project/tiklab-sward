@@ -81,7 +81,8 @@ public class SwardDsmAutoConfiguration {
                 "sward_1.0.7"
         });
         dsmConfig.newVersion("1.0.8", new String[]{
-                "message_1.0.8"
+                "message_1.0.8",
+                "sward_1.0.8"
         });
         dsmConfig.newVersion("1.1.0", new String[]{
                 "kanass_1.1.0",
