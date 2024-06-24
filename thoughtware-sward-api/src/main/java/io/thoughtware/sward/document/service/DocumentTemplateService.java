@@ -3,6 +3,11 @@ package io.thoughtware.sward.document.service;
 import io.thoughtware.sward.document.model.DocumentTemplate;
 import io.thoughtware.sward.document.model.DocumentTemplateQuery;
 import io.thoughtware.core.page.Pagination;
+import io.thoughtware.sward.document.model.WikiDocument;
+import io.thoughtware.toolkit.join.annotation.FindAll;
+import io.thoughtware.toolkit.join.annotation.FindList;
+import io.thoughtware.toolkit.join.annotation.FindOne;
+import io.thoughtware.toolkit.join.annotation.JoinProvider;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -11,6 +16,7 @@ import java.util.List;
 /**
 * DocumentTemplateService
 */
+@JoinProvider(model = DocumentTemplate.class)
 public interface DocumentTemplateService {
 
     /**
@@ -32,8 +38,10 @@ public interface DocumentTemplateService {
     */
     void deleteDocumentTemplate(@NotNull String id);
 
+    @FindOne
     DocumentTemplate findOne(@NotNull String id);
 
+    @FindList
     List<DocumentTemplate> findList(List<String> idList);
 
     /**
@@ -47,6 +55,7 @@ public interface DocumentTemplateService {
     * 查找所有
     * @return
     */
+    @FindAll
     List<DocumentTemplate> findAllDocumentTemplate();
 
     /**
