@@ -7,7 +7,6 @@ import io.thoughtware.security.logging.logging.service.LoggingByTempService;
 import io.thoughtware.sward.category.service.WikiCategoryService;
 import io.thoughtware.sward.document.service.DocumentService;
 import io.thoughtware.sward.node.model.Node;
-import io.thoughtware.sward.node.model.NodeQuery;
 import io.thoughtware.sward.node.service.NodeService;
 import io.thoughtware.sward.repository.dao.WikiRepositoryDao;
 import io.thoughtware.sward.repository.entity.WikiRepositoryEntity;
@@ -341,6 +340,17 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         joinTemplate.joinQuery(wikiRepositoryList);
 
         return PaginationBuilder.build(pagination, wikiRepositoryList);
+    }
+
+    @Override
+    public List<WikiRepository> findAllRecentRepositoryList(WikiRepositoryQuery wikiRepositoryQuery) {
+        String createUserId = LoginContext.getLoginId();
+        wikiRepositoryQuery.setMasterId(createUserId);
+        List<WikiRepositoryEntity> recentRepositoryList = wikiRepositoryDao.findRecentRepositoryList(wikiRepositoryQuery);
+        List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(recentRepositoryList, WikiRepository.class);
+        joinTemplate.joinQuery(wikiRepositoryList);
+
+        return  wikiRepositoryList;
     }
 
     @Override

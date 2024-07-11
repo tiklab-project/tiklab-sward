@@ -173,6 +173,16 @@ public class WikiRepositoryController {
         return Result.ok(pagination);
     }
 
+    @RequestMapping(path = "/findAllRecentRepositoryList",method = RequestMethod.POST)
+    @ApiMethod(name = "findAllRecentRepositoryList",desc = "findAllRecentRepositoryList")
+    @ApiParam(name = "repositoryQuery",desc = "repositoryQuery",required = true)
+    public Result<List<WikiRepository>> findAllRecentRepositoryList(@RequestBody @Valid @NotNull WikiRepositoryQuery documentRecentQuery){
+        List<WikiRepository> pagination = wikiRepositoryService.findAllRecentRepositoryList(documentRecentQuery);
+
+        return Result.ok(pagination);
+    }
+
+
     /**
      * @pi.name:按我关注的知识库
      * @pi.path:/repository/findFocusRepositoryList
