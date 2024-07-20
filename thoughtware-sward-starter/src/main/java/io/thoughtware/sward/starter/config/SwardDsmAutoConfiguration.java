@@ -90,6 +90,7 @@ public class SwardDsmAutoConfiguration {
         });
         dsmConfig.newVersion("1.1.1", new String[]{
                 "kanass_1.1.1",
+                "user_1.1.1"
         });
 
 

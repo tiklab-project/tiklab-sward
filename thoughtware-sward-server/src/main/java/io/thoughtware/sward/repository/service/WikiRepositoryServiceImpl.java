@@ -423,7 +423,22 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         List<WikiRepositoryEntity> recentRepositoryList = wikiRepositoryDao.findFocusRepositoryList(wikiRepositoryQuery);
 
         List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(recentRepositoryList, WikiRepository.class);
+        if(wikiRepositoryList.size() > 0){
+            String repositoryIds = "(" + wikiRepositoryList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
+            List<Node> childrenNodeList = nodeService.findChildrenNodeList(repositoryIds);
+            for (WikiRepository wikiRepository : wikiRepositoryList) {
+                String id = wikiRepository.getId();
+                List<Node> document = childrenNodeList.stream().filter
+                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("document")).collect(Collectors.toList());
 
+                List<Node> category = childrenNodeList.stream().filter
+                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("category")).collect(Collectors.toList());
+
+                wikiRepository.setDocumentNum(document.size());
+                wikiRepository.setCategoryNum(category.size());
+            }
+
+        }
         joinTemplate.joinQuery(wikiRepositoryList);
 
         return wikiRepositoryList;

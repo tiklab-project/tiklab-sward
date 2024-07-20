@@ -115,7 +115,7 @@ public class DocumentFocusServiceImpl implements DocumentFocusService {
 
     @Override
     public Pagination<DocumentFocus> findDocumentFocusPage(DocumentFocusQuery wikiDocumentFocusQuery) {
-        Pagination<DocumentFocusEntity>  pagination = wikiDocumentFocusDao.findDocumentFocusPage(wikiDocumentFocusQuery);
+        Pagination<DocumentFocusEntity> pagination = wikiDocumentFocusDao.findDocumentFocusPage(wikiDocumentFocusQuery);
 
         List<DocumentFocus> wikiDocumentFocusList = BeanMapper.mapList(pagination.getDataList(), DocumentFocus.class);
 
