@@ -1,6 +1,7 @@
 package io.thoughtware.sward.support.controller;
 
 
+import io.thoughtware.sward.document.model.DocumentQuery;
 import io.thoughtware.sward.support.service.SearchService;
 import io.thoughtware.core.Result;
 import io.thoughtware.core.exception.ApplicationException;
@@ -13,10 +14,12 @@ import io.thoughtware.postin.annotation.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +66,13 @@ public class SearchController {
         HashMap<String, List<Object>> stringListHashMap = searchService.searchWikiDocumentForTop(keyword);
 
         return Result.ok(stringListHashMap);
+    }
+
+    @RequestMapping(path="/searchRepositoryDocument",method = RequestMethod.POST)
+    public Result<List<WikiDocument>> searchForTop(@RequestBody @NotNull @Valid DocumentQuery documentQuery){
+        List<WikiDocument> wikiDocuments = searchService.searchRepositoryDocument(documentQuery);
+
+        return Result.ok(wikiDocuments);
     }
 
 
