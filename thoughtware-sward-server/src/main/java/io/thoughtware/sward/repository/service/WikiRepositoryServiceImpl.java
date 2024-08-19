@@ -444,5 +444,19 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         return wikiRepositoryList;
     }
 
+    @Override
+    public Map<String, Integer> findRepositoryNum(WikiRepositoryQuery wikiRepositoryQuery) {
+        HashMap<String, Integer> nums = new HashMap<>();
+        List<WikiRepositoryEntity> focusRepositoryList = wikiRepositoryDao.findFocusRepositoryList(wikiRepositoryQuery);
+        nums.put("focus", focusRepositoryList.size());
+        List<WikiRepository> repositoryListByUser = findRepositoryListByUser(wikiRepositoryQuery);
+        nums.put("create", repositoryListByUser.size());
+        wikiRepositoryQuery.setMasterId(null);
+        List<WikiRepository> repositoryListByUser1 = findRepositoryListByUser(wikiRepositoryQuery);
+        nums.put("all", repositoryListByUser1.size());
+        return  nums;
+
+    }
+
 
 }

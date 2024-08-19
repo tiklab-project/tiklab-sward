@@ -14,6 +14,9 @@ public class DocumentFocusQuery {
         @ApiProperty(name ="masterId",desc = "收藏者id")
         private String masterId;
 
+        @ApiProperty(name ="name",desc = "文档名称")
+        private String name;
+
         @ApiProperty(name ="documentId",desc = "知识库id")
         private String documentId;
 
@@ -24,7 +27,7 @@ public class DocumentFocusQuery {
         private String repositoryId;
 
         @ApiProperty(name ="orderParams",desc = "排序参数")
-        private List<Order> orderParams = OrderBuilders.instance().desc("id").get();
+        private List<Order> orderParams = OrderBuilders.instance().desc("focusTime").get();
 
         @ApiProperty(name ="pageParam",desc = "分页参数")
         private Page pageParam = new Page();
@@ -75,5 +78,13 @@ public class DocumentFocusQuery {
 
         public void setRepositoryId(String repositoryId) {
                 this.repositoryId = repositoryId;
+        }
+
+        public String getName() {
+                return name;
+        }
+
+        public void setName(String name) {
+                this.name = name;
         }
 }

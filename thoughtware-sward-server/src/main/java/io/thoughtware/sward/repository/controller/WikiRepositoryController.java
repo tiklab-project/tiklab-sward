@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-
+import java.util.Map;
 
 
 /**
@@ -199,5 +199,13 @@ public class WikiRepositoryController {
         return Result.ok(pagination);
     }
 
+    @RequestMapping(path = "/findRepositoryNum",method = RequestMethod.POST)
+    @ApiMethod(name = "findRepositoryNum",desc = "findRepositoryPage")
+    @ApiParam(name = "repositoryQuery",desc = "repositoryQuery",required = true)
+    public Result<Map<String, Integer>> findRepositoryNum(@RequestBody @Valid @NotNull WikiRepositoryQuery wikiRepositoryQuery){
+        Map<String, Integer> repositoryNum = wikiRepositoryService.findRepositoryNum(wikiRepositoryQuery);
+
+        return Result.ok(repositoryNum);
+    }
 
 }

@@ -8,6 +8,8 @@ import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
 import io.thoughtware.dal.jpa.criterial.condition.QueryCondition;
 import io.thoughtware.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import io.thoughtware.sward.document.model.DocumentFocusQuery;
+import io.thoughtware.sward.node.entity.NodeEntity;
+import io.thoughtware.sward.repository.entity.WikiRepositoryFocusEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,10 +95,12 @@ public class DocumentFocusDao {
     }
 
     public Pagination<DocumentFocusEntity> findDocumentFocusPage(DocumentFocusQuery documentFocusQuery) {
-        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentFocusEntity.class)
-                .eq("documentId", documentFocusQuery.getDocumentId())
-                .eq("masterId", documentFocusQuery.getMasterId())
-                .eq("repositoryId", documentFocusQuery.getRepositoryId())
+        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentFocusEntity.class, "df")
+                .leftJoin(NodeEntity.class,"no","no.id=df.documentId")
+                .eq("df.documentId", documentFocusQuery.getDocumentId())
+                .eq("df.masterId", documentFocusQuery.getMasterId())
+                .eq("df.repositoryId", documentFocusQuery.getRepositoryId())
+                .like("no.name", documentFocusQuery.getName())
                 .orders(documentFocusQuery.getOrderParams())
                 .pagination(documentFocusQuery.getPageParam())
                 .get();
