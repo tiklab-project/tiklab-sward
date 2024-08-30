@@ -26,11 +26,11 @@ postgresql:
         password: darth2020
         address: ${DATA_HOME}/postgresql
 
-#eas
-eas:
+#soular
+soular:
     embbed:
         enable: false
-    address: http://eas-ce.demoee.thoughtware.cn
+    address: http://soular-ce.demoee.thoughtware.cn
 
 DATA_HOME: /opt/thoughtware/sward
 

@@ -288,11 +288,6 @@
             <artifactId>thoughtware-toolkit-spring-boot-starter</artifactId>
             <version>${thoughtware-toolkit.version}</version>
         </dependency>
-        <dependency>
-            <groupId>io.thoughtware</groupId>
-            <artifactId>thoughtware-plugin-spring-boot-starter</artifactId>
-            <version>${thoughtware-plugin.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>io.thoughtware</groupId>
@@ -409,7 +404,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>eas-clean</id>
+                        <id>soular-clean</id>
                         <phase>clean</phase>
                         <goals>
                             <goal>clean</goal>

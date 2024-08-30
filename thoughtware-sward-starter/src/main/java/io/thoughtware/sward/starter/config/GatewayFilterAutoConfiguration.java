@@ -16,10 +16,10 @@ import org.springframework.context.annotation.Configuration;
 public class GatewayFilterAutoConfiguration {
 
     //网关filter
-    @Value("${eas.address:null}")
+    @Value("${soular.address:null}")
     String EasAuthAddress;
 
-    @Value("${eas.embbed.enable:false}")
+    @Value("${soular.embbed.enable:false}")
     Boolean enableEam;
 
     @Bean

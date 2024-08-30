@@ -15,7 +15,6 @@ import io.thoughtware.gateway.boot.starter.annotation.EnableGateway;
 import io.thoughtware.licence.boot.starter.annotation.EnableLicenceServer;
 import io.thoughtware.messsage.boot.starter.annotation.EnableMessageServer;
 import io.thoughtware.openapi.boot.starter.annotation.EnableOpenApi;
-import io.thoughtware.plugin.starter.EnablePluginServer;
 import io.thoughtware.postgresql.EnablePostgresql;
 import io.thoughtware.postin.client.EnablePostInClient;
 import io.thoughtware.privilege.boot.starter.annotation.EnablePrivilegeServer;
@@ -47,7 +46,6 @@ import org.springframework.context.annotation.Configuration;
 @EnableEamServer
 @EnableUserClient
 @EnableUserServer
-@EnablePluginServer
 @EnablePrivilegeServer
 @EnableLicenceServer
 @EnableMessageServer
