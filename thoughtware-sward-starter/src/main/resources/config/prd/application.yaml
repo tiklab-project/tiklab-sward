@@ -64,7 +64,7 @@ dss:
 soular:
   embbed:
     enable: false
-  address: http://e.thoughtware.cn
+  address: http://e.tiklab.net
 
 
 #plugin config
@@ -86,7 +86,7 @@ file:
   path: http://file.dev.thoughtware.io
 
 base:
-  url: http://e.sward.thoughtware.cn
+  url: http://e.sward.tiklab.net
 backups:
   time: 0 0 2 * * ?
   dir: /data/sward

@@ -494,7 +494,7 @@
                         <!-- workspaceId 空间Id，放到哪个空间-->
                         <argument>a79bdd105434</argument>
                         <!-- server  postin服务-->
-                        <argument>http://e.postin.thoughtware.cn</argument>
+                        <argument>http://e.postin.tiklab.net</argument>
                     </arguments>
                 </configuration>
             </plugin>
