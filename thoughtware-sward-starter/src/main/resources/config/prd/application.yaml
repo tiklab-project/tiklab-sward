@@ -73,7 +73,7 @@ plugin:
 
 #zip config
 unzip:
-  path: ${DATA_HOME}/unzip/Jire
+  path: ${DATA_HOME}/unzip/Jira
 
 #license
 licences:
