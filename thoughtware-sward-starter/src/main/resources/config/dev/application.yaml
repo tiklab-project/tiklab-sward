@@ -43,7 +43,7 @@ dfs:
     bucket: sward
 
 #dcs config
-#dcs.server.enabled=false
+#dcs.service.enabled=false
 dcs:
   server:
     enabled: true
@@ -56,7 +56,7 @@ dcs:
     expire: 7200
 
 #dss config
-#dss.server.enabled=false
+#dss.service.enabled=false
 dss:
   server:
     enabled: true
@@ -87,7 +87,7 @@ plugin:
 
 #zip config
 unzip:
-    path: ${DATA_HOME}/unzip/Confluence
+    path: ${DATA_HOME}/unzip/confluence
 homes:
   address: http://172.11.1.11:8080
 

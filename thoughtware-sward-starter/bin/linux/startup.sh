@@ -197,17 +197,17 @@ output(){
       inf=1
       next
   }
-  inf && /^  server:/ {
-      server=1
+  inf && /^  service:/ {
+      service=1
       next
   }
-  server && /^    port:/ {
+  service && /^    port:/ {
       print $2
       exit
   }' "${YAML}")
   echo "DCS Server Port: ${dcs_port}"
 
-  server_port=$(awk -F": *" '/^server:/ {
+  server_port=$(awk -F": *" '/^service:/ {
       inf=1
       next
   }

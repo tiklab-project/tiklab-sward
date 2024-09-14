@@ -27,6 +27,9 @@ public interface DocumentService {
     * @return
     */
     String createDocument(@NotNull @Valid WikiDocument wikiDocument);
+
+    String createConfluDocument(@NotNull @Valid WikiDocument wikiDocument);
+
     Integer getBrotherNum(String repositoryId, String categoryId);
 
     Integer getMaxSort(String repositoryId, String categoryId);

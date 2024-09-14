@@ -2,7 +2,6 @@ package io.thoughtware.sward.node.service;
 
 import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
 import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
-import io.thoughtware.sward.category.entity.WikiCategoryEntity;
 import io.thoughtware.sward.category.model.WikiCategoryQuery;
 import io.thoughtware.sward.category.service.WikiCategoryService;
 import io.thoughtware.sward.document.model.DocumentQuery;
@@ -111,6 +110,11 @@ public class NodeServiceImpl implements NodeService {
         }
     }
 
+    @Override
+    public String createConfluNode(@NotNull @Valid Node node){
+        NodeEntity nodeEntity = BeanMapper.map(node, NodeEntity.class);
+        return nodeDao.createNode(nodeEntity);
+    }
     @Override
     public void updateNode(@NotNull @Valid Node node) {
         String moveToId = node.getMoveToId();

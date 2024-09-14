@@ -493,7 +493,7 @@
                         <argument>/Users/yuanjiexuan/Desktop/bate/project-server/thoughtware-sward/thoughtware-sward-api;/Users/yuanjiexuan/Desktop/bate/project-server/thoughtware-sward/thoughtware-sward-server</argument>
                         <!-- workspaceId 空间Id，放到哪个空间-->
                         <argument>a79bdd105434</argument>
-                        <!-- server  postin服务-->
+                        <!-- service  postin服务-->
                         <argument>http://e.postin.tiklab.net</argument>
                     </arguments>
                 </configuration>

@@ -168,6 +168,26 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         return id;
     }
 
+    @Override
+    public String createConfluRepository(@NotNull @Valid WikiRepository wikiRepository) {
+        WikiRepositoryEntity wikiRepositoryEntity = BeanMapper.map(wikiRepository, WikiRepositoryEntity.class);
+        String id = wikiRepositoryDao.createRepository(wikiRepositoryEntity);
+
+        User master = wikiRepository.getMaster();
+        String masterId = master.getId();
+        initRepositoryDmRole(masterId, id);
+
+        WikiRepository wikiRepository1 = findRepository(id);
+        Map<String, String> content = new HashMap<>();
+        content.put("repositoryId", wikiRepository1.getId());
+        content.put("repositoryName", wikiRepository1.getName());
+        content.put("repositoryIcon", wikiRepository1.getIconUrl());
+
+        //构建索引
+        WikiRepository entity = findRepository(id);
+        dssClient.save(entity);
+        return id;
+    }
     public void initRepositoryDmRole(String masterId, String repositoryId){
         List<PatchUser> patchUsers = new ArrayList<PatchUser>();
         if(!masterId.equals("111111")){
