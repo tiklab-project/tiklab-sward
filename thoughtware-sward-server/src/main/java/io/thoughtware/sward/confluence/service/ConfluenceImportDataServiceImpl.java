@@ -10,15 +10,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
+
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +34,8 @@ public class ConfluenceImportDataServiceImpl implements ConfluenceImportDataServ
     @Autowired
     JpaTemplate jpaTemplate;
 
+    @Autowired
+    AnalysisHtmlService analysisHtmlService;
     @Autowired
     ConfluenceImportData719Service confluenceImportData719Service;
     @Autowired
@@ -58,6 +59,8 @@ public class ConfluenceImportDataServiceImpl implements ConfluenceImportDataServ
         });
 
     }
+
+
 
     public String setData(InputStream inputStream) {
         BufferedReader unZIP=null;
@@ -90,6 +93,8 @@ public class ConfluenceImportDataServiceImpl implements ConfluenceImportDataServ
         }
 
     }
+
+
 
     public JdbcTemplate getJdbcTemplet(){
       return  jpaTemplate.getJdbcTemplate();

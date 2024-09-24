@@ -3,9 +3,12 @@ package io.thoughtware.sward.confluence.service;
 import io.thoughtware.core.exception.ApplicationException;
 import io.thoughtware.dal.jpa.JpaTemplate;
 import io.thoughtware.eam.common.context.LoginContext;
+import io.thoughtware.sward.document.model.DocumentQuery;
 import io.thoughtware.sward.document.model.WikiDocument;
 import io.thoughtware.sward.document.service.DocumentService;
 import io.thoughtware.sward.node.model.Node;
+import io.thoughtware.sward.node.model.NodeQuery;
+import io.thoughtware.sward.node.service.NodeService;
 import io.thoughtware.sward.repository.model.WikiRepository;
 import io.thoughtware.sward.repository.service.WikiRepositoryService;
 import io.thoughtware.user.user.model.User;
@@ -38,7 +41,12 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
     UserService userService;
 
     @Autowired
+    NodeService nodeService;
+
+    @Autowired
     DocumentService documentService;
+    @Autowired
+    AnalysisHtmlService analysisHtmlService;
 
     @Autowired
     WikiRepositoryService wikiRepositoryService;
@@ -49,6 +57,8 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
 
     private ThreadLocal<ArrayList<Element>> SpaceElementList = new ThreadLocal<>();
     private ThreadLocal<ArrayList<Element>> DocumentElementList = new ThreadLocal<>();
+
+    private ThreadLocal<ArrayList<Element>> DocumentCoreElementList = new ThreadLocal<>();
     @Override
     public String writeData(List<Element> elements, Map<String, WikiRepository> CurrentProject, Map<String, Integer> Percent) {
         String createUserId = LoginContext.getLoginId();
@@ -58,7 +68,7 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
             ArrayList<Element> confluUserElementList = new ArrayList<>();
             ArrayList<Element> spaceElementList = new ArrayList<>();
             ArrayList<Element> documentElementList = new ArrayList<>();
-
+            ArrayList<Element> documentCoreElementList = new ArrayList<>();
             for (Element element : elements) {
                 String name = element.getTagName();
                 switch (name){
@@ -74,6 +84,9 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
                     case "Document":
                         documentElementList.add(element);
                         break;
+                    case "BodyContent":
+                        documentCoreElementList.add(element);
+                        break;
                     default:
                         break;
                 }
@@ -83,17 +96,20 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
             this.ConfluUserElementList.set(confluUserElementList);
             this.SpaceElementList.set(spaceElementList);
             this.DocumentElementList.set(documentElementList);
-            for (Element userElement : this.UserElementList.get()) {
-                setGlobalUser(userElement);
-            }
+            this.DocumentCoreElementList.set(documentCoreElementList);
+//            for (Element userElement : this.UserElementList.get()) {
+//                setGlobalUser(userElement);
+//            }
 
             // 获取导入项目的总数
             int size = spaceElementList.size();
             Percent.put(createUserId + "total", size);
-            for (Element spaceElement : spaceElementList) {
-                setSpace(spaceElement, createUserId, CurrentProject, Percent);
+//            for (Element spaceElement : spaceElementList) {
+//                setSpace(spaceElement, createUserId, CurrentProject, Percent);
+//            }
+            for (Element documentElement : documentElementList) {
+                setDocumentText(documentElement);
             }
-
             return "succed";
         } catch (Exception e) {
             throw new ApplicationException(e);
@@ -194,6 +210,53 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
         }
     }
 
+    public static String escapeSql(String input) {
+        if (input == null) {
+            return null;
+        }
+        return input.replace("'", "''");
+    }
+    public void setDocumentText(Element documentElement) {
+        String title = documentElement.getAttribute("title");
+        String name = escapeSql(title);
+        NodeQuery nodeQuery = new NodeQuery();
+        nodeQuery.setName(name);
+        nodeQuery.setRepositoryId("b9c95c3e4193");
+        List<Node> nodeList = nodeService.findNodeListByName(nodeQuery);
+//        if (nodeList.size() <= 0) {
+            String creationDate = documentElement.getAttribute("creationDate");
+            String creator = documentElement.getAttribute("creator");
+            String bodyContentId = documentElement.getAttribute("bodyContentId");
+            Integer documentSort = 0;
+            documentSort = documentSort + 1;
+            WikiDocument wikiDocument = new WikiDocument();
+            Node node = new Node();
+            node.setName(title);
+            node.setCreateTime(creationDate);
+            node.setDimension(1);
+            node.setSort(documentSort);
+
+            WikiRepository wikiRepository = new WikiRepository();
+            wikiRepository.setId("b9c95c3e4193");
+            node.setWikiRepository(wikiRepository);
+            String userId = getUserId(creator);
+            User user = new User();
+            user.setId(userId);
+            node.setMaster(user);
+            node.setDocumentType("document");
+            node.setType("document");
+            node.setRecycle("0");
+            node.setStatus("nomal");
+            wikiDocument.setNode(node);
+            try {
+                String documentId = documentService.createConfluDocument(wikiDocument);
+                setDocumentContent(documentId, bodyContentId);
+            } catch (Exception e) {
+                throw new ApplicationException(2000, "文档添加失败:" + e.getMessage());
+            }
+
+//        }
+    }
     public void setDocument(Element element){
         String spaceId = element.getAttribute("id");
         String newId = element.getAttribute("newId");
@@ -201,42 +264,65 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
         // 解决重复
         for (Element documentElement : this.DocumentElementList.get()) {
             String title = documentElement.getAttribute("title");
-            String creationDate = documentElement.getAttribute("creationDate");
-            String space = documentElement.getAttribute("space");
-            String creator = documentElement.getAttribute("creator");
-            String id = documentElement.getAttribute("id");
-            String bodyContentId = documentElement.getAttribute("bodyContentId");
-            Integer documentSort = 0;
-            if(spaceId.equals(space)){
-                documentSort = documentSort + 1;
-                WikiDocument wikiDocument = new WikiDocument();
-                Node node = new Node();
-                node.setName(title);
-                node.setCreateTime(creationDate);
-                node.setDimension(1);
-                node.setSort(documentSort);
+            String name = escapeSql(title);
+            NodeQuery nodeQuery = new NodeQuery();
+            nodeQuery.setName(name);
+            nodeQuery.setRepositoryId(newId);
+            List<Node> nodeList = nodeService.findNodeListByName(nodeQuery);
+            if(nodeList.size() <= 0){
+                String creationDate = documentElement.getAttribute("creationDate");
+                String space = documentElement.getAttribute("space");
+                String creator = documentElement.getAttribute("creator");
+                String id = documentElement.getAttribute("id");
+                String bodyContentId = documentElement.getAttribute("bodyContentId");
+                Integer documentSort = 0;
+                if(spaceId.equals(space)){
+                    documentSort = documentSort + 1;
+                    WikiDocument wikiDocument = new WikiDocument();
+                    Node node = new Node();
+                    node.setName(title);
+                    node.setCreateTime(creationDate);
+                    node.setDimension(1);
+                    node.setSort(documentSort);
 
-                WikiRepository wikiRepository = new WikiRepository();
-                wikiRepository.setId(newId);
-                node.setWikiRepository(wikiRepository);
-                String userId = getUserId(creator);
-                User user = new User();
-                user.setId(userId);
-                node.setMaster(user);
-                node.setDocumentType("document");
-                node.setType("document");
-                node.setRecycle("0");
-                node.setStatus("nomal");
-                wikiDocument.setNode(node);
-                try {
-                    String documentId = documentService.createConfluDocument(wikiDocument);
-                }catch (Exception e) {
-                    throw new ApplicationException(2000, "文档添加失败:" + e.getMessage());
+                    WikiRepository wikiRepository = new WikiRepository();
+                    wikiRepository.setId(newId);
+                    node.setWikiRepository(wikiRepository);
+                    String userId = getUserId(creator);
+                    User user = new User();
+                    user.setId(userId);
+                    node.setMaster(user);
+                    node.setDocumentType("document");
+                    node.setType("document");
+                    node.setRecycle("0");
+                    node.setStatus("nomal");
+                    wikiDocument.setNode(node);
+                    try {
+                        String documentId = documentService.createConfluDocument(wikiDocument);
+                        setDocumentContent(documentId, bodyContentId);
+                    }catch (Exception e) {
+                        throw new ApplicationException(2000, "文档添加失败:" + e.getMessage());
+                    }
+
                 }
-
             }
         }
     }
+    public void setDocumentContent(String documentId, String bodyContentId){
+        for (Element element : this.DocumentCoreElementList.get()) {
+            String id = element.getAttribute("id");
+            if(id.equals(bodyContentId)){
+                String body = element.getAttribute("body");
+                String content = analysisHtmlService.importRichText(body);
+                WikiDocument wikiDocument = new WikiDocument();
+                wikiDocument.setDetails(content);
+                wikiDocument.setId(documentId);
+                documentService.updateDocument(wikiDocument);
+            }
+        }
+
+    }
+
     public String getUserId(String creator){
         String userId = new String();
         ArrayList<Element> userElementList = this.UserElementList.get();

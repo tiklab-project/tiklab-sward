@@ -14,6 +14,7 @@ import io.thoughtware.dal.jpa.JpaTemplate;
 import io.thoughtware.dss.client.DssClient;
 import io.thoughtware.eam.common.context.LoginContext;
 import io.thoughtware.sward.document.entity.WikiDocumentEntity;
+import io.thoughtware.sward.node.entity.NodeEntity;
 import io.thoughtware.sward.node.model.Node;
 import io.thoughtware.sward.node.model.NodeQuery;
 import io.thoughtware.sward.node.service.NodeService;
@@ -449,6 +450,7 @@ public class DocumentServiceImpl implements DocumentService {
         int size = documentList.size();
         return size;
     }
+
 
     @Override
     public Pagination<WikiDocument> findDocumentPage(DocumentQuery documentQuery) {

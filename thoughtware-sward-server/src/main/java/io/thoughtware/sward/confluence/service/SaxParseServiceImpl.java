@@ -18,7 +18,12 @@ import java.util.Map;
 public class SaxParseServiceImpl extends DefaultHandler  {
 
     boolean isDocument = false;
+    boolean isDocumentCore = false;
 
+    boolean isDocumentCoreId = false;
+    boolean isDocumentCoreContent = false;
+
+    boolean isDocumentCoreProperty = false;
     boolean isSpace = false;
     boolean isDocumentAttribute = false;
 
@@ -91,6 +96,10 @@ public class SaxParseServiceImpl extends DefaultHandler  {
             if("ConfluenceUserImpl".equals(className) && packageName.equals("com.atlassian.confluence.user")){
                 isConUser = true;
                 createElement("ConUser");
+            }
+            if("BodyContent".equals(className) && packageName.equals("com.atlassian.confluence.core")){
+                isDocumentCore = true;
+                createElement("BodyContent");
             }
         }
 
@@ -186,6 +195,19 @@ public class SaxParseServiceImpl extends DefaultHandler  {
                 isConUserId = true;
             }
         }
+
+        if(isDocumentCore){
+            if("id".equals(qName) && !isDocumentCoreProperty){
+                isDocumentCoreId = true;
+            }
+            if(qName.equals("property")){
+                isDocumentCoreProperty = true;
+                if("body".equals(name)){
+                    isDocumentCoreContent = true;
+                }
+
+            }
+        }
     }
 
     public void createElement(String name){
@@ -275,6 +297,17 @@ public class SaxParseServiceImpl extends DefaultHandler  {
             }
             if(isConUserId){
                 globalElement.setAttribute("conUserId", content);
+            }
+        }
+
+        if(isDocumentCore){
+            String content = new String(ch, start, length).trim();
+
+            if(isDocumentCoreId && !isDocumentCoreProperty){
+                globalElement.setAttribute("id", content);
+            }
+            if(isDocumentCoreContent){
+                globalElement.setAttribute("body", content);
             }
         }
     }
@@ -371,6 +404,21 @@ public class SaxParseServiceImpl extends DefaultHandler  {
             }
             if(isConUserId){
                 isConUserId = false;
+            }
+        }
+
+        if(isDocumentCore){
+            if(qName.equals("object")){
+                ElementList.add(globalElement);
+                isDocumentCore = false;
+                isDocumentCoreProperty = false;
+            }
+
+            if(isDocumentCoreId){
+                isDocumentCoreId = false;
+            }
+            if(isDocumentCoreContent){
+                isDocumentCoreContent = false;
             }
         }
     }

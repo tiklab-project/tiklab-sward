@@ -117,6 +117,18 @@ public class NodeDao {
         return jpaTemplate.findList(queryCondition, NodeEntity.class);
     }
 
+    public List<NodeEntity> findNodeListByName(NodeQuery nodeQuery) {
+
+        QueryCondition queryCondition = QueryBuilders.createQuery(NodeEntity.class)
+                .eq("name", nodeQuery.getName())
+                .eq("repositoryId", nodeQuery.getRepositoryId())
+                .orders(nodeQuery.getOrderParams())
+                .get();
+
+
+        return jpaTemplate.findList(queryCondition, NodeEntity.class);
+    }
+
     public Pagination<NodeEntity> findNodePage(NodeQuery nodeQuery) {
         QueryCondition queryCondition = new QueryCondition();
 
