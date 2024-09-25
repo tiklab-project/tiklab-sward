@@ -16,6 +16,6 @@ public interface ConfluenceImportDataService {
      */
     void importJiraData(InputStream inputStream);
 
-
+    Map<String, Object> findCfInputSchedule();
 
 }

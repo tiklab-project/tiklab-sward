@@ -60,6 +60,16 @@ public class ConfluenceImportDataServiceImpl implements ConfluenceImportDataServ
 
     }
 
+    @Override
+    public Map<String, Object> findCfInputSchedule() {
+        String loginId = LoginContext.getLoginId();
+        Map<String, Object> logMap = new HashMap<>();
+        logMap.put("wikiRepository", CurrentProject.get(loginId + "wikiRepository"));
+        logMap.put("total", Percent.get(loginId + "total"));
+        logMap.put("currentNum", Percent.get(loginId + "currentNum"));
+        logMap.put("status", Percent.get(loginId + "status"));
+        return logMap;
+    }
 
 
     public String setData(InputStream inputStream) {
