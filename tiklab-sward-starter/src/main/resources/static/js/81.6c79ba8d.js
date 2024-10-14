@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[81],{950:function(e,r,n){"use strict";n.r(r),n.d(r,"default",(function(){return o}));var t=n(0),u=n.n(t),a=n(161),o=function(){return u.a.createElement(a.Orga,{bgroup:"sward",__source:{fileName:"/Users/yuanjiexuan/Desktop/bate/project-web/tiklab-sward-ui/src/setting/orga/Orga.js",lineNumber:14,columnNumber:9}})}}}]);
