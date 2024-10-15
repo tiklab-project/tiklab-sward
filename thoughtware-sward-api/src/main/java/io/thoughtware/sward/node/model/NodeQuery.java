@@ -17,6 +17,9 @@ public class NodeQuery extends BaseModel {
         @ApiProperty(name ="id",desc = "node id")
         private String id;
 
+        @ApiProperty(name ="name",desc = "name")
+        private String name;
+
         @ApiProperty(name ="shareId",desc = "空间id")
         private Object[] Ids;
 
@@ -176,5 +179,13 @@ public class NodeQuery extends BaseModel {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

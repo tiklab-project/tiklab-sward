@@ -96,6 +96,7 @@ public class NodeDao {
         QueryCondition queryCondition = new QueryCondition();
 
         QueryBuilders queryBuilders = QueryBuilders.createQuery(NodeEntity.class)
+                .like("name", nodeQuery.getName())
                 .eq("repositoryId", nodeQuery.getRepositoryId())
                 .eq("masterId", nodeQuery.getMasterId())
                 .eq("parentId", nodeQuery.getParentId())
@@ -118,7 +119,29 @@ public class NodeDao {
     }
 
     public Pagination<NodeEntity> findNodePage(NodeQuery nodeQuery) {
-        return jpaTemplate.findPage(nodeQuery, NodeEntity.class);
+        QueryCondition queryCondition = new QueryCondition();
+
+        QueryBuilders queryBuilders = QueryBuilders.createQuery(NodeEntity.class)
+                .like("name", nodeQuery.getName())
+                .eq("repositoryId", nodeQuery.getRepositoryId())
+                .eq("masterId", nodeQuery.getMasterId())
+                .eq("parentId", nodeQuery.getParentId())
+                .eq("type", nodeQuery.getType())
+                .in("dimension", nodeQuery.getDimensions())
+                .in("id", nodeQuery.getIds())
+                .orders(nodeQuery.getOrderParams())
+                .pagination(nodeQuery.getPageParam());
+
+        if( nodeQuery.getTreePath() != null){
+            OrQueryCondition orQueryCondition = OrQueryBuilders.instance()
+                    .like("treePath", nodeQuery.getTreePath())
+                    .eq("id", nodeQuery.getId())
+                    .get();
+            queryCondition = queryBuilders.or(orQueryCondition).get();
+        }else {
+            queryCondition = queryBuilders.get();
+        }
+        return jpaTemplate.findPage(queryCondition, NodeEntity.class);
     }
 
     public List<NodeEntity> findNodeRecentList(RecentQuery recentQuery) {
