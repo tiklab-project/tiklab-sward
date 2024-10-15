@@ -1,5 +1,6 @@
 package io.thoughtware.sward.confluence.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.thoughtware.core.exception.ApplicationException;
 import io.thoughtware.dal.jpa.JpaTemplate;
 import io.thoughtware.eam.common.context.LoginContext;
@@ -97,18 +98,15 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
             this.SpaceElementList.set(spaceElementList);
             this.DocumentElementList.set(documentElementList);
             this.DocumentCoreElementList.set(documentCoreElementList);
-//            for (Element userElement : this.UserElementList.get()) {
-//                setGlobalUser(userElement);
-//            }
+            for (Element userElement : this.UserElementList.get()) {
+                setGlobalUser(userElement);
+            }
 
             // 获取导入项目的总数
             int size = spaceElementList.size();
             Percent.put(createUserId + "total", size);
-//            for (Element spaceElement : spaceElementList) {
-//                setSpace(spaceElement, createUserId, CurrentProject, Percent);
-//            }
-            for (Element documentElement : documentElementList) {
-                setDocumentText(documentElement);
+            for (Element spaceElement : spaceElementList) {
+                setSpace(spaceElement, createUserId, CurrentProject, Percent);
             }
             return "succed";
         } catch (Exception e) {
@@ -260,7 +258,7 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
     public void setDocument(Element element){
         String spaceId = element.getAttribute("id");
         String newId = element.getAttribute("newId");
-
+        ArrayList<String> documentNameList = new ArrayList<>();
         // 解决重复
         for (Element documentElement : this.DocumentElementList.get()) {
             String title = documentElement.getAttribute("title");
@@ -269,7 +267,7 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
             nodeQuery.setName(name);
             nodeQuery.setRepositoryId(newId);
             List<Node> nodeList = nodeService.findNodeListByName(nodeQuery);
-            if(nodeList.size() <= 0){
+            if(!documentNameList.contains(name)){
                 String creationDate = documentElement.getAttribute("creationDate");
                 String space = documentElement.getAttribute("space");
                 String creator = documentElement.getAttribute("creator");
@@ -299,6 +297,7 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
                     wikiDocument.setNode(node);
                     try {
                         String documentId = documentService.createConfluDocument(wikiDocument);
+                        documentNameList.add(name);
                         setDocumentContent(documentId, bodyContentId);
                     }catch (Exception e) {
                         throw new ApplicationException(2000, "文档添加失败:" + e.getMessage());
@@ -313,11 +312,29 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
             String id = element.getAttribute("id");
             if(id.equals(bodyContentId)){
                 String body = element.getAttribute("body");
-                String content = analysisHtmlService.importRichText(body);
-                WikiDocument wikiDocument = new WikiDocument();
-                wikiDocument.setDetails(content);
-                wikiDocument.setId(documentId);
-                documentService.updateDocument(wikiDocument);
+                HashMap<String, String> contentJson = new HashMap<>();
+                contentJson.put("cdata", body);
+                // 创建 ObjectMapper 实例
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonString = new String();
+                try {
+                    // 将 HashMap 转换为 JSON 字符串
+                    jsonString = objectMapper.writeValueAsString(contentJson);
+                    WikiDocument wikiDocument = new WikiDocument();
+                    wikiDocument.setDetails(jsonString);
+                    wikiDocument.setId(documentId);
+                    documentService.updateDocument(wikiDocument);
+                    // 输出 JSON 字符串
+                    System.out.println("JSON 字符串: " + jsonString);
+
+                    // 可以在这里将 jsonString 存储到数据库
+                    // saveToDatabase(jsonString);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
             }
         }
 

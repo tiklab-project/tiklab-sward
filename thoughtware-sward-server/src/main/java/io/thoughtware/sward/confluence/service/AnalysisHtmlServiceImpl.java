@@ -93,7 +93,83 @@ public class AnalysisHtmlServiceImpl implements AnalysisHtmlService{
                 for (Element child : element.children()) {
                     processElement(child, textNode);
                 }
-
+//                element.traverse(new NodeVisitor() {
+//                    @Override
+//                    public void head(Node node, int depth) {
+//
+//                        if (node instanceof Element) {
+//                            Element el = (Element) node;
+//                            Map<String, Object> textNode = new HashMap<>();
+//                            String text = el.text();
+//                            System.out.println("tagName: " + el.text());
+//                            switch (el.tagName()) {
+//                                case "a":
+//                                    textNode.put("type", "link");
+//                                    String href = el.attr("href");
+//                                    textNode.put("url", href);
+//                                    children.add(textNode);
+//                                    break;
+//                                case "strong":
+//                                    if(!text.isEmpty()){
+//                                        textNode.put("bold", true);
+//                                        children.add(textNode);
+//                                    }
+//
+//                                    break;
+//                                case "em":
+//                                    if(!text.isEmpty()){
+//                                        textNode.put("italic", true);
+//                                        children.add(textNode);
+//                                    }
+//                                    break;
+//                                case "u":
+//                                    if(!text.isEmpty()){
+//                                        textNode.put("underline", true);
+//                                        children.add(textNode);
+//                                    }
+//                                    break;
+//                                case "s":
+//                                    if(!text.isEmpty()){
+//                                        textNode.put("strike", true);
+//                                        children.add(textNode);
+//                                    }
+//                                    break;
+//                                case "li":
+//                                    textNode.put("type", "list-item");
+//                                    children.add(textNode);
+//                                    break;
+//                                default:
+//                                    break;
+//                            }
+//
+//                        } else if (node instanceof TextNode) {
+//                            TextNode textNode = (TextNode) node;
+//                            List<Map<String, Object>> children1 = new ArrayList<>();
+//                            Map<String, Object> textMap = new HashMap<>();
+//                            textMap.put("text", textNode.text().trim());  // Trim whitespace
+//                            children1.add(textMap);
+//                            if (!textNode.text().trim().isEmpty()) {  // 忽略空白文本节点
+//                                if(children.size() > 0){
+//                                    int size = children.size();
+//                                    Map<String, Object> child = children.get(size-1);
+//                                    Object type = child.get("type");
+//                                    if(type != null){
+//                                        child.put("children", children1);
+//                                    }else {
+//                                        child.put("text", textNode.text().trim());
+//                                    }
+//                                }else {
+//                                    children.add(textMap);
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void tail(Node node, int depth) {
+//                        // Do nothing
+//                    }
+//                });
 
                 blocks.add(block);
             }
