@@ -27,8 +27,6 @@ public class DocumentFocus extends BaseModel {
     @ApiProperty(name="documentId",desc="documentId")
     private String documentId;
 
-
-
     @ApiProperty(name="node",desc="知识库",eg="@selectOne")
     @Mappings({
             @Mapping(source = "node.id",target = "documentId")

@@ -11,6 +11,7 @@ import io.thoughtware.sward.repository.model.WikiRepositoryQuery;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Map;
 
 /**
 * RepositoryService
@@ -77,4 +78,6 @@ public interface WikiRepositoryService {
 
     List<WikiRepository> findFocusRepositoryList(WikiRepositoryQuery wikiRepositoryQuery);
 
+
+    Map<String, Integer> findRepositoryNum(WikiRepositoryQuery wikiRepositoryQuery);
 }
