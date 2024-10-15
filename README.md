@@ -1,6 +1,6 @@
 
 # 知识管理工具——sward
-sward 是一个知识库管理系统，对知识资源进行系统的收集、整理、存储、分享和应用，以实现知识的最大化利用和组织的持续改进；Sward 知识库管理系统有知识库管理，文档管理，目录管理等功能，能对文档进行有效分分类，利用；还加入了用户权限管理，提高了安全性；另外sward还集成了sward项目管理，让项目管理与知识库管理结合，极大的提高工作效率。
+sward 是一个知识库管理系统，对知识资源进行系统的收集、整理、存储、分享和应用，以实现知识的最大化利用和组织的持续改进；Sward 知识库管理系统有知识库管理，文档管理，目录管理等功能，能对文档进行有效分分类，利用；还加入了用户权限管理，提高了安全性；另外sward还集成了Kanass项目管理，让项目管理与知识库管理结合，极大的提高工作效率。
 
 ## 功能点
 ![alt text](./sward-home.png)
@@ -41,7 +41,7 @@ sward社区主要通过问题、讨论和拉取请求在 GitHub 上进行交流�
 为了提出有效的问题，我们建议先阅读《[如何以聪明的方式提问](https://github.com/selfteaching/How-To-Ask-Questions-The-Smart-Way/blob/master/How-To-Ask-Questions-The-Smart-Way.md)》。
 
 ## 贡献
-* 回答[讨论]()中提出的问题。
+* 回答[讨论](https://community.tiklab.net/question)中提出的问题。
 * 解决[问题]()中报告的错误并向我们发送拉取请求。
 * 审查现有的拉取请求。
 * 增强网站。我们通常需要：
@@ -58,15 +58,20 @@ sward社区主要通过问题、讨论和拉取请求在 GitHub 上进行交流�
 ## 报告安全漏洞
 请私下向我们报告安全漏洞。
 
-## 接触
-* 微信：apachedubbo
-* 钉钉群：37290003945
-* 邮件列表：指南
-* 安全问题：请私信给我们。
+[//]: # ()
+[//]: # (## 接触)
+
+[//]: # (* 微信：apachedubbo)
+
+[//]: # (* 钉钉群：37290003945)
+
+[//]: # (* 邮件列表：指南)
+
+[//]: # (* 安全问题：请私信给我们。)
 
 ## sward 生态
 * [sward 网站](https://tiklab.net)- Tiklab sward 官方网站
-* [sward 示例](https://demo.tiklab.net/sward)-Tiklab sward 官方网站
+* [sward 示例](https://demo.tiklab.net/sward)-Tiklab sward 试用
 * [sward 文档](https://doc.tiklab.net/document/8d0d0cc33ccb)- 使用文档
 
  ### 语言
