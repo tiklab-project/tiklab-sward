@@ -1,5 +1,8 @@
 package io.thoughtware.sward.support.service;
 
+import io.thoughtware.sward.document.model.DocumentQuery;
+import io.thoughtware.sward.document.model.WikiDocument;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +36,8 @@ public interface SearchService {
 
 
     public HashMap<String, List<Object>> searchWikiDocumentForTop(String keyword);
+
+    List<WikiDocument> searchRepositoryDocument(DocumentQuery documentQuery);
 
     void initIndex();
 }

@@ -1,5 +1,6 @@
 package io.thoughtware.sward.support.service;
 
+import io.thoughtware.sward.document.model.DocumentQuery;
 import io.thoughtware.sward.repository.service.WikiRepositoryService;
 import io.thoughtware.core.exception.ApplicationException;
 import io.thoughtware.dss.client.DssClient;
@@ -123,6 +124,31 @@ public class SearchServiceImpl implements SearchService {
         ObjectHashMap.put("document", documentList);
         ObjectHashMap.put("wiki", wikiRepositoryList);
         return  ObjectHashMap;
+    }
+
+    @Override
+    public List<WikiDocument> searchRepositoryDocument(DocumentQuery documentQuery) {
+        List<WikiDocument> documentList = new ArrayList<WikiDocument>();
+        String name = documentQuery.getName();
+        String repositoryId = documentQuery.getRepositoryId();
+        TopResponse topResponse = searchForTop(WikiDocument.class,name);
+        List dataList = topResponse.getDataList();
+        if(dataList.size() > 0){
+            for (Object documentObject : topResponse.getDataList()) {
+                try {
+                    Map<String, String> documentObject1 = (Map<String, String>) documentObject;
+                    String id = documentObject1.get("id");
+                    WikiDocument wikiDocument = documentService.findDocument(id);
+                    if(wikiDocument != null && wikiDocument.getNode().getWikiRepository().getId().equals(repositoryId)){
+                        documentList.add(wikiDocument);
+                    }
+                }catch (Exception e) {
+                    throw new ApplicationException(e);
+                }
+            }
+        }
+
+        return  documentList;
     }
 
     @Override

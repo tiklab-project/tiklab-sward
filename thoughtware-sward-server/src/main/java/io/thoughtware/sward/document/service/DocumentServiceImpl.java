@@ -194,7 +194,9 @@ public class DocumentServiceImpl implements DocumentService {
             throw new ApplicationException(2000, "文档添加失败" + e.getMessage());
         }
         node = nodeService.findNode(nodeId);
+
         dssClient.save(node);
+        dssClient.save(wikiDocument);
         createDynamic(node);
         return documentId;
     }
@@ -229,14 +231,11 @@ public class DocumentServiceImpl implements DocumentService {
             WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
             documentDao.updateDocument(wikiDocumentEntity);
         }
-
         if(node.getName() != null){
-//            Node newNode = nodeService.findNode(id);
             creatUpdateOplog(node, oldNode);
         }
-
-
-//        dssClient.update(wikiDocument1);
+        dssClient.update(node);
+        dssClient.update(wikiDocument);
     }
 
 
