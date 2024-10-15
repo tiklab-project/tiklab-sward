@@ -65,10 +65,7 @@ public class NodeDao {
         jpaTemplate.delete(deleteCondition);
     }
 
-    public void deleteNodeCondition(Object[] ids){
-        DeleteCondition deleteCondition = DeleteBuilders.createDelete(NodeEntity.class)
-                .in("id", ids)
-                .get();
+    public void deleteNodeCondition(DeleteCondition deleteCondition){
         jpaTemplate.delete(deleteCondition);
     }
     /**

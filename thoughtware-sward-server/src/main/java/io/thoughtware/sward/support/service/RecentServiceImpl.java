@@ -120,7 +120,11 @@ public class RecentServiceImpl implements RecentService {
 
     @Override
     public void deleteRecnetByCondition(RecentQuery recentQuery) {
-        recentDao.deleteRecnetByCondition(recentQuery);
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(RecentEntity.class)
+                .eq("modelId", recentQuery.getModelId())
+                .in("modelId", recentQuery.getModelIds())
+                .get();
+        recentDao.deleteRecnetByCondition(deleteCondition);
 
     }
 

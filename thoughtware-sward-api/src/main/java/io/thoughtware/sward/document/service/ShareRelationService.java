@@ -34,6 +34,8 @@ public interface ShareRelationService {
     */
     void deleteShareRelation(@NotNull String id);
 
+    void deleteShareRelationCondition(ShareRelationQuery shareRelationQuery);
+
     ShareRelation findOne(@NotNull String id);
 
     List<ShareRelation> findList(List<String> idList);

@@ -38,7 +38,10 @@ public interface WikiCategoryService {
     * @param id
     */
     void deleteCategory(@NotNull String id);
-    void deleteCategoryByIds(Object[] ids);
+
+    void batchDeleteCategory(WikiCategoryQuery wikiCategoryQuery);
+
+//    void deleteCategoryByIds(Object[] ids);
     @FindOne
     WikiCategory findOne(@NotNull String id);
 

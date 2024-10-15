@@ -18,7 +18,7 @@ public class RecentQuery {
         private String model;
 
         @ApiProperty(name ="model",desc = "目录id")
-        private String[] models;
+        private String[] modelIds;
 
         @ApiProperty(name ="masterId",desc = "目录id")
         private String masterId;
@@ -78,12 +78,12 @@ public class RecentQuery {
         this.model = model;
     }
 
-    public String[] getModels() {
-        return models;
+    public String[] getModelIds() {
+        return modelIds;
     }
 
-    public void setModels(String[] models) {
-        this.models = models;
+    public void setModelIds(String[] modelIds) {
+        this.modelIds = modelIds;
     }
 
     public String getRepositoryId() {

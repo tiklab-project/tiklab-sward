@@ -1,6 +1,8 @@
 package io.thoughtware.sward.document.service;
 
-import io.thoughtware.sward.category.model.WikiCategory;
+import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
+import io.thoughtware.sward.category.entity.WikiCategoryEntity;
 import io.thoughtware.sward.document.dao.ShareRelationDao;
 import io.thoughtware.sward.node.model.Node;
 import io.thoughtware.toolkit.beans.BeanMapper;
@@ -8,7 +10,6 @@ import io.thoughtware.core.page.Pagination;
 import io.thoughtware.core.page.PaginationBuilder;
 import io.thoughtware.toolkit.join.JoinTemplate;
 import io.thoughtware.sward.document.entity.ShareRelationEntity;
-import io.thoughtware.sward.document.model.WikiDocument;
 import io.thoughtware.sward.document.model.ShareRelation;
 import io.thoughtware.sward.document.model.ShareRelationQuery;
 import io.thoughtware.rpc.annotation.Exporter;
@@ -67,7 +68,14 @@ public class ShareRelationServiceImpl implements ShareRelationService {
     public void deleteShareRelation(@NotNull String id) {
         shareRelationDao.deleteShareRelation(id);
     }
-
+    @Override
+    public void deleteShareRelationCondition(ShareRelationQuery shareRelationQuery){
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(ShareRelationEntity.class)
+                .eq("nodeId", shareRelationQuery.getNodeId())
+                .in("nodeId", shareRelationQuery.getNodeIds())
+                .get();
+        shareRelationDao.deleteShareRelation(deleteCondition);
+    }
     @Override
     public ShareRelation findOne(String id) {
         ShareRelationEntity shareRelationEntity = shareRelationDao.findShareRelation(id);

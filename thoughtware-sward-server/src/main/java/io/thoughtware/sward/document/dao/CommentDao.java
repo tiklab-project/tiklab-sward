@@ -64,6 +64,7 @@ public class CommentDao{
     public void deleteCommentCondition(CommentQuery commentQuery){
         DeleteCondition deleteCondition = DeleteBuilders.createDelete(CommentEntity.class)
                 .eq("documentId", commentQuery.getDocumentId())
+                .in("documentId", commentQuery.getDocumentIds())
                 .get();
         jpaTemplate.delete(deleteCondition);
     }

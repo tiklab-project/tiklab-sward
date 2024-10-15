@@ -55,10 +55,8 @@ public class WikiCategoryDao {
         jpaTemplate.delete(WikiCategoryEntity.class,id);
     }
 
-    public void deleteCategoryByIds(Object[] ids){
-        DeleteCondition deleteCondition = DeleteBuilders.createDelete(WikiCategoryEntity.class)
-                .in("id", ids)
-                .get();
+    public void deleteCategoryByIds(DeleteCondition deleteCondition){
+
         jpaTemplate.delete(deleteCondition);
     }
 

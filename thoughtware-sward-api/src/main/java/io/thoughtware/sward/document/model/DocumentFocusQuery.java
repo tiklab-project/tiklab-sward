@@ -17,6 +17,9 @@ public class DocumentFocusQuery {
         @ApiProperty(name ="documentId",desc = "知识库id")
         private String documentId;
 
+        @ApiProperty(name ="documentIds",desc = "文档ids")
+        private String[] documentIds;
+
         @ApiProperty(name ="orderParams",desc = "排序参数")
         private List<Order> orderParams = OrderBuilders.instance().desc("id").get();
 
@@ -53,5 +56,13 @@ public class DocumentFocusQuery {
 
         public void setPageParam(Page pageParam) {
             this.pageParam = pageParam;
+        }
+
+        public String[] getDocumentIds() {
+                return documentIds;
+        }
+
+        public void setDocumentIds(String[] documentIds) {
+                this.documentIds = documentIds;
         }
 }

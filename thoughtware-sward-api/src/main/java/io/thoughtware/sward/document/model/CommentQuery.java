@@ -20,6 +20,9 @@ public class CommentQuery  extends BaseModel {
         @ApiProperty(name ="documentId",desc = "文档id")
         private String documentId;
 
+        @ApiProperty(name ="documentIds",desc = "文档ids")
+        private String[] documentIds;
+
         @ApiProperty(name ="isFirstCommentNull",desc = "是否为空")
         private Boolean isFirstCommentNull;
 
@@ -76,5 +79,13 @@ public class CommentQuery  extends BaseModel {
 
     public void setFirstOneCommentId(String firstOneCommentId) {
         this.firstOneCommentId = firstOneCommentId;
+    }
+
+    public String[] getDocumentIds() {
+        return documentIds;
+    }
+
+    public void setDocumentIds(String[] documentIds) {
+        this.documentIds = documentIds;
     }
 }

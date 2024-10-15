@@ -12,7 +12,14 @@ import java.util.List;
 @ApiModel
 public class WikiCategoryQuery extends BaseModel {
 
+    @ApiProperty(name ="id")
+    private String id;
 
+    @ApiProperty(name ="ids")
+    private String[] ids;
+
+    @ApiProperty(name ="repositoryId")
+    private String repositoryId;
     @ApiProperty(name ="orderParams",desc = "排序参数")
     private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
 
@@ -33,5 +40,29 @@ public class WikiCategoryQuery extends BaseModel {
 
     public void setPageParam(Page pageParam) {
         this.pageParam = pageParam;
+    }
+
+    public String[] getIds() {
+        return ids;
+    }
+
+    public void setIds(String[] ids) {
+        this.ids = ids;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRepositoryId() {
+        return repositoryId;
+    }
+
+    public void setRepositoryId(String repositoryId) {
+        this.repositoryId = repositoryId;
     }
 }

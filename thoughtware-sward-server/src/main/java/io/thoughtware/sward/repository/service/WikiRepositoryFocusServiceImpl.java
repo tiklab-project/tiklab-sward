@@ -1,6 +1,9 @@
 package io.thoughtware.sward.repository.service;
 
+import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.thoughtware.eam.common.context.LoginContext;
+import io.thoughtware.sward.node.entity.NodeEntity;
 import io.thoughtware.sward.repository.model.WikiRepositoryFocus;
 import io.thoughtware.sward.repository.model.WikiRepositoryFocusQuery;
 import io.thoughtware.toolkit.beans.BeanMapper;
@@ -54,12 +57,10 @@ public class WikiRepositoryFocusServiceImpl implements WikiRepositoryFocusServic
 
     @Override
     public void deleteRepositoryFocusByCondition(WikiRepositoryFocusQuery wikiRepositoryFocusQuery) {
-        List<WikiRepositoryFocusEntity> repositoryFocusList = wikiRepositoryFocusDao.findRepositoryFocusList(wikiRepositoryFocusQuery);
-        if(repositoryFocusList.size() > 0){
-            for (WikiRepositoryFocusEntity repositoryFocus : repositoryFocusList) {
-                deleteRepositoryFocus(repositoryFocus.getId());
-            }
-        }
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(WikiRepositoryFocusEntity.class)
+                .eq("repositoryId", wikiRepositoryFocusQuery.getRepositoryId())
+                .get();
+        wikiRepositoryFocusDao.deleteRepositoryFocus(deleteCondition);
     }
 
     @Override

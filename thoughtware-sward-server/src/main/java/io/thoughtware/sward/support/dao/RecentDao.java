@@ -58,12 +58,8 @@ public class RecentDao {
     public void deleteRecent(String id){
         jpaTemplate.delete(RecentEntity.class,id);
     }
-    public void deleteRecnetByCondition(RecentQuery recentQuery){
-        List<RecentEntity> recentList = findRecentList(recentQuery);
-        Object[] array = recentList.stream().map(RecentEntity::getId).toArray();
-        DeleteCondition deleteCondition = DeleteBuilders.createDelete(RecentEntity.class)
-                .in("id", array)
-                .get();
+    public void deleteRecnetByCondition(DeleteCondition deleteCondition){
+
         jpaTemplate.delete(deleteCondition);
     }
     public void deleteRecentByIds(String ids){
@@ -106,7 +102,7 @@ public class RecentDao {
                 .eq("masterId", recentQuery.getMasterId())
                 .eq("repositoryId", recentQuery.getRepositoryId())
                 .eq("model", recentQuery.getModel())
-                .in("model", recentQuery.getModels())
+                .in("model", recentQuery.getModelIds())
                 .orders(recentQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, RecentEntity.class);

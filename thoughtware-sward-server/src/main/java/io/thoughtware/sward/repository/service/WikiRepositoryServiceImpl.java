@@ -7,13 +7,16 @@ import io.thoughtware.security.logging.logging.service.LoggingByTempService;
 import io.thoughtware.sward.category.service.WikiCategoryService;
 import io.thoughtware.sward.document.service.DocumentService;
 import io.thoughtware.sward.node.model.Node;
+import io.thoughtware.sward.node.model.NodeQuery;
 import io.thoughtware.sward.node.service.NodeService;
 import io.thoughtware.sward.repository.dao.WikiRepositoryDao;
 import io.thoughtware.sward.repository.entity.WikiRepositoryEntity;
 import io.thoughtware.sward.repository.model.WikiRepository;
+import io.thoughtware.sward.repository.model.WikiRepositoryFocusQuery;
 import io.thoughtware.sward.repository.model.WikiRepositoryQuery;
 import io.thoughtware.sward.repository.support.MessageTemplateRepository;
 import io.thoughtware.sward.repository.support.OpLogTemplateRepository;
+import io.thoughtware.sward.support.model.RecentQuery;
 import io.thoughtware.sward.support.service.RecentService;
 import io.thoughtware.core.order.Order;
 import io.thoughtware.core.order.OrderBuilders;
@@ -82,7 +85,8 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     @Autowired
     UserService userService;
 
-
+    @Autowired
+    WikiRepositoryFocusService wikiRepositoryFocusService;
 
     @Autowired
     LoggingByTempService loggingByTemplService;
@@ -220,13 +224,24 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
     @Override
     public void deleteRepository(@NotNull String id) {
-        wikiRepositoryDao.deleteRepositoryAndRelation(id);
+
+        // 删除所有节点、和节点关联的所有数据
+        nodeService.deleteRepositoryNodeCondition(id);
         // 项目成员
         dmUserService.deleteDmUserByDomainId(id);
         // 项目角色、权限
         dmRoleService.deleteDmRoleByDomainId(id);
         // 删除知识库
         wikiRepositoryDao.deleteRepository(id);
+
+        // 删除最近查看的知识库
+        RecentQuery recentQuery = new RecentQuery();
+        recentQuery.setModelId(id);
+        recentService.deleteRecnetByCondition(recentQuery);
+
+        WikiRepositoryFocusQuery wikiRepositoryFocusQuery = new WikiRepositoryFocusQuery();
+        wikiRepositoryFocusQuery.setRepositoryId(id);
+        wikiRepositoryFocusService.deleteRepositoryFocusByCondition(wikiRepositoryFocusQuery);
     }
 
     @Override

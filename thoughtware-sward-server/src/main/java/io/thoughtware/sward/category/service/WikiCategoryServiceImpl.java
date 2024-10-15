@@ -1,13 +1,16 @@
 package io.thoughtware.sward.category.service;
 
-import com.alibaba.fastjson.JSONObject;
-import io.thoughtware.security.logging.logging.service.LoggingByTempService;
+import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.thoughtware.sward.category.model.WikiCategory;
-import io.thoughtware.dal.jpa.JpaTemplate;
 import io.thoughtware.sward.category.entity.WikiCategoryEntity;
 import io.thoughtware.sward.category.model.WikiCategoryQuery;
+import io.thoughtware.sward.document.model.DocumentQuery;
 import io.thoughtware.sward.node.model.Node;
+import io.thoughtware.sward.node.model.NodeQuery;
 import io.thoughtware.sward.node.service.NodeService;
+import io.thoughtware.sward.support.model.RecentQuery;
+import io.thoughtware.sward.support.service.RecentService;
 import io.thoughtware.toolkit.beans.BeanMapper;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.core.page.PaginationBuilder;
@@ -15,11 +18,9 @@ import io.thoughtware.toolkit.join.JoinTemplate;
 import io.thoughtware.rpc.annotation.Exporter;
 import io.thoughtware.sward.category.dao.WikiCategoryDao;
 import io.thoughtware.sward.document.service.DocumentService;
-import io.thoughtware.user.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 
@@ -28,6 +29,7 @@ import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 /**
 * CategoryServiceImpl
@@ -38,29 +40,22 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
     private static Logger logger = LoggerFactory.getLogger(DocumentService.class);
     // 新建锁
     private final Lock lock = new ReentrantLock();
-    @Autowired
-    JpaTemplate jpaTemplate;
+
     @Autowired
     WikiCategoryDao wikiCategoryDao;
 
     @Autowired
-    UserService userService;
-
-    @Autowired
-    LoggingByTempService loggingByTemplService;
+    RecentService recentService;
 
 
     @Autowired
     JoinTemplate joinTemplate;
 
     @Autowired
-    DocumentService documentService;
-
-    @Autowired
     NodeService nodeService;
 
-    @Value("${base.url:null}")
-    String baseUrl;
+    @Autowired
+    DocumentService documentService;
 
     @Override
     public String createCategory(@NotNull @Valid WikiCategory wikiCategory) {
@@ -98,21 +93,53 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
 
     }
 
-
-
-
     @Override
     public void deleteCategory(@NotNull String id) {
-        //删除下面相关联的目录和文档
-        nodeService.deleteNode(id);
-        wikiCategoryDao.deleteCategory(id);
-    }
+        // 删除所有下级文档, 以及文档关联的数据
+        List<Node> allChildrenNodeList = nodeService.findAllChildrenNodeList(id);
+        List<Node> categoryList = allChildrenNodeList.stream().filter(item -> item.getType().equals("category")).collect(Collectors.toList());
+        List<String> categoryIdList = categoryList.stream().map(item -> item.getId()).collect(Collectors.toList());
+        categoryIdList.add(id);
+        String[] categoryIds = categoryIdList.toArray(new String[categoryIdList.size()]);
+        WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
+        wikiCategoryQuery.setIds(categoryIds);
+        // 删除包括当前目录在内的所有目录
+        batchDeleteCategory(wikiCategoryQuery);
 
+        // 删除所有文档
+        allChildrenNodeList.removeAll(categoryIdList);
+        List<String> documentIdList = allChildrenNodeList.stream().map(item -> item.getId()).collect(Collectors.toList());
+        String[] documentIds = documentIdList.toArray(new String[documentIdList.size()]);
+        DocumentQuery documentQuery = new DocumentQuery();
+        documentQuery.setIds(documentIds);
+        documentService.batchDeleteDocument(documentQuery);
+    }
     @Override
-    public void deleteCategoryByIds(Object[] ids) {
-        wikiCategoryDao.deleteCategoryByIds(ids);
+    public void batchDeleteCategory(WikiCategoryQuery wikiCategoryQuery){
+        String[] ids = wikiCategoryQuery.getIds();
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(WikiCategoryEntity.class)
+                .in("id", wikiCategoryQuery.getIds())
+                .eq("id", wikiCategoryQuery.getId())
+                .eq("repository", wikiCategoryQuery.getRepositoryId())
+                .get();
+        wikiCategoryDao.deleteCategoryByIds(deleteCondition);
+
+        //删除下面相关联的目录和文档
+        NodeQuery nodeQuery = new NodeQuery();
+        nodeQuery.setIds(ids);
+        nodeService.deleteNodeCondition(nodeQuery);
+
+        // 删除最近点击的
+        RecentQuery recentQuery = new RecentQuery();
+        recentQuery.setModelIds(ids);
+        recentService.deleteRecnetByCondition(recentQuery);
     }
 
+
+//    @Override
+//    public void deleteCategoryByIds(Object[] ids) {
+//        wikiCategoryDao.deleteCategoryByIds(ids);
+//    }
 
     @Override
     public WikiCategory findOne(String id) {

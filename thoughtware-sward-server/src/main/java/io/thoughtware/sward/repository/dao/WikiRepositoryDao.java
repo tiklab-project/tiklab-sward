@@ -73,8 +73,8 @@ public class WikiRepositoryDao {
         }else {
             logger.info("删除最近查看的知识库失败");
         }
-        deleteDocument(repositoryId);
-        deleteCategory(repositoryId);
+//        deleteDocument(repositoryId);
+//        deleteCategory(repositoryId);
     }
 
     public void deleteDocument(String repositoryId){
