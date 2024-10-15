@@ -71,6 +71,8 @@ public interface WikiRepositoryService {
     */
     Pagination<WikiRepository> findRepositoryPage(WikiRepositoryQuery wikiRepositoryQuery);
 
+    List<WikiRepository> findAllRecentRepositoryList(WikiRepositoryQuery wikiRepositoryQuery);
+
     List<WikiRepository> findRecentRepositoryList(WikiRepositoryQuery wikiRepositoryQuery);
 
     List<WikiRepository> findFocusRepositoryList(WikiRepositoryQuery wikiRepositoryQuery);
