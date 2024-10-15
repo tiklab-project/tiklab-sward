@@ -210,36 +210,17 @@ public class ShareServiceImpl implements ShareService {
         List<ShareRelation> shareRelationList = shareRelationService.findShareRelationList(shareRelationQuery);
         Object[] Ids = shareRelationList.stream().map(item -> item.getNode().getId()).toArray();
         nodeQuery.setIds(Ids);
-        List<Node> nodePageTree = nodeService.findNodePageTree(nodeQuery);
+        List<Node> nodeList = nodeService.findNodeList(nodeQuery);
+        List<Node> firstNodeList = nodeList.stream().filter(item -> item.getDimension().equals(1)).collect(Collectors.toList());
 
-        return nodePageTree;
+        return null;
 
     }
 
-    void setCategoryChildren(List<WikiCategory> wikiCategoryFirsts, List<WikiCategory> childrenWikiCategories, List<WikiDocument> wikiDocumentList){
-        List<WikiCategory> childrenForWikiCategory = new ArrayList<>();
-        List<WikiCategory> surChildrenForWikiCategory = new ArrayList<>();
-        for (WikiCategory wikiCategory : wikiCategoryFirsts) {
-            ArrayList<Object> objects1 = new ArrayList<>();
-//            if(childrenWikiCategories.size() >0){
-//                childrenForWikiCategory = childrenWikiCategories.stream().filter(childrenCategory -> childrenCategory.getParentWikiCategory().getId().equals(wikiCategory.getId())).collect(Collectors.toList());
-//                objects1.addAll(childrenForWikiCategory);
-//                List<String> collect = childrenForWikiCategory.stream().map(category1 -> category1.getId()).collect(Collectors.toList());
-//                surChildrenForWikiCategory = childrenForWikiCategory.stream().filter(category1 -> (!collect.contains(category1.getId()))).collect(Collectors.toList());
-//            }
-//            List<WikiDocument> surChildrenWikiDocument = new ArrayList<WikiDocument>();
-//            if(wikiDocumentList.size() >0){
-//                List<WikiDocument> wikiDocumentForCategory = wikiDocumentList.stream().filter(childrenDocument -> childrenDocument.getWikiCategory().getId().equals(wikiCategory.getId())).collect(Collectors.toList());
-//                List<String> collect1 = wikiDocumentForCategory.stream().map(document -> document.getId()).collect(Collectors.toList());
-//                surChildrenWikiDocument = wikiDocumentList.stream().filter(document -> (!collect1.contains(document.getId()))).collect(Collectors.toList());
-//                objects1.addAll(wikiDocumentForCategory);
-//                wikiCategory.setChildren(objects1);
-//            }
+    void setCategoryChildren(List<Node> firstNodeList, List<Node> nodeList){
+        for (Node node : firstNodeList) {
 
-
-//            if(surChildrenForWikiCategory.size() > 0 || surChildrenWikiDocument.size() >0){
-//                setCategoryChildren(childrenForWikiCategory, surChildrenForWikiCategory, surChildrenWikiDocument);
-//            }
         }
+
     }
 }

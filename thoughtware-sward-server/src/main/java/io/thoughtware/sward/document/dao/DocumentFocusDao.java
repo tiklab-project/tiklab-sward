@@ -54,6 +54,7 @@ public class DocumentFocusDao {
     public void deleteDocumentFocusByCondition(DocumentFocusQuery documentFocusQuery){
         DeleteCondition deleteCondition = DeleteBuilders.createDelete(DocumentFocusEntity.class)
                 .eq("documentId", documentFocusQuery.getDocumentId())
+                .eq("masterId", documentFocusQuery.getMasterId())
                 .get();
         jpaTemplate.delete(deleteCondition);
     }

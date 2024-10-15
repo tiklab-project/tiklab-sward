@@ -253,14 +253,17 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     @Override
     public WikiRepository findRepository(@NotNull String id) {
         WikiRepository wikiRepository = findOne(id);
-        String repositoryIds = "('" + id + "')";
-        List<Node> childrenNodeList = nodeService.findChildrenNodeList(repositoryIds);
-        List<Node> document = childrenNodeList.stream().filter(node -> node.getType().equals("document")).collect(Collectors.toList());
+        if(wikiRepository != null){
+            String repositoryIds = "('" + id + "')";
+            List<Node> childrenNodeList = nodeService.findChildrenNodeList(repositoryIds);
+            List<Node> document = childrenNodeList.stream().filter(node -> node.getType().equals("document")).collect(Collectors.toList());
 
-        int size = document.size();
-        wikiRepository.setDocumentNum(size);
-        wikiRepository.setCategoryNum(childrenNodeList.size() - size);
-        joinTemplate.joinQuery(wikiRepository);
+            int size = document.size();
+            wikiRepository.setDocumentNum(size);
+            wikiRepository.setCategoryNum(childrenNodeList.size() - size);
+            joinTemplate.joinQuery(wikiRepository);
+        }
+
         return wikiRepository;
     }
 

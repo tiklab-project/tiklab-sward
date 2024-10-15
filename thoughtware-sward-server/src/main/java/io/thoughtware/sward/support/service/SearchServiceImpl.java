@@ -94,8 +94,9 @@ public class SearchServiceImpl implements SearchService {
                     Map<String, String> documentObject1 = (Map<String, String>) documentObject;
                     String id = documentObject1.get("id");
                     WikiDocument wikiDocument = documentService.findDocument(id);
-                    documentList.add(wikiDocument);
-
+                    if(wikiDocument != null){
+                        documentList.add(wikiDocument);
+                    }
                 }catch (Exception e) {
                     throw new ApplicationException(e);
                 }
@@ -111,8 +112,9 @@ public class SearchServiceImpl implements SearchService {
                     Map<String, String> wikiObject1 = (Map<String, String>) wikiObject;
                     String id = wikiObject1.get("id");
                     WikiRepository wikiRepository = wikiRepositoryService.findRepository(id);
-                    wikiRepositoryList.add(wikiRepository);
-
+                    if(wikiRepository != null){
+                        wikiRepositoryList.add(wikiRepository);
+                    }
                 }catch (Exception e) {
                     throw new ApplicationException(e);
                 }

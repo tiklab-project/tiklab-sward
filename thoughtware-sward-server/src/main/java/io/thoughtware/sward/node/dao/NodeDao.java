@@ -99,6 +99,7 @@ public class NodeDao {
                 .eq("repositoryId", nodeQuery.getRepositoryId())
                 .eq("masterId", nodeQuery.getMasterId())
                 .eq("parentId", nodeQuery.getParentId())
+                .eq("type", nodeQuery.getType())
                 .in("dimension", nodeQuery.getDimensions())
                 .in("id", nodeQuery.getIds())
                 .orders(nodeQuery.getOrderParams());

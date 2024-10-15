@@ -1,11 +1,11 @@
 package io.thoughtware.sward.document.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.thoughtware.core.exception.ApplicationException;
+import io.thoughtware.security.logging.model.LoggingQuery;
 import io.thoughtware.security.logging.service.LoggingByTempService;
 import io.thoughtware.security.logging.service.LoggingService;
-import io.thoughtware.sward.category.entity.WikiCategoryEntity;
-import io.thoughtware.sward.category.model.WikiCategory;
 import io.thoughtware.sward.document.model.*;
 import io.thoughtware.dal.jpa.JpaTemplate;
 import io.thoughtware.dss.client.DssClient;
@@ -13,16 +13,14 @@ import io.thoughtware.eam.common.context.LoginContext;
 import io.thoughtware.sward.category.service.WikiCategoryService;
 import io.thoughtware.sward.document.entity.WikiDocumentEntity;
 import io.thoughtware.sward.node.dao.NodeDao;
-import io.thoughtware.sward.node.entity.NodeEntity;
 import io.thoughtware.sward.node.model.Node;
 import io.thoughtware.sward.node.service.NodeService;
-import io.thoughtware.sward.repository.model.WikiRepository;
+import io.thoughtware.todotask.model.TaskQuery;
 import io.thoughtware.toolkit.beans.BeanMapper;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.core.page.PaginationBuilder;
 import io.thoughtware.toolkit.join.JoinTemplate;
 import io.thoughtware.sward.document.dao.DocumentDao;
-import io.thoughtware.sward.support.model.Recent;
 import io.thoughtware.sward.support.model.RecentQuery;
 import io.thoughtware.sward.support.service.RecentService;
 import io.thoughtware.rpc.annotation.Exporter;
@@ -41,10 +39,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -104,29 +99,84 @@ public class DocumentServiceImpl implements DocumentService {
     @Value("${base.url:null}")
     String baseUrl;
 
-    void creatDynamic( Map<String, String> content){
+    void createDynamic(Node node){
+        Logging log = new Logging();
+        Map<String, String> content = new HashMap<>();
+
+        String createUserId = LoginContext.getLoginId();
+        User user = userService.findOne(createUserId);
+
+        LoggingType opLogType = new LoggingType();
+        opLogType.setId("SWARD_LOGTYPE_DOCUMENTADD");
+
+        log.setBgroup("sward");
+        log.setUser(user);
+        log.setActionType(opLogType);
+        log.setModule("document");
+        log.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        log.setBaseUrl(baseUrl);
+        String documentType = node.getDocumentType();
+        if(documentType.equals("document")){
+            log.setLink("/repositorydetail/${repositoryId}/doc/${documentId}");
+        }
+        if(documentType.equals("markdown")){
+            log.setLink("/repositorydetail/${repositoryId}/markdownView/${documentId}");
+        }
+
+        content.put("documentId", node.getId());
+        content.put("documentName", node.getName());
+        content.put("documentType", node.getDocumentType());
+        content.put("repositoryId", node.getWikiRepository().getId());
+        content.put("createUser", user.getName());
+        content.put("updateTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        content.put("createUserIcon",user.getName().substring( 0, 1));
+
+        log.setData(JSONObject.toJSONString(content));
+        log.setAction(node.getName());
+        loggingByTemplService.createLog(log);
+    }
+
+    void creatUpdateOplog(Node newNode, Node oldNode){
+        Map<String, String> logContent = new HashMap<>();
+
         Logging log = new Logging();
         log.setBgroup("sward");
+        log.setModule("document");
+        log.setCreateTime(new Timestamp(System.currentTimeMillis()));
 
         String createUserId = LoginContext.getLoginId();
         User user = userService.findOne(createUserId);
         log.setUser(user);
-        content.put("createUser", user.getName());
-        content.put("updateTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+
+        logContent.put("documentId", oldNode.getId());
+        logContent.put("documentType", oldNode.getDocumentType());
+        logContent.put("repositoryId", oldNode.getWikiRepository().getId());
+        logContent.put("createUserName", user.getName());
+        logContent.put("createUserId", createUserId);
+        logContent.put("createTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        logContent.put("createUserIcon",user.getNickname().substring( 0, 1).toUpperCase());
+
+        logContent.put("oldValue", oldNode.getName());
+        logContent.put("newValue", newNode.getName());
+
+
         LoggingType opLogType = new LoggingType();
-        opLogType.setId("SWARD_LOGTYPE_DOCUMENTADD");
+        opLogType.setId("SWARD_LOGTYPE_DOCUMENTUPDATENAME");
         log.setActionType(opLogType);
 
-        log.setModule("document");
-        log.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        content.put("createUserIcon",user.getName().substring( 0, 1));
-        log.setData(JSONObject.toJSONString(content));
         log.setBaseUrl(baseUrl);
-        log.setAction(content.get("documentName"));
-        log.setLink("/repositorydetail/${repositoryId}/doc/${documentId}");
+        log.setAction(newNode.getName());
+
+        String documentType = oldNode.getType();
+        if(documentType.equals("document")){
+            log.setLink("/repositorydetail/${repositoryId}/doc/${documentId}");
+        }
+        if(documentType.equals("markdown")){
+            log.setLink("/repositorydetail/${repositoryId}/markdownView/${documentId}");
+        }
+        log.setData(JSON.toJSONString(logContent));
         loggingByTemplService.createLog(log);
     }
-
 
     @Override
     public String createDocument(@NotNull @Valid WikiDocument wikiDocument) {
@@ -145,13 +195,11 @@ public class DocumentServiceImpl implements DocumentService {
             throw new ApplicationException(2000, "文档添加失败" + e.getMessage());
         }
         node = nodeService.findNode(nodeId);
-        Map<String, String> content = new HashMap<>();
-        content.put("documentId", node.getId());
-        content.put("documentName", node.getName());
-        content.put("repositoryId", node.getWikiRepository().getId());
+
+
 
         dssClient.save(node);
-        creatDynamic(content);
+        createDynamic(node);
         return documentId;
     }
 
@@ -170,6 +218,8 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public void updateDocument(@NotNull @Valid WikiDocument wikiDocument) {
+        String id = wikiDocument.getId();
+        Node oldNode = nodeService.findNode(id);
 
         Node node = new Node();
         if(wikiDocument.getNode() != null){
@@ -184,6 +234,10 @@ public class DocumentServiceImpl implements DocumentService {
             documentDao.updateDocument(wikiDocumentEntity);
         }
 
+        if(node.getName() != null){
+//            Node newNode = nodeService.findNode(id);
+            creatUpdateOplog(node, oldNode);
+        }
 
 
 //        dssClient.update(wikiDocument1);
@@ -242,11 +296,12 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public WikiDocument findDocument(@NotNull String id) {
         WikiDocument wikiDocument = findOne(id);
-        Node node = nodeService.findNode(id);
-        wikiDocument.setNode(node);
-        joinTemplate.joinQuery(wikiDocument);
+
 
         if(!ObjectUtils.isEmpty(wikiDocument)){
+            Node node = nodeService.findNode(id);
+            wikiDocument.setNode(node);
+            joinTemplate.joinQuery(wikiDocument);
             CommentQuery commentQuery = new CommentQuery();
             commentQuery.setDocumentId(id);
             List<Comment> commentList = commentService.findCommentList(commentQuery);

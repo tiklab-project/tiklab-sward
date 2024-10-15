@@ -1,6 +1,10 @@
 package io.thoughtware.sward.document.dao;
 
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
+import io.thoughtware.sward.document.entity.CommentEntity;
 import io.thoughtware.sward.document.entity.LikeEntity;
+import io.thoughtware.sward.document.model.CommentQuery;
+import io.thoughtware.sward.document.model.DocumentQuery;
 import io.thoughtware.sward.document.model.LikeQuery;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
@@ -54,6 +58,14 @@ public class LikeDao{
         jpaTemplate.delete(deleteCondition);
     }
 
+    public void deleteLikeCondition(LikeQuery likeQuery){
+        DeleteCondition deleteCondition = DeleteBuilders.createDelete(LikeEntity.class)
+                .eq("toWhomId", likeQuery.getToWhomId())
+                .eq("likeUser", likeQuery.getLikeUser())
+                .eq("likeType", likeQuery.getLikeType())
+                .get();
+        jpaTemplate.delete(deleteCondition);
+    }
     /**
      * 查找
      * @param id

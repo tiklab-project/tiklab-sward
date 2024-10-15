@@ -63,7 +63,7 @@ public class LikeController {
     @RequestMapping(path="/deleteLikeCondition",method = RequestMethod.POST)
     @ApiMethod(name = "deleteLikeCondition",desc = "取消点赞")
     @ApiParam(name = "deleteCondition",desc = "deleteCondition",required = true)
-    public Result<Void> deleteLikeCondition(@NotNull LikeQuery likeQuery){
+    public Result<Void> deleteLikeCondition(@RequestBody @NotNull @Valid LikeQuery likeQuery){
         likeService.deleteLikeCondition(likeQuery);
 
         return Result.ok();

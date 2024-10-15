@@ -27,7 +27,7 @@ public class WikiProjectServiceImpl implements WikiProjectService {
 
     String getSystemUrl(){
         SystemUrlQuery systemUrlQuery = new SystemUrlQuery();
-        systemUrlQuery.setName("teamwire");
+        systemUrlQuery.setName("kanass");
         List<SystemUrl> systemUrlList = systemUrlService.findSystemUrlList(systemUrlQuery);
         String url = systemUrlList.get(0).getSystemUrl();
         return url;
@@ -40,17 +40,6 @@ public class WikiProjectServiceImpl implements WikiProjectService {
         HttpHeaders httpHeaders = httpRequestUtil.initHeaders(MediaType.APPLICATION_JSON, null);
         String systemUrl = getSystemUrl();
         List<Project> allProject = httpRequestUtil.requestPostList(httpHeaders, systemUrl + "/api/project/findAllProject", null, Project.class);
-
-
-//        List<WikiProject> wikiProjectList = new ArrayList<>();
-//        for (Project project : allProject) {
-//            WikiProject wikiProject = new WikiProject();
-//            wikiProject.setId(project.getId());
-//            wikiProject.setProjectName(project.getProjectName());
-//            wikiProject.setProjectTypeName(project.getProjectType().getName());
-//            wikiProject.setMasterName(project.getMaster().getName());
-//            wikiProjectList.add(wikiProject);
-//        }
 
         return allProject;
     }
