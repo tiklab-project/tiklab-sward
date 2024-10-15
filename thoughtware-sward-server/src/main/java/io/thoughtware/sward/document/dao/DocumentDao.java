@@ -2,6 +2,7 @@ package io.thoughtware.sward.document.dao;
 
 import io.thoughtware.sward.category.entity.WikiCategoryEntity;
 import io.thoughtware.sward.document.model.WikiDocument;
+import io.thoughtware.sward.node.entity.NodeEntity;
 import io.thoughtware.sward.support.entity.RecentEntity;
 import io.thoughtware.sward.document.entity.WikiDocumentEntity;
 import io.thoughtware.sward.document.model.DocumentQuery;
@@ -143,7 +144,6 @@ public class DocumentDao{
         QueryCondition queryCondition = queryBuilders.get();
         return jpaTemplate.findList(queryCondition, WikiDocumentEntity.class);
     }
-
 
     public Pagination<WikiDocumentEntity> findDocumentPage(DocumentQuery documentQuery) {
         QueryCondition queryCondition = QueryBuilders.createQuery(WikiDocumentEntity.class)

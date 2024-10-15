@@ -377,6 +377,17 @@ public class NodeServiceImpl implements NodeService {
     }
 
     @Override
+    public List<Node> findNodeListByName(NodeQuery nodeQuery) {
+        List<NodeEntity> nodeEntityList = nodeDao.findNodeListByName(nodeQuery);
+
+        List<Node> nodeList = BeanMapper.mapList(nodeEntityList, Node.class);
+
+        joinTemplate.joinQuery(nodeList);
+
+        return nodeList;
+    }
+
+    @Override
     public Pagination<Node> findNodePage(NodeQuery nodeQuery) {
         Pagination<NodeEntity>  pagination = nodeDao.findNodePage(nodeQuery);
 

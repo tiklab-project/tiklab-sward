@@ -13,4 +13,5 @@ public interface ConfluenceImportData719Service {
 
 
     String writeData(List<Element> elements, Map<String, WikiRepository> CurrentProject, Map<String, Integer> Percent);
+
 }

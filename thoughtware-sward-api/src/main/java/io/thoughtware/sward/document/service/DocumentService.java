@@ -91,6 +91,9 @@ public interface DocumentService {
      * @return
      */
     Integer findDocumentCount(DocumentQuery documentQuery);
+
+
+
     /**
     * 按分页查询
     * @param documentQuery

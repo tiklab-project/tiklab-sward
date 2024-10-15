@@ -5,6 +5,7 @@ import io.thoughtware.postin.annotation.ApiMethod;
 import io.thoughtware.postin.annotation.ApiParam;
 import io.thoughtware.core.Result;
 import io.thoughtware.core.exception.ApplicationException;
+import io.thoughtware.sward.confluence.service.ConfluenceImportData719Service;
 import io.thoughtware.sward.confluence.service.ConfluenceImportDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,8 +30,11 @@ public class ConfluenceImportDataController {
     @Autowired
     ConfluenceImportDataService confluenceImportDataService;
 
+    @Autowired
+    ConfluenceImportData719Service confluenceImportData719Service;
+
     @RequestMapping(path="/importConfluenceData",method = RequestMethod.POST)
-    public Result<Void> importJireDate(@RequestParam("uploadFile")MultipartFile uploadFile){
+    public Result<Void> importConfluenceData(@RequestParam("uploadFile")MultipartFile uploadFile){
         if (uploadFile == null) {
             throw new ApplicationException("文件不能为空");
         }else {
@@ -43,4 +47,5 @@ public class ConfluenceImportDataController {
             }
         }
     }
+
 }
