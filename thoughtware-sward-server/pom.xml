@@ -132,6 +132,10 @@
             <artifactId>thoughtware-postin-client</artifactId>
             <version>${thoughtware-postin.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.thoughtware</groupId>
+            <artifactId>thoughtware-licence-api</artifactId>
+        </dependency>
 
 
     </dependencies>

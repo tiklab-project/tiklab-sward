@@ -2,7 +2,13 @@ package io.thoughtware.sward.support.service;
 
 
 
+import io.thoughtware.licence.appauth.service.ApplyAuthService;
+import io.thoughtware.licence.licence.model.Version;
+import io.thoughtware.licence.licence.service.VersionService;
+import io.thoughtware.message.message.service.MessageNoticeService;
+import io.thoughtware.message.setting.service.MessageSendTypeService;
 import io.thoughtware.privilege.role.service.RoleService;
+import io.thoughtware.security.backups.service.BackupsDbService;
 import io.thoughtware.user.directory.service.UserDirService;
 import io.thoughtware.user.orga.service.OrgaService;
 import io.thoughtware.user.user.service.UserService;
@@ -28,12 +34,30 @@ public class SettingStaticsServiceImpl implements SettingStaticsService{
 
     @Autowired
     UserDirService userDirService;
+    @Autowired
+    MessageNoticeService messageNoticeService;
+
+    @Autowired
+    MessageSendTypeService messageSendTypeService;
 
 
+    @Autowired
+    VersionService versionservice;
+
+    @Autowired
+    ApplyAuthService applyAuthService;
+
+    @Autowired
+    BackupsDbService backupsDbService;
+
+    @Autowired
+    SystemUrlService systemUrlService;
 
     @Override
-    public HashMap<String, Integer> findOrgaNum() {
-        HashMap<String, Integer> numMap = new HashMap<>();
+    public HashMap<String, Object> findOrgaNum() {
+        HashMap<String, Object> numMap = new HashMap<>();
+
+        // 用户
         Integer userNumber = userService.findUserNumber();
         Integer orgaNumber = orgaService.findOrgaNumber();
         Integer userGroupNumber = userGroupService.findUserGroupNumber();
@@ -45,6 +69,27 @@ public class SettingStaticsServiceImpl implements SettingStaticsService{
         numMap.put("userGroup", userGroupNumber);
         numMap.put("role", roleNumber);
         numMap.put("userDir", userDirNumber);
+        // 消息
+        Integer messageNoticeNumber = messageNoticeService.findNoticeNumber("sward");
+        Integer sendTypeNumber = messageSendTypeService.findSendTypeNumber();
+        numMap.put("messageNotice", messageNoticeNumber);
+        numMap.put("sendType", sendTypeNumber);
+
+
+
+        // 版本
+        Version version = versionservice.getVersion();
+        Integer applyAuthNumber = applyAuthService.findApplyAuthNumber();
+        numMap.put("version", version);
+        numMap.put("applyAuth", applyAuthNumber);
+
+        // 备份
+        String lastBackupsTime = backupsDbService.findLastBackupsTime();
+        numMap.put("lastBackups", lastBackupsTime);
+
+        // 地址配置
+        Integer systemUrlNumber = systemUrlService.findSystemUrlNumber();
+        numMap.put("systemUrl", systemUrlNumber);
         return numMap;
     }
 }

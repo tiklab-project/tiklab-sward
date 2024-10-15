@@ -96,4 +96,10 @@ public class SystemUrlDao {
         QueryCondition queryCondition = QueryBuilders.createQuery(SystemUrlEntity.class).get();
         return jpaTemplate.findPage(queryCondition,SystemUrlEntity.class);
     }
+
+    public Integer findSystemUrlNumber() {
+        String sql = "select count(1) as total from wiki_system_url";
+        Integer total = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
+        return total;
+    }
 }

@@ -24,8 +24,8 @@ public class SettingStaticsController {
 
     @RequestMapping(path="/findOrgaNum",method = RequestMethod.POST)
     @ApiMethod(name = "findOrgaNum",desc = "设置首页统计各个模块数量")
-    public Result<HashMap<String, Integer>> findOrgaNum(){
-        HashMap<String, Integer> orgaNum = settingStaticsService.findOrgaNum();
+    public Result<HashMap<String, Object>> findOrgaNum(){
+        HashMap<String, Object> orgaNum = settingStaticsService.findOrgaNum();
 
         return Result.ok(orgaNum);
     }
