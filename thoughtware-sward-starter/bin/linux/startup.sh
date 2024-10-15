@@ -2,7 +2,7 @@
 
 DIRS=$(dirname "$PWD")
 
-APP_MAIN="io.thoughtware.sward.starter.SwardApplicationn"
+APP_MAIN="io.thoughtware.sward.starter.SwardApplication"
 
 YAML=${DIRS}/conf/application.yaml
 create_home(){
@@ -14,16 +14,16 @@ create_home(){
   mkdir -p "${data_home}"
 
   # 检查目录是否创建成功
-   if [ -d "${data_home}" ]; then
-     echo "data ${data_home} initialized successfully！"
-   else
-     echo "================================================================================================================"
-     echo "data ${data_home} initialized Failed!"
-     echo "请更改文件${YAML}中的DATA_HOME字段，配置应用可以访问的地址,请不要配置与程序相同的目录！"
-     echo "${APP_MAIN} start [failed]"
-     echo "================================================================================================================"
-     exit 1
-   fi
+  if [ -d "${data_home}" ]; then
+    echo "data ${data_home} initialized successfully！"
+  else
+    echo "================================================================================================================"
+    echo "data ${data_home} initialized Failed!"
+    echo "请更改文件${YAML}中的DATA_HOME字段，配置应用可以访问的地址,请不要配置与程序相同的目录！"
+    echo "${APP_MAIN} start [failed]"
+    echo "================================================================================================================"
+    exit 1
+  fi
 
 }
 
@@ -53,6 +53,63 @@ valid_postgresql(){
 
 APP_HOME=${DIRS}
 export APP_HOME
+
+APPLY=sward-ce
+
+enableApply(){
+
+      APPLYDIR="$PWD"
+
+      serverName=enable-${APPLY}.service
+
+      applyserver=/etc/systemd/system/${serverName}
+
+      if [ ! -e "${applyserver}" ]; then
+cat << EOF >  ${applyserver}
+[Unit]
+Description=Start Tiklab Apply
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+EOF
+
+echo Environment=\"DIR=${APPLYDIR}\" >> ${applyserver}
+
+cat << EOF >> ${applyserver}
+ExecStart=/bin/bash -c 'cd "\$DIR"; sh startup.sh'
+Type=forking
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+  touch ${applyserver}
+  chmod 644 ${applyserver}
+  systemctl enable ${serverName}
+
+  else
+cat << EOF >  ${applyserver}
+[Unit]
+Description=Start Tiklab Apply
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+EOF
+
+echo Environment=\"DIR=${APPLYDIR}\" >> ${applyserver}
+cat << EOF >> ${applyserver}
+ExecStart=/bin/bash -c 'cd "\$DIR"; sh startup.sh'
+Type=forking
+
+[Install]
+WantedBy=multi-user.target
+EOF
+fi
+
+}
+
+enableApply
+
 
 JAVA_OPTS=""
 add_javaOpts(){
@@ -162,6 +219,7 @@ output(){
 
  echo "PostgreSQL start Port: ${db_port}"
 
+
   ip_address=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | head -n 1)
   echo "====================================点击以下连接即可访问================================================="
   echo "http://${ip_address}:${server_port}"
@@ -170,6 +228,7 @@ output(){
 }
 
 start(){
+  pg_port
   create_home
   valid_jdk
   valid_postgresql

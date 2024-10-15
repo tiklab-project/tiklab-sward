@@ -1,6 +1,6 @@
 #!/bin/sh
 
-APP_MAIN="io.thoughtware.sward.starter.SwardApplicationn"
+APP_MAIN="io.thoughtware.sward.starter.SwardApplication"
 
 DIRS=$(dirname "$PWD")
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 DIRS=$(dirname "$PWD")
-APP_MAIN="io.thoughtware.sward.starter.SwardApplicationn"
+APP_MAIN="io.thoughtware.sward.starter.SwardApplication"
 
 JDK_VERSION=jdk-16.0.2
 valid_jdk(){
