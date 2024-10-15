@@ -4,12 +4,19 @@ APP_MAIN="io.thoughtware.sward.starter.SwardApplication"
 
 DIRS=$(dirname "$PWD")
 JDK_VERSION=jdk-16.0.2
+PGSQL_VERSION=pgsql-10.23
+
+
 if [ -d "${DIRS}/embbed/${JDK_VERSION}" ]; then
     echo "使用内嵌jdk"
     JAVA_HOME="${DIRS}/embbed/${JDK_VERSION}"
 else
     JAVA_HOME="/usr/local/jdk-17.0.7"
 fi
+
+echo "解压文件....."
+tar -xvf "${DIRS}/embbed/${PGSQL_VERSION}/${PGSQL_VERSION}.tar.gz" -C "${DIRS}/embbed"
+echo "解压完成....."
 
 
 APPLY=sward-ce
