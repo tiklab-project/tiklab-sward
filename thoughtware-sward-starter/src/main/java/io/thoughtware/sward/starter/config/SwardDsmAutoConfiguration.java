@@ -34,8 +34,7 @@ public class SwardDsmAutoConfiguration {
                 "todotask_1.0.0",
                 //kANASS
                 "kanass_1.0.0",
-                "backups_1.0.0",
-                "sward_1.0.0",
+                "backups_1.0.0"
 
         });
 
@@ -68,6 +67,9 @@ public class SwardDsmAutoConfiguration {
         });
         dsmConfig.newVersion("1.1.1", new String[]{
                 "kanass_1.1.1",
+        });
+        dsmConfig.newVersion("1.1.2", new String[]{
+                "sward_1.1.2"
         });
         return dsmConfig;
     }
