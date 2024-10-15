@@ -1,2 +1,2 @@
-INSERT INTO pcs_op_log_type (id, name, bgroup) VALUES ('SWARD_LOGTYPE_DOCUMENTUPDATENAME', '修改文档名称', 'sward');
-
+--INSERT INTO pcs_op_log_type (id, name, bgroup) VALUES ('SWARD_LOGTYPE_DOCUMENTUPDATENAME', '修改文档名称', 'sward');
+--
