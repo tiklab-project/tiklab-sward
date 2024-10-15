@@ -26,6 +26,12 @@ public class RecentQuery {
         @ApiProperty(name ="repositoryId",desc = "知识库id")
         private String repositoryId;
 
+        @ApiProperty(name = "recycle")
+        private String recycle = "0";
+
+        @ApiProperty(name = "recycle")
+        private String status;
+
         @ApiProperty(name ="orderParams",desc = "排序参数")
         private List<Order> orderParams = OrderBuilders.instance().desc("recentTime").get();
 
@@ -86,5 +92,21 @@ public class RecentQuery {
 
     public void setRepositoryId(String repositoryId) {
         this.repositoryId = repositoryId;
+    }
+
+    public String getRecycle() {
+        return recycle;
+    }
+
+    public void setRecycle(String recycle) {
+        this.recycle = recycle;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

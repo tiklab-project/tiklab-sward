@@ -31,6 +31,9 @@ public interface NodeService {
     * @param node
     */
     void updateNode(@NotNull @Valid Node node);
+
+    List<Node> findAllChildrenNodeList(String id);
+
     /**
     * 删除
     * @param id

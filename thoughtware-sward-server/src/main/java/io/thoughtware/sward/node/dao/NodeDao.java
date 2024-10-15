@@ -101,6 +101,8 @@ public class NodeDao {
                 .eq("masterId", nodeQuery.getMasterId())
                 .eq("parentId", nodeQuery.getParentId())
                 .eq("type", nodeQuery.getType())
+                .eq("status", nodeQuery.getStatus())
+                .eq("recycle", nodeQuery.getRecycle())
                 .in("dimension", nodeQuery.getDimensions())
                 .in("id", nodeQuery.getIds())
                 .orders(nodeQuery.getOrderParams());
@@ -127,6 +129,8 @@ public class NodeDao {
                 .eq("masterId", nodeQuery.getMasterId())
                 .eq("parentId", nodeQuery.getParentId())
                 .eq("type", nodeQuery.getType())
+                .eq("status", nodeQuery.getStatus())
+                .eq("recycle", nodeQuery.getRecycle())
                 .in("dimension", nodeQuery.getDimensions())
                 .in("id", nodeQuery.getIds())
                 .notIn("id", nodeQuery.getNotIds())
@@ -147,11 +151,13 @@ public class NodeDao {
 
     public List<NodeEntity> findNodeRecentList(RecentQuery recentQuery) {
         QueryCondition queryCondition = QueryBuilders.createQuery(NodeEntity.class,"wd")
-                .leftJoin(RecentEntity.class, "dr","dr.modelId=wd.id")
+                .leftJoin(RecentEntity.class, "dr","wd.id=dr.modelId")
                 .eq("dr.modelId", recentQuery.getModelId())
                 .eq("dr.masterId", recentQuery.getMasterId())
                 .eq("dr.repositoryId", recentQuery.getRepositoryId())
                 .eq("dr.model", recentQuery.getModel())
+                .eq("wd.status", recentQuery.getStatus())
+                .eq("wd.recycle", recentQuery.getRecycle())
                 .orders(recentQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, NodeEntity.class);
@@ -184,7 +190,7 @@ public class NodeDao {
     }
 
     public List<NodeEntity> findChildrenNodeList(String repositoryIds){
-        String sql =  "SELECT id, type, repository_id FROM wiki_node WHERE repository_id in " + repositoryIds;
+        String sql =  "SELECT * FROM wiki_node WHERE repository_id in " + repositoryIds;
         List<NodeEntity> nodeEntityList = this.jpaTemplate.getJdbcTemplate().query(sql, new BeanPropertyRowMapper<>(NodeEntity.class));
         return nodeEntityList;
     }

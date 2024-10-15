@@ -32,6 +32,12 @@ public class WikiRepositoryQuery extends BaseModel {
     @ApiProperty(name ="name",desc = "名字，模糊匹配")
     private String name;
 
+    @ApiProperty(name ="status",desc = "是否归档")
+    private String status = "nomal";
+
+    @ApiProperty(name ="recycle",desc = "是否逻辑删除")
+    private String recycle = "0";
+
     public List<Order> getOrderParams() {
         return orderParams;
     }
@@ -86,5 +92,21 @@ public class WikiRepositoryQuery extends BaseModel {
 
     public void setRepositoryId(String repositoryId) {
         this.repositoryId = repositoryId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getRecycle() {
+        return recycle;
+    }
+
+    public void setRecycle(String recycle) {
+        this.recycle = recycle;
     }
 }

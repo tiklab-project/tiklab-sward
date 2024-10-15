@@ -25,12 +25,12 @@ public class WikiRepository extends BaseModel{
     @ApiProperty(name="id",desc="id")
     @DocumentField
     @DocumentId
-    private java.lang.String id;
+    private String id;
 
 
     @ApiProperty(name="name",desc="name")
     @DocumentField(queryField = true)
-    private java.lang.String name;
+    private String name;
 
     //@NotNull
     @ApiProperty(name="typeId",desc="typeId")
@@ -56,42 +56,68 @@ public class WikiRepository extends BaseModel{
     @ApiProperty(name="documentNum",desc="iconUrl")
     private Integer documentNum;
 
-
+    @ApiProperty(name = "status")
+    private String status = "nomal";
 
     @ApiProperty(name="createTime",desc="createTime")
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Timestamp createTime;
 
     @ApiProperty(name="desc",desc="desc")
-    private java.lang.String desc;
+    private String desc;
 
-    public java.lang.String getId() {
+    @ApiProperty(name = "archivedTime")
+    private String archivedTime;
+
+    @ApiProperty(name="archivedUser",desc="负责人",eg="@selectOne")
+    @Mappings({
+            @Mapping(source = "archivedUser.id",target = "archivedUserId")
+    })
+    @JoinQuery(key = "id")
+    private User archivedUser;
+
+    @ApiProperty(name = "archivedDesc")
+    private String archivedDesc;
+
+    @ApiProperty(name = "recycle")
+    private String recycle = "0";
+
+    @Mappings({
+            @Mapping(source = "recycleUser.id",target = "recycleUserId")
+    })
+    @JoinQuery(key = "id")
+    private User recycleUser;
+
+    @ApiProperty(name = "recycleDesc")
+    private String recycleTime;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(java.lang.String id) {
+    public void setId(String id) {
         this.id = id;
     }
-    public java.lang.String getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(java.lang.String name) {
+    public void setName(String name) {
         this.name = name;
     }
-    public java.lang.String getTypeId() {
+    public String getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(java.lang.String typeId) {
+    public void setTypeId(String typeId) {
         this.typeId = typeId;
     }
 
-    public java.lang.String getDesc() {
+    public String getDesc() {
         return desc;
     }
 
-    public void setDesc(java.lang.String desc) {
+    public void setDesc(String desc) {
         this.desc = desc;
     }
 
@@ -141,5 +167,61 @@ public class WikiRepository extends BaseModel{
 
     public void setIconUrl(String iconUrl) {
         this.iconUrl = iconUrl;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getArchivedTime() {
+        return archivedTime;
+    }
+
+    public void setArchivedTime(String archivedTime) {
+        this.archivedTime = archivedTime;
+    }
+
+    public User getArchivedUser() {
+        return archivedUser;
+    }
+
+    public void setArchivedUser(User archivedUser) {
+        this.archivedUser = archivedUser;
+    }
+
+    public String getArchivedDesc() {
+        return archivedDesc;
+    }
+
+    public void setArchivedDesc(String archivedDesc) {
+        this.archivedDesc = archivedDesc;
+    }
+
+    public String getRecycle() {
+        return recycle;
+    }
+
+    public void setRecycle(String recycle) {
+        this.recycle = recycle;
+    }
+
+    public User getRecycleUser() {
+        return recycleUser;
+    }
+
+    public void setRecycleUser(User recycleUser) {
+        this.recycleUser = recycleUser;
+    }
+
+    public String getRecycleTime() {
+        return recycleTime;
+    }
+
+    public void setRecycleTime(String recycleTime) {
+        this.recycleTime = recycleTime;
     }
 }

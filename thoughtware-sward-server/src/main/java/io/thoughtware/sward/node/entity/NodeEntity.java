@@ -7,7 +7,6 @@ import io.thoughtware.dal.jpa.annotation.Id;
 import io.thoughtware.dal.jpa.annotation.Table;import io.thoughtware.dal.jpa.annotation.Entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 @Entity @Table(name="wiki_node")
 public class NodeEntity implements Serializable {
@@ -33,6 +32,9 @@ public class NodeEntity implements Serializable {
     @Column(name = "parent_id",length = 12)
     private String parentId;
 
+    @Column(name = "status",length = 32)
+    private String status;
+
     @Column(name = "update_time")
     private String updateTime;
 
@@ -57,6 +59,24 @@ public class NodeEntity implements Serializable {
     // 文档类型 富文本， markdown
     @Column(name = "document_type")
     private String documentType;
+
+    @Column(name = "archived_time")
+    private String archivedTime;
+
+    @Column(name = "archived_user_id")
+    private String archivedUserId;
+
+    @Column(name = "archived_desc")
+    private String archivedDesc;
+
+    @Column(name = "recycle")
+    private String recycle;
+
+    @Column(name = "recycle_time")
+    private String recycleTime;
+
+    @Column(name = "recycle_user_id")
+    private String recycleUserId;
 
     public String getId() {
         return id;
@@ -155,5 +175,61 @@ public class NodeEntity implements Serializable {
 
     public void setDocumentType(String documentType) {
         this.documentType = documentType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getArchivedTime() {
+        return archivedTime;
+    }
+
+    public void setArchivedTime(String archivedTime) {
+        this.archivedTime = archivedTime;
+    }
+
+    public String getArchivedUserId() {
+        return archivedUserId;
+    }
+
+    public void setArchivedUserId(String archivedUserId) {
+        this.archivedUserId = archivedUserId;
+    }
+
+    public String getArchivedDesc() {
+        return archivedDesc;
+    }
+
+    public void setArchivedDesc(String archivedDesc) {
+        this.archivedDesc = archivedDesc;
+    }
+
+    public String getRecycle() {
+        return recycle;
+    }
+
+    public void setRecycle(String recycle) {
+        this.recycle = recycle;
+    }
+
+    public String getRecycleTime() {
+        return recycleTime;
+    }
+
+    public void setRecycleTime(String recycleTime) {
+        this.recycleTime = recycleTime;
+    }
+
+    public String getRecycleUserId() {
+        return recycleUserId;
+    }
+
+    public void setRecycleUserId(String recycleUserId) {
+        this.recycleUserId = recycleUserId;
     }
 }

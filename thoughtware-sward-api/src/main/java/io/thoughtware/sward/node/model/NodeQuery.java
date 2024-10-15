@@ -55,6 +55,12 @@ public class NodeQuery extends BaseModel {
         @ApiProperty(name ="type",desc = "类型")
         private String type;
 
+        @ApiProperty(name ="status",desc = "类型")
+        private String status = "nomal";
+
+        @ApiProperty(name = "recycle")
+        private String recycle = "0";
+
         @ApiProperty(name ="orderParams",desc = "排序参数")
         private List<Order> orderParams = OrderBuilders.instance().desc("sort").get();
 
@@ -198,5 +204,21 @@ public class NodeQuery extends BaseModel {
 
     public void setNotIds(Object[] notIds) {
         this.notIds = notIds;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getRecycle() {
+        return recycle;
+    }
+
+    public void setRecycle(String recycle) {
+        this.recycle = recycle;
     }
 }

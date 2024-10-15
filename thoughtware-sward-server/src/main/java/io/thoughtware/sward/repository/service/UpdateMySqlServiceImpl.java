@@ -18,6 +18,7 @@ public class UpdateMySqlServiceImpl implements UpdateMySqlService {
 
     @Autowired
     UpdateMySqlDao updateMySqlDao;
+
     @Override
     public void updateAllData() {
         updateMySqlDao.updateId();

@@ -8,8 +8,6 @@ import io.thoughtware.dss.annotation.DocumentField;
 import io.thoughtware.dss.annotation.DocumentId;
 import io.thoughtware.postin.annotation.ApiModel;
 import io.thoughtware.postin.annotation.ApiProperty;
-import io.thoughtware.sward.category.model.WikiCategory;
-import io.thoughtware.sward.document.model.WikiDocument;
 import io.thoughtware.sward.repository.model.WikiRepository;
 import io.thoughtware.toolkit.beans.annotation.Mapper;
 import io.thoughtware.toolkit.beans.annotation.Mapping;
@@ -94,6 +92,34 @@ public class Node extends BaseModel{
 
     @ApiProperty(name ="documentType",desc = "文档类型")
     private String documentType;
+
+    @ApiProperty(name = "status")
+    private String status = "nomal";
+
+    @ApiProperty(name = "archivedTime")
+    private String archivedTime;
+
+
+    @Mappings({
+            @Mapping(source = "archivedUser.id",target = "archivedUserId")
+    })
+    @JoinQuery(key = "id")
+    private User archivedUser;
+
+    @ApiProperty(name = "archivedDesc")
+    private String archivedDesc;
+
+    @ApiProperty(name = "recycle")
+    private String recycle = "0";
+
+    @Mappings({
+            @Mapping(source = "recycleUser.id",target = "recycleUserId")
+    })
+    @JoinQuery(key = "id")
+    private User recycleUser;
+
+    @ApiProperty(name = "recycleDesc")
+    private String recycleTime;
 
     public String getMoveToId() {
         return moveToId;
@@ -223,5 +249,61 @@ public class Node extends BaseModel{
 
     public void setDocumentType(String documentType) {
         this.documentType = documentType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getArchivedTime() {
+        return archivedTime;
+    }
+
+    public void setArchivedTime(String archivedTime) {
+        this.archivedTime = archivedTime;
+    }
+
+    public User getArchivedUser() {
+        return archivedUser;
+    }
+
+    public void setArchivedUser(User archivedUser) {
+        this.archivedUser = archivedUser;
+    }
+
+    public String getArchivedDesc() {
+        return archivedDesc;
+    }
+
+    public void setArchivedDesc(String archivedDesc) {
+        this.archivedDesc = archivedDesc;
+    }
+
+    public String getRecycle() {
+        return recycle;
+    }
+
+    public void setRecycle(String recycle) {
+        this.recycle = recycle;
+    }
+
+    public User getRecycleUser() {
+        return recycleUser;
+    }
+
+    public void setRecycleUser(User recycleUser) {
+        this.recycleUser = recycleUser;
+    }
+
+    public String getRecycleTime() {
+        return recycleTime;
+    }
+
+    public void setRecycleTime(String recycleTime) {
+        this.recycleTime = recycleTime;
     }
 }

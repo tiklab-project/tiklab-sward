@@ -26,7 +26,6 @@ import org.springframework.util.StringUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -247,6 +246,14 @@ public class NodeServiceImpl implements NodeService {
             }
         }
     }
+
+    @Override
+    public List<Node> findAllChildrenNodeList(String id){
+        List<NodeEntity> allChildrenNodeListEntity = nodeDao.findAllChildrenNodeList(id);
+        List<Node> allChildrenNodeList = BeanMapper.mapList(allChildrenNodeListEntity, Node.class);
+        return allChildrenNodeList;
+    }
+
     @Override
     public void deleteNode(@NotNull String id) {
         //删除最近的文档,或者目录
@@ -269,6 +276,8 @@ public class NodeServiceImpl implements NodeService {
         if(node.getType().equals("category")){
             NodeQuery nodeQuery = new NodeQuery();
             nodeQuery.setParentId(id);
+            nodeQuery.setRecycle(null);
+            nodeQuery.setStatus(null);
             // 删除公共表
             List<Node> nodeList = findNodeList(nodeQuery);
             if(nodeList.size() > 0){
@@ -289,7 +298,6 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public Node findOne(String id) {
         NodeEntity nodeEntity = nodeDao.findNode(id);
-
         Node node = BeanMapper.map(nodeEntity, Node.class);
         return node;
     }
@@ -357,26 +365,31 @@ public class NodeServiceImpl implements NodeService {
         //删除已被使用的node
         if(nodeList.size() > 0){
             allNodeList.removeAll(nodeList);
-            setChildrenNode(allNodeList, nodeList, dimensionList);
+            List<Node> nodes = setChildrenNode(allNodeList, nodeList, dimensionList);
+            nodeList.addAll(nodes);
         }
-
         return nodeList;
     }
-    void setChildrenNode(List<Node> allNodeList, List<Node> nodeList, List<Integer> dimensionList){
+
+    List<Node> setChildrenNode(List<Node> allNodeList, List<Node> nodeList, List<Integer> dimensionList){
+        List<Node> residueNodeList = new ArrayList<>();
         if(allNodeList.size() > 0){
             for (Node firstLeavelNode : nodeList) {
                 List<Node> childrenList = allNodeList.stream().filter(node -> node.getParent() != null &&
                         node.getParent().getId().equals(firstLeavelNode.getId())).collect(Collectors.toList());
-
                 if(childrenList.size() > 0){
                     allNodeList.removeAll(childrenList);
+                    residueNodeList = allNodeList;
                     firstLeavelNode.setChildren(childrenList);
                     if(allNodeList.size() > 0){
                         setChildrenNode(allNodeList, childrenList, dimensionList);
                     }
+                }else {
+                    firstLeavelNode.setChildren(null);
                 }
             }
         }
+        return residueNodeList;
     }
 
     @Override
