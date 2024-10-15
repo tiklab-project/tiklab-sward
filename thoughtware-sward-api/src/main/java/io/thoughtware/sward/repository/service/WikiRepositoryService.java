@@ -26,6 +26,8 @@ public interface WikiRepositoryService {
     */
     String createRepository(@NotNull @Valid WikiRepository wikiRepository);
 
+    String createConfluRepository(@NotNull @Valid WikiRepository wikiRepository);
+
     /**
     * 更新
     * @param wikiRepository

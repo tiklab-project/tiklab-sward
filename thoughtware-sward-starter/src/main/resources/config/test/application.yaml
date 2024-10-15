@@ -36,7 +36,7 @@ postgresql:
 DATA_HOME: /opt/thoughtware/sward
 
 #dfs config
-#dfs.server.enabled=false
+#dfs.service.enabled=false
 dfs:
     server:
         enabled: true
@@ -48,7 +48,7 @@ dfs:
         bucket: sward
 
 #dcs config
-#dcs.server.enabled=false
+#dcs.service.enabled=false
 dcs:
     server:
         enabled: true
@@ -61,7 +61,7 @@ dcs:
         expire: 7200
 
 #dss config
-#dss.server.enabled=false
+#dss.service.enabled=false
 dss:
     server:
         enabled: true

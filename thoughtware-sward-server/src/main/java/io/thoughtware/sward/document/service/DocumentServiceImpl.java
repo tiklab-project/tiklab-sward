@@ -6,11 +6,9 @@ import io.thoughtware.core.exception.ApplicationException;
 import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
 import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.thoughtware.security.logging.logging.model.Logging;
-import io.thoughtware.security.logging.logging.model.LoggingQuery;
 import io.thoughtware.security.logging.logging.model.LoggingType;
 import io.thoughtware.security.logging.logging.service.LoggingByTempService;
 import io.thoughtware.security.logging.logging.service.LoggingService;
-import io.thoughtware.sward.category.entity.WikiCategoryEntity;
 import io.thoughtware.sward.document.model.*;
 import io.thoughtware.dal.jpa.JpaTemplate;
 import io.thoughtware.dss.client.DssClient;
@@ -19,7 +17,6 @@ import io.thoughtware.sward.document.entity.WikiDocumentEntity;
 import io.thoughtware.sward.node.model.Node;
 import io.thoughtware.sward.node.model.NodeQuery;
 import io.thoughtware.sward.node.service.NodeService;
-import io.thoughtware.todotask.todo.model.TaskQuery;
 import io.thoughtware.toolkit.beans.BeanMapper;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.core.page.PaginationBuilder;
@@ -201,7 +198,21 @@ public class DocumentServiceImpl implements DocumentService {
         return documentId;
     }
 
+    @Override
+    public String createConfluDocument(@NotNull @Valid WikiDocument wikiDocument){
+        String documentId = new String();
+        try {
+            Node node = wikiDocument.getNode();
+            String nodeId = nodeService.createConfluNode(node);
 
+            wikiDocument.setId(nodeId);
+            WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
+            documentId = documentDao.createDocument(wikiDocumentEntity);
+        } catch (Exception e) {
+            throw new ApplicationException(2000, "文档添加失败" + e.getMessage());
+        }
+        return documentId;
+    }
     @Override
     public Integer getBrotherNum(String repositoryId, String categoryId) {
         Integer brotherNum = documentDao.getBrotherNum(repositoryId, categoryId);

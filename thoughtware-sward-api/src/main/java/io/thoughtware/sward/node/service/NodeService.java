@@ -27,6 +27,8 @@ public interface NodeService {
     */
     String createNode(@NotNull @Valid Node node);
 
+    String createConfluNode(@NotNull @Valid Node node);
+
     /**
     * 更新
     * @param node

@@ -35,7 +35,7 @@ soular:
 DATA_HOME: /opt/thoughtware/sward
 
 #dfs config
-#dfs.server.enabled=false
+#dfs.service.enabled=false
 dfs:
     server:
         enabled: true
@@ -48,7 +48,7 @@ dfs:
 
 
 #dss config
-#dss.server.enabled=false
+#dss.service.enabled=false
 dss:
     server:
         enabled: true
