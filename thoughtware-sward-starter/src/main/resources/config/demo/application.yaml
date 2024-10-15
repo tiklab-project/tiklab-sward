@@ -3,7 +3,7 @@ app:
     name: thoughtware-sward
 spring:
     profiles:
-        active: demo
+        active: demoee
 
 #web config
 server:
@@ -30,7 +30,7 @@ postgresql:
 eas:
     embbed:
         enable: false
-    address: http://eas-ce.demo.thoughtware.cn
+    address: http://eas-ce.demoee.thoughtware.cn
 
 DATA_HOME: /opt/thoughtware/sward
 
@@ -80,10 +80,10 @@ licences:
 homes:
     address: http://172.11.1.11:8080
 file:
-   path: http://file.demo.thoughtware.io
+   path: http://file.demoee.thoughtware.io
 
 base:
-    url: http://sward-ce.demo.thoughtware.cn
+    url: http://sward-ce.demoee.thoughtware.cn
 
 backups:
     time: 0 0 2 * * ?

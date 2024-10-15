@@ -20,8 +20,11 @@ public class NodeQuery extends BaseModel {
         @ApiProperty(name ="name",desc = "name")
         private String name;
 
-        @ApiProperty(name ="shareId",desc = "空间id")
+        @ApiProperty(name ="Ids",desc = "空间id")
         private Object[] Ids;
+
+        @ApiProperty(name ="notIds",desc = "空间id")
+        private Object[] notIds;
 
         @ApiProperty(name ="repositoryId",desc = "空间id")
         private String repositoryId;
@@ -187,5 +190,13 @@ public class NodeQuery extends BaseModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Object[] getNotIds() {
+        return notIds;
+    }
+
+    public void setNotIds(Object[] notIds) {
+        this.notIds = notIds;
     }
 }
