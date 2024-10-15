@@ -11,33 +11,18 @@ import java.util.List;
 
 @ApiModel
 public class DocumentAttachQuery extends BaseModel {
-        @ApiProperty(name ="documentId",desc = "知识库id")
-        private String documentId;
 
-        @ApiProperty(name ="documentIds",desc = "知识库id")
-        private String[] documentIds;
+    @ApiProperty(name ="documentId",desc = "知识库id")
+    private String documentId;
 
-        @ApiProperty(name ="orderParams",desc = "排序参数")
-        private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
+    @ApiProperty(name ="documentIds",desc = "知识库id")
+    private String[] documentIds;
 
-        @ApiProperty(name ="pageParam",desc = "分页参数")
-        private Page pageParam = new Page();
+    @ApiProperty(name ="orderParams",desc = "排序参数")
+    private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
 
-        public List<Order> getOrderParams() {
-            return orderParams;
-        }
-
-        public void setOrderParams(List<Order> orderParams) {
-            this.orderParams = orderParams;
-        }
-
-        public Page getPageParam() {
-            return pageParam;
-        }
-
-        public void setPageParam(Page pageParam) {
-            this.pageParam = pageParam;
-        }
+    @ApiProperty(name ="pageParam",desc = "分页参数")
+    private Page pageParam = new Page();
 
     public String getDocumentId() {
         return documentId;
@@ -46,6 +31,25 @@ public class DocumentAttachQuery extends BaseModel {
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
     }
+
+
+    public List<Order> getOrderParams() {
+        return orderParams;
+    }
+
+    public void setOrderParams(List<Order> orderParams) {
+        this.orderParams = orderParams;
+    }
+
+    public Page getPageParam() {
+        return pageParam;
+    }
+
+    public void setPageParam(Page pageParam) {
+        this.pageParam = pageParam;
+    }
+
+
 
     public String[] getDocumentIds() {
         return documentIds;

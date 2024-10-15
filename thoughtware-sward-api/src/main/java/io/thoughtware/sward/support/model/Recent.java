@@ -2,6 +2,7 @@ package io.thoughtware.sward.support.model;
 
 import io.thoughtware.postin.annotation.ApiModel;
 import io.thoughtware.postin.annotation.ApiProperty;
+import io.thoughtware.sward.node.model.Node;
 import io.thoughtware.toolkit.beans.annotation.Mapper;
 import io.thoughtware.toolkit.beans.annotation.Mapping;
 import io.thoughtware.toolkit.beans.annotation.Mappings;
@@ -21,19 +22,20 @@ import java.sql.Timestamp;
 public class Recent extends BaseModel {
 
     @ApiProperty(name="id",desc="id",required = true)
-    private java.lang.String id;
+    private String id;
 
     @NotNull
     @ApiProperty(name="name",desc="name",required = true)
-    private java.lang.String name;
+    private String name;
 
     @NotNull
     @ApiProperty(name="model",desc="model",required = true)
-    private java.lang.String model;
+    private String model;
 
     @NotNull
     @ApiProperty(name="modelId",desc="modelId",required = true)
-    private java.lang.String modelId;
+    private String modelId;
+
 
     @ApiProperty(name="master",desc="知识库",eg="@selectOne")
     @Mappings({
@@ -50,37 +52,43 @@ public class Recent extends BaseModel {
     @JoinQuery(key = "id")
     private WikiRepository wikiRepository;
 
+    @ApiProperty(name="node",desc="知识库",eg="@selectOne")
+    @Mappings({
+            @Mapping(source = "node.id",target = "modelId")
+    })
+    @JoinQuery(key = "id")
+    private Node node;
 
     @ApiProperty(name="recentTime",desc="recentTime")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Timestamp recentTime;
 
-    public java.lang.String getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(java.lang.String id) {
+    public void setId(String id) {
         this.id = id;
     }
-    public java.lang.String getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(java.lang.String name) {
+    public void setName(String name) {
         this.name = name;
     }
-    public java.lang.String getModel() {
+    public String getModel() {
         return model;
     }
 
-    public void setModel(java.lang.String model) {
+    public void setModel(String model) {
         this.model = model;
     }
-    public java.lang.String getModelId() {
+    public String getModelId() {
         return modelId;
     }
 
-    public void setModelId(java.lang.String modelId) {
+    public void setModelId(String modelId) {
         this.modelId = modelId;
     }
 
@@ -106,5 +114,13 @@ public class Recent extends BaseModel {
 
     public void setMaster(User master) {
         this.master = master;
+    }
+
+    public Node getNode() {
+        return node;
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
     }
 }

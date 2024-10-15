@@ -3,6 +3,7 @@ package io.thoughtware.sward.document.entity;
 import io.thoughtware.dal.jpa.annotation.*;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name="wiki_document_focus")
@@ -21,6 +22,12 @@ public class DocumentFocusEntity implements Serializable {
 
     @Column(name = "sort")
     private Integer sort;
+
+    @Column(name = "focus_time")
+    private String focusTime;
+
+    @Column(name = "repository_id")
+    private String repositoryId;
 
     public String getId() {
         return id;
@@ -52,5 +59,22 @@ public class DocumentFocusEntity implements Serializable {
 
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
+    }
+
+
+    public String getFocusTime() {
+        return focusTime;
+    }
+
+    public void setFocusTime(String focusTime) {
+        this.focusTime = focusTime;
+    }
+
+    public String getRepositoryId() {
+        return repositoryId;
+    }
+
+    public void setRepositoryId(String repositoryId) {
+        this.repositoryId = repositoryId;
     }
 }

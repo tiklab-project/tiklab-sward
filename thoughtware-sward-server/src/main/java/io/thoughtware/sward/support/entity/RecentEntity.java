@@ -27,7 +27,7 @@ public class RecentEntity {
 
     //操作人id
     @Column(name = "master_id",length = 64,notNull = true)
-    private String masterId = "111111";
+    private String masterId;
 
     //知识库id
     @Column(name = "repository_id",length = 32,notNull = true)

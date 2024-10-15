@@ -20,6 +20,9 @@ public class DocumentFocusQuery {
         @ApiProperty(name ="documentIds",desc = "文档ids")
         private String[] documentIds;
 
+        @ApiProperty(name="repositoryId",desc="repositoryId")
+        private String repositoryId;
+
         @ApiProperty(name ="orderParams",desc = "排序参数")
         private List<Order> orderParams = OrderBuilders.instance().desc("id").get();
 
@@ -64,5 +67,13 @@ public class DocumentFocusQuery {
 
         public void setDocumentIds(String[] documentIds) {
                 this.documentIds = documentIds;
+        }
+
+        public String getRepositoryId() {
+                return repositoryId;
+        }
+
+        public void setRepositoryId(String repositoryId) {
+                this.repositoryId = repositoryId;
         }
 }
