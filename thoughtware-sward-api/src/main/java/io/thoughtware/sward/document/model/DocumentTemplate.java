@@ -4,10 +4,12 @@ import io.thoughtware.postin.annotation.ApiModel;
 import io.thoughtware.postin.annotation.ApiProperty;
 import io.thoughtware.toolkit.beans.annotation.Mapper;
 import io.thoughtware.core.BaseModel;
+import io.thoughtware.toolkit.join.annotation.Join;
 
 import javax.validation.constraints.NotNull;
 
 @ApiModel
+@Join
 @Mapper
 public class DocumentTemplate extends BaseModel{
 
