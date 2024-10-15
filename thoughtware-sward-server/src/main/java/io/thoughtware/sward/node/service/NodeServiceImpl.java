@@ -237,9 +237,9 @@ public class NodeServiceImpl implements NodeService {
         Node parent = node.getParent();
         Integer sort = node.getSort();
         if(parent != null){
-            nodeDao.updateSortAfterDelete(wikiRepository.getId(), null, sort);
-        }else {
             nodeDao.updateSortAfterDelete(wikiRepository.getId(), parent.getId(), sort);
+        }else {
+            nodeDao.updateSortAfterDelete(wikiRepository.getId(), null, sort);
         }
 
         // 如果是目录，需要删除下级的所有文档和目录
