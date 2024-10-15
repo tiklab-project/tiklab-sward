@@ -1,12 +1,12 @@
 package io.thoughtware.sward.repository.service;
 
 import com.alibaba.fastjson.JSONObject;
-import io.thoughtware.security.logging.service.LoggingByTempService;
+import io.thoughtware.security.logging.logging.model.Logging;
+import io.thoughtware.security.logging.logging.model.LoggingType;
+import io.thoughtware.security.logging.logging.service.LoggingByTempService;
 import io.thoughtware.sward.category.service.WikiCategoryService;
-import io.thoughtware.sward.document.model.DocumentQuery;
 import io.thoughtware.sward.document.service.DocumentService;
 import io.thoughtware.sward.node.model.Node;
-import io.thoughtware.sward.node.model.NodeQuery;
 import io.thoughtware.sward.node.service.NodeService;
 import io.thoughtware.sward.repository.dao.WikiRepositoryDao;
 import io.thoughtware.sward.repository.entity.WikiRepositoryEntity;
@@ -27,8 +27,6 @@ import io.thoughtware.message.message.model.SendMessageNotice;
 import io.thoughtware.privilege.dmRole.service.DmRoleService;
 import io.thoughtware.privilege.role.model.PatchUser;
 import io.thoughtware.rpc.annotation.Exporter;
-import io.thoughtware.security.logging.model.Logging;
-import io.thoughtware.security.logging.model.LoggingType;
 import io.thoughtware.user.dmUser.model.DmUser;
 import io.thoughtware.user.dmUser.model.DmUserQuery;
 import io.thoughtware.user.dmUser.service.DmUserService;
@@ -178,8 +176,8 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
             User user = new User();
             user.setId(masterId);
             dmUser.setUser(user);
-            patchUser.setId(masterId);
-            patchUser.setAdminRole(true);
+            patchUser.setUserId(masterId);
+            patchUser.setRoleType(2);
             patchUsers.add(patchUser);
 
             // 初始化"111111"
@@ -190,8 +188,8 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
             user1.setId("111111");
             dmUser1.setUser(user1);
 
-            patchUser1.setId("111111");
-            patchUser1.setAdminRole(true);
+            patchUser1.setUserId("111111");
+            patchUser1.setRoleType(2);
             patchUsers.add(patchUser1);
 
         }else {
@@ -201,11 +199,11 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
             User user = new User();
             user.setId(masterId);
             dmUser.setUser(user);
-            patchUser.setId(masterId);
-            patchUser.setAdminRole(true);
+            patchUser.setUserId(masterId);
+            patchUser.setRoleType(2);
             patchUsers.add(patchUser);
         }
-        dmRoleService.initPatchDmRole(repositoryId,patchUsers, "sward");
+        dmRoleService.initPatchDmRole(repositoryId, patchUsers);
     }
 
     @Override

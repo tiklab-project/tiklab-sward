@@ -55,14 +55,17 @@ public class SwardDsmAutoConfiguration {
                 "oplog_1.0.2",
                 "kanass_1.0.2",
                 "sward_1.0.2",
-                "apply-auth_1.0.2"
+                "apply-auth_1.0.2",
+                "privilege_1.0.2"
         });
         dsmConfig.newVersion("1.0.3", new String[]{
                 "message_1.0.3",
-                "sward_1.0.3"
+                "sward_1.0.3",
+                "apply-auth_1.0.3"
         });
         dsmConfig.newVersion("1.0.4", new String[]{
-                "message_1.0.4"
+                "message_1.0.4",
+                "apply-auth_1.0.4"
         });
         dsmConfig.newVersion("1.0.5", new String[]{
                 "message_1.0.5"

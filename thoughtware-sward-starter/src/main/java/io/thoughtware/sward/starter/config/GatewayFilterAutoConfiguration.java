@@ -77,7 +77,9 @@ public class GatewayFilterAutoConfiguration {
                     "/category/findCategory",
                     "/category/findCategoryDocument",
                     "/permission/findPermissions",
-                    "/updateMySql/updateAllData"
+                    "/updateMySql/updateAllData",
+                    "/message/messageItem/syncUpdateMessage",
+                    "/message/messageItem/syncDeleteMessage",
 
             })
             .ignorePreUrls(new String[]{

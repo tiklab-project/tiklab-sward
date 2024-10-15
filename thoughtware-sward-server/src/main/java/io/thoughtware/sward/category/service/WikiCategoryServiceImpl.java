@@ -1,19 +1,13 @@
 package io.thoughtware.sward.category.service;
 
 import com.alibaba.fastjson.JSONObject;
-import io.thoughtware.security.logging.service.LoggingByTempService;
+import io.thoughtware.security.logging.logging.service.LoggingByTempService;
 import io.thoughtware.sward.category.model.WikiCategory;
-import io.thoughtware.sward.category.support.OpLogTemplateCategory;
 import io.thoughtware.dal.jpa.JpaTemplate;
-import io.thoughtware.eam.common.context.LoginContext;
 import io.thoughtware.sward.category.entity.WikiCategoryEntity;
 import io.thoughtware.sward.category.model.WikiCategoryQuery;
-import io.thoughtware.sward.document.entity.WikiDocumentEntity;
-import io.thoughtware.sward.document.model.WikiDocument;
-import io.thoughtware.sward.document.model.DocumentQuery;
 import io.thoughtware.sward.node.model.Node;
 import io.thoughtware.sward.node.service.NodeService;
-import io.thoughtware.sward.repository.model.WikiRepository;
 import io.thoughtware.toolkit.beans.BeanMapper;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.core.page.PaginationBuilder;
@@ -21,16 +15,12 @@ import io.thoughtware.toolkit.join.JoinTemplate;
 import io.thoughtware.rpc.annotation.Exporter;
 import io.thoughtware.sward.category.dao.WikiCategoryDao;
 import io.thoughtware.sward.document.service.DocumentService;
-import io.thoughtware.security.logging.model.Logging;
-import io.thoughtware.security.logging.model.LoggingType;
-import io.thoughtware.user.user.model.User;
 import io.thoughtware.user.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 
 import javax.validation.Valid;
