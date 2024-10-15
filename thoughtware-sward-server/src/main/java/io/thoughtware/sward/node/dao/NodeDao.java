@@ -4,8 +4,10 @@ package io.thoughtware.sward.node.dao;
 import io.thoughtware.core.page.Pagination;
 import io.thoughtware.dal.jpa.JpaTemplate;
 import io.thoughtware.dal.jpa.criterial.condition.DeleteCondition;
+import io.thoughtware.dal.jpa.criterial.condition.OrQueryCondition;
 import io.thoughtware.dal.jpa.criterial.condition.QueryCondition;
 import io.thoughtware.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
+import io.thoughtware.dal.jpa.criterial.conditionbuilder.OrQueryBuilders;
 import io.thoughtware.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import io.thoughtware.sward.category.entity.WikiCategoryEntity;
 import io.thoughtware.sward.document.entity.WikiDocumentEntity;
@@ -91,21 +93,26 @@ public class NodeDao {
     }
 
     public List<NodeEntity> findNodeList(NodeQuery nodeQuery) {
+        QueryCondition queryCondition = new QueryCondition();
+
         QueryBuilders queryBuilders = QueryBuilders.createQuery(NodeEntity.class)
                 .eq("repositoryId", nodeQuery.getRepositoryId())
                 .eq("masterId", nodeQuery.getMasterId())
                 .eq("parentId", nodeQuery.getParentId())
                 .in("dimension", nodeQuery.getDimensions())
                 .in("id", nodeQuery.getIds())
-                .like("treePath", nodeQuery.getTreePath())
                 .orders(nodeQuery.getOrderParams());
-//                .get();
-//        if(nodeQuery.getParentIsNull()  != null &&  nodeQuery.getParentIsNull() == true){
-//            queryBuilders = queryBuilders.isNull("parentId");
-//        }else {
-//            queryBuilders = queryBuilders.isNotNull("parentId");
-//        }
-        QueryCondition queryCondition = queryBuilders.get();
+
+        if( nodeQuery.getTreePath() != null){
+            OrQueryCondition orQueryCondition = OrQueryBuilders.instance()
+                    .like("treePath", nodeQuery.getTreePath())
+                    .eq("id", nodeQuery.getId())
+                    .get();
+            queryCondition = queryBuilders.or(orQueryCondition).get();
+        }else {
+            queryCondition = queryBuilders.get();
+        }
+
         return jpaTemplate.findList(queryCondition, NodeEntity.class);
     }
 

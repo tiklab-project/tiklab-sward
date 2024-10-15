@@ -64,7 +64,6 @@ public interface NodeService {
     */
     List<Node> findNodeList(NodeQuery nodeQuery);
 
-
     /**
     * 按分页查询
     * @param nodeQuery
@@ -77,5 +76,7 @@ public interface NodeService {
     List<Node> findChildrenNodeList(String repositoryIds);
 
     List<Node> findNodeRecentList(RecentQuery recentQuery);
+
+    List<Node> findAllHigherNode(String id);
 
 }

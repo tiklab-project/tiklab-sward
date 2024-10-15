@@ -26,6 +26,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
 @Service
 public class NodeServiceImpl implements NodeService {
     private static Logger logger = LoggerFactory.getLogger(DocumentService.class);
+
     private final Lock lock = new ReentrantLock();
     @Autowired
     NodeDao nodeDao;
@@ -47,6 +49,9 @@ public class NodeServiceImpl implements NodeService {
     UserService userService;
     @Autowired
     JoinTemplate joinTemplate;
+
+    @Autowired
+    DocumentService documentService;
 
     @Autowired
     RecentService recentService;
@@ -69,9 +74,20 @@ public class NodeServiceImpl implements NodeService {
             if(parent != null){
                 Integer brotherNum = nodeDao.getBrotherNum(repositoryId, parent.getId());
                 node.setSort(brotherNum);
+
+                String parentId = parent.getId();
+                NodeEntity parentNode = nodeDao.findNode(parentId);
+                String treePath = parentNode.getTreePath();
+                treePath = treePath + parentId + ";";
+                node.setTreePath(treePath);
+
+                Integer dimension = parentNode.getDimension();
+                node.setDimension(dimension + 1);
+
             }else {
                 Integer brotherNum = nodeDao.getBrotherNum(repositoryId, null);
                 node.setSort(brotherNum);
+                node.setDimension(1);
             }
 
             NodeEntity nodeEntity = BeanMapper.map(node, NodeEntity.class);
@@ -318,19 +334,38 @@ public class NodeServiceImpl implements NodeService {
 
     @Override
     public List<Node> findNodePageTree(NodeQuery nodeQuery) {
-        List<Node> nodeList = findNodeList(nodeQuery);
+        List<Node> nodeList = new ArrayList<>();
+        List<Node> allNodeList = findNodeList(nodeQuery);
         // 一般深度是[1, 2] 或者 [3, 4]
         Integer[] dimensions = nodeQuery.getDimensions();
         Arrays.sort(dimensions);
-        int minDimensions = dimensions[0];
-        List<Node> firstLeavelNodeList = nodeList.stream().filter(node -> node.getDimension().equals(minDimensions)).collect(Collectors.toList());
-
-        for (Node firstLeavelNode : firstLeavelNodeList) {
-            List<Node> childrenList = nodeList.stream().filter(node -> node.getParent() != null &&
-                    node.getParent().getId().equals(firstLeavelNode.getId())).collect(Collectors.toList());
-            firstLeavelNode.setChildren(childrenList);
+        List<Integer> dimensionList = new ArrayList<Integer>(Arrays.asList(dimensions));
+        Integer minDimensions = dimensionList.get(0);
+        nodeList = allNodeList.stream().filter(node -> node.getDimension().equals(minDimensions)).collect(Collectors.toList());
+        //删除已被使用的node
+        if(nodeList.size() > 0){
+            allNodeList.removeAll(nodeList);
+            setChildrenNode(allNodeList, nodeList, dimensionList);
         }
-        return firstLeavelNodeList;
+
+        return nodeList;
+    }
+    void setChildrenNode(List<Node> allNodeList, List<Node> nodeList, List<Integer> dimensionList){
+        if(allNodeList.size() > 0){
+            for (Node firstLeavelNode : nodeList) {
+                List<Node> childrenList = allNodeList.stream().filter(node -> node.getParent() != null &&
+                        node.getParent().getId().equals(firstLeavelNode.getId())).collect(Collectors.toList());
+
+                if(childrenList.size() > 0){
+                    allNodeList.removeAll(childrenList);
+                    firstLeavelNode.setChildren(childrenList);
+                    if(allNodeList.size() > 0){
+                        setChildrenNode(allNodeList, childrenList, dimensionList);
+                    }
+                }
+            }
+        }
+
     }
 
     @Override
@@ -372,4 +407,48 @@ public class NodeServiceImpl implements NodeService {
         nodeDao.addSortInRepository(repositoryId, sort);
     }
 
+    public List<Node>  findAllHigherNode(String id){
+        List<Node> nodePageTree = new ArrayList<>();
+        Node node = new Node();
+        node = findNode(id);
+        Node parent = node.getParent();
+        if(parent != null) {
+            String treePath = node.getTreePath();
+            Integer dimension = node.getDimension();
+            Integer[] dimensionList = new Integer[dimension];
+            for (int i = 0; i < dimension; i++) {
+                dimensionList[i] = i + 1;
+            }
+
+            String[] nodeIds = treePath.split(";");
+            List<String> nodeIdList = Arrays.asList(nodeIds);
+
+            NodeQuery nodeQuery = new NodeQuery();
+            nodeQuery.setTreePath(nodeIdList.get(0));
+            nodeQuery.setDimensions(dimensionList);
+            nodeQuery.setId(nodeIdList.get(0));
+            nodePageTree = findNodePageTree(nodeQuery);
+        }
+        return nodePageTree;
+    }
+
+    /**
+     * 根据获取的list 拼装成树形
+     */
+    public Node assembleTree(List<Node> nodeList, Node node, String parentId){
+        Node parentNode = new Node();
+        List<Node> parentList = nodeList.stream().filter(item -> item.getId().equals(parentId)).collect(Collectors.toList());
+        parentNode = parentList.get(0);
+        List<Node> childrenList = new ArrayList<>();
+        childrenList.add(node);
+        parentNode.setChildren(childrenList);
+        Node parent = parentNode.getParent();
+        if(parent != null){
+            Node node1 = assembleTree(nodeList, parentNode, parent.getId());
+            if(node1 != null){
+                parentNode = node1;
+            }
+        }
+        return parentNode;
+    }
 }

@@ -14,6 +14,9 @@ public class NodeQuery extends BaseModel {
         @ApiProperty(name ="shareId",desc = "空间id")
         private String shareId;
 
+        @ApiProperty(name ="id",desc = "node id")
+        private String id;
+
         @ApiProperty(name ="shareId",desc = "空间id")
         private Object[] Ids;
 
@@ -154,5 +157,13 @@ public class NodeQuery extends BaseModel {
 
     public void setIds(Object[] ids) {
         Ids = ids;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

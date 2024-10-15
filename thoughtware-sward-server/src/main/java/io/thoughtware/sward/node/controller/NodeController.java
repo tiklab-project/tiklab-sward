@@ -127,4 +127,13 @@ public class NodeController {
         return Result.ok(nodeList);
     }
 
+    @RequestMapping(path = "/findAllHigherNode",method = RequestMethod.POST)
+    @ApiMethod(name = "findAllHigherNode",desc = "查询最近查看的文档")
+    @ApiParam(name = "nodeQuery",desc = "nodeQuery",required = true)
+    public Result<List<Node>> findAllHigherNode(@NotNull String id){
+        List<Node> nodeList = nodeService.findAllHigherNode(id);
+
+        return Result.ok(nodeList);
+    }
+
 }
