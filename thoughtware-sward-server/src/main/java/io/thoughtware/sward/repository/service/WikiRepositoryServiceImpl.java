@@ -162,8 +162,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         content.put("repositoryId", wikiRepository1.getId());
         content.put("repositoryName", wikiRepository1.getName());
         content.put("repositoryIcon", wikiRepository1.getIconUrl());
-//        creatDynamic(content);
-//        sendMessageForCreat(content);
+
         //构建索引
         WikiRepository entity = findRepository(id);
         dssClient.save(entity);

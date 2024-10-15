@@ -123,6 +123,7 @@ public class RecentServiceImpl implements RecentService {
         DeleteCondition deleteCondition = DeleteBuilders.createDelete(RecentEntity.class)
                 .eq("modelId", recentQuery.getModelId())
                 .in("modelId", recentQuery.getModelIds())
+                .eq("repositoryId", recentQuery.getRepositoryId())
                 .get();
         recentDao.deleteRecnetByCondition(deleteCondition);
 

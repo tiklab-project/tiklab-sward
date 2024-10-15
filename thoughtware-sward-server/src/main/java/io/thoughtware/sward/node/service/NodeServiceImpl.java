@@ -276,34 +276,6 @@ public class NodeServiceImpl implements NodeService {
         }else {
             documentService.deleteDocument(id);
         }
-//        //删除最近的文档,或者目录
-//        RecentQuery recentQuery = new RecentQuery();
-//        recentQuery.setModelId(id);
-//        recentService.deleteRecnetByCondition(recentQuery);
-//
-//        // 如果是目录，需要删除下级的所有文档和目录
-//        if(node.getType().equals("category")){
-//            NodeQuery nodeQuery = new NodeQuery();
-//            nodeQuery.setParentId(id);
-//            nodeQuery.setRecycle(null);
-//            nodeQuery.setStatus(null);
-//            // 删除公共表
-//            List<Node> nodeList = findNodeList(nodeQuery);
-//            if(nodeList.size() > 0){
-//                List<String> idList = nodeList.stream().map(Node::getId).collect(Collectors.toList());
-//                String[] ids = idList.toArray(new String[idList.size()]);
-//
-//                // 批量删除下级文档
-//                NodeQuery nodeQuery1 = new NodeQuery();
-//                nodeQuery1.setIds(ids);
-//                deleteNodeCondition(nodeQuery1);
-////                wikiCategoryService.deleteCategoryByIds(ids);
-//                DocumentQuery documentQuery = new DocumentQuery();
-//                documentQuery.setIds(ids);
-//                documentService.deleteDocumentCondition(documentQuery);
-//            }
-//        }
-//        nodeDao.deleteNode(id);
     }
 
     @Override
@@ -314,6 +286,7 @@ public class NodeServiceImpl implements NodeService {
         DeleteCondition deleteCondition = DeleteBuilders.createDelete(NodeEntity.class)
                 .in("id", nodeQuery.getIds())
                 .eq("id", nodeQuery.getId())
+                .eq("repositoryId", nodeQuery.getRepositoryId())
                 .get();
         nodeDao.deleteNodeCondition(deleteCondition);
     }
@@ -326,21 +299,30 @@ public class NodeServiceImpl implements NodeService {
         nodeQuery.setRepositoryId(repositoryId);
 
         List<Node> nodeList = findNodeList(nodeQuery);
-        List<Node> categoryList = nodeList.stream().filter(item -> item.getType().equals("category")).collect(Collectors.toList());
-        List<String> categoryIdList = categoryList.stream().map(item -> item.getId()).collect(Collectors.toList());
-        String[] categoryIds = categoryIdList.toArray(new String[categoryIdList.size()]);
-        WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
-        wikiCategoryQuery.setIds(categoryIds);
-        // 删除包括当前目录在内的所有目录
-        wikiCategoryService.batchDeleteCategory(wikiCategoryQuery);
+        if(nodeList.size() > 0){
+            List<Node> categoryList = nodeList.stream().filter(item -> item.getType().equals("category")).collect(Collectors.toList());
+            if(categoryList.size() > 0){
+                List<String> categoryIdList = categoryList.stream().map(item -> item.getId()).collect(Collectors.toList());
+                String[] categoryIds = categoryIdList.toArray(new String[categoryIdList.size()]);
+                WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
+                wikiCategoryQuery.setIds(categoryIds);
+                wikiCategoryQuery.setRepositoryId(repositoryId);
+                // 删除包括当前目录在内的所有目录
+                wikiCategoryService.batchDeleteCategory(wikiCategoryQuery);
+                nodeList.removeAll(categoryIdList);
+            }
 
-        // 删除所有文档
-        nodeList.removeAll(categoryIdList);
-        List<String> documentIdList = nodeList.stream().map(item -> item.getId()).collect(Collectors.toList());
-        String[] documentIds = documentIdList.toArray(new String[documentIdList.size()]);
-        DocumentQuery documentQuery = new DocumentQuery();
-        documentQuery.setIds(documentIds);
-        documentService.batchDeleteDocument(documentQuery);
+            if(nodeList.size() > 0){
+                // 删除所有文档
+                List<String> documentIdList = nodeList.stream().map(item -> item.getId()).collect(Collectors.toList());
+                String[] documentIds = documentIdList.toArray(new String[documentIdList.size()]);
+                DocumentQuery documentQuery = new DocumentQuery();
+                documentQuery.setIds(documentIds);
+                documentQuery.setRepositoryId(repositoryId);
+                documentService.batchDeleteDocument(documentQuery);
+            }
+        }
+
     }
 
     @Override
