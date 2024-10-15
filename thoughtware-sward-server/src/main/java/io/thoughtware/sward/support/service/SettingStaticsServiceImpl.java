@@ -9,6 +9,9 @@ import io.thoughtware.message.message.service.MessageNoticeService;
 import io.thoughtware.message.setting.service.MessageSendTypeService;
 import io.thoughtware.privilege.role.service.RoleService;
 import io.thoughtware.security.backups.service.BackupsDbService;
+import io.thoughtware.sward.repository.model.WikiRepository;
+import io.thoughtware.sward.repository.model.WikiRepositoryQuery;
+import io.thoughtware.sward.repository.service.WikiRepositoryService;
 import io.thoughtware.user.directory.service.UserDirService;
 import io.thoughtware.user.orga.service.OrgaService;
 import io.thoughtware.user.user.service.UserService;
@@ -17,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class SettingStaticsServiceImpl implements SettingStaticsService{
@@ -53,6 +57,8 @@ public class SettingStaticsServiceImpl implements SettingStaticsService{
     @Autowired
     SystemUrlService systemUrlService;
 
+    @Autowired
+    WikiRepositoryService wikiRepositoryService;
     @Override
     public HashMap<String, Object> findOrgaNum() {
         HashMap<String, Object> numMap = new HashMap<>();
@@ -90,6 +96,18 @@ public class SettingStaticsServiceImpl implements SettingStaticsService{
         // 地址配置
         Integer systemUrlNumber = systemUrlService.findSystemUrlNumber();
         numMap.put("systemUrl", systemUrlNumber);
+
+        // 查找回收站的知识库个数
+        WikiRepositoryQuery wikiRepositoryQuery = new WikiRepositoryQuery();
+        wikiRepositoryQuery.setStatus("archived");
+        wikiRepositoryQuery.setRecycle(null);
+        List<WikiRepository> repositoryList = wikiRepositoryService.findRepositoryList(wikiRepositoryQuery);
+        numMap.put("archived", repositoryList.size());
+
+        wikiRepositoryQuery.setStatus(null);
+        wikiRepositoryQuery.setRecycle("1");
+        repositoryList = wikiRepositoryService.findRepositoryList(wikiRepositoryQuery);
+        numMap.put("recycle", repositoryList.size());
         return numMap;
     }
 }
