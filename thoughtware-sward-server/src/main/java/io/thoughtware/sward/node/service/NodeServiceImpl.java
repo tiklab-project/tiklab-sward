@@ -266,7 +266,8 @@ public class NodeServiceImpl implements NodeService {
             // 删除公共表
             List<Node> nodeList = findNodeList(nodeQuery);
             if(nodeList.size() > 0){
-                String[] ids = (String[]) nodeList.stream().map(Node::getId).toArray();
+                List<String> idList = nodeList.stream().map(Node::getId).collect(Collectors.toList());
+                String[] ids = idList.toArray(new String[idList.size()]);
                 nodeDao.deleteNodeCondition(ids);
                 wikiCategoryService.deleteCategoryByIds(ids);
                 DocumentQuery documentQuery = new DocumentQuery();
