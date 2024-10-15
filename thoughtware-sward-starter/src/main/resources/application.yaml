@@ -17,11 +17,11 @@ jdbc:
   username: postgres
   password: darth2020
 
-#eas
-eas:
+#soular
+soular:
   embbed:
     enable: true
-  address: http://eas-ce.test.thoughtware.cn
+  address: http://soular-ce.test.thoughtware.cn
 
 #enable mysql
 postgresql:

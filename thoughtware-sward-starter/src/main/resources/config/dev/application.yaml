@@ -67,8 +67,8 @@ dss:
     group: g1
     index: index1
 
-#eas config
-eas:
+#soular config
+soular:
   embbed:
     enable: true
   web:

@@ -60,11 +60,11 @@ dss:
     group: g1
     index: index1
 
-#eas config
-eas:
+#soular config
+soular:
   embbed:
     enable: false
-  address: http://bac.eas.thoughtware.cn
+  address: http://e.thoughtware.cn
 
 
 #plugin config
