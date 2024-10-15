@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.tiklab</groupId>
+        <artifactId>tiklab-sward</artifactId>
+        <version>1.0.2</version>
+    </parent>
+
+    <artifactId>tiklab-sward-api</artifactId>
+    <name>${project.artifactId}</name>
+
+    <dependencies>
+        <!--common-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+
+        </dependency>
+        <!--tiklab-->
+        <dependency>
+            <groupId>io.tiklab</groupId>
+            <artifactId>tiklab-core</artifactId>
+            <version>${tiklab-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.tiklab</groupId>
+            <artifactId>tiklab-toolkit-annotation</artifactId>
+            <version>${tiklab-toolkit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.tiklab</groupId>
+            <artifactId>tiklab-dss-annotation</artifactId>
+            <version>${tiklab-dss.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.tiklab</groupId>
+            <artifactId>tiklab-user-api</artifactId>
+            <version>${tiklab-user.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.tiklab</groupId>
+            <artifactId>tiklab-postin-annotation</artifactId>
+            <version>${tiklab-postin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.tiklab</groupId>
+            <artifactId>tiklab-eam-api</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
