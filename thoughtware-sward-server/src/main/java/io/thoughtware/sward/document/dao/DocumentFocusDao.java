@@ -84,9 +84,12 @@ public class DocumentFocusDao {
     }
 
     public List<DocumentFocusEntity> findDocumentFocusList(DocumentFocusQuery documentFocusQuery) {
-        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentFocusEntity.class)
-                .eq("documentId", documentFocusQuery.getDocumentId())
-                .eq("masterId", documentFocusQuery.getMasterId())
+        QueryCondition queryCondition = QueryBuilders.createQuery(DocumentFocusEntity.class, "df")
+                .leftJoin(NodeEntity.class,"no","no.id=df.documentId")
+                .eq("df.documentId", documentFocusQuery.getDocumentId())
+                .eq("df.masterId", documentFocusQuery.getMasterId())
+                .eq("df.repositoryId", documentFocusQuery.getRepositoryId())
+                .like("no.name", documentFocusQuery.getName())
                 .orders(documentFocusQuery.getOrderParams())
                 .get();
 
