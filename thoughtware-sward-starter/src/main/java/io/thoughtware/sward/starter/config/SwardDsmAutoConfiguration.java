@@ -61,7 +61,8 @@ public class SwardDsmAutoConfiguration {
         dsmConfig.newVersion("1.0.3", new String[]{
                 "message_1.0.3",
                 "sward_1.0.3",
-                "apply-auth_1.0.3"
+                "apply-auth_1.0.3",
+                "privilege_1.0.3"
         });
         dsmConfig.newVersion("1.0.4", new String[]{
                 "message_1.0.4",
@@ -73,6 +74,9 @@ public class SwardDsmAutoConfiguration {
         });
         dsmConfig.newVersion("1.0.7", new String[]{
                 "message_1.0.7"
+        });
+        dsmConfig.newVersion("1.0.8", new String[]{
+                "message_1.0.8"
         });
         dsmConfig.newVersion("1.1.0", new String[]{
                 "kanass_1.1.0",
