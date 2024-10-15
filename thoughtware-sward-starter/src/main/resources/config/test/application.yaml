@@ -20,7 +20,7 @@ jdbc:
 soular:
     embbed:
         enable: true
-    address: http://soular-ce.test.thoughtware.cn
+    address: http://soular-ce.test.tiklab.net
 
 #enable mysql
 postgresql:
@@ -95,7 +95,7 @@ file:
     path: http://file.dev.thoughtware.io
 
 base:
-    url: http://sward-ce.test.thoughtware.cn
+    url: http://sward-ce.test.tiklab.net
 
 backups:
     time: 0 0 2 * * ?

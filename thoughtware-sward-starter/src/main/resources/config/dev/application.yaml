@@ -102,7 +102,7 @@ postin:
     package: io.thoughtware
   report:
     workspaceId: a79bdd105434
-    server: http://e.postin.thoughtware.cn/
+    server: http://e.postin.tiklab.net/
 
 base:
   url: http://192.168.10.7:8060

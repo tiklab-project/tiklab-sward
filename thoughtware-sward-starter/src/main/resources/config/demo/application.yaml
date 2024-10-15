@@ -30,7 +30,7 @@ postgresql:
 soular:
     embbed:
         enable: false
-    address: http://soular-ce.demoee.thoughtware.cn
+    address: http://soular-ce.demoee.tiklab.net
 
 DATA_HOME: /opt/thoughtware/sward
 
@@ -83,7 +83,7 @@ file:
    path: http://file.demoee.thoughtware.io
 
 base:
-    url: http://sward-ce.demoee.thoughtware.cn
+    url: http://sward-ce.demoee.tiklab.net
 
 backups:
     time: 0 0 2 * * ?
