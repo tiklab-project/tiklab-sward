@@ -23,12 +23,12 @@
         <thoughtware-dcs.version>1.0.0</thoughtware-dcs.version>
         <thoughtware-dss.version>1.0.0</thoughtware-dss.version>
         <thoughtware-toolkit.version>1.0.0</thoughtware-toolkit.version>
-        <thoughtware-postgresql.version>1.0.1-SNAPSHOT</thoughtware-postgresql.version>
+        <thoughtware-postgresql.version>1.0.2-SNAPSHOT</thoughtware-postgresql.version>
         <thoughtware-install.version>1.0.0</thoughtware-install.version>
         <thoughtware-rpc.version>1.0.0</thoughtware-rpc.version>
         <thoughtware-plugin.version>1.0.1-SNAPSHOT</thoughtware-plugin.version>
         <thoughtware-mysql.version>1.0.0</thoughtware-mysql.version>
-        <thoughtware-jdk.version>1.0.0</thoughtware-jdk.version>
+        <thoughtware-jdk.version>1.0.1-SNAPSHOT</thoughtware-jdk.version>
 
 
         <thoughtware-user.version>1.0.1-SNAPSHOT</thoughtware-user.version>
