@@ -13,38 +13,12 @@ import java.sql.Timestamp;
 public class WikiCategoryEntity implements Serializable {
 
     @Id
-    @GeneratorValue(length = 12)
     @Column(name = "id",length = 12)
     private String id;
 
-    //名称
-    @Column(name = "name",length = 64,notNull = true)
-    private String name;
+    @Column(name = "name",length = 64)
+    private String desc;
 
-    //管理员
-    @Column(name = "master",length = 32,notNull = true)
-    private String master;
-
-    //知识库id
-    @Column(name = "repository_id",length = 32,notNull = true)
-    private String repositoryId;
-
-    //上一级id
-    @Column(name = "parent_category_id",length = 32)
-    private String parentCategoryId;
-
-    @Column(name = "update_time")
-    private Timestamp updateTime;
-
-    //描述
-    @Column(name = "sort")
-    private Integer sort;
-
-    @Column(name = "dimension")
-    private Integer dimension;
-
-    @Column(name = "tree_path")
-    private String treePath;
     public String getId() {
         return id;
     }
@@ -53,67 +27,11 @@ public class WikiCategoryEntity implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getRepositoryId() {
-        return repositoryId;
-    }
-
-    public void setRepositoryId(String repositoryId) {
-        this.repositoryId = repositoryId;
-    }
-
-    public String getParentCategoryId() {
-        return parentCategoryId;
-    }
-
-    public void setParentCategoryId(String parentCategoryId) {
-        this.parentCategoryId = parentCategoryId;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
-
-    public String getMaster() {
-        return master;
-    }
-
-    public void setMaster(String master) {
-        this.master = master;
-    }
-
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getDimension() {
-        return dimension;
-    }
-
-    public void setDimension(Integer dimension) {
-        this.dimension = dimension;
-    }
-
-    public String getTreePath() {
-        return treePath;
-    }
-
-    public void setTreePath(String treePath) {
-        this.treePath = treePath;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

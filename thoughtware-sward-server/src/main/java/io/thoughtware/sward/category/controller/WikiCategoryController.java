@@ -61,23 +61,7 @@ public class WikiCategoryController {
         return Result.ok();
     }
 
-    @RequestMapping(path="/deleteCategoryAndSort",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteCategoryAndSort",desc = "删除目录")
-    @ApiParam(name = "wikiCategory",desc = "wikiCategory",required = true)
-    public Result<Void> deleteCategory(@RequestBody @Valid @NotNull WikiCategory wikiCategory){
-        wikiCategoryService.deleteCategoryAndSort(wikiCategory);
 
-        return Result.ok();
-    }
-
-    @RequestMapping(path="/findCategoryChildren",method = RequestMethod.POST)
-    @ApiMethod(name = "findCategoryChildren",desc = "删除目录")
-    @ApiParam(name = "parentWikiCategoryId",desc = "parentWikiCategoryId",required = true)
-    public HashMap<String, List<String>> findCategoryChildren(@NotNull String parentWikiCategoryId){
-        HashMap<String, List<String>> categoryChildren = wikiCategoryService.findCategoryChildren(parentWikiCategoryId);
-
-        return categoryChildren;
-    }
 
     @RequestMapping(path="/findCategory",method = RequestMethod.POST)
     @ApiMethod(name = "findCategory",desc = "根据id 查询目录")
@@ -88,14 +72,6 @@ public class WikiCategoryController {
         return Result.ok(wikiCategory);
     }
 
-    @RequestMapping(path="/findCategoryDocument",method = RequestMethod.POST)
-    @ApiMethod(name = "findCategoryDocument",desc = "根据id 查询下级目录文档")
-    @ApiParam(name = "id",desc = "id",required = true)
-    public Result<List> findCategoryDocument(@NotNull String id){
-        List category = wikiCategoryService.findCategoryDocument(id);
-
-        return Result.ok(category);
-    }
 
     @RequestMapping(path="/findAllCategory",method = RequestMethod.POST)
     @ApiMethod(name = "findAllCategory",desc = "查询所有目录")
@@ -112,22 +88,6 @@ public class WikiCategoryController {
         List<WikiCategory> wikiCategoryList = wikiCategoryService.findCategoryList(wikiCategoryQuery);
 
         return Result.ok(wikiCategoryList);
-    }
-
-    @RequestMapping(path = "/findCategoryListTree",method = RequestMethod.POST)
-    @ApiMethod(name = "findCategoryListTree",desc = "条件查询目录树")
-    @ApiParam(name = "categoryQuery",desc = "categoryQuery",required = true)
-    public Result<List> findCategoryListTree(@RequestBody @Valid @NotNull WikiCategoryQuery wikiCategoryQuery){
-        List categoryListTree = wikiCategoryService.findCategoryListTree(wikiCategoryQuery);
-        return Result.ok(categoryListTree);
-    }
-
-    @RequestMapping(path = "/findCategoryListTreeById",method = RequestMethod.POST)
-    @ApiMethod(name = "findCategoryListTreeById",desc = "条件查询目录树")
-    @ApiParam(name = "category",desc = "category",required = true)
-    public Result<List<Object>> findCategoryListTreeById(@NotNull String id, String treePath){
-        List categoryListTree = wikiCategoryService.findCategoryListTreeById(id, treePath);
-        return Result.ok(categoryListTree);
     }
 
     @RequestMapping(path = "/findCategoryPage",method = RequestMethod.POST)

@@ -38,7 +38,7 @@ public class DocumentDao{
      * @return
      */
     public String createDocument(WikiDocumentEntity wikiDocumentEntity) {
-        wikiDocumentEntity.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+
         return jpaTemplate.save(wikiDocumentEntity,String.class);
     }
 
@@ -90,7 +90,6 @@ public class DocumentDao{
      * @param wikiDocumentEntity
      */
     public void updateDocument(WikiDocumentEntity wikiDocumentEntity){
-        wikiDocumentEntity.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         jpaTemplate.update(wikiDocumentEntity);
     }
 

@@ -33,6 +33,8 @@ public interface DocumentAttachService {
     */
     void deleteDocumentAttach(@NotNull String id);
 
+    void deleteDocumentAttachCondition(@NotNull @Valid DocumentAttachQuery documentAttachQuery);
+
     DocumentAttach findOne(@NotNull String id);
 
     List<DocumentAttach> findList(List<String> idList);

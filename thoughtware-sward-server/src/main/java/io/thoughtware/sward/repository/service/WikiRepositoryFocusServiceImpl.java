@@ -39,6 +39,7 @@ public class WikiRepositoryFocusServiceImpl implements WikiRepositoryFocusServic
         return wikiRepositoryFocusDao.createRepositoryFocus(wikiRepositoryFocusEntity);
     }
 
+
     @Override
     public void updateRepositoryFocus(@NotNull @Valid WikiRepositoryFocus wikiRepositoryFocus) {
         WikiRepositoryFocusEntity wikiRepositoryFocusEntity = BeanMapper.map(wikiRepositoryFocus, WikiRepositoryFocusEntity.class);

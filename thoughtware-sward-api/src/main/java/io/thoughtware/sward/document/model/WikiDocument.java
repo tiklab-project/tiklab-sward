@@ -1,6 +1,7 @@
 package io.thoughtware.sward.document.model;
 
 import io.thoughtware.sward.category.model.WikiCategory;
+import io.thoughtware.sward.node.model.Node;
 import io.thoughtware.sward.repository.model.WikiRepository;
 import io.thoughtware.dss.annotation.Document;
 import io.thoughtware.dss.annotation.DocumentField;
@@ -25,76 +26,26 @@ import java.util.List;
 @Document
 public class WikiDocument extends BaseModel{
 
-    // 移动到位置的id
-    private String moveToId;
-
-    // 根据前端传入的数据，与moveToId 2选1
-    private String moveType;
-
-    // 移动到位置的类型，文档，知识库
-    private String moveToType;
-
     @ApiProperty(name="id",desc="id")
     @DocumentField
     @DocumentId
     private String id;
 
-   // @NotNull
-    @ApiProperty(name="name",desc="name",required = true)
-    @DocumentField(queryField = true)
-    private String name;
-
-    @ApiProperty(name="typeId",desc="typeId",required = true)
-    private String typeId;
-
-    @ApiProperty(name ="treePath",desc = "路径")
-    private String treePath;
-
-    @ApiProperty(name="updateTime",desc="updateTime",required = true)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    private Timestamp updateTime;
-
-
-
-    @ApiProperty(name="master",desc="负责人",eg="@selectOne")
-    @Mappings({
-            @Mapping(source = "master.id",target = "master")
-    })
-    @JoinQuery(key = "id")
-    private User master;
-
-    //@NotNull
-    @ApiProperty(name="wikiRepository",desc="空间",eg="@selectOne")
-    @Mappings({
-            @Mapping(source = "wikiRepository.id",target = "repositoryId")
-    })
-    @JoinQuery(key = "id")
-    private WikiRepository wikiRepository;
-
-    @ApiProperty(name="wikiCategory",desc="目录",eg="@selectOne")
-    @Mappings({
-            @Mapping(source = "wikiCategory.id",target = "categoryId")
-    })
-    @JoinQuery(key = "id")
-    private WikiCategory wikiCategory;
-
+    private Node node;
 
     @ApiProperty(name="details",desc="details")
-    private java.lang.String details;
+    private String details;
 
     @ApiProperty(name="detailText",desc="detailText")
     @DocumentField(queryField = true)
-    private java.lang.String detailText;
+    private String detailText;
 
     //评论条数
     @ApiProperty(name="commentNumber",desc="评论条数")
-    private java.lang.Integer commentNumber;
-
-    @ApiProperty(name="formatType",desc="格式类型  category 目录  document 文档")
-    private java.lang.String formatType="document";
+    private Integer commentNumber;
 
     @ApiProperty(name="likenumInt",desc="点赞数")
-    private java.lang.Integer likenumInt;
+    private Integer likenumInt;
 
     @ApiProperty(name="likeUserList",desc="点赞人")
     private List<String> likeUserList;
@@ -106,67 +57,26 @@ public class WikiDocument extends BaseModel{
     private boolean isFocus;
 
     @ApiProperty(name="isRele",desc="是否关联事项")
-    private java.lang.Boolean isRele;
+    private Boolean isRele;
 
-    @ApiProperty(name="sort",desc="是否关联事项")
-    private Integer sort;
 
-    @ApiProperty(name="dimension",desc="层级")
-    private Integer dimension;
-
-    public java.lang.String getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(java.lang.String id) {
+    public void setId(String id) {
         this.id = id;
     }
-    public java.lang.String getName() {
-        return name;
-    }
 
-    public void setName(java.lang.String name) {
-        this.name = name;
-    }
-    public java.lang.String getTypeId() {
-        return typeId;
-    }
 
-    public void setTypeId(java.lang.String typeId) {
-        this.typeId = typeId;
-    }
-
-    public WikiRepository getWikiRepository() {
-        return wikiRepository;
-    }
-
-    public void setWikiRepository(WikiRepository wikiRepository) {
-        this.wikiRepository = wikiRepository;
-    }
-
-    public WikiCategory getWikiCategory() {
-        return wikiCategory;
-    }
-
-    public void setWikiCategory(WikiCategory wikiCategory) {
-        this.wikiCategory = wikiCategory;
-    }
-
-    public java.lang.String getDetails() {
+    public String getDetails() {
         return details;
     }
 
-    public void setDetails(java.lang.String details) {
+    public void setDetails(String details) {
         this.details = details;
     }
 
-    public String getFormatType() {
-        return formatType;
-    }
-
-    public void setFormatType(String formatType) {
-        this.formatType = formatType;
-    }
 
     public Integer getCommentNumber() {
         return commentNumber;
@@ -208,21 +118,6 @@ public class WikiDocument extends BaseModel{
         isRele = rele;
     }
 
-    public User getMaster() {
-        return master;
-    }
-
-    public void setMaster(User master) {
-        this.master = master;
-    }
-
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getDetailText() {
         return detailText;
@@ -232,30 +127,6 @@ public class WikiDocument extends BaseModel{
         this.detailText = detailText;
     }
 
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
-
-
-    public Integer getDimension() {
-        return dimension;
-    }
-
-    public void setDimension(Integer dimension) {
-        this.dimension = dimension;
-    }
-
-    public String getTreePath() {
-        return treePath;
-    }
-
-    public void setTreePath(String treePath) {
-        this.treePath = treePath;
-    }
 
     public boolean isFocus() {
         return isFocus;
@@ -265,27 +136,11 @@ public class WikiDocument extends BaseModel{
         isFocus = focus;
     }
 
-    public String getMoveToId() {
-        return moveToId;
+    public Node getNode() {
+        return node;
     }
 
-    public void setMoveToId(String moveToId) {
-        this.moveToId = moveToId;
-    }
-
-    public String getMoveToType() {
-        return moveToType;
-    }
-
-    public void setMoveToType(String moveToType) {
-        this.moveToType = moveToType;
-    }
-
-    public String getMoveType() {
-        return moveType;
-    }
-
-    public void setMoveType(String moveType) {
-        this.moveType = moveType;
+    public void setNode(Node node) {
+        this.node = node;
     }
 }

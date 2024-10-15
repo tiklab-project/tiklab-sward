@@ -32,6 +32,7 @@ public interface DocumentFocusService {
     */
     void deleteDocumentFocus(@NotNull String id);
 
+
     void deleteDocumentFocusByCondition(@NotNull @Valid DocumentFocusQuery documentFocusQuery);
 
     DocumentFocus findOne(@NotNull String id);

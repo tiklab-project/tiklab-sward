@@ -49,6 +49,11 @@ public class DocumentAttachServiceImpl implements DocumentAttachService {
     }
 
     @Override
+    public void deleteDocumentAttachCondition(DocumentAttachQuery documentAttachQuery) {
+        documentAttachDao.deleteDocumentAttachCondition(documentAttachQuery);
+    }
+
+    @Override
     public DocumentAttach findOne(String id) {
         DocumentAttachEntity documentAttachEntity = documentAttachDao.findDocumentAttach(id);
 

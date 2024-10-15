@@ -4,6 +4,8 @@ import io.thoughtware.core.page.Pagination;
 
 import io.thoughtware.sward.document.model.Share;
 import io.thoughtware.sward.document.model.ShareQuery;
+import io.thoughtware.sward.node.model.Node;
+import io.thoughtware.sward.node.model.NodeQuery;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -93,5 +95,5 @@ public interface ShareService {
      */
     String judgeAuthCode(String shareLink);
 
-    ArrayList<Object> findShareCategory(String shareLink);
+    List<Node> findShareCategory(NodeQuery nodeQuery);
 }

@@ -11,6 +11,8 @@ import java.util.List;
 
 @ApiModel
 public class DocumentAttachQuery extends BaseModel {
+        @ApiProperty(name ="documentId",desc = "知识库id")
+        private String documentId;
         @ApiProperty(name ="orderParams",desc = "排序参数")
         private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
 
@@ -32,4 +34,12 @@ public class DocumentAttachQuery extends BaseModel {
         public void setPageParam(Page pageParam) {
             this.pageParam = pageParam;
         }
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
 }

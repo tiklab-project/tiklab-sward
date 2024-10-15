@@ -33,6 +33,8 @@ public interface RecentService {
     */
     void deleteRecent(@NotNull String id);
 
+    void deleteRecnetByCondition(@NotNull @Valid RecentQuery recentQuery);
+
     Recent findOne(@NotNull String id);
 
     List<Recent> findList(List<String> idList);

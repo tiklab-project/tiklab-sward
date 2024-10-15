@@ -1,6 +1,7 @@
 package io.thoughtware.sward.document.model;
 
 import io.thoughtware.sward.category.model.WikiCategory;
+import io.thoughtware.sward.node.model.Node;
 import io.thoughtware.toolkit.beans.annotation.Mapper;
 import io.thoughtware.toolkit.beans.annotation.Mapping;
 import io.thoughtware.toolkit.beans.annotation.Mappings;
@@ -26,27 +27,17 @@ public class ShareRelation extends BaseModel{
     @ApiProperty(name="shareId",desc="类型")
     private String shareId;
 
-    @ApiProperty(name="documentIds",desc="id")
-    private String[] documentIds;
-
-    @ApiProperty(name="categoryIds",desc="id")
-    private String[] categoryIds;
+    @ApiProperty(name="nodeIds",desc="id")
+    private String[] nodeIds;
 
 
-    @ApiProperty(name="document",desc="文档",required = true)
+
+    @ApiProperty(name="node",desc="文档",required = true)
     @Mappings({
-            @Mapping(source = "wikiDocument.id",target = "documentId")
+            @Mapping(source = "node.id",target = "nodeId")
     })
     @JoinQuery(key = "id")
-    private WikiDocument wikiDocument;
-
-
-    @ApiProperty(name="wikiCategory",desc="文档",required = true)
-    @Mappings({
-            @Mapping(source = "wikiCategory.id",target = "categoryId")
-    })
-    @JoinQuery(key = "id")
-    private WikiCategory wikiCategory;
+    private Node node;
 
     public String getId() {
         return id;
@@ -64,30 +55,12 @@ public class ShareRelation extends BaseModel{
         this.type = type;
     }
 
-    public String[] getDocumentIds() {
-        return documentIds;
+    public String[] getNodeIds() {
+        return nodeIds;
     }
 
-    public void setDocumentIds(String[] documentIds) {
-        this.documentIds = documentIds;
-    }
-
-    public String[] getCategoryIds() {
-        return categoryIds;
-    }
-
-    public void setCategoryIds(String[] categoryIds) {
-        this.categoryIds = categoryIds;
-    }
-
-
-
-    public WikiCategory getWikiCategory() {
-        return wikiCategory;
-    }
-
-    public void setWikiCategory(WikiCategory wikiCategory) {
-        this.wikiCategory = wikiCategory;
+    public void setNodeIds(String[] nodeIds) {
+        this.nodeIds = nodeIds;
     }
 
     public String getShareId() {
@@ -98,11 +71,11 @@ public class ShareRelation extends BaseModel{
         this.shareId = shareId;
     }
 
-    public WikiDocument getWikiDocument() {
-        return wikiDocument;
+    public Node getNode() {
+        return node;
     }
 
-    public void setWikiDocument(WikiDocument wikiDocument) {
-        this.wikiDocument = wikiDocument;
+    public void setNode(Node node) {
+        this.node = node;
     }
 }

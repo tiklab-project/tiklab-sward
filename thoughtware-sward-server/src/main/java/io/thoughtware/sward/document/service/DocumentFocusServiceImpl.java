@@ -52,13 +52,8 @@ public class DocumentFocusServiceImpl implements DocumentFocusService {
     }
 
     @Override
-    public void deleteDocumentFocusByCondition(DocumentFocusQuery wikiDocumentFocusQuery) {
-        List<DocumentFocusEntity> documentFocusList = wikiDocumentFocusDao.findDocumentFocusList(wikiDocumentFocusQuery);
-        if(documentFocusList.size() > 0){
-            for (DocumentFocusEntity documentFocus : documentFocusList) {
-                deleteDocumentFocus(documentFocus.getId());
-            }
-        }
+    public void deleteDocumentFocusByCondition(DocumentFocusQuery documentFocusQuery) {
+        wikiDocumentFocusDao.deleteDocumentFocusByCondition(documentFocusQuery);
     }
 
     @Override
