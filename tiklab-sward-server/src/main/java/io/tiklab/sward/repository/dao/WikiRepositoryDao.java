@@ -246,25 +246,25 @@ public class WikiRepositoryDao {
     }
 
     public List<WikiRepositoryEntity> findRecentRepositoryList(WikiRepositoryQuery wikiRepositoryQuery) {
-        QueryCondition queryCondition = QueryBuilders.createQuery(WikiRepositoryEntity.class, "re")
-                .leftJoin(RecentEntity.class,"dr","dr.modelId=re.id")
-                .eq("dr.masterId", wikiRepositoryQuery.getMasterId())
-                .eq("dr.model","repository")
-                .eq("re.status", wikiRepositoryQuery.getStatus())
-                .eq("re.recycle", wikiRepositoryQuery.getRecycle())
-                .like("re.name", wikiRepositoryQuery.getName())
+        QueryCondition queryCondition = QueryBuilders.createQuery(WikiRepositoryEntity.class, "wr")
+                .leftJoin(RecentEntity.class,"re","re.modelId=wr.id")
+                .eq("re.masterId", wikiRepositoryQuery.getMasterId())
+                .eq("re.model","repository")
+                .eq("wr.status", wikiRepositoryQuery.getStatus())
+                .eq("wr.recycle", wikiRepositoryQuery.getRecycle())
+                .like("wr.name", wikiRepositoryQuery.getName())
                 .orders(wikiRepositoryQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, WikiRepositoryEntity.class);
     }
 
     public List<WikiRepositoryEntity> findFocusRepositoryList(WikiRepositoryQuery wikiRepositoryQuery){
-        QueryCondition queryBuilders =  QueryBuilders.createQuery(WikiRepositoryEntity.class, "re")
-                .leftJoin(WikiRepositoryFocusEntity.class,"rf","rf.repositoryId=re.id")
-                .like("re.name", wikiRepositoryQuery.getName())
+        QueryCondition queryBuilders =  QueryBuilders.createQuery(WikiRepositoryEntity.class, "wr")
+                .leftJoin(WikiRepositoryFocusEntity.class,"rf","rf.repositoryId=wr.id")
+                .like("wr.name", wikiRepositoryQuery.getName())
                 .eq("rf.masterId", wikiRepositoryQuery.getMasterId())
-                .eq("re.status", wikiRepositoryQuery.getStatus())
-                .eq("re.recycle", wikiRepositoryQuery.getRecycle())
+                .eq("wr.status", wikiRepositoryQuery.getStatus())
+                .eq("wr.recycle", wikiRepositoryQuery.getRecycle())
                 .orders(wikiRepositoryQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryBuilders, WikiRepositoryEntity.class);

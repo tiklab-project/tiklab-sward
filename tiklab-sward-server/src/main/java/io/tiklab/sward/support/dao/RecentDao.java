@@ -1,5 +1,6 @@
 package io.tiklab.sward.support.dao;
 
+import io.tiklab.sward.node.entity.NodeEntity;
 import io.tiklab.sward.support.entity.RecentEntity;
 import io.tiklab.sward.support.model.RecentQuery;
 import io.tiklab.core.page.Pagination;
@@ -96,12 +97,15 @@ public class RecentDao {
     }
 
     public List<RecentEntity> findRecentList(RecentQuery recentQuery) {
-        QueryCondition queryCondition = QueryBuilders.createQuery(RecentEntity.class)
-                .eq("modelId", recentQuery.getModelId())
-                .eq("masterId", recentQuery.getMasterId())
-                .eq("repositoryId", recentQuery.getRepositoryId())
-                .eq("model", recentQuery.getModel())
-                .in("model", recentQuery.getModelIds())
+        QueryCondition queryCondition = QueryBuilders.createQuery(RecentEntity.class, "re")
+                .leftJoin(NodeEntity.class, "node", "node.id=re.modelId")
+                .eq("re.modelId", recentQuery.getModelId())
+                .eq("re.masterId", recentQuery.getMasterId())
+                .eq("re.repositoryId", recentQuery.getRepositoryId())
+                .eq("re.model", recentQuery.getModel())
+                .in("re.model", recentQuery.getModelIds())
+                .eq("node.recycle", "0")
+                .eq("node.status", "nomal")
                 .orders(recentQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, RecentEntity.class);

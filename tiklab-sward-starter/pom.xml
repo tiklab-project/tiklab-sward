@@ -380,8 +380,8 @@
                             <descriptors>
                                 <descriptor>assembly/distribution.xml</descriptor>
                             </descriptors>
-<!--                            <finalName>tiklab-sward-${version}-${timestamp}</finalName>-->
-                            <finalName>tiklab-sward-1.0.1</finalName>
+                            <finalName>tiklab-sward-${version}-${timestamp}</finalName>
+<!--                            <finalName>tiklab-sward-1.0.1</finalName>-->
                             <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                         <phase>package</phase>

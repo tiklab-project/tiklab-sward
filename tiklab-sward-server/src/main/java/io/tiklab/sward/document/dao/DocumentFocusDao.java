@@ -89,6 +89,8 @@ public class DocumentFocusDao {
                 .eq("df.masterId", documentFocusQuery.getMasterId())
                 .eq("df.repositoryId", documentFocusQuery.getRepositoryId())
                 .like("no.name", documentFocusQuery.getName())
+                .eq("no.recycle", "0")
+                .eq("no.status", "nomal")
                 .orders(documentFocusQuery.getOrderParams())
                 .get();
 

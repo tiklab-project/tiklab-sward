@@ -154,7 +154,7 @@ public class HttpRequestUtil {
      * @return 转换后对象
      * @param <T> 对象类型
      */
-    private <T> T findBody(JSONObject jsonObject,Class<T> tClass){
+    private <T> T findBody(JSONObject jsonObject, Class<T> tClass){
         if (Objects.isNull(jsonObject)){
             throw new ApplicationException(50001,"获取接口返回数据为空！");
         }
@@ -197,7 +197,7 @@ public class HttpRequestUtil {
 
     private <T> Pagination<T> findBodyPage(JSONObject jsonObject,Class<T> tClass){
 
-        if (Objects.isNull( jsonObject)){
+        if (Objects.isNull(jsonObject)){
             throw new SystemException("获取返回值为空！");
         }
         Integer code = jsonObject.getInteger("code");
@@ -210,14 +210,12 @@ public class HttpRequestUtil {
         if (Objects.isNull(data)){
             throw new SystemException("接口返回为空！");
         }
-//        Pagination pagination = data.toJavaObject(Pagination.class);
-//
-//        return pagination;
+
 
         Pagination pagination = JSONObject.parseObject(data.toJSONString(), Pagination.class);
         JSONArray objects = JSONObject.parseArray(pagination.getDataList().toString());
-
-        return PaginationBuilder.build(pagination, objects.toJavaList(tClass));
+        List<T> ts = objects.toJavaList(tClass);
+        return PaginationBuilder.build(pagination, ts);
     }
 
     /**
