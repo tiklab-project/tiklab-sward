@@ -203,18 +203,22 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public List<Node> findShareCategory(NodeQuery nodeQuery) {
+        List<Node> firstNodeList = new ArrayList<>();
         String shareId = nodeQuery.getShareId();
         ShareRelationQuery shareRelationQuery = new ShareRelationQuery();
         shareRelationQuery.setShareId(shareId);
         List<ShareRelation> shareRelationList = shareRelationService.findShareRelationList(shareRelationQuery);
-        Object[] Ids = shareRelationList.stream().map(item -> item.getNode().getId()).toArray();
-        nodeQuery.setIds(Ids);
-        List<Node> nodeList = nodeService.findNodeList(nodeQuery);
-        List<Node> firstNodeList = nodeList.stream().filter(item -> item.getDimension().equals(1)).collect(Collectors.toList());
-        if(nodeList.size() > 0){
-            nodeList.removeAll(firstNodeList);
-            setChildrenNode(nodeList, firstNodeList);
+        if(shareRelationList.size() > 0){
+            Object[] Ids = shareRelationList.stream().map(item -> item.getNode().getId()).toArray();
+            nodeQuery.setIds(Ids);
+            List<Node> nodeList = nodeService.findNodeList(nodeQuery);
+            firstNodeList = nodeList.stream().filter(item -> item.getDimension().equals(1)).collect(Collectors.toList());
+            if(nodeList.size() > 0){
+                nodeList.removeAll(firstNodeList);
+                setChildrenNode(nodeList, firstNodeList);
+            }
         }
+
         return firstNodeList;
 
     }

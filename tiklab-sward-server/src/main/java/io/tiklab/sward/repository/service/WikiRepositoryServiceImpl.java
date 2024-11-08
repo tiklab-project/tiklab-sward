@@ -164,7 +164,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
         //构建索引
         WikiRepository entity = findRepository(id);
-        dssClient.save(entity);
+//        dssClient.save(entity);
         return id;
     }
 
@@ -185,7 +185,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
         //构建索引
         WikiRepository entity = findRepository(id);
-        dssClient.save(entity);
+//        dssClient.save(entity);
         return id;
     }
     public void initRepositoryDmRole(String masterId, String repositoryId){

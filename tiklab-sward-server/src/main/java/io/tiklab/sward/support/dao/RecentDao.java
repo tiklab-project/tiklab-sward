@@ -1,5 +1,7 @@
 package io.tiklab.sward.support.dao;
 
+import io.tiklab.core.order.Order;
+import io.tiklab.dal.jdbc.JdbcTemplate;
 import io.tiklab.sward.node.entity.NodeEntity;
 import io.tiklab.sward.support.entity.RecentEntity;
 import io.tiklab.sward.support.model.RecentQuery;
@@ -11,10 +13,13 @@ import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.ObjectUtils;
 
 import java.sql.Timestamp;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * RecentDao
@@ -97,18 +102,53 @@ public class RecentDao {
     }
 
     public List<RecentEntity> findRecentList(RecentQuery recentQuery) {
-        QueryCondition queryCondition = QueryBuilders.createQuery(RecentEntity.class, "re")
-                .leftJoin(NodeEntity.class, "node", "node.id=re.modelId")
-                .eq("re.modelId", recentQuery.getModelId())
-                .eq("re.masterId", recentQuery.getMasterId())
-                .eq("re.repositoryId", recentQuery.getRepositoryId())
-                .eq("re.model", recentQuery.getModel())
-                .in("re.model", recentQuery.getModelIds())
-                .eq("node.recycle", "0")
-                .eq("node.status", "nomal")
-                .orders(recentQuery.getOrderParams())
-                .get();
-        return jpaTemplate.findList(queryCondition, RecentEntity.class);
+//        QueryCondition queryCondition = QueryBuilders.createQuery(RecentEntity.class, "re")
+//                .leftJoin(NodeEntity.class, "node", "node.id=re.modelId")
+//                .eq("re.modelId", recentQuery.getModelId())
+//                .eq("re.masterId", recentQuery.getMasterId())
+//                .eq("re.repositoryId", recentQuery.getRepositoryId())
+//                .eq("re.model", recentQuery.getModel())
+//                .in("re.model", recentQuery.getModelIds())
+//                .eq("node.recycle", "0")
+//                .eq("node.status", "nomal")
+//                .orders(recentQuery.getOrderParams())
+//                .get();
+
+        String sql = "SELECT re.* FROM wiki_recent AS re LEFT JOIN wiki_node AS node ON node.id = re.model_id WHERE 1=1";
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+
+
+        if(recentQuery.getModelId() != null ){
+            sql = sql.concat(" and re.model_id = '" + recentQuery.getModelId() + "'");
+        }
+
+        if(recentQuery.getMasterId() != null ){
+            sql = sql.concat(" and re.master_id = '" + recentQuery.getMasterId() + "'");
+        }
+
+        if(recentQuery.getRepositoryId() != null ){
+            sql = sql.concat(" and re.repository_id = '" + recentQuery.getRepositoryId()+ "'");
+        }
+        if(recentQuery.getModel() != null ){
+            sql = sql.concat(" and re.model = '" + recentQuery.getModel()+ "'");
+        }
+        if(recentQuery.getModelIds() != null ){
+            String[] modelIds = recentQuery.getModelIds();
+            List<String> modelIdList = new ArrayList<>(Arrays.asList(modelIds));
+            String modelIdLists = modelIdList.stream().map(id -> "'" + id + "'").collect(Collectors.joining(", "));
+
+            sql = sql.concat(" and re.model in " + modelIdLists + " ");
+        }
+        if(recentQuery.getRecycle() != null){
+            sql = sql.concat(" and node.recycle = '" + recentQuery.getRecycle() + "'");
+        }
+
+        if(recentQuery.getStatus() != null){
+            sql = sql.concat(" and node.status = '" + recentQuery.getStatus() + "'");
+        }
+        JdbcTemplate jdbcTemplate = jpaTemplate.getJdbcTemplate();
+        List<RecentEntity> query = jdbcTemplate.query(sql, new Object[]{}, new BeanPropertyRowMapper(RecentEntity.class));
+        return query;
     }
 
     public Pagination<RecentEntity> findRecentPage(RecentQuery recentQuery) {

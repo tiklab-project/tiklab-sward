@@ -27,7 +27,7 @@ public class RecentQuery {
         private String repositoryId;
 
         @ApiProperty(name = "recycle")
-        private String recycle = "0";
+        private String recycle;
 
         @ApiProperty(name = "recycle")
         private String status;

@@ -132,6 +132,7 @@ public class NodeDao {
         QueryBuilders queryBuilders = QueryBuilders.createQuery(NodeEntity.class)
                 .like("name", nodeQuery.getName())
                 .eq("repositoryId", nodeQuery.getRepositoryId())
+                .in("repositoryId", nodeQuery.getRepositoryIds())
                 .eq("masterId", nodeQuery.getMasterId())
                 .eq("parentId", nodeQuery.getParentId())
                 .eq("type", nodeQuery.getType())
