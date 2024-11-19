@@ -192,8 +192,8 @@ public class DocumentServiceImpl implements DocumentService {
         }
         node = nodeService.findNode(nodeId);
 
-//        dssClient.save(node);
-//        dssClient.save(wikiDocument);
+        dssClient.save(node);
+        dssClient.save(wikiDocument);
         createDynamic(node);
         return documentId;
     }
