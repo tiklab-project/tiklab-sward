@@ -1,5 +1,6 @@
 package io.tiklab.sward.starter;
 
+import io.tiklab.dfs.boot.starter.annotation.EnableDfsInit;
 import io.tiklab.dsm.boot.starter.annotation.EnableDsm;
 import io.tiklab.sward.EnableSwardServer;
 import io.tiklab.dal.boot.starter.annotation.EnableDal;
@@ -34,6 +35,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableDsm
 @EnableDfsClient
 @EnableDfsServer
+@EnableDfsInit
 @EnableDssClient
 @EnableDssServer
 @EnableDcsClient

@@ -34,7 +34,7 @@ postgresql:
     password: darth2020
     address: ${DATA_HOME}/postgresql
 
-DATA_HOME: /opt/tiklab/sward-ce
+DATA_HOME: ${user.home}/tiklab/sward
 
 #dfs config
 #dfs.service.enabled=false
