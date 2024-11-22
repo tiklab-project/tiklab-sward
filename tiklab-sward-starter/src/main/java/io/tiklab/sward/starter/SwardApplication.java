@@ -1,6 +1,6 @@
 package io.tiklab.sward.starter;
 
-import io.tiklab.sward.starter.annotation.EnableKanass;
+import io.tiklab.sward.starter.annotation.EnableSward;
 import io.tiklab.core.property.PropertyAndYamlSourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.PropertySource;
  */
 @SpringBootApplication
 @PropertySource(value = "classpath:application.yaml", factory = PropertyAndYamlSourceFactory.class)
-@EnableKanass
+@EnableSward
 public class SwardApplication {
 
     public static final Logger logger = LoggerFactory.getLogger(SwardApplication.class);
