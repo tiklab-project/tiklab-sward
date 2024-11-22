@@ -51,6 +51,11 @@
             <fileMode>755</fileMode>
             <outputDirectory>/embbed</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>${basedir}/data</directory>
+            <fileMode>755</fileMode>
+            <outputDirectory>/data</outputDirectory>
+        </fileSet>
     </fileSets>
 
     <dependencySets>
