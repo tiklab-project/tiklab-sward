@@ -9,5 +9,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import({SwardAutoConfiguration.class})
-public @interface EnableKanass {
+public @interface EnableSward {
 }
