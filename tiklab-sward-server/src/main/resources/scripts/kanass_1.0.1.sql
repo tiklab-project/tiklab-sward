@@ -1,20 +1,270 @@
-INSERT INTO wiki_document (id, name, repository_id, type_id, category_id, master, update_time, details, detail_text, sort, dimension, tree_path) VALUES ('8f1889bcfe9b', '文档', '43ef04320e51', 'document', NULL, '111111', '2023-12-28 17:33:22', '[{"type":"paragraph","children":[{"text":"附文字"}]}]', '附文字', 1, 1, NULL);
-INSERT INTO wiki_document (id, name, repository_id, type_id, category_id, master, update_time, details, detail_text, sort, dimension, tree_path) VALUES ('81d30924eb59', '测试文档', '7904ebd674d2', 'document', NULL, '111111', '2023-12-28 17:33:52', '[{"type":"paragraph","children":[{"text":"测试文档"}]}]', '测试文档', 1, 1, NULL);
-INSERT INTO wiki_category (id, name, repository_id, parent_category_id, master, update_time, icon_url, sort, dimension, tree_path) VALUES ('b1bdd8940001', '目录1', '43ef04320e51', NULL, '111111', '2023-12-28 17:33:01', NULL, 0, 1, NULL);
+INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type, status, archived_time, archived_user_id, archived_desc, recycle, recycle_time, recycle_user_id) VALUES ('043cd0188d3d', '事项页面介绍', '7904ebd674d2', 'e0937312d93b', '111111', '2024-11-26 11:17:09', '2024-11-26 11:18:19', 1, 2, 'e0937312d93b;', 'document', 'markdown', 'nomal', NULL, NULL, NULL, '0', NULL, NULL);
+INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type, status, archived_time, archived_user_id, archived_desc, recycle, recycle_time, recycle_user_id) VALUES ('74e3e7116820', '知识库模块待办清单', '43ef04320e51', NULL, '111111', '2024-11-26 11:18:55', '2024-11-26 11:19:16', 0, 1, NULL, 'document', 'document', 'nomal', NULL, NULL, NULL, '0', NULL, NULL);
+INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type, status, archived_time, archived_user_id, archived_desc, recycle, recycle_time, recycle_user_id) VALUES ('e0937312d93b', '事项模块', '7904ebd674d2', NULL, '111111', '2023-12-28 17:33:41', '2024-11-26 11:16:40', 0, 1, NULL, 'category', NULL, 'nomal', NULL, NULL, NULL, '0', NULL, NULL);
+INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type, status, archived_time, archived_user_id, archived_desc, recycle, recycle_time, recycle_user_id) VALUES ('1cc90b14f228', '工作周报', '7904ebd674d2', 'e0937312d93b', '111111', '2024-11-26 11:16:44', '2024-11-26 11:17:03', 0, 2, 'e0937312d93b;', 'document', 'document', 'nomal', NULL, NULL, NULL, '0', NULL, NULL);
+INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type, status, archived_time, archived_user_id, archived_desc, recycle, recycle_time, recycle_user_id) VALUES ('d3d719853cea', '知识库功能列表', '43ef04320e51', NULL, '111111', '2024-11-26 11:19:20', '2024-11-26 11:20:27', 1, 1, NULL, 'document', 'markdown', 'nomal', NULL, NULL, NULL, '0', NULL, NULL);
+
+INSERT INTO wiki_repository (id, name, type_id, master, limits, create_time, icon_url, description, status, archived_time, archived_user_id, archived_desc, recycle, recycle_time, recycle_user_id) VALUES ('7904ebd674d2', 'Kanass', '1', '111111', '0', '2022-07-29', 'repository3.png', 'kanass项目管理', 'nomal', NULL, NULL, NULL, '0', NULL, NULL);
+INSERT INTO wiki_repository (id, name, type_id, master, limits, create_time, icon_url, description, status, archived_time, archived_user_id, archived_desc, recycle, recycle_time, recycle_user_id) VALUES ('43ef04320e51', 'sward', '1', '111111', '0', '2022-07-29', 'repository2.png', 'sward', 'nomal', NULL, NULL, NULL, '0', NULL, NULL);
 INSERT INTO wiki_category (id, name, repository_id, parent_category_id, master, update_time, icon_url, sort, dimension, tree_path) VALUES ('e0937312d93b', '目录1', '7904ebd674d2', NULL, '111111', '2023-12-28 17:33:41', NULL, 0, 1, NULL);
 
-INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type) VALUES ('b1bdd8940001', '目录1', '43ef04320e51', NULL, '111111', '2023-12-28 17:33:01', '2023-12-28 17:33:01', 0, 1, NULL, 'category', NULL);
-INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type) VALUES ('e0937312d93b', '目录1', '7904ebd674d2', NULL, '111111', '2023-12-28 17:33:41', '2023-12-28 17:33:41', 0, 1, NULL, 'category', NULL);
-INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type) VALUES ('8f1889bcfe9b', '文档', '43ef04320e51', NULL, '111111', '2023-12-28 17:33:22', '2023-12-28 17:33:22', 1, 1, NULL, 'document', 'document');
-INSERT INTO wiki_node (id, name, repository_id, parent_id, master, create_time, update_time, sort, dimension, tree_path, type, document_type) VALUES ('81d30924eb59', '测试文档', '7904ebd674d2', NULL, '111111', '2023-12-28 17:33:52', '2023-12-28 17:33:52', 1, 1, NULL, 'document', 'document');
+INSERT INTO wiki_document (id, name, repository_id, type_id, category_id, master, update_time, details, detail_text, sort, dimension, tree_path) VALUES ('1cc90b14f228', NULL, NULL, NULL, NULL, NULL, NULL, '[{"type":"paragraph","children":[{"text":"部门：运营部"}]},{"type":"paragraph","children":[{"text":"汇报人： @成员"}]},{"type":"paragraph","children":[{"text":"时间："},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":" - "},{"type":"date","dateValue":"2024-05-30","children":[{"text":""}]},{"text":""}]},{"type":"head","children":[{"text":" ","backgroundColor":"#FF5630"},{"backgroundColor":"#FFFFFF","text":" "},{"text":"本周工作内容"}],"head":"h1","id":"1huhjldb"},{"type":"table","children":[{"type":"table-colgroup","key":"row_713b4342-f9b0-4155-8ae4-79aae44890ec","data":{},"children":[{"type":"table-col","key":"row_21f2bac9-07eb-48a9-9f1c-a5a9a036cd34","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]},{"type":"table-col","key":"row_9c5a5f89-4954-4c41-98a3-3592c58b7aa9","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]},{"type":"table-col","key":"row_ef8208ad-b8b9-402c-8ce2-71ce617390d0","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]},{"type":"table-col","key":"row_0492b59d-d4bf-42b8-8ade-e44cbe920619","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]},{"type":"table-col","key":"row_3143386f-79cb-45e9-ab0c-a76b65cf55c6","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]}]},{"type":"table-row","key":"row_f5ba6e13-8ccf-447f-8ddf-f4d7a2652979","data":{},"children":[{"type":"table-cell","key":"cell_ba107d53-6851-477b-9456-b28b4bebd1af","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"时间"}]}]}],"width":"100px","height":"44px","head":true},{"type":"table-cell","key":"cell_ca407a5e-1a23-4a16-8bdc-cf4df1ff3885","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"重要工作"}]}]}],"width":"100px","height":"44px","head":true},{"type":"table-cell","key":"cell_a30d6cc9-9603-4628-a4b0-76090ab21da8","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"工作进展"}]}]}],"width":"100px","height":"44px","head":true},{"type":"table-cell","key":"cell_9cbf9af3-0903-4bea-9009-4b4c2e2d6fd1","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"风险及应对措施"}]}]}],"width":"100px","height":"44px","head":true},{"type":"table-cell","key":"cell_79f5302c-5cac-45c1-9bf8-eeb7ccf59095","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"说明"}]}]}],"width":"100px","height":"44px","head":true}]},{"type":"table-row","key":"row_244fb233-4bbe-4478-9986-51cd8f68331b","data":{},"children":[{"type":"table-cell","key":"cell_2c3b1a21-15c8-4487-9688-db95d10ee253","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_4d7848cb-26cb-4ea5-a849-20cf69e547d8","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_dad25f8a-96a0-49cf-a214-cb3c9aea5735","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_ef9fb1dc-19c5-4b8e-ac3b-626a2b4aa6af","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_365efdfd-95be-4e3b-874c-80206c71c25a","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]},{"type":"table-row","key":"row_b1b22943-45fc-4266-9328-2443208c9fc1","data":{},"children":[{"type":"table-cell","key":"cell_d88ec320-deb5-455e-a5a2-009ce403c654","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_076afd7b-ae30-4181-a57a-6375afaf1711","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_2fa50198-2c53-412f-9913-0eea04eabdc4","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_2db93251-4a72-4998-b4b7-c29b74c85a02","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_407041e4-366e-4cba-8f2f-0a8412edc11f","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]},{"type":"table-row","key":"row_e6b7a617-1acf-4b22-a932-87e2ea45050c","data":{},"children":[{"type":"table-cell","key":"cell_3d44b786-26da-48cc-a6f4-65f441b27929","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_e34b8dbb-724b-4a34-ac7f-08ee728bcd39","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_ded04085-d994-4a69-8183-fa2653c60559","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_f4ee16ff-4a22-4b17-b259-dab17cb7764f","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_5ca74343-8104-4b28-ad39-161edd5086a0","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]},{"type":"table-row","key":"row_ae67aead-b2c9-4929-8c47-c3eb94ee4e71","data":{},"children":[{"type":"table-cell","key":"cell_45100ed2-e5cd-43ed-b420-06e2bf636376","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_0ecf35ff-3fd8-4ffc-ba15-39102d2107e2","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_8210bf53-3b69-4c95-b83e-55a307ecbf08","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_ae9dbf99-e095-47ff-8a38-1c5d80191d77","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_6eaa114d-fde2-407b-afe6-a52ebe43b411","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]},{"type":"table-row","key":"row_c58f8559-99d1-4566-8dd2-59f0d092de0e","data":{},"children":[{"type":"table-cell","key":"cell_a260f83a-a979-4463-a6c7-3f7d43e44967","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_11d1b05e-2ff2-4923-a9e5-7a8fb14caea0","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_bd6ebf72-db9e-486a-bc8c-dfcc4551901b","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_40709aeb-7926-4a99-be93-492032af5736","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_4b44ec79-3818-4831-a9fe-32c524615d19","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]}],"data":{},"head":1},{"type":"paragraph","children":[{"text":""}]},{"type":"head","children":[{"text":" ","color":"#FFFFFF","backgroundColor":"#FF5630"},{"text":" 本周工作总结"}],"head":"h1","id":"1huhjp6u"},{"type":"bulleted-list","children":[{"type":"list-item","children":[{"text":"填写对本周工作的总结"}]},{"type":"list-item","children":[{"text":"……"}]},{"type":"list-item","children":[{"text":"……"}]}]},{"type":"paragraph","children":[{"text":""}]},{"type":"head","children":[{"text":" ","backgroundColor":"#FF5630"},{"text":" 下周工作计划"}],"head":"h1","id":"1huhjrua"},{"type":"bulleted-list","children":[{"type":"list-item","children":[{"text":"具体描述下周工作内容或项目，并在行末插入任务截止时间"}]},{"type":"list-item","children":[{"text":"……"}]},{"type":"list-item","children":[{"text":"……"}]}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":""}]}]', '部门：运营部
+
+汇报人： @成员
+
+时间：
+﻿
+ -
+﻿
+﻿
+
+  本周工作内容
+
+时间
 
 
-INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('b6369775d80b', '知识库1', 'repository', '43ef04320e51', '111111', '43ef04320e51', '2023-12-28 17:36:16.354');
-INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('99284518de42', '文档', 'document', '8f1889bcfe9b', '111111', '43ef04320e51', '2023-12-28 17:36:17.537');
-INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('32f9adce051b', '知识库2', 'repository', '7904ebd674d2', '111111', '7904ebd674d2', '2023-12-28 17:36:21.767');
-INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('9a80bbe7e1da', '测试文档', 'document', '81d30924eb59', '111111', '7904ebd674d2', '2023-12-28 17:36:22.704');
-INSERT INTO wiki_repository (id, name, type_id, master, limits, create_time, description, icon_url) VALUES ('43ef04320e51', '知识库1', '1', '111111', '0', '2022-07-29', '知识库1', '/image/c9724904fc5de37c');
-INSERT INTO wiki_repository (id, name, type_id, master, limits, create_time, description, icon_url) VALUES ('7904ebd674d2', '知识库2', '1', '111111', '0', '2022-07-29', '知识库2', '/image/ec95cf5ee02e0437');
+
+重要工作
+
+
+
+工作进展
+
+
+
+风险及应对措施
+
+
+
+说明
+
+
+
+
+﻿
+﻿
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+
+﻿
+﻿
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+
+﻿
+﻿
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+
+﻿
+﻿
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+
+﻿
+﻿
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+
+
+﻿
+
+
+﻿
+
+
+  本周工作总结
+填写对本周工作的总结
+……
+……
+
+﻿
+
+
+  下周工作计划
+具体描述下周工作内容或项目，并在行末插入任务截止时间
+……
+……
+
+﻿
+
+
+﻿
+
+
+﻿
+', NULL, NULL, NULL);
+INSERT INTO wiki_document (id, name, repository_id, type_id, category_id, master, update_time, details, detail_text, sort, dimension, tree_path) VALUES ('043cd0188d3d', NULL, NULL, NULL, NULL, NULL, NULL, '[{"type":"paragraph","children":[{"text":"1. 事项列表"}]},{"type":"paragraph","children":[{"text":"2. 事项详情"}]},{"type":"paragraph","children":[{"text":"3. 事项类型"}]}]', '1. 事项列表', NULL, NULL, NULL);
+INSERT INTO wiki_document (id, name, repository_id, type_id, category_id, master, update_time, details, detail_text, sort, dimension, tree_path) VALUES ('74e3e7116820', NULL, NULL, NULL, NULL, NULL, NULL, '[{"type":"paragraph","children":[{"text":"部门:                                     职位：                                   姓名：@成员                    时间： "},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]},{"type":"paragraph","children":[{"text":""}]},{"type":"divider","children":[{"text":""}]},{"type":"head","children":[{"text":" 紧急且重要 ","backgroundColor":"#FFC400"}],"head":"h1","id":"1huhts9u"},{"type":"check-list-item","children":[{"text":"一级合作伙伴周会"}]},{"type":"check-list-item","children":[{"text":"一级供应商合作洽谈"}]},{"type":"paragraph","children":[{"text":""}]},{"type":"head","children":[{"text":" 紧急但不重要 ","backgroundColor":"#FFC400"}],"head":"h1","id":"1huhu94e"},{"type":"check-list-item","children":[{"text":"续约合同签订"}]},{"type":"check-list-item","children":[{"text":"……"}]},{"type":"paragraph","children":[{"text":""}]},{"type":"head","children":[{"text":" 不紧急但重要 ","backgroundColor":"#FFC400"}],"head":"h1","id":"1huhu6hd"},{"type":"check-list-item","children":[{"text":"确认合作伙伴端午贺卡"}]},{"type":"check-list-item","children":[{"text":"……"}]},{"type":"paragraph","children":[{"text":""}]},{"type":"head","children":[{"text":" 不紧急不重要 ","backgroundColor":"#FFC400"}],"head":"h1","id":"1huhu7i9"},{"type":"check-list-item","children":[{"text":"办公电脑性能优化"}]},{"type":"check-list-item","children":[{"text":"……"}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":""}]}]', '部门:                                     职位：                                   姓名：@成员                    时间：
+﻿
+﻿
+
+﻿
+
+
+﻿
+
+ 紧急且重要
+一级合作伙伴周会
+一级供应商合作洽谈
+
+﻿
+
+
+ 紧急但不重要
+续约合同签订
+……
+
+﻿
+
+
+ 不紧急但重要
+确认合作伙伴端午贺卡
+……
+
+﻿
+
+
+ 不紧急不重要
+办公电脑性能优化
+……
+
+﻿
+
+
+﻿
+
+
+﻿
+
+
+﻿
+', NULL, NULL, NULL);
+INSERT INTO wiki_document (id, name, repository_id, type_id, category_id, master, update_time, details, detail_text, sort, dimension, tree_path) VALUES ('d3d719853cea', NULL, NULL, NULL, NULL, NULL, NULL, '[{"type":"paragraph","children":[{"text":"1. 知识库树形结构查看"}]},{"type":"paragraph","children":[{"text":"2. 知识库移动功能"}]},{"type":"paragraph","children":[{"text":"3. 归档功能"}]},{"type":"paragraph","children":[{"text":"4. 回收站功能"}]}]', '1. 知识库树形结构查看', NULL, NULL, NULL);
+
+INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('1a85ea2556e7', '事项模块', 'category', 'e0937312d93b', '111111', '7904ebd674d2', '2024-11-26 11:20:34.705');
+INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('6437743afcb0', '事项页面介绍', 'document', '043cd0188d3d', '111111', '7904ebd674d2', '2024-11-26 11:20:35.576');
+INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('85819b6f5676', '工作周报', 'document', '1cc90b14f228', '111111', '7904ebd674d2', '2024-11-26 11:20:35.913');
+INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('00bfde77a5eb', '知识库模块待办清单', 'document', '74e3e7116820', '111111', '43ef04320e51', '2024-11-26 11:20:45.899');
+INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('0177ceec565e', '知识库功能列表', 'document', 'd3d719853cea', '111111', '43ef04320e51', '2024-11-26 11:20:53.838');
+INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('b6369775d80b', 'Kanass', 'repository', '43ef04320e51', '111111', '43ef04320e51', '2024-11-26 11:23:31.399');
+INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('32f9adce051b', 'sward', 'repository', '7904ebd674d2', '111111', '7904ebd674d2', '2024-11-26 11:23:36.024');
+
+INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('bbd22724c949', 'repository1.png', 'repository1.png', 'repository');
+INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('0c1faf0d2ec6', 'repository2.png', 'repository2.png', 'repository');
+INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('b5952fb1da49', 'repository3.png', 'repository3.png', 'repository');
+INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('f253b41fa064', 'repository4.png', 'repository4.png', 'repository');
+
+INSERT INTO pcs_op_log_type (id, name, bgroup) VALUES ('SWARD_LOGTYPE_DOCUMENTADD', '添加文档', 'sward');
+
 
 INSERT INTO pcs_ucc_dm_user (id, domain_id, user_id, type) VALUES ('bfd4660ddbb9', '7904ebd674d2', '111111', 0);
 INSERT INTO pcs_ucc_dm_user (id, domain_id, user_id, type) VALUES ('d19fe2d0083a', '43ef04320e51', '111111', 0);
@@ -57,6 +307,47 @@ INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('e090bc9665
 INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('e3ce4060ad57', '1', '7ff4702ebe64');
 INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('e5e89123743e', '1', 'hf43e412151e');
 
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('d2b6f6d084e7', '111111', 'oug5371be8ec');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('32a4d0eed003', '111111', '1f777ba063f7');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('c24fc146f68c', '111111', '7ff4702ebe64');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('d444c8920ebb', '111111', '321751dfd3a5');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('64a5bbd4bc6a', '111111', '63fd58715558');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('879506ff42fe', '111111', 'f8b5c661b0fc');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('3bae1d616b8d', '111111', '0c73e628fd54');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('ff4ecc41dcca', '111111', '64bdf62686a4');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('b7d770a6a28c', '111111', '9633d9475886');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('76117ac5975d', '111111', 'dd81bdbb52bc');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('d733a441f6b7', '111111', '57a3bcd1e5fe');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('5057e8eb3f0a', '111111', '428be660dea3');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('78f31d9fb554', '111111', '5fb7863b09a8');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('c580fa7417e5', '111111', '043e412151db');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('1869d09f7baa', '111111', '925371be8ec6');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('6d3b90a99b6e', '111111', '447d9998fc00');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('c1e2234d43dd', '111111', '890e7d41decf');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('555b4438ffd6', '111111', '585d26bcbdf3');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('977b83a02277', '111111', 'e8bf9843bc9d');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('5ab4228748bd', '111111', 'cb954a7c0be3');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('1363746a2ce1', '111111', '9c99b8a096c8');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('7fcbf04ad6f6', '111111', '325c2503007f');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('d4fa405ed6b3', '111111', '6b61fbe5091a');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('b013fc145ae6', '111111', 'wqre9998fc00');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('59e81503e67a', '111111', '43e7d41decf7');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('3d43bf23cef2', '111111', 'hfg5371be8ec');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('ad40263be4aa', '111111', 'hf43e412151e');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('3601eaf9a6d0', '111111', '4235d2624bdf');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('ebd031405c51', '111111', '138654cdc36c');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('1ff041d83714', '111111', '746c3becb86f');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('c4cc7bedb237', '111111', 'a11ca9e4559e');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('d9b85595468e', '111111', '47fb980c2919');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('73ec6efe7f56', '111111', 'f9e27dd6f76e');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('d1aafd9a35ce', '111111', '5d5b64c3d172');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('7ab376aa258a', '111111', 'f569dfa96880');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('58c597adf054', '111111', '48717b977129');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('77da43188035', '111111', '49e12c2b8fca');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('cadf134301a0', '111111', 'c5af706628c2');
+
+
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('d515760eaadb', 'pro_111111', '4dfb4eb2c40d');
 
 INSERT INTO pcs_prc_function (id, name, code, parent_function_id, sort, type) VALUES ('0c73e628fd54', '插件', 'SysPlugin', NULL, 1, '1');
 INSERT INTO pcs_prc_function (id, name, code, parent_function_id, sort, type) VALUES ('138654cdc36c', '消息发送方式', 'SysMessageSendType', '47fb980c2919', 41, '1');
@@ -105,26 +396,19 @@ INSERT INTO pcs_prc_function (id, name, code, parent_function_id, sort, type) VA
 INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('389ab5c54692', '1fac7297bd6c', '4dfb4eb2c40d');
 INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('4d23b6a02e3c', '2', '4dfb4eb2c40d');
 INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('84ca038f8f75', '2e018b908ac1', '4dfb4eb2c40d');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('353377bd43d9', 'c7e77e842563', '4dfb4eb2c40d');
+INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('e47a9b3e4dc4', 'f0763af198e8', '4dfb4eb2c40d');
 
 INSERT INTO pcs_prc_dm_role_user (id, dmRole_id, domain_id, user_id) VALUES ('2628fa355f74', '4763791e9126', '43ef04320e51', '111111');
 INSERT INTO pcs_prc_dm_role_user (id, dmRole_id, domain_id, user_id) VALUES ('9e973dbe3ecf', 'bfa59d952c64', '7904ebd674d2', '111111');
+INSERT INTO pcs_prc_dm_role_user (id, dmRole_id, domain_id, user_id) VALUES ('c3a305943a4b', 'ffcb15cc5283', '2d2c3377b577', '111111');
+INSERT INTO pcs_prc_dm_role_user (id, dmRole_id, domain_id, user_id) VALUES ('0103300f9c88', '82cd507f327e', '172a21de6cea', '111111');
 
 INSERT INTO pcs_prc_dm_role (id, domain_id, role_id, business_type) VALUES ('4763791e9126', '43ef04320e51', '2e018b908ac1', 0);
 INSERT INTO pcs_prc_dm_role (id, domain_id, role_id, business_type) VALUES ('5ea808caadc2', '43ef04320e51', '67c91d87afd7', 0);
 INSERT INTO pcs_prc_dm_role (id, domain_id, role_id, business_type) VALUES ('bfa59d952c64', '7904ebd674d2', '1fac7297bd6c', 0);
 INSERT INTO pcs_prc_dm_role (id, domain_id, role_id, business_type) VALUES ('e5f12d1372da', '7904ebd674d2', '070c9ac2734a', 0);
-
-INSERT INTO pcs_prc_role (id, name, description, grouper, type, scope, business_type, default_role) VALUES ('070c9ac2734a', '普通用户', '普通用户', 'system', '2', 2, 1, 0);
-INSERT INTO pcs_prc_role (id, name, description, grouper, type, scope, business_type, default_role) VALUES ('1af472d3e62d', '普通用户', '普通用户', 'system', '2', 1, 0, 0);
-INSERT INTO pcs_prc_role (id, name, description, grouper, type, scope, business_type, default_role) VALUES ('1fac7297bd6c', 'admin', '管理员', 'system', '2', 2, 0, 0);
-INSERT INTO pcs_prc_role (id, name, description, grouper, type, scope, business_type, default_role) VALUES ('2', 'admin', '管理员', 'system', '2', 1, 1, 0);
-INSERT INTO pcs_prc_role (id, name, description, grouper, type, scope, business_type, default_role) VALUES ('2e018b908ac1', 'admin', '管理员', 'system', '2', 2, 0, 0);
-INSERT INTO pcs_prc_role (id, name, description, grouper, type, scope, business_type, default_role) VALUES ('67c91d87afd7', '普通用户', '普通用户', 'system', '2', 2, 0, 0);
+INSERT INTO pcs_prc_dm_role (id, domain_id, role_id, business_type) VALUES ('ffcb15cc5283', '7904ebd674d2', 'c7e77e842563', 2);
+INSERT INTO pcs_prc_dm_role (id, domain_id, role_id, business_type) VALUES ('82cd507f327e', '43ef04320e51', 'f0763af198e8', 2);
 
 
-INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('bbd22724c949', 'repository1.png', '/image/5fa65aea26863f2b', 'repository');
-INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('0c1faf0d2ec6', 'repository2.png', '/image/66f8f49794e65ec7', 'repository');
-INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('b5952fb1da49', 'repository3.png', '/image/ec95cf5ee02e0437', 'repository');
-INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('f253b41fa064', 'repository4.png', '/image/8fc1ee4be3865cd4', 'repository');
-INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('7488124b1b12', 'repository5.png', '/image/52eed62513ef3b3b', 'repository');
-INSERT INTO wiki_icon (id, icon_name, icon_url, icon_type) VALUES ('55fde63c707e', 'repository6.png', '/image/c9724904fc5de37c', 'repository');

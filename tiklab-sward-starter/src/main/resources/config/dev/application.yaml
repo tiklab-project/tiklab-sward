@@ -13,7 +13,7 @@ server:
 
 jdbc:
   driverClassName: org.postgresql.Driver
-  url: jdbc:postgresql://172.10.1.10:5432/thoughtware_sward?stringtype=unspecified
+  url: jdbc:postgresql://172.10.1.10:5432/tiklab_sward1?stringtype=unspecified
   username: postgres
   password: darth2020
 
@@ -27,7 +27,7 @@ postgresql:
   type: local
   embbed:
     enable: false
-  database: tiklab_sward
+  database: tiklab_sward1
 
 DATA_HOME: ${user.home}/tiklab/sward
 

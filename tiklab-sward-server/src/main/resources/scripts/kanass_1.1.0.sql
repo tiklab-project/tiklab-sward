@@ -1,1 +1,0 @@
-INSERT INTO pcs_op_log_type (id, name, bgroup) VALUES ('SWARD_LOGTYPE_DOCUMENTADD', '添加文档', 'sward');
