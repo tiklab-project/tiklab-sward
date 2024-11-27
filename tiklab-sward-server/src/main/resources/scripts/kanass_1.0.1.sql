@@ -6,205 +6,24 @@ INSERT INTO wiki_repository (id, name, type_id, master, limits, create_time, ico
 
 INSERT INTO wiki_category (id, name, repository_id, parent_category_id, master, update_time, icon_url, sort, dimension, tree_path) VALUES ('e0937312d93b', '目录1', '7904ebd674d2', NULL, '111111', '2023-12-28 17:33:41', NULL, 0, 1, NULL);
 
+INSERT INTO wiki_document (id, name, repository_id, type_id, category_id, master, update_time, details, detail_text, sort, dimension, tree_path) VALUES ('1cc90b14f228', NULL, NULL, NULL, NULL, NULL, NULL, '[{"type":"paragraph","children":[{"text":"部门：运营部"}]},{"type":"paragraph","children":[{"text":"汇报人： @成员"}]},{"type":"paragraph","children":[{"text":"时间："},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":" - "},{"type":"date","dateValue":"2024-05-30","children":[{"text":""}]},{"text":""}]},{"type":"head","children":[{"text":" ","backgroundColor":"#FF5630"},{"backgroundColor":"#FFFFFF","text":" "},{"text":"本周工作内容"}],"head":"h1","id":"1huhjldb"},{"type":"table","children":[{"type":"table-colgroup","key":"row_713b4342-f9b0-4155-8ae4-79aae44890ec","data":{},"children":[{"type":"table-col","key":"row_21f2bac9-07eb-48a9-9f1c-a5a9a036cd34","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]},{"type":"table-col","key":"row_9c5a5f89-4954-4c41-98a3-3592c58b7aa9","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]},{"type":"table-col","key":"row_ef8208ad-b8b9-402c-8ce2-71ce617390d0","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]},{"type":"table-col","key":"row_0492b59d-d4bf-42b8-8ade-e44cbe920619","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]},{"type":"table-col","key":"row_3143386f-79cb-45e9-ab0c-a76b65cf55c6","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]}]},{"type":"table-row","key":"row_f5ba6e13-8ccf-447f-8ddf-f4d7a2652979","data":{},"children":[{"type":"table-cell","key":"cell_ba107d53-6851-477b-9456-b28b4bebd1af","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"时间"}]}]}],"width":"100px","height":"44px","head":true},{"type":"table-cell","key":"cell_ca407a5e-1a23-4a16-8bdc-cf4df1ff3885","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"重要工作"}]}]}],"width":"100px","height":"44px","head":true},{"type":"table-cell","key":"cell_a30d6cc9-9603-4628-a4b0-76090ab21da8","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"工作进展"}]}]}],"width":"100px","height":"44px","head":true},{"type":"table-cell","key":"cell_9cbf9af3-0903-4bea-9009-4b4c2e2d6fd1","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"风险及应对措施"}]}]}],"width":"100px","height":"44px","head":true},{"type":"table-cell","key":"cell_79f5302c-5cac-45c1-9bf8-eeb7ccf59095","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"说明"}]}]}],"width":"100px","height":"44px","head":true}]},{"type":"table-row","key":"row_244fb233-4bbe-4478-9986-51cd8f68331b","data":{},"children":[{"type":"table-cell","key":"cell_2c3b1a21-15c8-4487-9688-db95d10ee253","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_4d7848cb-26cb-4ea5-a849-20cf69e547d8","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_dad25f8a-96a0-49cf-a214-cb3c9aea5735","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_ef9fb1dc-19c5-4b8e-ac3b-626a2b4aa6af","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_365efdfd-95be-4e3b-874c-80206c71c25a","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]},{"type":"table-row","key":"row_b1b22943-45fc-4266-9328-2443208c9fc1","data":{},"children":[{"type":"table-cell","key":"cell_d88ec320-deb5-455e-a5a2-009ce403c654","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_076afd7b-ae30-4181-a57a-6375afaf1711","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_2fa50198-2c53-412f-9913-0eea04eabdc4","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_2db93251-4a72-4998-b4b7-c29b74c85a02","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_407041e4-366e-4cba-8f2f-0a8412edc11f","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]},{"type":"table-row","key":"row_e6b7a617-1acf-4b22-a932-87e2ea45050c","data":{},"children":[{"type":"table-cell","key":"cell_3d44b786-26da-48cc-a6f4-65f441b27929","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_e34b8dbb-724b-4a34-ac7f-08ee728bcd39","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_ded04085-d994-4a69-8183-fa2653c60559","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_f4ee16ff-4a22-4b17-b259-dab17cb7764f","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_5ca74343-8104-4b28-ad39-161edd5086a0","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]},{"type":"table-row","key":"row_ae67aead-b2c9-4929-8c47-c3eb94ee4e71","data":{},"children":[{"type":"table-cell","key":"cell_45100ed2-e5cd-43ed-b420-06e2bf636376","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_0ecf35ff-3fd8-4ffc-ba15-39102d2107e2","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_8210bf53-3b69-4c95-b83e-55a307ecbf08","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_ae9dbf99-e095-47ff-8a38-1c5d80191d77","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_6eaa114d-fde2-407b-afe6-a52ebe43b411","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]},{"type":"table-row","key":"row_c58f8559-99d1-4566-8dd2-59f0d092de0e","data":{},"children":[{"type":"table-cell","key":"cell_a260f83a-a979-4463-a6c7-3f7d43e44967","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_11d1b05e-2ff2-4923-a9e5-7a8fb14caea0","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_bd6ebf72-db9e-486a-bc8c-dfcc4551901b","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_40709aeb-7926-4a99-be93-492032af5736","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_4b44ec79-3818-4831-a9fe-32c524615d19","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]}],"data":{},"head":1},{"type":"paragraph","children":[{"text":""}]},{"type":"head","children":[{"text":" ","color":"#FFFFFF","backgroundColor":"#FF5630"},{"text":" 本周工作总结"}],"head":"h1","id":"1huhjp6u"},{"type":"bulleted-list","children":[{"type":"list-item","children":[{"text":"填写对本周工作的总结"}]},{"type":"list-item","children":[{"text":"……"}]},{"type":"list-item","children":[{"text":"……"}]}]},{"type":"paragraph","children":[{"text":""}]},{"type":"head","children":[{"text":" ","backgroundColor":"#FF5630"},{"text":" 下周工作计划"}],"head":"h1","id":"1huhjrua"},{"type":"bulleted-list","children":[{"type":"list-item","children":[{"text":"具体描述下周工作内容或项目，并在行末插入任务截止时间"}]},{"type":"list-item","children":[{"text":"……"}]},{"type":"list-item","children":[{"text":"……"}]}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":""}]}]', '部门：运营部 汇报人： @成员 时间： ﻿ - ﻿ ﻿ 本周工作内容 时间 重要工作 工作进展 风险及应对措施 说明 ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ ﻿ 本周工作总结 填写对本周工作的总结 …… …… ﻿ 下周工作计划 具体描述下周工作内容或项目，并在行末插入任务截止时间 …… …… ﻿ ﻿ ﻿ ', NULL, NULL, NULL);
+INSERT INTO wiki_document (id, name, repository_id, type_id, category_id, master, update_time, details, detail_text, sort, dimension, tree_path) VALUES ('043cd0188d3d', NULL, NULL, NULL, NULL, NULL, NULL, '[{"type":"paragraph","children":[{"text":"1. 事项列表"}]},{"type":"paragraph","children":[{"text":"2. 事项详情"}]},{"type":"paragraph","children":[{"text":"3. 事项类型"}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":"> 事项类型有三种：需求、任务、缺陷"}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":"- 事项接口"}]},{"type":"paragraph","children":[{"text":"- 事项页面"}]},{"type":"paragraph","children":[{"text":"- 事项流程"}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":"| 需求 | 任务 | 缺陷 |"}]},{"type":"paragraph","children":[{"text":"| --- | --- | --- |"}]},{"type":"paragraph","children":[{"text":"|  需求表单| 任务表单 | 缺陷表单 |"}]},{"type":"paragraph","children":[{"text":"|  需求流程| 任务流程 | 缺陷流程 |"}]}]', '1. 事项列表
+2. 事项详情
+3. 事项类型
 
+> 事项类型有三种：需求、任务、缺陷
 
 
+- 事项接口
+- 事项页面
+- 事项流程
 
-INSERT INTO wiki_document (id, name, repository_id, type_id, category_id, master, update_time, details, detail_text, sort, dimension, tree_path) VALUES ('1cc90b14f228', NULL, NULL, NULL, NULL, NULL, NULL, '[{"type":"paragraph","children":[{"text":"部门：运营部"}]},{"type":"paragraph","children":[{"text":"汇报人： @成员"}]},{"type":"paragraph","children":[{"text":"时间："},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":" - "},{"type":"date","dateValue":"2024-05-30","children":[{"text":""}]},{"text":""}]},{"type":"head","children":[{"text":" ","backgroundColor":"#FF5630"},{"backgroundColor":"#FFFFFF","text":" "},{"text":"本周工作内容"}],"head":"h1","id":"1huhjldb"},{"type":"table","children":[{"type":"table-colgroup","key":"row_713b4342-f9b0-4155-8ae4-79aae44890ec","data":{},"children":[{"type":"table-col","key":"row_21f2bac9-07eb-48a9-9f1c-a5a9a036cd34","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]},{"type":"table-col","key":"row_9c5a5f89-4954-4c41-98a3-3592c58b7aa9","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]},{"type":"table-col","key":"row_ef8208ad-b8b9-402c-8ce2-71ce617390d0","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]},{"type":"table-col","key":"row_0492b59d-d4bf-42b8-8ade-e44cbe920619","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]},{"type":"table-col","key":"row_3143386f-79cb-45e9-ab0c-a76b65cf55c6","width":"20.00%","data":{},"children":[{"type":"paragraph","children":[{"text":""}]}]}]},{"type":"table-row","key":"row_f5ba6e13-8ccf-447f-8ddf-f4d7a2652979","data":{},"children":[{"type":"table-cell","key":"cell_ba107d53-6851-477b-9456-b28b4bebd1af","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"时间"}]}]}],"width":"100px","height":"44px","head":true},{"type":"table-cell","key":"cell_ca407a5e-1a23-4a16-8bdc-cf4df1ff3885","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"重要工作"}]}]}],"width":"100px","height":"44px","head":true},{"type":"table-cell","key":"cell_a30d6cc9-9603-4628-a4b0-76090ab21da8","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"工作进展"}]}]}],"width":"100px","height":"44px","head":true},{"type":"table-cell","key":"cell_9cbf9af3-0903-4bea-9009-4b4c2e2d6fd1","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"风险及应对措施"}]}]}],"width":"100px","height":"44px","head":true},{"type":"table-cell","key":"cell_79f5302c-5cac-45c1-9bf8-eeb7ccf59095","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":"说明"}]}]}],"width":"100px","height":"44px","head":true}]},{"type":"table-row","key":"row_244fb233-4bbe-4478-9986-51cd8f68331b","data":{},"children":[{"type":"table-cell","key":"cell_2c3b1a21-15c8-4487-9688-db95d10ee253","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_4d7848cb-26cb-4ea5-a849-20cf69e547d8","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_dad25f8a-96a0-49cf-a214-cb3c9aea5735","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_ef9fb1dc-19c5-4b8e-ac3b-626a2b4aa6af","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_365efdfd-95be-4e3b-874c-80206c71c25a","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]},{"type":"table-row","key":"row_b1b22943-45fc-4266-9328-2443208c9fc1","data":{},"children":[{"type":"table-cell","key":"cell_d88ec320-deb5-455e-a5a2-009ce403c654","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_076afd7b-ae30-4181-a57a-6375afaf1711","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_2fa50198-2c53-412f-9913-0eea04eabdc4","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_2db93251-4a72-4998-b4b7-c29b74c85a02","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_407041e4-366e-4cba-8f2f-0a8412edc11f","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]},{"type":"table-row","key":"row_e6b7a617-1acf-4b22-a932-87e2ea45050c","data":{},"children":[{"type":"table-cell","key":"cell_3d44b786-26da-48cc-a6f4-65f441b27929","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_e34b8dbb-724b-4a34-ac7f-08ee728bcd39","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_ded04085-d994-4a69-8183-fa2653c60559","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_f4ee16ff-4a22-4b17-b259-dab17cb7764f","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_5ca74343-8104-4b28-ad39-161edd5086a0","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]},{"type":"table-row","key":"row_ae67aead-b2c9-4929-8c47-c3eb94ee4e71","data":{},"children":[{"type":"table-cell","key":"cell_45100ed2-e5cd-43ed-b420-06e2bf636376","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_0ecf35ff-3fd8-4ffc-ba15-39102d2107e2","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_8210bf53-3b69-4c95-b83e-55a307ecbf08","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_ae9dbf99-e095-47ff-8a38-1c5d80191d77","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_6eaa114d-fde2-407b-afe6-a52ebe43b411","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]},{"type":"table-row","key":"row_c58f8559-99d1-4566-8dd2-59f0d092de0e","data":{},"children":[{"type":"table-cell","key":"cell_a260f83a-a979-4463-a6c7-3f7d43e44967","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""},{"type":"date","dateValue":"2024-05-23","children":[{"text":""}]},{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_11d1b05e-2ff2-4923-a9e5-7a8fb14caea0","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_bd6ebf72-db9e-486a-bc8c-dfcc4551901b","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_40709aeb-7926-4a99-be93-492032af5736","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"},{"type":"table-cell","key":"cell_4b44ec79-3818-4831-a9fe-32c524615d19","children":[{"type":"table-content","children":[{"type":"paragraph","children":[{"text":""}]}]}],"width":"100px","height":"44px"}]}],"data":{},"head":1},{"type":"paragraph","children":[{"text":""}]},{"type":"head","children":[{"text":" ","color":"#FFFFFF","backgroundColor":"#FF5630"},{"text":" 本周工作总结"}],"head":"h1","id":"1huhjp6u"},{"type":"bulleted-list","children":[{"type":"list-item","children":[{"text":"填写对本周工作的总结"}]},{"type":"list-item","children":[{"text":"……"}]},{"type":"list-item","children":[{"text":"……"}]}]},{"type":"paragraph","children":[{"text":""}]},{"type":"head","children":[{"text":" ","backgroundColor":"#FF5630"},{"text":" 下周工作计划"}],"head":"h1","id":"1huhjrua"},{"type":"bulleted-list","children":[{"type":"list-item","children":[{"text":"具体描述下周工作内容或项目，并在行末插入任务截止时间"}]},{"type":"list-item","children":[{"text":"……"}]},{"type":"list-item","children":[{"text":"……"}]}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":""}]},{"type":"paragraph","children":[{"text":""}]}]', '部门：运营部
 
-汇报人： @成员
 
-时间：
-﻿
- -
-﻿
-﻿
-
-  本周工作内容
-
-时间
-
-
-
-重要工作
-
-
-
-工作进展
-
-
-
-风险及应对措施
-
-
-
-说明
-
-
-
-
-﻿
-﻿
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-
-﻿
-﻿
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-
-﻿
-﻿
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-
-﻿
-﻿
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-
-﻿
-﻿
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-
-
-﻿
-
-
-﻿
-
-
-  本周工作总结
-填写对本周工作的总结
-……
-……
-
-﻿
-
-
-  下周工作计划
-具体描述下周工作内容或项目，并在行末插入任务截止时间
-……
-……
-
-﻿
-
-
-﻿
-
-
-﻿
-', NULL, NULL, NULL);
-INSERT INTO wiki_document (id, name, repository_id, type_id, category_id, master, update_time, details, detail_text, sort, dimension, tree_path) VALUES ('043cd0188d3d', NULL, NULL, NULL, NULL, NULL, NULL, '[{"type":"paragraph","children":[{"text":"1. 事项列表"}]},{"type":"paragraph","children":[{"text":"2. 事项详情"}]},{"type":"paragraph","children":[{"text":"3. 事项类型"}]}]', '1. 事项列表', NULL, NULL, NULL);
+| 需求 | 任务 | 缺陷 |
+| --- | --- | --- |
+|  需求表单| 任务表单 | 缺陷表单 |
+|  需求流程| 任务流程 | 缺陷流程 |', NULL, NULL, NULL);
 
 INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('1a85ea2556e7', '事项模块', 'category', 'e0937312d93b', '111111', '7904ebd674d2', '2024-11-26 11:20:34.705');
 INSERT INTO wiki_recent (id, name, model, model_id, master_id, repository_id, recent_time) VALUES ('6437743afcb0', '事项页面介绍', 'document', '043cd0188d3d', '111111', '7904ebd674d2', '2024-11-26 11:20:35.576');
@@ -350,6 +169,7 @@ INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('353377bd43
 INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('e47a9b3e4dc4', 'f0763af198e8', '4dfb4eb2c40d');
 
 INSERT INTO pcs_prc_dm_role_user (id, dmRole_id, domain_id, user_id) VALUES ('9e973dbe3ecf', 'bfa59d952c64', '7904ebd674d2', '111111');
+INSERT INTO pcs_prc_dm_role_user (id, dmRole_id, domain_id, user_id) VALUES ('947b0df65022', 'ffcb15cc5283', '7904ebd674d2', '111111');
 
 INSERT INTO pcs_prc_dm_role (id, domain_id, role_id, business_type) VALUES ('bfa59d952c64', '7904ebd674d2', '1fac7297bd6c', 0);
 INSERT INTO pcs_prc_dm_role (id, domain_id, role_id, business_type) VALUES ('e5f12d1372da', '7904ebd674d2', '070c9ac2734a', 0);
