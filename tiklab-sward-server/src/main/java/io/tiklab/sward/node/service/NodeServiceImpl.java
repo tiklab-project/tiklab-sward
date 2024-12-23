@@ -88,12 +88,9 @@ public class NodeServiceImpl implements NodeService {
                 }else {
                     treePath = parentId + ";";
                 }
-
                 node.setTreePath(treePath);
-
                 Integer dimension = parentNode.getDimension();
                 node.setDimension(dimension + 1);
-
             }else {
                 Integer brotherNum = nodeDao.getBrotherNum(repositoryId, null);
                 node.setSort(brotherNum);

@@ -80,7 +80,7 @@ public class GatewayFilterAutoConfiguration {
                     "/updateMySql/updateAllData",
                     "/message/messageItem/syncUpdateMessage",
                     "/message/messageItem/syncDeleteMessage",
-
+                    "/init/install/findStatus"
             })
             .ignorePreUrls(new String[]{
                     "/apis/list",

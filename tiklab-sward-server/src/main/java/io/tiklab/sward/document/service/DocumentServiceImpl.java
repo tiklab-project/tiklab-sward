@@ -180,10 +180,29 @@ public class DocumentServiceImpl implements DocumentService {
         String documentId = new String();
         Node node = wikiDocument.getNode();
         String nodeId = new String();
+        NodeQuery nodeQuery = new NodeQuery();
+        nodeQuery.setName("未命名文档");
+        nodeQuery.setRepositoryId(node.getWikiRepository().getId());
+        List<Node> nodeList = nodeService.findNodeList(nodeQuery);
+        List<String> nodeNameList = nodeList.stream().map(node1 -> node1.getName()).collect(Collectors.toList());
+        int num = 0;
+        for (String nodeName : nodeNameList) {
+            System.out.println("名字" + nodeName);
+            if(nodeName.length() > 6){
+                String substring = nodeName.substring(6, nodeName.length()-1);
+                int num1 = Integer.parseInt(substring);
+                if(num1 > num){
+                    num = num1;
+                }
+
+            }
+        }
+        System.out.println("最大数" + num);
+        num++;
+        node.setName("未命名文档(" + num + ")");
 
         try {
             nodeId = nodeService.createNode(node);
-
             wikiDocument.setId(nodeId);
             WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
             documentId = documentDao.createDocument(wikiDocumentEntity);
