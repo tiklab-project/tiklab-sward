@@ -35,7 +35,7 @@ public interface SearchService {
 
 
 
-    public HashMap<String, List<Object>> searchWikiDocumentForTop(String keyword);
+    HashMap<String, List<Object>> searchWikiDocumentForTop(String keyword);
 
     List<WikiDocument> searchRepositoryDocument(DocumentQuery documentQuery);
 
