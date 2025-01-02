@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * jira 数据导入服务
+ * confluence 数据导入服务，导入confluence 7.19社区版本数据
  */
 @Service
 @EnableTransactionManagement
@@ -45,8 +45,6 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
 
     @Autowired
     DocumentService documentService;
-    @Autowired
-    AnalysisHtmlService analysisHtmlService;
 
     @Autowired
     WikiRepositoryService wikiRepositoryService;
@@ -69,6 +67,7 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
             ArrayList<Element> spaceElementList = new ArrayList<>();
             ArrayList<Element> documentElementList = new ArrayList<>();
             ArrayList<Element> documentCoreElementList = new ArrayList<>();
+            // 节点分类
             for (Element element : elements) {
                 String name = element.getTagName();
                 switch (name){
@@ -101,7 +100,7 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
                 setGlobalUser(userElement);
             }
 
-            // 获取导入项目的总数
+            // 获取导入知识库的总数
             int size = spaceElementList.size();
             Percent.put(createUserId + "total", size);
             for (Element spaceElement : spaceElementList) {
@@ -113,11 +112,15 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
         }
     }
 
+    /**
+     * 导入系统人员
+     * @param element
+     */
     public void setGlobalUser(Element element){
         String active = element.getAttribute("active");
         String emailAddress = element.getAttribute("emailAddress");
-        String createdDate = element.getAttribute("createdDate");
 
+        // 用户还在使用
         if(active.equals("true")) {
             for (Element confluUserElement : this.ConfluUserElementList.get()) {
                 String confluUserId = confluUserElement.getAttribute("conUserId");
@@ -165,6 +168,13 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
         }
     }
 
+    /**
+     * 导入数据库
+     * @param element
+     * @param createUserId
+     * @param CurrentProject
+     * @param Percent
+     */
     public void setSpace(Element element, String createUserId, Map<String, WikiRepository> CurrentProject, Map<String, Integer> Percent){
         String id = element.getAttribute("id");
         String name = element.getAttribute("name");
@@ -207,53 +217,22 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
         }
     }
 
+    /**
+     * 规范sql
+     * @param input
+     * @return
+     */
     public static String escapeSql(String input) {
         if (input == null) {
             return null;
         }
         return input.replace("'", "''");
     }
-    public void setDocumentText(Element documentElement) {
-        String title = documentElement.getAttribute("title");
-        String name = escapeSql(title);
-        NodeQuery nodeQuery = new NodeQuery();
-        nodeQuery.setName(name);
-        nodeQuery.setRepositoryId("b9c95c3e4193");
-        List<Node> nodeList = nodeService.findNodeListByName(nodeQuery);
-//        if (nodeList.size() <= 0) {
-            String creationDate = documentElement.getAttribute("creationDate");
-            String creator = documentElement.getAttribute("creator");
-            String bodyContentId = documentElement.getAttribute("bodyContentId");
-            Integer documentSort = 0;
-            documentSort = documentSort + 1;
-            WikiDocument wikiDocument = new WikiDocument();
-            Node node = new Node();
-            node.setName(title);
-            node.setCreateTime(creationDate);
-            node.setDimension(1);
-            node.setSort(documentSort);
 
-            WikiRepository wikiRepository = new WikiRepository();
-            wikiRepository.setId("b9c95c3e4193");
-            node.setWikiRepository(wikiRepository);
-            String userId = getUserId(creator);
-            User user = new User();
-            user.setId(userId);
-            node.setMaster(user);
-            node.setDocumentType("document");
-            node.setType("document");
-            node.setRecycle("0");
-            node.setStatus("nomal");
-            wikiDocument.setNode(node);
-            try {
-                String documentId = documentService.createConfluDocument(wikiDocument);
-                setDocumentContent(documentId, bodyContentId);
-            } catch (Exception e) {
-                throw new ApplicationException(2000, "文档添加失败:" + e.getMessage());
-            }
-
-//        }
-    }
+    /**
+     * 导入文档
+     * @param element
+     */
     public void setDocument(Element element){
         String spaceId = element.getAttribute("id");
         String newId = element.getAttribute("newId");
@@ -265,12 +244,10 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
             NodeQuery nodeQuery = new NodeQuery();
             nodeQuery.setName(name);
             nodeQuery.setRepositoryId(newId);
-            List<Node> nodeList = nodeService.findNodeListByName(nodeQuery);
             if(!documentNameList.contains(name)){
                 String creationDate = documentElement.getAttribute("creationDate");
                 String space = documentElement.getAttribute("space");
                 String creator = documentElement.getAttribute("creator");
-                String id = documentElement.getAttribute("id");
                 String bodyContentId = documentElement.getAttribute("bodyContentId");
                 Integer documentSort = 0;
                 if(spaceId.equals(space)){
@@ -306,6 +283,12 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
             }
         }
     }
+
+    /**
+     * 导入文档内容
+     * @param documentId
+     * @param bodyContentId
+     */
     public void setDocumentContent(String documentId, String bodyContentId){
         for (Element element : this.DocumentCoreElementList.get()) {
             String id = element.getAttribute("id");
@@ -339,6 +322,11 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
 
     }
 
+    /**
+     * 获取导入的成员的id
+     * @param creator
+     * @return
+     */
     public String getUserId(String creator){
         String userId = new String();
         ArrayList<Element> userElementList = this.UserElementList.get();
@@ -352,27 +340,5 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
         return  userId;
     }
 
-    /**
-     * 转换为时间戳转换为日期
-     * @param timetamp
-     * @return
-     */
-    public String toDateString(String timetamp){
-         // 示例时间戳字符串
-        String formattedDate = new String();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            long timestamp = Long.parseLong(timetamp);
-            Date date = new Date(timestamp); // 时间戳通常是以秒为单位，所以需要乘以1000转成毫秒
-            formattedDate = sdf.format(date);
-            System.out.println("Formatted Date: " + formattedDate);
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid timestamp");
-        }
-        return formattedDate;
-    }
-    public JdbcTemplate getJdbcTemplet(){
-      return  jpaTemplate.getJdbcTemplate();
-    }
 
 }

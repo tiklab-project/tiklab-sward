@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/**
+ * 重建索引
+ */
 @Component
 public class DssInitIndex implements IndexInitCallback {
     @Autowired
@@ -22,6 +25,9 @@ public class DssInitIndex implements IndexInitCallback {
     @Autowired
     DocumentService documentService;
 
+    /**
+     * 重建索引，需要重建，就在DssInitAutoConfiguration 中加个新版本
+     */
     @Override
     public void execute() {
         dssClient.deleteAll(WikiRepository.class);

@@ -16,6 +16,9 @@ import org.springframework.util.MultiValueMap;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * kanass 的项目与事项接口查找
+ */
 @Service
 public class WikiProjectServiceImpl implements WikiProjectService {
     @Autowired

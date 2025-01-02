@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
-* ShareRelationServiceImpl
+* 分享关联的目录或者文档
 */
 @Service
 @Exporter
@@ -40,6 +40,10 @@ public class ShareRelationServiceImpl implements ShareRelationService {
         return shareRelationDao.createShareRelation(shareRelationEntity);
     }
 
+    /**
+     * 分享的id与分享链接中的文档和目录的关联
+     * @param shareRelation
+     */
     public void createShareDocumentCategory(@NotNull @Valid ShareRelation shareRelation){
         String shareId = shareRelation.getShareId();
         String[] nodeIds = shareRelation.getNodeIds();

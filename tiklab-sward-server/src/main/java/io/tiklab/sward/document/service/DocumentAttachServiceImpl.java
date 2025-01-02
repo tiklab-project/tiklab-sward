@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
-* DocumentAttachServiceImpl
+* 文档附件，暂时不用
 */
 @Service
 @Exporter

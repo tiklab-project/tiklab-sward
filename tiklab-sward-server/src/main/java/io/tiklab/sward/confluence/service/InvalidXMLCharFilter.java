@@ -3,6 +3,10 @@ import java.io.FilterReader;
 import java.io.IOException;
 import java.io.Reader;
 
+
+/**
+ * 解析xml
+ */
 public class InvalidXMLCharFilter extends FilterReader {
     public InvalidXMLCharFilter(Reader in) {
         super(in);

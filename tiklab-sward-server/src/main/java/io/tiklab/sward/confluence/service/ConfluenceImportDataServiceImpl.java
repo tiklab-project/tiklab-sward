@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * jira 数据导入服务
+ * confluence 数据导入服务
  */
 @Service
 @EnableTransactionManagement
@@ -34,8 +34,6 @@ public class ConfluenceImportDataServiceImpl implements ConfluenceImportDataServ
     @Autowired
     JpaTemplate jpaTemplate;
 
-    @Autowired
-    AnalysisHtmlService analysisHtmlService;
     @Autowired
     ConfluenceImportData719Service confluenceImportData719Service;
     @Autowired
@@ -105,9 +103,5 @@ public class ConfluenceImportDataServiceImpl implements ConfluenceImportDataServ
     }
 
 
-
-    public JdbcTemplate getJdbcTemplet(){
-      return  jpaTemplate.getJdbcTemplate();
-    }
 
 }

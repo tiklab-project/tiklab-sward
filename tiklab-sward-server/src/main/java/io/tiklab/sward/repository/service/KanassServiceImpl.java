@@ -16,10 +16,10 @@ import java.util.List;
 
 /**
  * @pi.protocol: http
- * @pi.groupName: 项目管理
+ * @pi.groupName: 项目管理， 弃用
  */
 @Service
-public class TeamWireServiceImpl implements TeamWireService {
+public class KanassServiceImpl implements KanassService {
     @Autowired
     JpaTemplate jpaTemplate;
 

@@ -83,6 +83,11 @@ public class SearchServiceImpl implements SearchService {
         return dssClient.searchForTop(entityClass,keyword);
     }
 
+    /**
+     * 根据关键字查找文档与知识库
+     * @param keyword
+     * @return
+     */
     @Override
     public HashMap<String, List<Object>> searchWikiDocumentForTop(String keyword) {
         HashMap<String, List<Object>> ObjectHashMap = new HashMap<>();

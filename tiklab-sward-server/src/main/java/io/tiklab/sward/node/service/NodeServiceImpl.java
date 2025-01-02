@@ -39,7 +39,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 /**
- * NodeServiceImpl
+ * 节点接口，目录和文档公共表
  */
 @Service
 public class NodeServiceImpl implements NodeService {
@@ -50,15 +50,10 @@ public class NodeServiceImpl implements NodeService {
     NodeDao nodeDao;
 
     @Autowired
-    UserService userService;
-    @Autowired
     JoinTemplate joinTemplate;
 
     @Autowired
     DocumentService documentService;
-
-    @Autowired
-    RecentService recentService;
 
     @Autowired
     WikiCategoryService wikiCategoryService;
@@ -74,26 +69,32 @@ public class NodeServiceImpl implements NodeService {
             WikiRepository wikiRepository = node.getWikiRepository();
             String repositoryId = wikiRepository.getId();
 
-            // 设置顺序
+
             Node parent = node.getParent();
             if(parent != null){
+                // 设置顺序
                 Integer brotherNum = nodeDao.getBrotherNum(repositoryId, parent.getId());
                 node.setSort(brotherNum);
 
                 String parentId = parent.getId();
                 NodeEntity parentNode = nodeDao.findNode(parentId);
                 String treePath = parentNode.getTreePath();
+                // 设计上级节点树
                 if(!StringUtils.isEmpty(treePath)){
                     treePath = treePath + parentId + ";";
                 }else {
                     treePath = parentId + ";";
                 }
                 node.setTreePath(treePath);
+                // 设置深度
                 Integer dimension = parentNode.getDimension();
                 node.setDimension(dimension + 1);
             }else {
+                // 设置顺序
                 Integer brotherNum = nodeDao.getBrotherNum(repositoryId, null);
                 node.setSort(brotherNum);
+
+                // 设置深度
                 node.setDimension(1);
             }
 
@@ -107,6 +108,11 @@ public class NodeServiceImpl implements NodeService {
         }
     }
 
+    /**
+     * confluence 导入
+     * @param node
+     * @return
+     */
     @Override
     public String createConfluNode(@NotNull @Valid Node node){
         NodeEntity nodeEntity = BeanMapper.map(node, NodeEntity.class);
@@ -129,6 +135,11 @@ public class NodeServiceImpl implements NodeService {
 
     }
 
+    /**
+     * 更新节点的顺序
+     * @param node
+     * @return
+     */
     public Node updateSort(@NotNull @Valid Node node){
         String moveType = node.getMoveType();
         String moveToId = node.getMoveToId();
@@ -253,6 +264,11 @@ public class NodeServiceImpl implements NodeService {
         }
     }
 
+    /**
+     * 根据id查找所有下级节点，包括下级的下级
+     * @param id
+     * @return
+     */
     @Override
     public List<Node> findAllChildrenNodeList(String id){
         List<NodeEntity> allChildrenNodeListEntity = nodeDao.findAllChildrenNodeList(id);
@@ -294,6 +310,10 @@ public class NodeServiceImpl implements NodeService {
     }
 
 
+    /**
+     * 删除所有节点、和节点关联的所有数据
+     * @param repositoryId
+     */
     @Override
     public void deleteRepositoryNodeCondition(String repositoryId) {
         // 删除所有下级文档, 以及文档关联的数据
@@ -395,6 +415,11 @@ public class NodeServiceImpl implements NodeService {
         return PaginationBuilder.build(pagination, nodeList);
     }
 
+    /**
+     * 获取目录树
+     * @param nodeQuery
+     * @return
+     */
     @Override
     public List<Node> findNodePageTree(NodeQuery nodeQuery) {
         List<Node> nodeList = new ArrayList<>();
@@ -414,6 +439,13 @@ public class NodeServiceImpl implements NodeService {
         return nodeList;
     }
 
+    /**
+     * 循环查找下级节点
+     * @param allNodeList
+     * @param nodeList
+     * @param dimensionList
+     * @return
+     */
     List<Node> setChildrenNode(List<Node> allNodeList, List<Node> nodeList, List<Integer> dimensionList){
         List<Node> residueNodeList = new ArrayList<>();
         if(allNodeList.size() > 0){
@@ -435,6 +467,11 @@ public class NodeServiceImpl implements NodeService {
         return residueNodeList;
     }
 
+    /**
+     * 查找某个知识库下面的所有目录和文档
+     * @param repositoryIds
+     * @return
+     */
     @Override
     public List<Node> findChildrenNodeList(String repositoryIds) {
         List<NodeEntity> nodeEntityList = nodeDao.findChildrenNodeList(repositoryIds);
@@ -474,6 +511,11 @@ public class NodeServiceImpl implements NodeService {
         nodeDao.addSortInRepository(repositoryId, sort);
     }
 
+    /**
+     * 根据id查找所有的上级node
+     * @param id
+     * @return
+     */
     public List<Node>  findAllHigherNode(String id){
         List<Node> nodePageTree = new ArrayList<>();
         Node node = new Node();
@@ -499,23 +541,4 @@ public class NodeServiceImpl implements NodeService {
         return nodePageTree;
     }
 
-    /**
-     * 根据获取的list 拼装成树形
-     */
-    public Node assembleTree(List<Node> nodeList, Node node, String parentId){
-        Node parentNode = new Node();
-        List<Node> parentList = nodeList.stream().filter(item -> item.getId().equals(parentId)).collect(Collectors.toList());
-        parentNode = parentList.get(0);
-        List<Node> childrenList = new ArrayList<>();
-        childrenList.add(node);
-        parentNode.setChildren(childrenList);
-        Node parent = parentNode.getParent();
-        if(parent != null){
-            Node node1 = assembleTree(nodeList, parentNode, parent.getId());
-            if(node1 != null){
-                parentNode = node1;
-            }
-        }
-        return parentNode;
-    }
 }

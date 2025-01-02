@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
-* RecentServiceImpl
+* 最近查看接口
 */
 @Service
 public class RecentServiceImpl implements RecentService {

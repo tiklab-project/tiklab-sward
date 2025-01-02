@@ -22,6 +22,9 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * 设置模块统计接口，用于设置首页，弃用
+ */
 @Service
 public class SettingStaticsServiceImpl implements SettingStaticsService{
     @Autowired

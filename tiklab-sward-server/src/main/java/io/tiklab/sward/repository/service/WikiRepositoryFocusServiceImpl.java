@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
-* RepositoryFocusServiceImpl
+* 知识库收藏接口
 */
 @Service
 public class WikiRepositoryFocusServiceImpl implements WikiRepositoryFocusService {

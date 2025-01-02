@@ -24,7 +24,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 /**
-* ShareServiceImpl
+* 分享接口
 */
 @Service
 @Exporter
@@ -36,11 +36,6 @@ public class ShareServiceImpl implements ShareService {
     @Autowired
     ShareRelationService shareRelationService;
 
-    @Autowired
-    WikiCategoryService wikiCategoryService;
-
-    @Autowired
-    DocumentService documentService;
     @Autowired
     JoinTemplate joinTemplate;
 

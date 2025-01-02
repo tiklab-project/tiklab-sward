@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
-* LikeServiceImpl
+* 点赞文档
 */
 @Service
 @Exporter

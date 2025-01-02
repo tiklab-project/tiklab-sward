@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * DocumentFocusServiceImpl
+ * 收藏文档
  */
 @Service
 public class DocumentFocusServiceImpl implements DocumentFocusService {
@@ -40,6 +40,7 @@ public class DocumentFocusServiceImpl implements DocumentFocusService {
         user.setId(userId);
         wikiDocumentFocus.setMaster(user);
 
+        // 收藏时间
         SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = formater.format(new Date());
         wikiDocumentFocus.setFocusTime(format);

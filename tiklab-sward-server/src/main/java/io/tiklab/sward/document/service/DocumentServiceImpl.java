@@ -95,6 +95,10 @@ public class DocumentServiceImpl implements DocumentService {
     @Value("${base.url:null}")
     String baseUrl;
 
+    /**
+     * 创建动态
+     * @param node
+     */
     void createDynamic(Node node){
         Logging log = new Logging();
         Map<String, String> content = new HashMap<>();
@@ -132,6 +136,11 @@ public class DocumentServiceImpl implements DocumentService {
         loggingByTemplService.createLog(log);
     }
 
+    /**
+     * 创建日志
+     * @param newNode
+     * @param oldNode
+     */
     void creatUpdateOplog(Node newNode, Node oldNode){
         Map<String, String> logContent = new HashMap<>();
 
@@ -186,6 +195,8 @@ public class DocumentServiceImpl implements DocumentService {
         List<Node> nodeList = nodeService.findNodeList(nodeQuery);
         List<String> nodeNameList = nodeList.stream().map(node1 -> node1.getName()).collect(Collectors.toList());
         int num = 0;
+
+        // 若是未命名文档，添加的新文档叫未命名文档（1） 未命名文档（2） 等
         for (String nodeName : nodeNameList) {
             System.out.println("名字" + nodeName);
             if(nodeName.length() > 6){
@@ -211,12 +222,19 @@ public class DocumentServiceImpl implements DocumentService {
         }
         node = nodeService.findNode(nodeId);
 
+        // 添加索引
         dssClient.save(node);
         dssClient.save(wikiDocument);
+        // 添加动态
         createDynamic(node);
         return documentId;
     }
 
+    /**
+     * confluence 导入
+     * @param wikiDocument
+     * @return
+     */
     @Override
     public String createConfluDocument(@NotNull @Valid WikiDocument wikiDocument){
         String documentId = new String();
@@ -264,16 +282,13 @@ public class DocumentServiceImpl implements DocumentService {
         if(node.getName() != null){
             creatUpdateOplog(node, oldNode);
         }
+
+        // 更新索引
         dssClient.update(node);
         dssClient.update(wikiDocument);
     }
 
 
-    @Override
-    public void updateDocumentInit(WikiDocument wikiDocument) {
-        WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
-        documentDao.updateDocument(wikiDocumentEntity);
-    }
 
 
     @Override

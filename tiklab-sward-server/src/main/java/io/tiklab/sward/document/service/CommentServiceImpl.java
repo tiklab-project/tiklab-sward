@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
-* CommentServiceImpl
+* 评论
 */
 @Service
 @Exporter
@@ -42,9 +42,7 @@ public class CommentServiceImpl implements CommentService {
     public String createComment(@NotNull @Valid Comment comment) {
         CommentEntity commentEntity = BeanMapper.map(comment, CommentEntity.class);
 
-        //添加评论人
-//        commentEntity.setUser(findCreatUser());
-//        commentEntity.setCreateTime(new Date());
+        // 如果是回复评论
         if (!ObjectUtils.isEmpty(commentEntity.getParentCommentId())){
             CommentEntity parentComment = commentDao.findComment(commentEntity.getParentCommentId());
             //被回复的人

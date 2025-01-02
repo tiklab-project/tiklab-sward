@@ -15,6 +15,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 节点分类
+ */
 public class SaxParseServiceImpl extends DefaultHandler  {
 
     boolean isDocument = false;
@@ -78,25 +81,32 @@ public class SaxParseServiceImpl extends DefaultHandler  {
         String name = attributes.getValue("name");
 
         if(qName.equals("object")) {
+            // 文档
             if("Page".equals(className) && packageName.equals("com.atlassian.confluence.pages")) {
                  isDocument = true;
                  createElement("Document");
             }
 
+            // 知识库
             if("Space".equals(className) && packageName.equals("com.atlassian.confluence.spaces")){
                 isSpace = true;
                 createElement("Space");
                 spaceIdNum = 1;
             }
 
+            // 成员
             if("InternalUser".equals(className) && packageName.equals("com.atlassian.crowd.model.user")){
                 isUser = true;
                 createElement("User");
             }
+
+            // 系统成员
             if("ConfluenceUserImpl".equals(className) && packageName.equals("com.atlassian.confluence.user")){
                 isConUser = true;
                 createElement("ConUser");
             }
+
+            // 文档内容
             if("BodyContent".equals(className) && packageName.equals("com.atlassian.confluence.core")){
                 isDocumentCore = true;
                 createElement("BodyContent");
@@ -257,6 +267,7 @@ public class SaxParseServiceImpl extends DefaultHandler  {
             }
         }
 
+        // 如果是知识库
         if(isSpace){
             String content = new String(ch, start, length).trim();
             if(isSpaceId){

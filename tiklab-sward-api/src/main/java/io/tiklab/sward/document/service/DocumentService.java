@@ -39,7 +39,7 @@ public interface DocumentService {
     */
     void updateDocument(@NotNull @Valid WikiDocument wikiDocument);
 
-    void updateDocumentInit(@NotNull @Valid WikiDocument wikiDocument);
+
     /**
     * 删除
     * @param id

@@ -32,7 +32,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 /**
-* CategoryServiceImpl
+*  目录接口
 */
 @Service
 @Exporter
@@ -141,10 +141,6 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
     }
 
 
-//    @Override
-//    public void deleteCategoryByIds(Object[] ids) {
-//        wikiCategoryDao.deleteCategoryByIds(ids);
-//    }
 
     @Override
     public WikiCategory findOne(String id) {

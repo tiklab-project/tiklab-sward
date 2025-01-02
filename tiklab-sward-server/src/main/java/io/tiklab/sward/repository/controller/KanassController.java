@@ -1,6 +1,6 @@
 package io.tiklab.sward.repository.controller;
 
-import io.tiklab.sward.repository.service.TeamWireService;
+import io.tiklab.sward.repository.service.KanassService;
 import io.tiklab.sward.support.model.Project;
 import io.tiklab.postin.annotation.Api;
 import io.tiklab.postin.annotation.ApiMethod;
@@ -20,13 +20,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/project")
-@Api(name = "TeamWireController",desc = "项目管理")
-public class TeamWireController {
+@Api(name = "KanassController",desc = "项目管理")
+public class KanassController {
 
-    private static Logger logger = LoggerFactory.getLogger(TeamWireController.class);
+    private static Logger logger = LoggerFactory.getLogger(KanassController.class);
 
     @Autowired
-    TeamWireService teamWireService;
+    KanassService kanassService;
     /**
      * @pi.name:查找所有项目
      * @pi.path:/project/findAllProject
@@ -36,7 +36,7 @@ public class TeamWireController {
     @RequestMapping(path="/findAllProject",method = RequestMethod.POST)
     @ApiMethod(name = "findAllProject",desc = "查找所有项目")
     public Result<List<Project>> findAllProject(){
-        List<Project> projectList = teamWireService.findAllProject();
+        List<Project> projectList = kanassService.findAllProject();
 
         return Result.ok(projectList);
     }

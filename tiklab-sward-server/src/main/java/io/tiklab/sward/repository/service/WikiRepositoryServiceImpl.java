@@ -48,7 +48,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
-* RepositoryServiceImpl
+* 知识库接口
 */
 @Service
 @Exporter
@@ -63,11 +63,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     @Autowired
     JoinTemplate joinTemplate;
 
-    @Autowired
-    WikiCategoryService wikiCategoryService;
 
-    @Autowired
-    DocumentService documentService;
 
     @Autowired
     RecentService recentService;
@@ -168,6 +164,11 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         return id;
     }
 
+    /**
+     * confluence导入
+     * @param wikiRepository
+     * @return
+     */
     @Override
     public String createConfluRepository(@NotNull @Valid WikiRepository wikiRepository) {
         WikiRepositoryEntity wikiRepositoryEntity = BeanMapper.map(wikiRepository, WikiRepositoryEntity.class);
@@ -188,6 +189,12 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 //        dssClient.save(entity);
         return id;
     }
+
+    /**
+     * 初始化知识库角色
+     * @param masterId
+     * @param repositoryId
+     */
     public void initRepositoryDmRole(String masterId, String repositoryId){
         List<PatchUser> patchUsers = new ArrayList<PatchUser>();
         if(!masterId.equals("111111")){
@@ -228,10 +235,14 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         dmRoleService.initPatchDmRole(repositoryId, patchUsers);
     }
 
+    /**
+     * 更新知识库
+     * @param wikiRepository
+     */
     @Override
     public void updateRepository(@NotNull @Valid WikiRepository wikiRepository) {
         WikiRepositoryEntity wikiRepositoryEntity = BeanMapper.map(wikiRepository, WikiRepositoryEntity.class);
-//        creatDynamic(content);
+        //        creatDynamic(content);
         wikiRepositoryDao.updateRepository(wikiRepositoryEntity);
         WikiRepository wikiRepository1 = findRepository(wikiRepositoryEntity.getId());
         Map<String, String> content = new HashMap<>();
@@ -240,6 +251,10 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         dssClient.update(wikiRepository1);
     }
 
+    /**
+     * 删除知识库
+     * @param id
+     */
     @Override
     public void deleteRepository(@NotNull String id) {
 
@@ -281,6 +296,11 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         return wikiRepositoryList;
     }
 
+    /**
+     * 查找知识库和下级的目录和文档
+     * @param id
+     * @return
+     */
     @Override
     public WikiRepository findRepository(@NotNull String id) {
         WikiRepository wikiRepository = findOne(id);

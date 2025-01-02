@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
-* 最近访问的服务
+* 系统集成地址接口
 */
 @Service
 public class SystemUrlServiceImpl implements SystemUrlService {

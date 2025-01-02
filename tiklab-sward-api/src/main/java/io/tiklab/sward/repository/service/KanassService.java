@@ -4,6 +4,6 @@ import io.tiklab.sward.support.model.Project;
 
 import java.util.List;
 
-public interface TeamWireService {
+public interface KanassService {
     List<Project> findAllProject();
 }
