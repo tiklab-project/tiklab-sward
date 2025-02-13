@@ -1,6 +1,6 @@
 #application config
 app:
-  name: tiklab-sward
+  name: sward
 
 spring:
   profiles:
@@ -37,7 +37,6 @@ postgresql:
 DATA_HOME: ${user.home}/tiklab/sward
 
 #dfs config
-#dfs.service.enabled=false
 dfs:
   server:
     enabled: true
@@ -49,7 +48,6 @@ dfs:
     bucket: sward
 
 #dcs config
-#dcs.service.enabled=false
 dcs:
   server:
     enabled: true
@@ -62,7 +60,6 @@ dcs:
     expire: 7200
 
 #dss config
-#dss.service.enabled=false
 dss:
   server:
     enabled: true
@@ -73,27 +70,13 @@ dss:
     group: g1
     index: index1
 
-#auth config
-
-
-
-#plugin config
-plugin:
-  path: ${DATA_HOME}/plugin
-
 #zip config
 unzip:
   path: ${DATA_HOME}/unzip/Jira
 
 #license
 licences:
-  path: ${APP_HOME}/src/main/resources/licences
-
-homes:
-  address: http://172.11.1.11:8080
-
-file:
-  path: http://file.dev.tiklab.io
+  path: ${DATA_HOME}/licences
 
 base:
   url: http://sward-ce.test.tiklab.net

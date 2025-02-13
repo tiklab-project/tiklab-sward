@@ -20,7 +20,7 @@ public class UpdateMySqlController {
 
     private static Logger logger = LoggerFactory.getLogger(UpdateMySqlController.class);
 
-    @Autowired
+    // @Autowired
     private UpdateMySqlService updateMySqlService;
 
     @RequestMapping(path="/updateAllData",method = RequestMethod.POST)

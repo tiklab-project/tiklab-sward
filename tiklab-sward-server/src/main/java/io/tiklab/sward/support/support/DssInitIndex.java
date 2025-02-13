@@ -1,8 +1,8 @@
 package io.tiklab.sward.support.support;
 
+import io.tiklab.dss.init.executer.IndexInitCallback;
 import io.tiklab.sward.repository.service.WikiRepositoryService;
 import io.tiklab.dss.client.DssClient;
-import io.tiklab.dss.client.initdata.executer.IndexInitCallback;
 import io.tiklab.sward.document.model.WikiDocument;
 import io.tiklab.sward.document.service.DocumentService;
 import io.tiklab.sward.repository.model.WikiRepository;

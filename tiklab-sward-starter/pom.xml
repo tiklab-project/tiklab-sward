@@ -201,13 +201,13 @@
         </profile>
 
         <profile>
-            <id>env-democe</id>
+            <id>env-demo-ce</id>
             <properties>
                 <yaml-type>/config/demo/ce</yaml-type>
             </properties>
         </profile>
         <profile>
-            <id>env-demoee</id>
+            <id>env-demo-ee</id>
             <properties>
                 <yaml-type>/config/demo/ee</yaml-type>
             </properties>

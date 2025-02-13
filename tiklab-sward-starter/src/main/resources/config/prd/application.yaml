@@ -1,7 +1,7 @@
 
 #application config
 app:
-  name: tiklab-sward
+  name: sward
 
 spring:
   profiles:
@@ -77,13 +77,7 @@ unzip:
 
 #license
 licences:
-  path: ${APP_HOME}/licences
-
-homes:
-  address: http://172.11.1.11:8080
-
-file:
-  path: http://file.dev.tiklab.io
+  path: ${DATA_HOME}/licences
 
 base:
   url: http://e.sward.tiklab.net

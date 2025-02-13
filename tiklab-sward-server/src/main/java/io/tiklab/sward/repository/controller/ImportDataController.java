@@ -20,7 +20,7 @@ import java.io.InputStream;
 @RequestMapping("/importDate")
 @Api(name = "ImportDateController",desc = "导入第三方数据数据")
 public class ImportDataController {
-    @Autowired
+    // @Autowired
     CfImportDataService cfImportDataService;
 
 

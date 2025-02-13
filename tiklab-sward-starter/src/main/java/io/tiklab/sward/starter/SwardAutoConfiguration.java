@@ -2,6 +2,7 @@ package io.tiklab.sward.starter;
 
 import io.tiklab.dfs.boot.starter.annotation.EnableDfsInit;
 import io.tiklab.dsm.boot.starter.annotation.EnableDsm;
+import io.tiklab.dss.boot.starter.annotation.EnableDssInit;
 import io.tiklab.sward.EnableSwardServer;
 import io.tiklab.dal.boot.starter.annotation.EnableDal;
 import io.tiklab.dcs.boot.starter.annotation.EnableDcsClient;
@@ -39,6 +40,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableDssClient
 @EnableDssServer
 @EnableDcsClient
+@EnableDssInit
 @EnableDcsServer
 @EnableRpc
 @EnableGateway

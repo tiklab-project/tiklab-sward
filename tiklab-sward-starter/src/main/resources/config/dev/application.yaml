@@ -1,15 +1,13 @@
 #application config
 app:
-  name: tiklab-sward
+  name: sward
 spring:
   profiles:
     active: dev
 
-application: "sward"
-
 #web config
 server:
-  port: 8060
+  port: 10000
 
 jdbc:
   driverClassName: org.postgresql.Driver
@@ -17,19 +15,13 @@ jdbc:
   username: postgres
   password: darth2020
 
-#jdbc:
-#  driverClassName: org.postgresql.Driver
-#  url: jdbc:postgresql://172.13.1.16:5432/sward_ee?stringtype=unspecified
-#  username: postgres
-#  password: darth2020
-
 postgresql:
   type: local
   embbed:
     enable: false
-  database: tiklab_sward1
+  database: tiklab_sward
 
-DATA_HOME: ${user.home}/tiklab/sward
+DATA_HOME: ${user.home}/tiklab/tiklab-sward
 
 #dfs config
 dfs:
@@ -43,7 +35,6 @@ dfs:
     bucket: sward
 
 #dcs config
-#dcs.service.enabled=false
 dcs:
   server:
     enabled: true
@@ -56,7 +47,6 @@ dcs:
     expire: 7200
 
 #dss config
-#dss.service.enabled=false
 dss:
   server:
     enabled: true
@@ -81,20 +71,9 @@ soular:
 licences:
     path: ${APP_HOME}/licences
 
-#plugin config
-plugin:
-    path: ${APP_HOME}/plugin
-
 #zip config
 unzip:
     path: ${DATA_HOME}/unzip/confluence
-homes:
-  address: http://172.11.1.11:8080
-
-file:
-  path: http://file.dev.tiklab.io
-version: ce
-client: web
 
 postin:
   enable: false
@@ -106,7 +85,6 @@ postin:
 
 base:
   url: http://192.168.10.7:8060
-
 
 backups:
   time: 0 0 2 * * ?
