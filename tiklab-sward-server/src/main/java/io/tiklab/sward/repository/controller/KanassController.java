@@ -29,7 +29,7 @@ public class KanassController {
     KanassService kanassService;
     /**
      * @pi.name:查找所有项目
-     * @pi.path:/project/findAllProject
+     * @pi.url:/project/findAllProject
      * @pi.methodType:post
      * @pi.request-type:none
      */

@@ -12,7 +12,7 @@ server:
 
 jdbc:
   driverClassName: org.postgresql.Driver
-  url: jdbc:postgresql://localhost:5050/sward?stringtype=unspecified
+  url: jdbc:postgresql://localhost:5050/tiklab_sward?stringtype=unspecified
   username: postgres
   password: darth2020
 
@@ -26,14 +26,14 @@ soular:
 postgresql:
   embbed:
     enable: true
-  database: sward
+  database: tiklab_sward
   db:
     port: 5050
     username: postgres
     password: darth2020
     address: ${DATA_HOME}/postgresql
 
-DATA_HOME: /opt/tiklab/sward
+DATA_HOME: /opt/tiklab/tiklab-sward
 
 #dfs config
 dfs:
@@ -75,7 +75,7 @@ unzip:
 
 #license
 licences:
-   path: ${APP_HOME}/src/main/resources/licences
+   path: ${DATA_HOME}/licences
 
 base:
   url: http://sward-ce.test.tiklab.net

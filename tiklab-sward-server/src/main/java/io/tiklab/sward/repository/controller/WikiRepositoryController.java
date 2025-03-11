@@ -38,7 +38,7 @@ public class WikiRepositoryController {
 
     /**
      * @pi.name:创建知识库
-     * @pi.path:/repository/createRepository
+     * @pi.url:/repository/createRepository
      * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=WikiRepository
@@ -54,7 +54,7 @@ public class WikiRepositoryController {
 
     /**
      * @pi.name:更新项目
-     * @pi.path:/repository/updateRepository
+     * @pi.url:/repository/updateRepository
      * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=WikiRepository
@@ -71,7 +71,7 @@ public class WikiRepositoryController {
 
     /**
      * @pi.name:删除知识库
-     * @pi.path:/repository/deleteRepository
+     * @pi.url:/repository/deleteRepository
      * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=id;dataType=string;value=id;
@@ -87,7 +87,7 @@ public class WikiRepositoryController {
 
     /**
      * @pi.name:根据查找知识库
-     * @pi.path:/repository/findRepository
+     * @pi.url:/repository/findRepository
      * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=id;dataType=string;value=id;
@@ -113,7 +113,7 @@ public class WikiRepositoryController {
 
     /**
      * @pi.name:查找所有知识库
-     * @pi.path:/repository/findAllRepository
+     * @pi.url:/repository/findAllRepository
      * @pi.methodType:post
      * @pi.request-type:none
      */
@@ -127,7 +127,7 @@ public class WikiRepositoryController {
 
     /**
      * @pi.name:根据当前用户可查看的所有知识库
-     * @pi.path:/repository/findRepositoryListByUser
+     * @pi.url:/repository/findRepositoryListByUser
      * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model= moWikiRepositoryQuery
@@ -143,7 +143,7 @@ public class WikiRepositoryController {
 
     /**
      * @pi.name:按分页查找知识库
-     * @pi.path:/repository/findRepositoryPage
+     * @pi.url:/repository/findRepositoryPage
      * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model= WikiRepositoryQuery
@@ -159,7 +159,7 @@ public class WikiRepositoryController {
 
     /**
      * @pi.name:按最近点击的知识库
-     * @pi.path:/repository/findRecentRepositoryList
+     * @pi.url:/repository/findRecentRepositoryList
      * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=WikiRepositoryQuery
@@ -185,7 +185,7 @@ public class WikiRepositoryController {
 
     /**
      * @pi.name:按我关注的知识库
-     * @pi.path:/repository/findFocusRepositoryList
+     * @pi.url:/repository/findFocusRepositoryList
      * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=WikiRepositoryQuery

@@ -38,7 +38,7 @@ public class DocumentController {
 
     /**
      * @pi.name:创建文档
-     * @pi.path:/document/createDocument
+     * @pi.url:/document/createDocument
      * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=WikiDocument
@@ -54,7 +54,7 @@ public class DocumentController {
 
     /**
      * @pi.name:创建文档
-     * @pi.path:/document/updateDocument
+     * @pi.url:/document/updateDocument
      * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=WikiDocument
@@ -71,7 +71,7 @@ public class DocumentController {
 
     /**
      * @pi.name:通过id删除文档
-     * @pi.path:/document/deleteDocument
+     * @pi.url:/document/deleteDocument
      * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=id;dataType=string;value=id;
@@ -89,7 +89,7 @@ public class DocumentController {
 
     /**
      * @pi.name:通过id查询文档
-     * @pi.path:/document/findDocument
+     * @pi.url:/document/findDocument
      * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=id;dataType=string;value=id;
@@ -105,7 +105,7 @@ public class DocumentController {
 
     /**
      * @pi.name:通过id删除文档
-     * @pi.path:/document/findAllDocument
+     * @pi.url:/document/findAllDocument
      * @pi.methodType:post
      * @pi.request-type:none
      */
@@ -120,7 +120,7 @@ public class DocumentController {
 
     /**
      * @pi.name:查找文档列表
-     * @pi.path:/document/findDocumentList
+     * @pi.url:/document/findDocumentList
      * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=DocumentQuery
@@ -136,7 +136,7 @@ public class DocumentController {
 
     /**
      * @pi.name:根据分页查找文档
-     * @pi.path:/document/findDocumentPage
+     * @pi.url:/document/findDocumentPage
      * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=DocumentQuery
@@ -152,7 +152,7 @@ public class DocumentController {
 
     /**
      * @pi.name:查找文档数量
-     * @pi.path:/document/findDocumentCount
+     * @pi.url:/document/findDocumentCount
      * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=DocumentQuery
@@ -168,7 +168,7 @@ public class DocumentController {
 
     /**
      * @pi.name:根据关键字查找文档数量
-     * @pi.path:/document/findDocuementByKeyWork
+     * @pi.url:/document/findDocuementByKeyWork
      * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=keyWord;dataType=string;value=keyWord;
@@ -184,7 +184,7 @@ public class DocumentController {
 
     /**
      * @pi.name:通过id查询
-     * @pi.path:/document/findDocumentById
+     * @pi.url:/document/findDocumentById
      * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=id;dataType=string;value=id;
@@ -200,7 +200,7 @@ public class DocumentController {
 
     /**
      * @pi.name:最近查看的文档
-     * @pi.path:/document/findRecentDocumentList
+     * @pi.url:/document/findRecentDocumentList
      * @pi.methodType:post
      * @pi.request-type:json
      * @pi.param: model=RecentQuery
@@ -216,7 +216,7 @@ public class DocumentController {
 
     /**
      * @pi.name:分享的文档
-     * @pi.path:/document/view
+     * @pi.url:/document/view
      * @pi.methodType:post
      * @pi.request-type:formdata
      * @pi.param: name=id;dataType=string;value=id;
