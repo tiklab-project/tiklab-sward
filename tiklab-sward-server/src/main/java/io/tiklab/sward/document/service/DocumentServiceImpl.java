@@ -27,6 +27,7 @@ import io.tiklab.sward.support.service.RecentService;
 import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.user.user.model.User;
 import io.tiklab.user.user.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,31 +187,31 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public String createDocument(@NotNull @Valid WikiDocument wikiDocument) {
         // 设置顺序
-        String documentId = new String();
+        String documentId;
         Node node = wikiDocument.getNode();
-        String nodeId = new String();
+        String nodeId;
         NodeQuery nodeQuery = new NodeQuery();
         nodeQuery.setName("未命名文档");
         nodeQuery.setRepositoryId(node.getWikiRepository().getId());
         List<Node> nodeList = nodeService.findNodeList(nodeQuery);
-        List<String> nodeNameList = nodeList.stream().map(node1 -> node1.getName()).collect(Collectors.toList());
+        List<String> nodeNameList = nodeList.stream().map(Node::getName).toList();
         int num = 0;
 
-        // 若是未命名文档，添加的新文档叫未命名文档（1） 未命名文档（2） 等
-        for (String nodeName : nodeNameList) {
-            System.out.println("名字" + nodeName);
-            if(nodeName.length() > 6){
-                String substring = nodeName.substring(6, nodeName.length()-1);
-                int num1 = Integer.parseInt(substring);
-                if(num1 > num){
-                    num = num1;
+        String documentType = node.getDocumentType();
+        if(!documentType.equals("file") || StringUtils.isEmpty(node.getName())){
+            // 若是未命名文档，添加的新文档叫未命名文档（1） 未命名文档（2） 等
+            for (String nodeName : nodeNameList) {
+                if(nodeName.length() > 6){
+                    String substring = nodeName.substring(6, nodeName.length()-1);
+                    int num1 = Integer.parseInt(substring);
+                    if(num1 > num){
+                        num = num1;
+                    }
                 }
-
             }
+            num++;
+            node.setName("未命名文档(" + num + ")");
         }
-        System.out.println("最大数" + num);
-        num++;
-        node.setName("未命名文档(" + num + ")");
 
         try {
             nodeId = nodeService.createNode(node);

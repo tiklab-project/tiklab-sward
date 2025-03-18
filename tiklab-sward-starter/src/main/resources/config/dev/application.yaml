@@ -27,10 +27,10 @@ DATA_HOME: ${user.home}/tiklab/tiklab-sward
 dfs:
   server:
     enabled: true
-    port: 4001
+    port: 4101
     datapath: ${DATA_HOME}/files
   client:
-    url: 127.0.0.1:4001
+    url: 127.0.0.1:4101
     group: g1
     bucket: sward
 

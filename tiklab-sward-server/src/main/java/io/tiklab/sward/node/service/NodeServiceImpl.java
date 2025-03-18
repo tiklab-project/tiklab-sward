@@ -427,11 +427,12 @@ public class NodeServiceImpl implements NodeService {
         // 一般深度是[1, 2] 或者 [3, 4]
         Integer[] dimensions = nodeQuery.getDimensions();
         Arrays.sort(dimensions);
-        List<Integer> dimensionList = new ArrayList<Integer>(Arrays.asList(dimensions));
+        List<Integer> dimensionList = new ArrayList<>(Arrays.asList(dimensions));
         Integer minDimensions = dimensionList.get(0);
-        nodeList = allNodeList.stream().filter(node -> node.getDimension().equals(minDimensions)).collect(Collectors.toList());
+        nodeList = allNodeList.stream().filter(node -> node.getDimension().equals(minDimensions))
+                .collect(Collectors.toList());
         //删除已被使用的node
-        if(nodeList.size() > 0){
+        if(!nodeList.isEmpty()){
             allNodeList.removeAll(nodeList);
             List<Node> nodes = setChildrenNode(allNodeList, nodeList, dimensionList);
             nodeList.addAll(nodes);
