@@ -35,8 +35,8 @@ public class NodeController {
     private NodeService nodeService;
 
     @RequestMapping(path="/createNode",method = RequestMethod.POST)
-    @ApiMethod(name = "createNode",desc = "创建目录")
-    @ApiParam(name = "node",desc = "node",required = true)
+    //@ApiMethod(name = "createNode",desc = "创建目录")
+    //@ApiParam(name = "node",desc = "node",required = true)
     public Result<String> createNode(@RequestBody @NotNull @Valid Node node){
         String id = nodeService.createNode(node);
 
@@ -44,8 +44,8 @@ public class NodeController {
     }
 
     @RequestMapping(path="/updateNode",method = RequestMethod.POST)
-    @ApiMethod(name = "updateNode",desc = "更新目录")
-    @ApiParam(name = "node",desc = "node",required = true)
+    //@ApiMethod(name = "updateNode",desc = "更新目录")
+    //@ApiParam(name = "node",desc = "node",required = true)
     public Result<Void> updateNode(@RequestBody @NotNull @Valid Node node){
         nodeService.updateNode(node);
 
@@ -53,8 +53,8 @@ public class NodeController {
     }
 
     @RequestMapping(path="/deleteNode",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteNode",desc = "删除目录")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "deleteNode",desc = "删除目录")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteNode(@NotNull String id){
         nodeService.deleteNode(id);
 
@@ -62,8 +62,8 @@ public class NodeController {
     }
 
     @RequestMapping(path="/findNode",method = RequestMethod.POST)
-    @ApiMethod(name = "findNode",desc = "根据id 查询目录")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "findNode",desc = "根据id 查询目录")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Node> findNode(@NotNull String id){
         Node node = nodeService.findNode(id);
 
@@ -72,7 +72,7 @@ public class NodeController {
 
 
     @RequestMapping(path="/findAllNode",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllNode",desc = "查询所有目录")
+    //@ApiMethod(name = "findAllNode",desc = "查询所有目录")
     public Result<List<Node>> findAllNode(){
         List<Node> nodeList = nodeService.findAllNode();
 
@@ -80,8 +80,8 @@ public class NodeController {
     }
 
     @RequestMapping(path = "/findNodeList",method = RequestMethod.POST)
-    @ApiMethod(name = "findNodeList",desc = "条件查询目录")
-    @ApiParam(name = "nodeQuery",desc = "nodeQuery",required = true)
+    //@ApiMethod(name = "findNodeList",desc = "条件查询目录")
+    //@ApiParam(name = "nodeQuery",desc = "nodeQuery",required = true)
     public Result<List<Node>> findNodeList(@RequestBody @Valid @NotNull NodeQuery nodeQuery){
         List<Node> nodeList = nodeService.findNodeList(nodeQuery);
 
@@ -91,8 +91,8 @@ public class NodeController {
 
 
     @RequestMapping(path = "/findNodePage",method = RequestMethod.POST)
-    @ApiMethod(name = "findNodePage",desc = "条件分页查询目录")
-    @ApiParam(name = "nodeQuery",desc = "nodeQuery",required = true)
+    //@ApiMethod(name = "findNodePage",desc = "条件分页查询目录")
+    //@ApiParam(name = "nodeQuery",desc = "nodeQuery",required = true)
     public Result<Pagination<Node>> findNodePage(@RequestBody @Valid @NotNull NodeQuery nodeQuery){
         Pagination<Node> pagination = nodeService.findNodePage(nodeQuery);
 
@@ -100,8 +100,8 @@ public class NodeController {
     }
 
     @RequestMapping(path = "/findNodePageTree",method = RequestMethod.POST)
-    @ApiMethod(name = "findNodePageTree",desc = "查询树状结构")
-    @ApiParam(name = "nodeQuery",desc = "nodeQuery",required = true)
+    //@ApiMethod(name = "findNodePageTree",desc = "查询树状结构")
+    //@ApiParam(name = "nodeQuery",desc = "nodeQuery",required = true)
     public Result<List<Node>> findNodePageTree(@RequestBody @Valid @NotNull NodeQuery nodeQuery){
         List<Node> nodePageTree = nodeService.findNodePageTree(nodeQuery);
 
@@ -109,8 +109,8 @@ public class NodeController {
     }
 
     @RequestMapping(path = "/findChildrenNodeList",method = RequestMethod.POST)
-    @ApiMethod(name = "findChildrenNodeList",desc = "查询树状结构")
-    @ApiParam(name = "nodeQuery",desc = "nodeQuery",required = true)
+    //@ApiMethod(name = "findChildrenNodeList",desc = "查询树状结构")
+    //@ApiParam(name = "repositoryIds",desc = "repositoryIds",required = true)
     public Result<List<Node>> findChildrenNum(@NotNull String repositoryIds){
         List<Node> childrenNodeList = nodeService.findChildrenNodeList(repositoryIds);
 
@@ -118,8 +118,8 @@ public class NodeController {
     }
 
     @RequestMapping(path = "/findNodeRecentList",method = RequestMethod.POST)
-    @ApiMethod(name = "findNodeRecentList",desc = "查询最近查看的文档")
-    @ApiParam(name = "nodeQuery",desc = "nodeQuery",required = true)
+    //@ApiMethod(name = "findNodeRecentList",desc = "查询最近查看的文档")
+    //@ApiParam(name = "recentQuery",desc = "recentQuery",required = true)
     public Result<List<Node>> findNodeRecentList(@RequestBody @Valid @NotNull RecentQuery recentQuery){
         List<Node> nodeList = nodeService.findNodeRecentList(recentQuery);
 
@@ -127,8 +127,8 @@ public class NodeController {
     }
 
     @RequestMapping(path = "/findAllHigherNode",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllHigherNode",desc = "根据id查找所有的上级node")
-    @ApiParam(name = "nodeQuery",desc = "nodeQuery",required = true)
+    //@ApiMethod(name = "findAllHigherNode",desc = "根据id查找所有的上级node")
+    //@ApiParam(name = "id",desc = "nodeQuery",required = true)
     public Result<List<Node>> findAllHigherNode(@NotNull String id){
         List<Node> nodeList = nodeService.findAllHigherNode(id);
 

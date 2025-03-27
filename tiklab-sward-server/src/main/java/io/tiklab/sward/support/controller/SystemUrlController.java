@@ -34,8 +34,8 @@ public class SystemUrlController {
     private SystemUrlService systemUrlService;
 
     @RequestMapping(path="/createSystemUrl",method = RequestMethod.POST)
-    @ApiMethod(name = "createSystemUrl",desc = "创建最近访问的")
-    @ApiParam(name = "systemUrl",desc = "最近访问的模型",required = true)
+    //@ApiMethod(name = "createSystemUrl",desc = "创建最近访问的")
+    //@ApiParam(name = "systemUrl",desc = "最近访问的模型",required = true)
     public Result<String> createSystemUrl(@RequestBody @NotNull @Valid SystemUrl systemUrl){
         String id = systemUrlService.createSystemUrl(systemUrl);
 
@@ -43,8 +43,8 @@ public class SystemUrlController {
     }
 
     @RequestMapping(path="/updateSystemUrl",method = RequestMethod.POST)
-    @ApiMethod(name = "updateSystemUrl",desc = "更新最近访问的")
-    @ApiParam(name = "systemUrl",desc = "最近访问的模型",required = true)
+    //@ApiMethod(name = "updateSystemUrl",desc = "更新最近访问的")
+    //@ApiParam(name = "systemUrl",desc = "最近访问的模型",required = true)
     public Result<Void> updateSystemUrl(@RequestBody @NotNull @Valid SystemUrl systemUrl){
         systemUrlService.updateSystemUrl(systemUrl);
 
@@ -52,8 +52,8 @@ public class SystemUrlController {
     }
 
     @RequestMapping(path="/deleteSystemUrl",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteSystemUrl",desc = "删除最近访问的")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "deleteSystemUrl",desc = "删除最近访问的")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteSystemUrl(@NotNull String id){
         systemUrlService.deleteSystemUrl(id);
 
@@ -61,8 +61,8 @@ public class SystemUrlController {
     }
 
     @RequestMapping(path="/findSystemUrl",method = RequestMethod.POST)
-    @ApiMethod(name = "findSystemUrl",desc = "根据id 查找最近访问的")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "findSystemUrl",desc = "根据id 查找最近访问的")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<SystemUrl> findSystemUrl(@NotNull String id){
         SystemUrl systemUrl = systemUrlService.findSystemUrl(id);
 
@@ -70,7 +70,7 @@ public class SystemUrlController {
     }
 
     @RequestMapping(path="/findAllSystemUrl",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllSystemUrl",desc = "查找所有最近访问的")
+    //@ApiMethod(name = "findAllSystemUrl",desc = "查找所有最近访问的")
     public Result<List<SystemUrl>> findAllSystemUrl(){
         List<SystemUrl> systemUrlList = systemUrlService.findAllSystemUrl();
 
@@ -78,8 +78,8 @@ public class SystemUrlController {
     }
 
     @RequestMapping(path = "/findSystemUrlList",method = RequestMethod.POST)
-    @ApiMethod(name = "findSystemUrlList",desc = "查询最近访问列表")
-    @ApiParam(name = "systemUrlQuery",desc = "查找最近访问的添加模型",required = true)
+    //@ApiMethod(name = "findSystemUrlList",desc = "查询最近访问列表")
+    //@ApiParam(name = "systemUrlQuery",desc = "查找最近访问的添加模型",required = true)
     public Result<List<SystemUrl>> findSystemUrlList(@RequestBody @Valid @NotNull SystemUrlQuery systemUrlQuery){
         List<SystemUrl> systemUrlList = systemUrlService.findSystemUrlList(systemUrlQuery);
 
@@ -87,8 +87,8 @@ public class SystemUrlController {
     }
 
     @RequestMapping(path = "/findSystemUrlPage",method = RequestMethod.POST)
-    @ApiMethod(name = "findSystemUrlPage",desc = "按分页查询最近访问的")
-    @ApiParam(name = "systemUrlQuery",desc = "查找最近访问的添加模型",required = true)
+    //@ApiMethod(name = "findSystemUrlPage",desc = "按分页查询最近访问的")
+    //@ApiParam(name = "systemUrlQuery",desc = "查找最近访问的添加模型",required = true)
     public Result<Pagination<SystemUrl>> findSystemUrlPage(@RequestBody @Valid @NotNull SystemUrlQuery systemUrlQuery){
         Pagination<SystemUrl> pagination = systemUrlService.findSystemUrlPage(systemUrlQuery);
 

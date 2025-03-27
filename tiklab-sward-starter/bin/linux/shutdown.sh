@@ -29,9 +29,9 @@ getPID(){
 
 shutdown(){
     getPID
-    echo "================================================================================================================"
     if [ $PID -ne 0 ]; then
-        echo -n "stopping $APP_MAIN(PID=$PID)..."
+        echo "================================================================================================================"
+        echo "stopping $APP_MAIN(PID=$PID)..."
         kill -9 $PID
         if [ $? -eq 0 ]; then
             echo "[success]"
@@ -46,13 +46,13 @@ shutdown(){
         if [ $PID -ne 0 ]; then
             shutdown
         fi
-    else
-        echo "$APP_MAIN is not running"
-        echo "================================================================================================================"
+#    else
+#        echo "$APP_MAIN is not running"
+#        echo "================================================================================================================"
     fi
 }
 
-db_port=0
+db_port="0"
 pg_port(){
     db_port=$(awk -F": *" '/^postgresql:/ {
         inf=1
@@ -88,27 +88,53 @@ pg_enable(){
    echo "PostgreSQL embbed enable: ${db_enable}"
 }
 
-kill_pgsql(){
-  pg_enable
-  pg_port
-  if [ "${db_enable}" = "true" ]; then
-        if [ "${db_port}" = "0" ]; then
-            echo "find pgsql port error "
-            exit 1
-        fi
+# kill_pgsql(){
+#   pg_enable
+#   if [ "${db_enable}" = "true" ]; then
+#        pg_port
+#         if [ "${db_port}" = "0" ]; then
+#             echo "find pgsql port error!"
+#             exit 1
+#         fi
 
-        pids=$(netstat -antp | grep "${db_port}" | awk '{print $7}' | cut -d'/' -f1)
-        echo ${pids}
-        # shellcheck disable=SC2039
-         if [ "${pids}" != "0" ]; then
-            echo "pgsql port ${db_port} be occupied pid ${pids}！"
-            echo "Killing process ${pids}"
-            # 杀死占用端口的进程
-            kill -9 "${pids}"
-        fi
+#         result=$(lsof -i :${db_port} -sTCP:LISTEN)
+#         # shellcheck disable=SC2039
+#         if [[ -n "$result" ]]; then
+#             echo "pgsql port ${db_port} be occupied！"
 
-  fi
+#             pids=$(echo "$result" | awk 'NR==2{print $2}')
+#             echo "Killing process $pids"
+#             # 杀死占用端口的进程
+#             kill -9 $pids
+#         fi
+#   fi
+# }
+
+
+echo ${YAML}
+
+shutdown_curl(){
+
+     server_port=$(awk -F": *" '/^server:/ {
+      inf=1
+      next
+    }
+    inf && /^  port:/ {
+      print $2
+      exit
+    }' "${YAML}")
+    # echo "Apply Server Port: ${server_port}"
+
+    echo "Callback hook triggered ......"
+    curl -u admin:admin123 -X POST http://localhost:${server_port}/actuator/shutdown
+
+
+
 }
 
-valid_jdk
+ valid_jdk
+# shutdown
+shutdown_curl
+
+sleep 2
 shutdown

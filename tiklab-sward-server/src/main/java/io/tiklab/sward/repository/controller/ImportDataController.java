@@ -25,8 +25,8 @@ public class ImportDataController {
 
 
     @RequestMapping(path="/importConfluenceDate",method = RequestMethod.POST)
-    @ApiMethod(name = "importConfluenceDate",desc = "导入jire数据")
-    @ApiParam(name = "uploadFile",desc = "压缩包文件",required = true)
+    //@ApiMethod(name = "importConfluenceDate",desc = "导入jire数据")
+    //@ApiParam(name = "uploadFile",desc = "压缩包文件",required = true)
     public Result imporatConfluenceDate(@RequestParam("uploadFile")MultipartFile uploadFile){
        // importDateService.importConfluenceDate(null);
         if (uploadFile == null) {

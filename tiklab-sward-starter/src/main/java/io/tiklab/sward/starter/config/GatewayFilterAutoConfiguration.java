@@ -80,7 +80,8 @@ public class GatewayFilterAutoConfiguration {
                     "/updateMySql/updateAllData",
                     "/message/messageItem/syncUpdateMessage",
                     "/message/messageItem/syncDeleteMessage",
-                    "/init/install/findStatus"
+                    "/init/install/findStatus",
+                    "/openapi/doc",
             })
             .ignorePreUrls(new String[]{
                     "/apis/list",
@@ -96,7 +97,8 @@ public class GatewayFilterAutoConfiguration {
                     "/wikiProject",
                     "/systemUrl",
                     "/image",
-                    "/dfs"
+                    "/dfs",
+                    "/document/download/file"
             })
             .get();
     }

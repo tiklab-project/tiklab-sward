@@ -34,8 +34,8 @@ public class DocumentAttachController {
     private DocumentAttachService documentAttachService;
 
     @RequestMapping(path="/createDocumentAttach",method = RequestMethod.POST)
-    @ApiMethod(name = "createDocumentAttach",desc = "创建文档附件")
-    @ApiParam(name = "documentAttach",desc = "documentAttach",required = true)
+    //@ApiMethod(name = "createDocumentAttach",desc = "创建文档附件")
+    //@ApiParam(name = "documentAttach",desc = "documentAttach",required = true)
     public Result<String> createDocumentAttach(@RequestBody @NotNull @Valid DocumentAttach documentAttach){
         String id = documentAttachService.createDocumentAttach(documentAttach);
 
@@ -43,8 +43,8 @@ public class DocumentAttachController {
     }
 
     @RequestMapping(path="/updateDocumentAttach",method = RequestMethod.POST)
-    @ApiMethod(name = "updateDocumentAttach",desc = "修改文档附件")
-    @ApiParam(name = "documentAttach",desc = "documentAttach",required = true)
+    //@ApiMethod(name = "updateDocumentAttach",desc = "修改文档附件")
+    //@ApiParam(name = "documentAttach",desc = "documentAttach",required = true)
     public Result<Void> updateDocumentAttach(@RequestBody @NotNull @Valid DocumentAttach documentAttach){
         documentAttachService.updateDocumentAttach(documentAttach);
 
@@ -52,8 +52,8 @@ public class DocumentAttachController {
     }
 
     @RequestMapping(path="/deleteDocumentAttach",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteDocumentAttach",desc = "删除文档附件")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "deleteDocumentAttach",desc = "删除文档附件")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteDocumentAttach(@NotNull String id){
         documentAttachService.deleteDocumentAttach(id);
 
@@ -61,8 +61,8 @@ public class DocumentAttachController {
     }
 
     @RequestMapping(path="/findDocumentAttach",method = RequestMethod.POST)
-    @ApiMethod(name = "findDocumentAttach",desc = "通过id查询文档附件")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "findDocumentAttach",desc = "通过id查询文档附件")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<DocumentAttach> findDocumentAttach(@NotNull String id){
         DocumentAttach documentAttach = documentAttachService.findDocumentAttach(id);
 
@@ -70,7 +70,7 @@ public class DocumentAttachController {
     }
 
     @RequestMapping(path="/findAllDocumentAttach",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllDocumentAttach",desc = "查询所有文档附件")
+    //@ApiMethod(name = "findAllDocumentAttach",desc = "查询所有文档附件")
     public Result<List<DocumentAttach>> findAllDocumentAttach(){
         List<DocumentAttach> documentAttachList = documentAttachService.findAllDocumentAttach();
 
@@ -78,8 +78,8 @@ public class DocumentAttachController {
     }
 
     @RequestMapping(path = "/findDocumentAttachList",method = RequestMethod.POST)
-    @ApiMethod(name = "findDocumentAttachList",desc = "通过查询条件查询文档附件")
-    @ApiParam(name = "documentAttachQuery",desc = "documentAttachQuery",required = true)
+    //@ApiMethod(name = "findDocumentAttachList",desc = "通过查询条件查询文档附件")
+    //@ApiParam(name = "documentAttachQuery",desc = "documentAttachQuery",required = true)
     public Result<List<DocumentAttach>> findDocumentAttachList(@RequestBody @Valid @NotNull DocumentAttachQuery documentAttachQuery){
         List<DocumentAttach> documentAttachList = documentAttachService.findDocumentAttachList(documentAttachQuery);
 
@@ -87,8 +87,8 @@ public class DocumentAttachController {
     }
 
     @RequestMapping(path = "/findDocumentAttachPage",method = RequestMethod.POST)
-    @ApiMethod(name = "findDocumentAttachPage",desc = "通过查询条件分页查询附件")
-    @ApiParam(name = "documentAttachQuery",desc = "documentAttachQuery",required = true)
+    //@ApiMethod(name = "findDocumentAttachPage",desc = "通过查询条件分页查询附件")
+    //@ApiParam(name = "documentAttachQuery",desc = "documentAttachQuery",required = true)
     public Result<Pagination<DocumentAttach>> findDocumentAttachPage(@RequestBody @Valid @NotNull DocumentAttachQuery documentAttachQuery){
         Pagination<DocumentAttach> pagination = documentAttachService.findDocumentAttachPage(documentAttachQuery);
 

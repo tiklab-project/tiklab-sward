@@ -24,7 +24,7 @@ public class UpdateMySqlController {
     private UpdateMySqlService updateMySqlService;
 
     @RequestMapping(path="/updateAllData",method = RequestMethod.POST)
-    @ApiMethod(name = "updateAllData")
+    //@ApiMethod(name = "updateAllData")
     public void updateAllData(){
         updateMySqlService.updateAllData();
     }

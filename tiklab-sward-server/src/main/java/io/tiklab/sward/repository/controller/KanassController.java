@@ -34,7 +34,7 @@ public class KanassController {
      * @pi.request-type:none
      */
     @RequestMapping(path="/findAllProject",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllProject",desc = "查找所有项目")
+    //@ApiMethod(name = "findAllProject",desc = "查找所有项目")
     public Result<List<Project>> findAllProject(){
         List<Project> projectList = kanassService.findAllProject();
 

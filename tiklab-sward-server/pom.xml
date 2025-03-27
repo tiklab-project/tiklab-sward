@@ -51,9 +51,7 @@
             <groupId>maven</groupId>
             <artifactId>dom4j</artifactId>
             <version>1.7-20060614</version>
-            <scope>
-                provided
-            </scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
@@ -146,5 +144,36 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.11.0</version>
         </dependency>
+
+        <!-- Apache POI 处理 PPT -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.3</version>
+        </dependency>
+
+        <!-- PDFBox 生成 PDF -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.30</version>
+        </dependency>
+        <dependency>
+            <groupId>io.tiklab</groupId>
+            <artifactId>tiklab-dfs-client</artifactId>
+            <version>${tiklab-dfs.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-scratchpad</artifactId>
+            <version>5.2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.tiklab</groupId>
+            <artifactId>tiklab-postin-client</artifactId>
+            <version>${tiklab-postin.version}</version>
+        </dependency>
+
     </dependencies>
 </project>

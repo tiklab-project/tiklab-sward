@@ -34,8 +34,8 @@ public class WikiRepositoryFocusController {
     private WikiRepositoryFocusService wikiRepositoryFocusService;
 
     @RequestMapping(path="/createRepositoryFocus",method = RequestMethod.POST)
-    @ApiMethod(name = "createRepositoryFocus",desc = "createRepositoryFocus")
-    @ApiParam(name = "repositoryFocus",desc = "repositoryFocus",required = true)
+    //@ApiMethod(name = "createRepositoryFocus",desc = "createRepositoryFocus")
+    //@ApiParam(name = "repositoryFocus",desc = "repositoryFocus",required = true)
     public Result<String> createRepositoryFocus(@RequestBody @NotNull @Valid WikiRepositoryFocus wikiRepositoryFocus){
         String id = wikiRepositoryFocusService.createRepositoryFocus(wikiRepositoryFocus);
 
@@ -43,8 +43,8 @@ public class WikiRepositoryFocusController {
     }
 
     @RequestMapping(path="/updateRepositoryFocus",method = RequestMethod.POST)
-    @ApiMethod(name = "updateRepositoryFocus",desc = "updateRepositoryFocus")
-    @ApiParam(name = "repositoryFocus",desc = "repositoryFocus",required = true)
+    //@ApiMethod(name = "updateRepositoryFocus",desc = "updateRepositoryFocus")
+    //@ApiParam(name = "repositoryFocus",desc = "repositoryFocus",required = true)
     public Result<Void> updateRepositoryFocus(@RequestBody @NotNull @Valid WikiRepositoryFocus wikiRepositoryFocus){
         wikiRepositoryFocusService.updateRepositoryFocus(wikiRepositoryFocus);
 
@@ -52,8 +52,8 @@ public class WikiRepositoryFocusController {
     }
 
     @RequestMapping(path="/deleteRepositoryFocus",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteRepositoryFocus",desc = "deleteRepositoryFocus")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "deleteRepositoryFocus",desc = "deleteRepositoryFocus")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteRepositoryFocus(@NotNull String id){
         wikiRepositoryFocusService.deleteRepositoryFocus(id);
 
@@ -61,8 +61,8 @@ public class WikiRepositoryFocusController {
     }
 
     @RequestMapping(path="/deleteRepositoryFocusByCondition",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteRepositoryFocusByCondition",desc = "deleteRepositoryFocusByCondition")
-    @ApiParam(name = "repositoryFocusQuery",desc = "repositoryFocusQuery",required = true)
+    //@ApiMethod(name = "deleteRepositoryFocusByCondition",desc = "deleteRepositoryFocusByCondition")
+    //@ApiParam(name = "repositoryFocusQuery",desc = "repositoryFocusQuery",required = true)
     public Result<Void> deleteRepositoryFocusByCondition(@RequestBody @Valid @NotNull WikiRepositoryFocusQuery wikiRepositoryFocusQuery){
         wikiRepositoryFocusService.deleteRepositoryFocusByCondition(wikiRepositoryFocusQuery);
 
@@ -70,8 +70,8 @@ public class WikiRepositoryFocusController {
     }
 
     @RequestMapping(path="/findRepositoryFocus",method = RequestMethod.POST)
-    @ApiMethod(name = "findRepositoryFocus",desc = "findRepositoryFocus")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "findRepositoryFocus",desc = "findRepositoryFocus")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<WikiRepositoryFocus> findRepositoryFocus(@NotNull String id){
         WikiRepositoryFocus wikiRepositoryFocus = wikiRepositoryFocusService.findRepositoryFocus(id);
 
@@ -79,7 +79,7 @@ public class WikiRepositoryFocusController {
     }
 
     @RequestMapping(path="/findAllRepositoryFocus",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllRepositoryFocus",desc = "findAllRepositoryFocus")
+    //@ApiMethod(name = "findAllRepositoryFocus",desc = "findAllRepositoryFocus")
     public Result<List<WikiRepositoryFocus>> findAllRepositoryFocus(){
         List<WikiRepositoryFocus> wikiRepositoryFocusList = wikiRepositoryFocusService.findAllRepositoryFocus();
 
@@ -87,8 +87,8 @@ public class WikiRepositoryFocusController {
     }
 
     @RequestMapping(path = "/findRepositoryFocusList",method = RequestMethod.POST)
-    @ApiMethod(name = "findRepositoryFocusList",desc = "findRepositoryFocusList")
-    @ApiParam(name = "repositoryFocusQuery",desc = "repositoryFocusQuery",required = true)
+    //@ApiMethod(name = "findRepositoryFocusList",desc = "findRepositoryFocusList")
+    //@ApiParam(name = "repositoryFocusQuery",desc = "repositoryFocusQuery",required = true)
     public Result<List<WikiRepositoryFocus>> findRepositoryFocusList(@RequestBody @Valid @NotNull WikiRepositoryFocusQuery wikiRepositoryFocusQuery){
         List<WikiRepositoryFocus> wikiRepositoryFocusList = wikiRepositoryFocusService.findRepositoryFocusList(wikiRepositoryFocusQuery);
 
@@ -96,8 +96,8 @@ public class WikiRepositoryFocusController {
     }
 
     @RequestMapping(path = "/findRepositoryFocusPage",method = RequestMethod.POST)
-    @ApiMethod(name = "findRepositoryFocusPage",desc = "findRepositoryFocusPage")
-    @ApiParam(name = "repositoryFocusQuery",desc = "repositoryFocusQuery",required = true)
+    //@ApiMethod(name = "findRepositoryFocusPage",desc = "findRepositoryFocusPage")
+    //@ApiParam(name = "repositoryFocusQuery",desc = "repositoryFocusQuery",required = true)
     public Result<Pagination<WikiRepositoryFocus>> findRepositoryFocusPage(@RequestBody @Valid @NotNull WikiRepositoryFocusQuery wikiRepositoryFocusQuery){
         Pagination<WikiRepositoryFocus> pagination = wikiRepositoryFocusService.findRepositoryFocusPage(wikiRepositoryFocusQuery);
 

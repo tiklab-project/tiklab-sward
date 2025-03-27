@@ -35,8 +35,8 @@ public class IconController {
     private IconService iconService;
 
     @RequestMapping(path="/createIcon",method = RequestMethod.POST)
-    @ApiMethod(name = "createIcon",desc = "创建图标")
-    @ApiParam(name = "icon",desc = "图标模型",required = true)
+    //@ApiMethod(name = "createIcon",desc = "创建图标")
+    //@ApiParam(name = "icon",desc = "图标模型",required = true)
     public Result<String> createIcon(@RequestBody @NotNull @Valid Icon icon){
         String id = iconService.createIcon(icon);
 
@@ -44,8 +44,8 @@ public class IconController {
     }
 
     @RequestMapping(path="/updateIcon",method = RequestMethod.POST)
-    @ApiMethod(name = "updateIcon",desc = "更新图标")
-    @ApiParam(name = "icon",desc = "图标模型",required = true)
+    //@ApiMethod(name = "updateIcon",desc = "更新图标")
+    //@ApiParam(name = "icon",desc = "图标模型",required = true)
     public Result<Void> updateIcon(@RequestBody @NotNull @Valid Icon icon){
         iconService.updateIcon(icon);
 
@@ -53,8 +53,8 @@ public class IconController {
     }
 
     @RequestMapping(path="/deleteIcon",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteIcon",desc = "根据id删除图标")
-    @ApiParam(name = "id",desc = "图标id",required = true)
+    //@ApiMethod(name = "deleteIcon",desc = "根据id删除图标")
+    //@ApiParam(name = "id",desc = "图标id",required = true)
     public Result<Void> deleteIcon(@NotNull String id){
         iconService.deleteIcon(id);
 
@@ -62,8 +62,8 @@ public class IconController {
     }
 
     @RequestMapping(path="/findIcon",method = RequestMethod.POST)
-    @ApiMethod(name = "findIcon",desc = "根据id 查找图标")
-    @ApiParam(name = "id",desc = "图标id",required = true)
+    //@ApiMethod(name = "findIcon",desc = "根据id 查找图标")
+    //@ApiParam(name = "id",desc = "图标id",required = true)
     public Result<Icon> findIcon(@NotNull String id){
         Icon icon = iconService.findIcon(id);
 
@@ -71,7 +71,7 @@ public class IconController {
     }
 
     @RequestMapping(path="/findAllIcon",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllIcon",desc = "查找所有图标")
+    //@ApiMethod(name = "findAllIcon",desc = "查找所有图标")
     public Result<List<Icon>> findAllIcon(){
         List<Icon> iconList = iconService.findAllIcon();
 
@@ -79,8 +79,8 @@ public class IconController {
     }
 
     @RequestMapping(path = "/findIconList",method = RequestMethod.POST)
-    @ApiMethod(name = "findIconList",desc = "查询图标列表")
-    @ApiParam(name = "iconQuery",desc = "图标搜索条件模型",required = true)
+    //@ApiMethod(name = "findIconList",desc = "查询图标列表")
+    //@ApiParam(name = "iconQuery",desc = "图标搜索条件模型",required = true)
     public Result<List<Icon>> findIconList(@RequestBody @Valid @NotNull IconQuery iconQuery){
         List<Icon> iconList = iconService.findIconList(iconQuery);
 
@@ -88,8 +88,8 @@ public class IconController {
     }
 
     @RequestMapping(path = "/findIconPage",method = RequestMethod.POST)
-    @ApiMethod(name = "findIconPage",desc = "按分页查询图标")
-    @ApiParam(name = "iconQuery",desc = "图标搜索条件模型",required = true)
+    //@ApiMethod(name = "findIconPage",desc = "按分页查询图标")
+    //@ApiParam(name = "iconQuery",desc = "图标搜索条件模型",required = true)
     public Result<Pagination<Icon>> findIconPage(@RequestBody @Valid @NotNull IconQuery iconQuery){
         Pagination<Icon> pagination = iconService.findIconPage(iconQuery);
 

@@ -29,7 +29,7 @@ public class WikiProjectController {
     private WikiProjectService wikiProjectService;
 
     @RequestMapping(path="/findAllProject",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllProject",desc = "findAllProject")
+    //@ApiMethod(name = "findAllProject",desc = "findAllProject")
     public Result<List<Project>> findAllProject(){
         List<Project> wikiProjectList =  wikiProjectService.findAllProject();
 
@@ -37,8 +37,8 @@ public class WikiProjectController {
     }
 
     @RequestMapping(path = "/findWorkItemPage",method = RequestMethod.POST)
-    @ApiMethod(name = "findWorkItemPage",desc = "findWorkItemList")
-    @ApiParam(name = "wikiWorkItemQuery",desc = "wikiWorkItemQuery",required = true)
+    //@ApiMethod(name = "findWorkItemPage",desc = "findWorkItemList")
+    //@ApiParam(name = "wikiWorkItemQuery",desc = "wikiWorkItemQuery",required = true)
     public Result<Pagination<WorkItem>> findWorkItemPage(@RequestBody @Valid @NotNull WorkItemQuery workItemQuery){
         Pagination<WorkItem> workItemList = wikiProjectService.findWorkItemPage(workItemQuery);
 
@@ -46,8 +46,8 @@ public class WikiProjectController {
     }
 
     @RequestMapping(path = "/findWorkTypeList",method = RequestMethod.POST)
-    @ApiMethod(name = "findWorkTypeList",desc = "findWorkTypeList")
-    @ApiParam(name = "wikiWorkItemQuery",desc = "wikiWorkItemQuery",required = true)
+    //@ApiMethod(name = "findWorkTypeList",desc = "findWorkTypeList")
+    //@ApiParam(name = "wikiWorkItemQuery",desc = "wikiWorkItemQuery",required = true)
     public Result<List<WikiWorkType>> findWorkTypeList(@RequestBody @Valid @NotNull WikiWorkItemQuery wikiWorkItemQuery){
         List<WikiWorkType> workTypeList = wikiProjectService.findWorkTypeList(wikiWorkItemQuery);
 
@@ -55,8 +55,8 @@ public class WikiProjectController {
     }
 
     @RequestMapping(path = "/findDmUserList",method = RequestMethod.POST)
-    @ApiMethod(name = "findDmUserList",desc = "findWorkTypeList")
-    @ApiParam(name = "findDmUserList",desc = "wikiWorkItemQuery",required = true)
+    //@ApiMethod(name = "findDmUserList",desc = "findWorkTypeList")
+    //@ApiParam(name = "findDmUserList",desc = "wikiWorkItemQuery",required = true)
     public Result<List<WikiWorkType>> findDmUserList(@RequestBody @Valid @NotNull WikiWorkItemQuery wikiWorkItemQuery){
         List<WikiDmUser> workTypeList = wikiProjectService.findDmUserList(wikiWorkItemQuery);
 
@@ -64,8 +64,8 @@ public class WikiProjectController {
     }
 
     @RequestMapping(path = "/findWorkItem",method = RequestMethod.POST)
-    @ApiMethod(name = "findWorkItem",desc = "findWorkTypeList")
-    @ApiParam(name = "workItemId",desc = "workItemId",required = true)
+    //@ApiMethod(name = "findWorkItem",desc = "findWorkTypeList")
+    //@ApiParam(name = "workItemId",desc = "workItemId",required = true)
     public Result<WorkItem> findWorkItem(@Valid @NotNull String workItemId){
         WorkItem workItem = wikiProjectService.findWorkItem(workItemId);
 

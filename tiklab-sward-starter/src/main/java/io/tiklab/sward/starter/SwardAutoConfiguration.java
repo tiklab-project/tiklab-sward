@@ -56,6 +56,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableSecurityServer
 //other
 @EnableSwardServer
+// postin
 @EnablePostInClient
 @EnableOpenApi
 @ComponentScan({"io.tiklab.sward"})

@@ -34,8 +34,8 @@ public class CommentController {
     private CommentService commentService;
 
     @RequestMapping(path="/createComment",method = RequestMethod.POST)
-    @ApiMethod(name = "createComment",desc = "创建评论")
-    @ApiParam(name = "comment",desc = "comment",required = true)
+    //@ApiMethod(name = "createComment",desc = "创建评论")
+    //@ApiParam(name = "comment",desc = "comment",required = true)
     public Result<String> createComment(@RequestBody @NotNull @Valid Comment comment){
         String id = commentService.createComment(comment);
 
@@ -43,8 +43,8 @@ public class CommentController {
     }
 
     @RequestMapping(path="/updateComment",method = RequestMethod.POST)
-    @ApiMethod(name = "updateComment",desc = "更新评论")
-    @ApiParam(name = "comment",desc = "comment",required = true)
+    //@ApiMethod(name = "updateComment",desc = "更新评论")
+    //@ApiParam(name = "comment",desc = "comment",required = true)
     public Result<Void> updateComment(@RequestBody @NotNull @Valid Comment comment){
         commentService.updateComment(comment);
 
@@ -52,8 +52,8 @@ public class CommentController {
     }
 
     @RequestMapping(path="/deleteComment",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteComment",desc = "删除评论")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "deleteComment",desc = "删除评论")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteComment(@NotNull String id){
         commentService.deleteComment(id);
 
@@ -61,8 +61,8 @@ public class CommentController {
     }
 
     @RequestMapping(path="/deleteCommentCondition",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteCommentCondition",desc = "删除评论")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "deleteCommentCondition",desc = "删除评论")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteComment(@RequestBody @Valid @NotNull CommentQuery commentQuery){
         commentService.deleteCommentCondition(commentQuery);
 
@@ -70,8 +70,8 @@ public class CommentController {
     }
 
     @RequestMapping(path="/findComment",method = RequestMethod.POST)
-    @ApiMethod(name = "findComment",desc = "通过id查询")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "findComment",desc = "通过id查询")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Comment> findComment(@NotNull String id){
         Comment comment = commentService.findComment(id);
 
@@ -79,7 +79,7 @@ public class CommentController {
     }
 
     @RequestMapping(path="/findAllComment",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllComment",desc = "查询所有评论")
+    //@ApiMethod(name = "findAllComment",desc = "查询所有评论")
     public Result<List<Comment>> findAllComment(){
         List<Comment> commentList = commentService.findAllComment();
 
@@ -87,8 +87,8 @@ public class CommentController {
     }
 
     @RequestMapping(path = "/findCommentList",method = RequestMethod.POST)
-    @ApiMethod(name = "findCommentList",desc = "根据查询对象查询评论")
-    @ApiParam(name = "commentQuery",desc = "commentQuery",required = true)
+    //@ApiMethod(name = "findCommentList",desc = "根据查询对象查询评论")
+    //@ApiParam(name = "commentQuery",desc = "commentQuery",required = true)
     public Result<List<Comment>> findCommentList(@RequestBody @Valid @NotNull CommentQuery commentQuery){
         List<Comment> commentList = commentService.findCommentList(commentQuery);
 
@@ -98,8 +98,8 @@ public class CommentController {
 
 
     @RequestMapping(path = "/findCommentPage",method = RequestMethod.POST)
-    @ApiMethod(name = "findCommentPage",desc = "根据查询对象分页查询评论")
-    @ApiParam(name = "commentQuery",desc = "commentQuery",required = true)
+    //@ApiMethod(name = "findCommentPage",desc = "根据查询对象分页查询评论")
+    //@ApiParam(name = "commentQuery",desc = "commentQuery",required = true)
     public Result<Pagination<Comment>> findCommentPage(@RequestBody @Valid @NotNull CommentQuery commentQuery){
         Pagination<Comment> pagination = commentService.findCommentPage(commentQuery);
 
@@ -107,8 +107,8 @@ public class CommentController {
     }
 
     @RequestMapping(path = "/findCommentTreePage",method = RequestMethod.POST)
-    @ApiMethod(name = "findCommentTreePage",desc = "根据查询对象查询评论")
-    @ApiParam(name = "commentQuery",desc = "commentQuery",required = true)
+    //@ApiMethod(name = "findCommentTreePage",desc = "根据查询对象查询评论")
+    //@ApiParam(name = "commentQuery",desc = "commentQuery",required = true)
     public Result<Pagination<Comment>> findCommentTreePage(@RequestBody @Valid @NotNull CommentQuery commentQuery){
         Pagination<Comment> commentList = commentService.findCommentTreePage(commentQuery);
 
@@ -116,8 +116,8 @@ public class CommentController {
     }
 
     @RequestMapping(path = "/view",method = RequestMethod.POST)
-    @ApiMethod(name = "view",desc = "根据查询对象查询评论（转发后查看）")
-    @ApiParam(name = "commentQuery",desc = "commentQuery",required = true)
+    //@ApiMethod(name = "view",desc = "根据查询对象查询评论（转发后查看）")
+    //@ApiParam(name = "commentQuery",desc = "commentQuery",required = true)
     public Result<List<Comment>> view(@RequestBody @Valid @NotNull CommentQuery commentQuery){
         List<Comment> commentList = commentService.findCommentList(commentQuery);
 

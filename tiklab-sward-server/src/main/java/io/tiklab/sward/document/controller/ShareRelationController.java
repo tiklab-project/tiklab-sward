@@ -34,8 +34,8 @@ public class ShareRelationController {
     private ShareRelationService shareRelationService;
 
     @RequestMapping(path="/createShareRelation",method = RequestMethod.POST)
-    @ApiMethod(name = "createShareRelation",desc = "createShareRelation")
-    @ApiParam(name = "shareRelation",desc = "shareRelation",required = true)
+    //@ApiMethod(name = "createShareRelation",desc = "createShareRelation")
+    //@ApiParam(name = "shareRelation",desc = "shareRelation",required = true)
     public Result<String> createShareRelation(@RequestBody @NotNull @Valid ShareRelation shareRelation){
         String id = shareRelationService.createShareRelation(shareRelation);
 
@@ -43,8 +43,8 @@ public class ShareRelationController {
     }
 
     @RequestMapping(path="/updateShareRelation",method = RequestMethod.POST)
-    @ApiMethod(name = "updateShareRelation",desc = "updateShareRelation")
-    @ApiParam(name = "shareRelation",desc = "shareRelation",required = true)
+    //@ApiMethod(name = "updateShareRelation",desc = "updateShareRelation")
+    //@ApiParam(name = "shareRelation",desc = "shareRelation",required = true)
     public Result<Void> updateShareRelation(@RequestBody @NotNull @Valid ShareRelation shareRelation){
         shareRelationService.updateShareRelation(shareRelation);
 
@@ -52,8 +52,8 @@ public class ShareRelationController {
     }
 
     @RequestMapping(path="/deleteShareRelation",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteShareRelation",desc = "deleteShareRelation")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "deleteShareRelation",desc = "deleteShareRelation")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteShareRelation(@NotNull String id){
         shareRelationService.deleteShareRelation(id);
 
@@ -61,8 +61,8 @@ public class ShareRelationController {
     }
 
     @RequestMapping(path="/findShareRelation",method = RequestMethod.POST)
-    @ApiMethod(name = "findShareRelation",desc = "findShareRelation")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "findShareRelation",desc = "findShareRelation")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<ShareRelation> findShareRelation(@NotNull String id){
         ShareRelation shareRelation = shareRelationService.findShareRelation(id);
 
@@ -70,7 +70,7 @@ public class ShareRelationController {
     }
 
     @RequestMapping(path="/findAllShareRelation",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllShareRelation",desc = "findAllShareRelation")
+    //@ApiMethod(name = "findAllShareRelation",desc = "findAllShareRelation")
     public Result<List<ShareRelation>> findAllShareRelation(){
         List<ShareRelation> shareRelationList = shareRelationService.findAllShareRelation();
 
@@ -78,8 +78,8 @@ public class ShareRelationController {
     }
 
     @RequestMapping(path = "/findShareRelationList",method = RequestMethod.POST)
-    @ApiMethod(name = "findShareRelationList",desc = "findShareRelationList")
-    @ApiParam(name = "shareRelationQuery",desc = "shareRelationQuery",required = true)
+    //@ApiMethod(name = "findShareRelationList",desc = "findShareRelationList")
+    //@ApiParam(name = "shareRelationQuery",desc = "shareRelationQuery",required = true)
     public Result<List<ShareRelation>> findShareRelationList(@RequestBody @Valid @NotNull ShareRelationQuery shareRelationQuery){
         List<ShareRelation> shareRelationList = shareRelationService.findShareRelationList(shareRelationQuery);
 
@@ -87,8 +87,8 @@ public class ShareRelationController {
     }
 
     @RequestMapping(path = "/findShareRelationPage",method = RequestMethod.POST)
-    @ApiMethod(name = "findShareRelationPage",desc = "findShareRelationPage")
-    @ApiParam(name = "shareRelationQuery",desc = "shareRelationQuery",required = true)
+    //@ApiMethod(name = "findShareRelationPage",desc = "findShareRelationPage")
+    //@ApiParam(name = "shareRelationQuery",desc = "shareRelationQuery",required = true)
     public Result<Pagination<ShareRelation>> findShareRelationPage(@RequestBody @Valid @NotNull ShareRelationQuery shareRelationQuery){
         Pagination<ShareRelation> pagination = shareRelationService.findShareRelationPage(shareRelationQuery);
 

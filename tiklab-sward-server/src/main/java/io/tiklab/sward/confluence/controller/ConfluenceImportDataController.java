@@ -48,7 +48,7 @@ public class ConfluenceImportDataController {
     }
 
     @RequestMapping(path="/findCfInputSchedule",method = RequestMethod.POST)
-    @ApiMethod(name = "findCfInputSchedule",desc = "导入jire数据")
+    //@ApiMethod(name = "findCfInputSchedule",desc = "导入jire数据")
     public Result<Map<String, Object>> findJiraInputSchedule(){
         Map<String, Object> jiraInputSchedule = confluenceImportDataService.findCfInputSchedule();
         return Result.ok(jiraInputSchedule);

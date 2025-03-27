@@ -34,8 +34,8 @@ public class RecentController {
     private RecentService recentService;
 
     @RequestMapping(path="/createRecent",method = RequestMethod.POST)
-    @ApiMethod(name = "createRecent",desc = "createRecent")
-    @ApiParam(name = "recent",desc = "recent",required = true)
+    //@ApiMethod(name = "createRecent",desc = "createRecent")
+    //@ApiParam(name = "recent",desc = "recent",required = true)
     public Result<String> createRecent(@RequestBody @NotNull @Valid Recent recent){
         String id = recentService.createRecent(recent);
 
@@ -43,8 +43,8 @@ public class RecentController {
     }
 
     @RequestMapping(path="/updateRecent",method = RequestMethod.POST)
-    @ApiMethod(name = "updateRecent",desc = "updateRecent")
-    @ApiParam(name = "recent",desc = "recent",required = true)
+    //@ApiMethod(name = "updateRecent",desc = "updateRecent")
+    //@ApiParam(name = "recent",desc = "recent",required = true)
     public Result<Void> updateRecent(@RequestBody @NotNull @Valid Recent recent){
         recentService.updateRecent(recent);
 
@@ -52,8 +52,8 @@ public class RecentController {
     }
 
     @RequestMapping(path="/deleteRecent",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteRecent",desc = "deleteRecent")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "deleteRecent",desc = "deleteRecent")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteRecent(@NotNull String id){
         recentService.deleteRecent(id);
 
@@ -61,8 +61,8 @@ public class RecentController {
     }
 
     @RequestMapping(path="/findRecent",method = RequestMethod.POST)
-    @ApiMethod(name = "findRecent",desc = "findRecent")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "findRecent",desc = "findRecent")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Recent> findRecent(@NotNull String id){
         Recent recent = recentService.findRecent(id);
 
@@ -70,7 +70,7 @@ public class RecentController {
     }
 
     @RequestMapping(path="/findAllRecent",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllRecent",desc = "findAllRecent")
+    //@ApiMethod(name = "findAllRecent",desc = "findAllRecent")
     public Result<List<Recent>> findAllRecent(){
         List<Recent> recentList = recentService.findAllRecent();
 
@@ -78,8 +78,8 @@ public class RecentController {
     }
 
     @RequestMapping(path = "/findRecentList",method = RequestMethod.POST)
-    @ApiMethod(name = "findRecentList",desc = "findRecentList")
-    @ApiParam(name = "recentQuery",desc = "recentQuery",required = true)
+    //@ApiMethod(name = "findRecentList",desc = "findRecentList")
+    //@ApiParam(name = "recentQuery",desc = "recentQuery",required = true)
     public Result<List<Recent>> findRecentList(@RequestBody @Valid @NotNull RecentQuery recentQuery){
         List<Recent> recentList = recentService.findRecentList(recentQuery);
 
@@ -87,8 +87,8 @@ public class RecentController {
     }
 
     @RequestMapping(path = "/findRecentPage",method = RequestMethod.POST)
-    @ApiMethod(name = "findRecentPage",desc = "findRecentPage")
-    @ApiParam(name = "recentQuery",desc = "recentQuery",required = true)
+    //@ApiMethod(name = "findRecentPage",desc = "findRecentPage")
+    //@ApiParam(name = "recentQuery",desc = "recentQuery",required = true)
     public Result<Pagination<Recent>> findRecentPage(@RequestBody @Valid @NotNull RecentQuery recentQuery){
         Pagination<Recent> pagination = recentService.findRecentPage(recentQuery);
 

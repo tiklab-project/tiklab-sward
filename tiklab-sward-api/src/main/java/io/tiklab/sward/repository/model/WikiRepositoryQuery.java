@@ -33,7 +33,8 @@ public class WikiRepositoryQuery extends BaseModel {
     private String name;
 
     @ApiProperty(name ="status",desc = "是否归档")
-    private String status = "nomal";
+    private String status ;
+    // private String status = "nomal";
 
     @ApiProperty(name ="recycle",desc = "是否逻辑删除")
     private String recycle = "0";

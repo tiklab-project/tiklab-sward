@@ -34,8 +34,8 @@ public class LikeController {
     private LikeService likeService;
 
     @RequestMapping(path="/createLike",method = RequestMethod.POST)
-    @ApiMethod(name = "createLike",desc = "添加点赞")
-    @ApiParam(name = "like",desc = "like",required = true)
+    //@ApiMethod(name = "createLike",desc = "添加点赞")
+    //@ApiParam(name = "like",desc = "like",required = true)
     public Result<String> createLike(@RequestBody @NotNull @Valid Like like){
         String id = likeService.createLike(like);
 
@@ -43,8 +43,8 @@ public class LikeController {
     }
 
     @RequestMapping(path="/updateLike",method = RequestMethod.POST)
-    @ApiMethod(name = "updateLike",desc = "updateLike")
-    @ApiParam(name = "like",desc = "like",required = true)
+    //@ApiMethod(name = "updateLike",desc = "updateLike")
+    //@ApiParam(name = "like",desc = "like",required = true)
     public Result<Void> updateLike(@RequestBody @NotNull @Valid Like like){
         likeService.updateLike(like);
 
@@ -52,8 +52,8 @@ public class LikeController {
     }
 
     @RequestMapping(path="/deleteLike",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteLike",desc = "取消点赞")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "deleteLike",desc = "取消点赞")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteLike(@NotNull String id){
         likeService.deleteLike(id);
 
@@ -61,8 +61,8 @@ public class LikeController {
     }
 
     @RequestMapping(path="/deleteLikeCondition",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteLikeCondition",desc = "取消点赞")
-    @ApiParam(name = "deleteCondition",desc = "deleteCondition",required = true)
+    //@ApiMethod(name = "deleteLikeCondition",desc = "取消点赞")
+    //@ApiParam(name = "deleteCondition",desc = "deleteCondition",required = true)
     public Result<Void> deleteLikeCondition(@RequestBody @NotNull @Valid LikeQuery likeQuery){
         likeService.deleteLikeCondition(likeQuery);
 
@@ -70,8 +70,8 @@ public class LikeController {
     }
 
     @RequestMapping(path="/findLike",method = RequestMethod.POST)
-    @ApiMethod(name = "findLike",desc = "findLike")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "findLike",desc = "findLike")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Like> findLike(@NotNull String id){
         Like like = likeService.findLike(id);
 
@@ -79,7 +79,7 @@ public class LikeController {
     }
 
     @RequestMapping(path="/findAllLike",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllLike",desc = "findAllLike")
+    //@ApiMethod(name = "findAllLike",desc = "findAllLike")
     public Result<List<Like>> findAllLike(){
         List<Like> likeList = likeService.findAllLike();
 
@@ -87,8 +87,8 @@ public class LikeController {
     }
 
     @RequestMapping(path = "/findLikeList",method = RequestMethod.POST)
-    @ApiMethod(name = "findLikeList",desc = "findLikeList")
-    @ApiParam(name = "likeQuery",desc = "likeQuery",required = true)
+    //@ApiMethod(name = "findLikeList",desc = "findLikeList")
+    //@ApiParam(name = "likeQuery",desc = "likeQuery",required = true)
     public Result<List<Like>> findLikeList(@RequestBody @Valid @NotNull LikeQuery likeQuery){
         List<Like> likeList = likeService.findLikeList(likeQuery);
 
@@ -96,8 +96,8 @@ public class LikeController {
     }
 
     @RequestMapping(path = "/findLikePage",method = RequestMethod.POST)
-    @ApiMethod(name = "findLikePage",desc = "findLikePage")
-    @ApiParam(name = "likeQuery",desc = "likeQuery",required = true)
+    //@ApiMethod(name = "findLikePage",desc = "findLikePage")
+    //@ApiParam(name = "likeQuery",desc = "likeQuery",required = true)
     public Result<Pagination<Like>> findLikePage(@RequestBody @Valid @NotNull LikeQuery likeQuery){
         Pagination<Like> pagination = likeService.findLikePage(likeQuery);
 

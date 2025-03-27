@@ -44,8 +44,8 @@ public class DocumentController {
      * @pi.param: model=WikiDocument
      */
     @RequestMapping(path="/createDocument",method = RequestMethod.POST)
-    @ApiMethod(name = "createDocument",desc = "创建文档")
-    @ApiParam(name = "document",desc = "document",required = true)
+    //@ApiMethod(name = "createDocument",desc = "创建文档")
+    //@ApiParam(name = "document",desc = "document",required = true)
     public Result<String> createDocument(@RequestBody @NotNull @Valid WikiDocument wikiDocument){
         String id = documentService.createDocument(wikiDocument);
 
@@ -60,8 +60,8 @@ public class DocumentController {
      * @pi.param: model=WikiDocument
      */
     @RequestMapping(path="/updateDocument",method = RequestMethod.POST)
-    @ApiMethod(name = "updateDocument",desc = "修改文档")
-    @ApiParam(name = "document",desc = "document",required = true)
+    //@ApiMethod(name = "updateDocument",desc = "修改文档")
+    //@ApiParam(name = "document",desc = "document",required = true)
     public Result<Void> updateDocument(@RequestBody @NotNull @Valid WikiDocument wikiDocument){
         documentService.updateDocument(wikiDocument);
 
@@ -77,8 +77,8 @@ public class DocumentController {
      * @pi.param: name=id;dataType=string;value=id;
      */
     @RequestMapping(path="/deleteDocument",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteDocument",desc = "通过id删除文档")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "deleteDocument",desc = "通过id删除文档")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteDocument(@NotNull String id){
         documentService.deleteDocument(id);
 
@@ -95,8 +95,8 @@ public class DocumentController {
      * @pi.param: name=id;dataType=string;value=id;
      */
     @RequestMapping(path="/findDocument",method = RequestMethod.POST)
-    @ApiMethod(name = "findDocument",desc = "通过id查询文档")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "findDocument",desc = "通过id查询文档")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<WikiDocument> findDocument(@NotNull String id){
         WikiDocument wikiDocument = documentService.findDocument(id);
 
@@ -110,7 +110,7 @@ public class DocumentController {
      * @pi.request-type:none
      */
     @RequestMapping(path="/findAllDocument",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllDocument",desc = "findAllDocument")
+    //@ApiMethod(name = "findAllDocument",desc = "findAllDocument")
     public Result<List<WikiDocument>> findAllDocument(){
         List<WikiDocument> wikiDocumentList = documentService.findAllDocument();
 
@@ -126,8 +126,8 @@ public class DocumentController {
      * @pi.param: model=DocumentQuery
      */
     @RequestMapping(path = "/findDocumentList",method = RequestMethod.POST)
-    @ApiMethod(name = "findDocumentList",desc = "查找文档列表")
-    @ApiParam(name = "documentQuery",desc = "documentQuery",required = true)
+    //@ApiMethod(name = "findDocumentList",desc = "查找文档列表")
+    //@ApiParam(name = "documentQuery",desc = "documentQuery",required = true)
     public Result<List<WikiDocument>> findDocumentList(@RequestBody @Valid @NotNull DocumentQuery documentQuery){
         List<WikiDocument> wikiDocumentList = documentService.findDocumentList(documentQuery);
 
@@ -142,8 +142,8 @@ public class DocumentController {
      * @pi.param: model=DocumentQuery
      */
     @RequestMapping(path = "/findDocumentPage",method = RequestMethod.POST)
-    @ApiMethod(name = "findDocumentPage",desc = "根据分页查找文档")
-    @ApiParam(name = "documentQuery",desc = "documentQuery",required = true)
+    //@ApiMethod(name = "findDocumentPage",desc = "根据分页查找文档")
+    //@ApiParam(name = "documentQuery",desc = "documentQuery",required = true)
     public Result<Pagination<WikiDocument>> findDocumentPage(@RequestBody @Valid @NotNull DocumentQuery documentQuery){
         Pagination<WikiDocument> pagination = documentService.findDocumentPage(documentQuery);
 
@@ -158,8 +158,8 @@ public class DocumentController {
      * @pi.param: model=DocumentQuery
      */
     @RequestMapping(path = "/findDocumentCount",method = RequestMethod.POST)
-    @ApiMethod(name = "findDocumentCount",desc = "findDocumentPage")
-    @ApiParam(name = "documentQuery",desc = "documentQuery",required = true)
+    //@ApiMethod(name = "findDocumentCount",desc = "findDocumentPage")
+    //@ApiParam(name = "documentQuery",desc = "documentQuery",required = true)
     public Result<Integer> findDocumentCount(@RequestBody @Valid @NotNull DocumentQuery documentQuery){
         Integer documentCount = documentService.findDocumentCount(documentQuery);
 
@@ -174,8 +174,8 @@ public class DocumentController {
      * @pi.param: name=keyWord;dataType=string;value=keyWord;
      */
     @RequestMapping(path = "/findDocuementByKeyWork",method = RequestMethod.POST)
-    @ApiMethod(name = "findDocuementByKeyWork",desc = "findDocuementByKeyWork")
-    @ApiParam(name = "keyWord",desc = "keyWord",required = true)
+    //@ApiMethod(name = "findDocuementByKeyWork",desc = "findDocuementByKeyWork")
+    //@ApiParam(name = "keyWord",desc = "keyWord",required = true)
     public Result<List<WikiDocument>> findDocuementByKeyWork(@NotNull String keyWord){
         List<WikiDocument> docuementByKeyWork = documentService.findDocuementByKeyWork(keyWord);
 
@@ -190,8 +190,8 @@ public class DocumentController {
      * @pi.param: name=id;dataType=string;value=id;
      */
     @RequestMapping(path="/findDocumentById",method = RequestMethod.POST)
-    @ApiMethod(name = "findDocumentById",desc = "通过id查询")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "findDocumentById",desc = "通过id查询")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<WikiDocument> findDocumentById(@NotNull String id){
         WikiDocument wikiDocument = documentService.findDocumentById(id);
 
@@ -206,8 +206,8 @@ public class DocumentController {
      * @pi.param: model=RecentQuery
      */
     @RequestMapping(path="/findRecentDocumentList",method = RequestMethod.POST)
-    @ApiMethod(name = "findRecentDocumentList",desc = "最近查看的文档")
-    @ApiParam(name = "recentQuery",desc = "recentQuery",required = true)
+    //@ApiMethod(name = "findRecentDocumentList",desc = "最近查看的文档")
+    //@ApiParam(name = "recentQuery",desc = "recentQuery",required = true)
     public Result<WikiDocument> findRecentDocumentList(@RequestBody @Valid @NotNull RecentQuery recentQuery){
         List<WikiDocument> recentDocumentList = documentService.findRecentDocumentList(recentQuery);
 
@@ -222,8 +222,8 @@ public class DocumentController {
      * @pi.param: name=id;dataType=string;value=id;
      */
     @RequestMapping(path="/view",method = RequestMethod.POST)
-    @ApiMethod(name = "view",desc = "通过id查询")
-    @ApiParam(name = "id",desc = "id",required = true)
+    //@ApiMethod(name = "view",desc = "通过id查询")
+    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<WikiDocument> view(@NotNull String id){
         WikiDocument wikiDocument = documentService.findDocumentById(id);
 

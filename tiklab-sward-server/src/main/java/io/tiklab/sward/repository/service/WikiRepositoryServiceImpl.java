@@ -346,13 +346,10 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         DmUserQuery dmUserQuery = new DmUserQuery();
         dmUserQuery.setUserId(userId);
         List<DmUser> dmUserList = dmUserService.findDmUserList(dmUserQuery);
-        List<String> collect = dmUserList.stream().map(DmUser::getDomainId).collect(Collectors.toList());
-        String[] arr = collect.toArray(new String[collect.size()]);
+        String[] arr = dmUserList.stream().map(DmUser::getDomainId).toArray(String[]::new);
         wikiRepositoryQuery.setRepositoryIds(arr);
 
-
         // 修改排序参数
-
         List<WikiRepositoryEntity> wikiRepositoryEntityList = wikiRepositoryDao.findRepositoryListByUser(wikiRepositoryQuery);
 
         List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(wikiRepositoryEntityList, WikiRepository.class);
@@ -412,7 +409,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
             wikiRepositoryList = wikiRepositoryList.stream().
                     filter(wikiRepository -> !wikiRepository.getId().equals(repositoryId)).collect(Collectors.toList());
         }
-        List<String> wikiRepositoryIds = wikiRepositoryList.stream().map(wikiRepository -> wikiRepository.getId()).collect(Collectors.toList());
+        List<String> wikiRepositoryIds = wikiRepositoryList.stream().map(WikiRepository::getId).collect(Collectors.toList());
         wikiRepositoryIds.add(repositoryId);
         int size = recentRepositoryList.size();
 
