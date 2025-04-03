@@ -54,8 +54,8 @@ dss:
     datapath: ${DATA_HOME}/index
   client:
     url: 127.0.0.1:6001
-    group: g1
-    index: index1
+    group: g2
+    index: sward
 
 #soular config
 soular:
@@ -76,12 +76,8 @@ unzip:
     path: ${DATA_HOME}/unzip/confluence
 
 postin:
-  enable: false
   scan:
-    package: io.tiklab
-  report:
-    workspaceId: a79bdd105434
-    server: http://e.postin.tiklab.net/
+    package: io.tiklab.sward
 
 base:
   url: http://192.168.10.7:8060
@@ -91,3 +87,4 @@ backups:
   dir: ${DATA_HOME}
   dfs:
     dir: ${DATA_HOME}/files
+

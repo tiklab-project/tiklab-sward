@@ -1,6 +1,7 @@
 package io.tiklab.sward.support.controller;
 
 
+import io.tiklab.dss.common.document.model.*;
 import io.tiklab.sward.document.model.DocumentQuery;
 import io.tiklab.sward.support.service.SearchService;
 import io.tiklab.core.Result;
@@ -76,43 +77,43 @@ public class SearchController {
     }
 
 
-//    @RequestMapping(path="/searchForCount",method = RequestMethod.POST)
-//    //@ApiMethod(name = "searchForCount",desc = "统计搜索结果")
-//    //@ApiParam(name = "keyword",desc = "关键字",required = true)
-//    public Result<AllCountResponse> searchForCount(@NotNull String keyword){
-//        AllCountResponse allCountResponse = new AllCountResponse();
-//
-//        //搜索项目
-//        CountResponse countResponse = searchService.searchForCount(WikiRepository.class,keyword);
-//        allCountResponse.getResponseList().add(countResponse);
-//
-//        //搜索事项
-//        countResponse = searchService.searchForCount(WikiDocument.class,keyword);
-//        allCountResponse.getResponseList().add(countResponse);
-//
-//        return Result.ok(allCountResponse);
-//    }
-
-
-//    @RequestMapping(path="/searchForPage",method = RequestMethod.POST)
-//    //@ApiMethod(name = "searchForPage",desc = "按索引名称、关键字分页搜索")
-//    //@ApiParam(name = "pageRequest",desc = "分页搜索条件",required = true)
-//    public Result<PageResponse> searchForPage(@RequestBody @Valid @NotNull PageRequest pageRequest){
-//        String index = pageRequest.getIndex();
-//        Class entityClass = getEntityClass(index);
-//        if(entityClass == null){
-//            throw new ApplicationException("not found index:" + index);
-//        }
-//        String keyword = pageRequest.getKeyword();
-//        PageCondition pageCondition = pageRequest.getPageCondition();
-//        if(pageCondition == null){
-//            pageCondition = PageCondition.instance();
-//        }
-//
-//        //分页搜索
-//        PageResponse pageResponse = searchService.searchForPage(entityClass,keyword,pageCondition);
-//        return Result.ok(pageResponse);
-//    }
+   // @RequestMapping(path="/searchForCount",method = RequestMethod.POST)
+   // //@ApiMethod(name = "searchForCount",desc = "统计搜索结果")
+   // //@ApiParam(name = "keyword",desc = "关键字",required = true)
+   // public Result<AllCountResponse> searchForCount(@NotNull String keyword){
+   //     AllCountResponse allCountResponse = new AllCountResponse();
+   //
+   //     //搜索项目
+   //     CountResponse countResponse = searchService.searchForCount(WikiRepository.class,keyword);
+   //     allCountResponse.getResponseList().add(countResponse);
+   //
+   //     //搜索事项
+   //     countResponse = searchService.searchForCount(WikiDocument.class,keyword);
+   //     allCountResponse.getResponseList().add(countResponse);
+   //
+   //     return Result.ok(allCountResponse);
+   // }
+   //
+   //
+   // @RequestMapping(path="/searchForPage",method = RequestMethod.POST)
+   // //@ApiMethod(name = "searchForPage",desc = "按索引名称、关键字分页搜索")
+   // //@ApiParam(name = "pageRequest",desc = "分页搜索条件",required = true)
+   // public Result<PageResponse> searchForPage(@RequestBody @Valid @NotNull PageRequest pageRequest){
+   //     String index = pageRequest.getIndex();
+   //     Class entityClass = getEntityClass(index);
+   //     if(entityClass == null){
+   //         throw new ApplicationException("not found index:" + index);
+   //     }
+   //     String keyword = pageRequest.getKeyword();
+   //     PageCondition pageCondition = pageRequest.getPageCondition();
+   //     if(pageCondition == null){
+   //         pageCondition = PageCondition.instance();
+   //     }
+   //
+   //     //分页搜索
+   //     PageResponse pageResponse = searchService.searchForPage(entityClass,keyword,pageCondition);
+   //     return Result.ok(pageResponse);
+   // }
 
     @RequestMapping(path="/initIndex",method = RequestMethod.POST)
     //@ApiMethod(name = "initIndex",desc = "初始化索引")

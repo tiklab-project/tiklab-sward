@@ -82,6 +82,7 @@ public class GatewayFilterAutoConfiguration {
                     "/message/messageItem/syncDeleteMessage",
                     "/init/install/findStatus",
                     "/openapi/doc",
+                    "/actuator/shutdown"
             })
             .ignorePreUrls(new String[]{
                     "/apis/list",

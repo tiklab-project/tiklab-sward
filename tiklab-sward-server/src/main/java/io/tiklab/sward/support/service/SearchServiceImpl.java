@@ -57,13 +57,13 @@ public class SearchServiceImpl implements SearchService {
     void buildIndex(){
         //构建项目索引
         List<WikiRepository> repositoryList = wikiRepositoryService.findAllRepository();
-        if(repositoryList != null && repositoryList.size() > 0){
+        if(repositoryList != null && !repositoryList.isEmpty()){
             dssClient.saveBatch(repositoryList);
         }
 
         //构建事项索引
         List<WikiDocument> wikiDocumentList = documentService.findAllDocument();
-        if(wikiDocumentList != null || wikiDocumentList.size() > 0){
+        if(wikiDocumentList != null || !wikiDocumentList.isEmpty()){
             dssClient.saveBatch(wikiDocumentList);
         }
     }
@@ -91,10 +91,10 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public HashMap<String, List<Object>> searchWikiDocumentForTop(String keyword) {
         HashMap<String, List<Object>> ObjectHashMap = new HashMap<>();
-        List<Object> documentList = new ArrayList<Object>();
+        List<Object> documentList = new ArrayList<>();
         TopResponse topResponse = searchForTop(WikiDocument.class,keyword);
         List dataList = topResponse.getDataList();
-        if(dataList.size() > 0){
+        if(!dataList.isEmpty()){
             for (Object documentObject : topResponse.getDataList()) {
                 try {
                     Map<String, String> documentObject1 = (Map<String, String>) documentObject;
@@ -111,8 +111,8 @@ public class SearchServiceImpl implements SearchService {
 
         topResponse = searchForTop(WikiRepository.class,keyword);
         dataList = topResponse.getDataList();
-        List<Object> wikiRepositoryList = new ArrayList<Object>();
-        if(dataList.size() > 0){
+        List<Object> wikiRepositoryList = new ArrayList<>();
+        if(!dataList.isEmpty()){
             for (Object wikiObject : topResponse.getDataList()) {
                 try {
                     Map<String, String> wikiObject1 = (Map<String, String>) wikiObject;
@@ -138,7 +138,7 @@ public class SearchServiceImpl implements SearchService {
         String repositoryId = documentQuery.getRepositoryId();
         TopResponse topResponse = searchForTop(WikiDocument.class,name);
         List dataList = topResponse.getDataList();
-        if(dataList.size() > 0){
+        if(!dataList.isEmpty()){
             for (Object documentObject : topResponse.getDataList()) {
                 try {
                     Map<String, String> documentObject1 = (Map<String, String>) documentObject;
