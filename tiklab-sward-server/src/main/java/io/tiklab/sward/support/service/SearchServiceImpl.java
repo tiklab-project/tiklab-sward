@@ -1,6 +1,11 @@
 package io.tiklab.sward.support.service;
 
+import io.tiklab.core.page.Page;
+import io.tiklab.core.page.Pagination;
 import io.tiklab.sward.document.model.DocumentQuery;
+import io.tiklab.sward.node.model.Node;
+import io.tiklab.sward.node.model.NodeQuery;
+import io.tiklab.sward.node.service.NodeService;
 import io.tiklab.sward.repository.service.WikiRepositoryService;
 import io.tiklab.core.exception.ApplicationException;
 import io.tiklab.dss.client.DssClient;
@@ -14,10 +19,8 @@ import io.tiklab.sward.repository.model.WikiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
 * 全局搜索服务
@@ -33,6 +36,9 @@ public class SearchServiceImpl implements SearchService {
 
     @Autowired
     DocumentService documentService;
+
+    @Autowired
+    NodeService nodeService;
 
     @Override
     public void rebuild() {
@@ -79,7 +85,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
 
-    public <T> TopResponse<T> searchForTop(Class<T> entityClass, String keyword) {
+    public <T> TopResponse<T> searchForTop(Class<T> entityClass, Map<String,String> keyword) {
         return dssClient.searchForTop(entityClass,keyword);
     }
 
@@ -91,8 +97,10 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public HashMap<String, List<Object>> searchWikiDocumentForTop(String keyword) {
         HashMap<String, List<Object>> ObjectHashMap = new HashMap<>();
-        List<Object> documentList = new ArrayList<>();
-        TopResponse topResponse = searchForTop(WikiDocument.class,keyword);
+        List<WikiDocument> documentList = new ArrayList<>();
+        Map map = new HashMap();
+        map.put("detailText", keyword);
+        TopResponse topResponse = searchForTop(WikiDocument.class,map);
         List dataList = topResponse.getDataList();
         if(!dataList.isEmpty()){
             for (Object documentObject : topResponse.getDataList()) {
@@ -109,7 +117,33 @@ public class SearchServiceImpl implements SearchService {
             }
         }
 
-        topResponse = searchForTop(WikiRepository.class,keyword);
+        NodeQuery nodeQuery = new NodeQuery();
+        nodeQuery.setName(keyword);
+        Page page = new Page();
+        page.setPageSize(20);
+        nodeQuery.setPageParam(page);
+        Pagination<Node> nodePage = nodeService.findNodePage(nodeQuery);
+        List<Node> dataList1 = nodePage.getDataList();
+        if (dataList1 != null && !dataList1.isEmpty()) {
+            for (Node node : dataList1) {
+                WikiDocument wikiDocument = documentService.findDocument(node.getId());
+                if(wikiDocument != null){
+                    documentList.add(wikiDocument);
+                }
+            }
+        }
+        List<Object> list = documentList.stream()
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(WikiDocument::getId))),
+                        ArrayList::new
+                ));
+        if (list.size() > 10){
+            list = list.subList(0, 10);
+        }
+
+        Map rpyMap = new HashMap();
+        rpyMap.put("name", keyword);
+        topResponse = searchForTop(WikiRepository.class,rpyMap);
         dataList = topResponse.getDataList();
         List<Object> wikiRepositoryList = new ArrayList<>();
         if(!dataList.isEmpty()){
@@ -126,17 +160,21 @@ public class SearchServiceImpl implements SearchService {
                 }
             }
         }
-        ObjectHashMap.put("document", documentList);
+        ObjectHashMap.put("document", list);
         ObjectHashMap.put("wiki", wikiRepositoryList);
         return  ObjectHashMap;
     }
 
+
     @Override
     public List<WikiDocument> searchRepositoryDocument(DocumentQuery documentQuery) {
-        List<WikiDocument> documentList = new ArrayList<WikiDocument>();
+        List<WikiDocument> documentList = new ArrayList<>();
         String name = documentQuery.getName();
         String repositoryId = documentQuery.getRepositoryId();
-        TopResponse topResponse = searchForTop(WikiDocument.class,name);
+        Map map = new HashMap();
+        map.put("detailText", name);
+        map.put("repositoryId", repositoryId);
+        TopResponse topResponse = searchForTop(WikiDocument.class,map);
         List dataList = topResponse.getDataList();
         if(!dataList.isEmpty()){
             for (Object documentObject : topResponse.getDataList()) {
@@ -144,7 +182,7 @@ public class SearchServiceImpl implements SearchService {
                     Map<String, String> documentObject1 = (Map<String, String>) documentObject;
                     String id = documentObject1.get("id");
                     WikiDocument wikiDocument = documentService.findDocument(id);
-                    if(wikiDocument != null && wikiDocument.getNode().getWikiRepository().getId().equals(repositoryId)){
+                    if(!Objects.isNull(wikiDocument)){
                         documentList.add(wikiDocument);
                     }
                 }catch (Exception e) {
@@ -153,7 +191,33 @@ public class SearchServiceImpl implements SearchService {
             }
         }
 
-        return  documentList;
+        NodeQuery nodeQuery = new NodeQuery();
+        nodeQuery.setName(name);
+        nodeQuery.setRepositoryId(repositoryId);
+        Page page = new Page();
+        page.setPageSize(20);
+        nodeQuery.setPageParam(page);
+        Pagination<Node> nodePage = nodeService.findNodePage(nodeQuery);
+        List<Node> dataList1 = nodePage.getDataList();
+        if (dataList1 != null && !dataList1.isEmpty()) {
+            for (Node node : dataList1) {
+                WikiDocument wikiDocument = documentService.findDocument(node.getId());
+                if(wikiDocument != null){
+                    documentList.add(wikiDocument);
+                }
+            }
+        }
+
+        List<WikiDocument> list = documentList.stream()
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(WikiDocument::getId))),
+                        ArrayList::new
+                ));
+        if (list.size() > 10){
+            list = list.subList(0, 10);
+        }
+
+        return  list;
     }
 
     @Override
@@ -174,12 +238,12 @@ public class SearchServiceImpl implements SearchService {
     }
 
 
-    public <T> CountResponse<T> searchForCount(Class<T> entityClass, String keyword) {
-        return dssClient.searchForCount(entityClass, keyword);
-    }
-
-
-    public <T> PageResponse<T> searchForPage(Class<T> entityClass, String keyword, PageCondition pageCondition) {
-        return dssClient.searchForPage(entityClass, keyword, pageCondition);
-    }
+    // public <T> CountResponse<T> searchForCount(Class<T> entityClass, String keyword) {
+    //     return dssClient.searchForCount(entityClass, keyword);
+    // }
+    //
+    //
+    // public <T> PageResponse<T> searchForPage(Class<T> entityClass, String keyword, PageCondition pageCondition) {
+    //     return dssClient.searchForPage(entityClass, keyword, pageCondition);
+    // }
 }

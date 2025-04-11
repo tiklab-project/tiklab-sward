@@ -51,6 +51,9 @@ public class Node extends BaseModel{
     @JoinQuery(key = "id")
     private WikiRepository wikiRepository;
 
+    @DocumentField(queryField = true)
+    private String rpyId;
+
     @ApiProperty(name="master",desc="负责人",eg="@selectOne")
     @Mappings({
             @Mapping(source = "master.id",target = "master")
@@ -119,6 +122,14 @@ public class Node extends BaseModel{
 
     @ApiProperty(name = "recycleDesc")
     private String recycleTime;
+
+    public String getRpyId() {
+        return rpyId;
+    }
+
+    public void setRpyId(String rpyId) {
+        this.rpyId = rpyId;
+    }
 
     public String getMoveToId() {
         return moveToId;

@@ -1,8 +1,12 @@
 package io.tiklab.sward.node.dao;
 
 
+import io.tiklab.core.exception.SystemException;
+import io.tiklab.core.order.Order;
+import io.tiklab.core.order.OrderTypeEnum;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.dal.jpa.JpaTemplate;
+import io.tiklab.dal.jpa.annotation.Column;
 import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
 import io.tiklab.dal.jpa.criterial.condition.OrQueryCondition;
 import io.tiklab.dal.jpa.criterial.condition.QueryCondition;
@@ -12,15 +16,19 @@ import io.tiklab.sward.node.entity.NodeEntity;
 import io.tiklab.sward.node.model.NodeQuery;
 import io.tiklab.sward.support.entity.RecentEntity;
 import io.tiklab.sward.support.model.RecentQuery;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
-
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * NodeDao
@@ -127,33 +135,37 @@ public class NodeDao {
     }
 
     public Pagination<NodeEntity> findNodePage(NodeQuery nodeQuery) {
-        QueryCondition queryCondition = new QueryCondition();
+        // QueryCondition queryCondition = new QueryCondition();
 
-        QueryBuilders queryBuilders = QueryBuilders.createQuery(NodeEntity.class)
-                .like("name", nodeQuery.getName())
-                .eq("repositoryId", nodeQuery.getRepositoryId())
-                .in("repositoryId", nodeQuery.getRepositoryIds())
-                .eq("masterId", nodeQuery.getMasterId())
-                .eq("parentId", nodeQuery.getParentId())
-                .eq("type", nodeQuery.getType())
-                .eq("status", nodeQuery.getStatus())
-                .eq("recycle", nodeQuery.getRecycle())
-                .in("dimension", nodeQuery.getDimensions())
-                .in("id", nodeQuery.getIds())
-                .notIn("id", nodeQuery.getNotIds())
-                .orders(nodeQuery.getOrderParams())
-                .pagination(nodeQuery.getPageParam());
+        // QueryBuilders queryBuilders = QueryBuilders.createQuery(NodeEntity.class)
+        //         .like("name", nodeQuery.getName())
+        //         .eq("repositoryId", nodeQuery.getRepositoryId())
+        //         .in("repositoryId", nodeQuery.getRepositoryIds())
+        //         .eq("masterId", nodeQuery.getMasterId())
+        //         .eq("parentId", nodeQuery.getParentId())
+        //         .eq("type", nodeQuery.getType())
+        //         .eq("status", nodeQuery.getStatus())
+        //         .eq("recycle", nodeQuery.getRecycle())
+        //         .in("dimension", nodeQuery.getDimensions())
+        //         .in("id", nodeQuery.getIds())
+        //         .notIn("id", nodeQuery.getNotIds())
+        //         .orders(nodeQuery.getOrderParams())
+        //         .pagination(nodeQuery.getPageParam());
+        //
+        // if( nodeQuery.getTreePath() != null){
+        //     OrQueryCondition orQueryCondition = OrQueryBuilders.instance()
+        //             .like("treePath", nodeQuery.getTreePath())
+        //             .eq("id", nodeQuery.getId())
+        //             .get();
+        //     queryCondition = queryBuilders.or(orQueryCondition).get();
+        // }else {
+        //     queryCondition = queryBuilders.get();
+        // }
 
-        if( nodeQuery.getTreePath() != null){
-            OrQueryCondition orQueryCondition = OrQueryBuilders.instance()
-                    .like("treePath", nodeQuery.getTreePath())
-                    .eq("id", nodeQuery.getId())
-                    .get();
-            queryCondition = queryBuilders.or(orQueryCondition).get();
-        }else {
-            queryCondition = queryBuilders.get();
-        }
-        return jpaTemplate.findPage(queryCondition, NodeEntity.class);
+        NodeCondition condition = findQueryCondition(nodeQuery);
+        return jpaTemplate.getJdbcTemplate().findPage(condition.getSql(), condition.getObjects(),
+                nodeQuery.getPageParam(),new BeanPropertyRowMapper<>(NodeEntity.class));
+        // return jpaTemplate.findPage(queryCondition, NodeEntity.class);
     }
 
     public List<NodeEntity> findNodeRecentList(RecentQuery recentQuery) {
@@ -263,5 +275,143 @@ public class NodeDao {
             num = this.jpaTemplate.getJdbcTemplate().queryForObject(sql,Integer.class);
         }
         return num;
+    }
+
+    NodeCondition findQueryCondition(NodeQuery query) {
+
+        List<Object> params = new ArrayList<>();
+        String sql = "select wiki_node.* from wiki_node where 1=1";
+
+        if (!StringUtils.isBlank(query.getName())){
+            sql = sql.concat(" and name ILIKE '%"+query.getName()+"%'");
+        }
+
+        if (!Objects.isNull(query.getIds()) && query.getIds().length !=0 ){
+            String ids = Arrays.stream(query.getIds())
+                    .map(id -> "'" + id + "'")
+                    .collect(Collectors.joining(","));
+            sql = sql.concat(" and id in (" + ids + ") ");
+        }
+
+        if (!Objects.isNull(query.getNotIds()) && query.getNotIds().length !=0 ){
+            String ids = Arrays.stream(query.getNotIds())
+                    .map(id -> "'" + id + "'")
+                    .collect(Collectors.joining(","));
+            sql = sql.concat(" and not id in (" + ids + ") ");
+        }
+
+        if (!Objects.isNull(query.getRecycle())){
+            sql = sql.concat(" and recycle = ?");
+            params.add(query.getRecycle());
+        }
+
+        if (!Objects.isNull(query.getDimensions())){
+            sql = sql.concat(" and dimension = ?");
+            params.add(query.getDimensions());
+        }
+
+        if (!Objects.isNull(query.getType())){
+            sql = sql.concat(" and type = ?");
+            params.add(query.getType());
+        }
+
+        if (!Objects.isNull(query.getParentId())){
+            sql = sql.concat(" and parent_id = ?");
+            params.add(query.getParentId());
+        }
+
+        if (!Objects.isNull(query.getStatus())){
+            sql = sql.concat(" and status = ?");
+            params.add(query.getStatus());
+        }
+
+        if (!Objects.isNull(query.getMasterId())){
+            sql = sql.concat(" and master_id = ?");
+            params.add(query.getMasterId());
+        }
+
+        if (!Objects.isNull(query.getRepositoryId())){
+            sql = sql.concat(" and repository_id = ?");
+            params.add(query.getRepositoryId());
+        }
+
+        if (!Objects.isNull(query.getRepositoryIds()) && query.getRepositoryIds().length !=0 ){
+            String ids = Arrays.stream(query.getRepositoryIds())
+                    .map(id -> "'" + id + "'")
+                    .collect(Collectors.joining(","));
+            sql = sql.concat(" and repository_id in (" + ids + ") ");
+        }
+
+
+        if (query.getOrderParams() != null && !query.getOrderParams().isEmpty()) {
+            sql += " order by " + orderBy(query.getOrderParams(), NodeEntity.class);
+        }
+        return new NodeCondition(sql,params.toArray());
+
+    }
+
+    public <T> String orderBy (List<Order> orders, Class<T> clazz, String... alias) {
+        StringBuilder sqlDesc = new StringBuilder();
+        for (int i = 0; i < orders.size(); i++) {
+            Order order = orders.get(i);
+            String key = order.getName();
+            OrderTypeEnum orderType = order.getOrderType();
+
+            String columnName = null;
+            for (Field field : clazz.getDeclaredFields()) {
+                field.setAccessible(true);
+                String name = field.getName();
+                if (name.equals(key)){
+                    Column column = field.getAnnotation(Column.class);
+                    columnName = column.name();
+                }
+            }
+            if (org.apache.commons.lang3.StringUtils.isEmpty(columnName)){
+                throw new SystemException("字段"+key+"实体字段不存在！");
+            }
+
+            if (alias.length == 0){
+                if ( i + 1 == orders.size()) {
+                    sqlDesc.append(columnName).append(" ").append(orderType);
+                } else {
+                    sqlDesc.append(columnName).append(" ").append(orderType).append(" ").append(',');
+                }
+            }else {
+                if ( i + 1 == orders.size()) {
+                    sqlDesc.append(alias[0]).append(".").append(columnName).append(" ").append(orderType);
+                } else {
+                    sqlDesc.append(alias[0]).append(".").append(columnName).append(" ").append(orderType).append(" ").append(',');
+                }
+            }
+        }
+        return sqlDesc.toString();
+    }
+}
+
+class NodeCondition{
+
+    private String sql;
+
+    private Object[] objects;
+
+    public NodeCondition(String sql, Object[] objects) {
+        this.sql = sql;
+        this.objects = objects;
+    }
+
+    public String getSql() {
+        return sql;
+    }
+
+    public void setSql(String sql) {
+        this.sql = sql;
+    }
+
+    public Object[] getObjects() {
+        return objects;
+    }
+
+    public void setObjects(Object[] objects) {
+        this.objects = objects;
     }
 }

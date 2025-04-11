@@ -34,8 +34,13 @@ public interface SearchService {
     <T> Map<String, Object> get(Class<T> entityClass, String id);
 
 
-
+    /**
+     * 搜索
+     * @param keyword 关键字
+     * @return 结果
+     */
     HashMap<String, List<Object>> searchWikiDocumentForTop(String keyword);
+
 
     List<WikiDocument> searchRepositoryDocument(DocumentQuery documentQuery);
 

@@ -5,6 +5,8 @@ import io.tiklab.dal.jpa.JpaTemplate;
 import io.tiklab.eam.common.context.LoginContext;
 import io.tiklab.sward.repository.model.WikiRepository;
 import io.tiklab.sward.repository.util.UncompressUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,6 +20,7 @@ import org.xml.sax.InputSource;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,12 +39,14 @@ public class ConfluenceImportDataServiceImpl implements ConfluenceImportDataServ
 
     @Autowired
     ConfluenceImportData719Service confluenceImportData719Service;
+
     @Autowired
     private TransactionTemplate transactionTemplate;
 
-
     @Value("${unzip.path}")
     String unzipAddress;
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public final ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -84,15 +89,13 @@ public class ConfluenceImportDataServiceImpl implements ConfluenceImportDataServ
             SAXParser parser = factory.newSAXParser();
 
             try (FileInputStream fis = new FileInputStream(path);
-                 Reader reader = new InvalidXMLCharFilter(new InputStreamReader(fis, "UTF-8"))) {
-                // Wrap the Reader in InputSource
-                InputSource is = new InputSource(reader);
-                // Parse the XML using SAX parser
-                parser.parse(is, saxParseService);
+                 Reader reader = new InvalidXMLCharFilter(new InputStreamReader(fis, StandardCharsets.UTF_8))) {
+                 InputSource is = new InputSource(reader);
+                 parser.parse(is, saxParseService);
             }
 
             List<Element> elements = saxParseService.getElementList();
-            System.out.println(elements);
+            List<String> list = elements.stream().map(Element::getTagName).distinct().toList();
             confluenceImportData719Service.writeData(elements, CurrentProject, Percent);
             Percent.put(createUserId + "status", 1);
             return "success";

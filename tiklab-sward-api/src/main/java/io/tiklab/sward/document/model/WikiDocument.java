@@ -19,7 +19,7 @@ import java.util.List;
 public class WikiDocument extends BaseModel{
 
     @ApiProperty(name="id",desc="id")
-    @DocumentField
+    @DocumentField(queryField = true)
     @DocumentId
     private String id;
 
@@ -31,6 +31,9 @@ public class WikiDocument extends BaseModel{
     @ApiProperty(name="detailText",desc="detailText")
     @DocumentField(queryField = true)
     private String detailText;
+
+    @DocumentField(queryField = true)
+    private String repositoryId;
 
     //评论条数
     @ApiProperty(name="commentNumber",desc="评论条数")
@@ -51,6 +54,13 @@ public class WikiDocument extends BaseModel{
     @ApiProperty(name="isRele",desc="是否关联事项")
     private Boolean isRele;
 
+    public String getRepositoryId() {
+        return repositoryId;
+    }
+
+    public void setRepositoryId(String repositoryId) {
+        this.repositoryId = repositoryId;
+    }
 
     public String getId() {
         return id;

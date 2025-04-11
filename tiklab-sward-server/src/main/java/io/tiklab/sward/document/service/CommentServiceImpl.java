@@ -141,7 +141,7 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> commentList = BeanMapper.mapList(pagination.getDataList(),Comment.class);
         joinTemplate.joinQuery(commentList);
 
-        if(commentList.size() > 0){
+        if(!commentList.isEmpty()){
             String commentIds = "(" + commentList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
             List<CommentEntity> commentChildrenList = commentDao.findCommentChildren(commentIds);
             joinTemplate.joinQuery(commentChildrenList);

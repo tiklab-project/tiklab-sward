@@ -1,6 +1,8 @@
 package io.tiklab.sward.support.support;
 
 import io.tiklab.dss.init.executer.IndexInitCallback;
+import io.tiklab.sward.node.model.Node;
+import io.tiklab.sward.node.service.NodeService;
 import io.tiklab.sward.repository.service.WikiRepositoryService;
 import io.tiklab.dss.client.DssClient;
 import io.tiklab.sward.document.model.WikiDocument;
@@ -25,6 +27,9 @@ public class DssInitIndex implements IndexInitCallback {
     @Autowired
     DocumentService documentService;
 
+    @Autowired
+    NodeService nodeService;
+
     /**
      * 重建索引，需要重建，就在DssInitAutoConfiguration 中加个新版本
      */
@@ -40,6 +45,10 @@ public class DssInitIndex implements IndexInitCallback {
 
         List<WikiDocument> allDocument = documentService.findAllDocument();
         for (WikiDocument wikiDocument : allDocument) {
+            Node node = nodeService.findNode(wikiDocument.getId());
+            node.setRpyId(node.getWikiRepository().getId());
+            dssClient.save(node);
+            wikiDocument.setRepositoryId(node.getWikiRepository().getId());
             dssClient.save(wikiDocument);
         }
     }

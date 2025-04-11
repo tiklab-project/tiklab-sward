@@ -224,7 +224,9 @@ public class DocumentServiceImpl implements DocumentService {
         node = nodeService.findNode(nodeId);
 
         // 添加索引
+        node.setRpyId(node.getWikiRepository().getId());
         dssClient.save(node);
+        wikiDocument.setRepositoryId(node.getWikiRepository().getId());
         dssClient.save(wikiDocument);
         // 添加动态
         createDynamic(node);
@@ -238,7 +240,7 @@ public class DocumentServiceImpl implements DocumentService {
      */
     @Override
     public String createConfluDocument(@NotNull @Valid WikiDocument wikiDocument){
-        String documentId = new String();
+        String documentId;
         try {
             Node node = wikiDocument.getNode();
             String nodeId = nodeService.createConfluNode(node);
@@ -246,11 +248,20 @@ public class DocumentServiceImpl implements DocumentService {
             wikiDocument.setId(nodeId);
             WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
             documentId = documentDao.createDocument(wikiDocumentEntity);
+
+            node.setRpyId(node.getWikiRepository().getId());
+            node.setId(nodeId);
+            dssClient.save(node);
+            wikiDocument.setId(documentId);
+            wikiDocument.setRepositoryId(node.getWikiRepository().getId());
+            dssClient.save(wikiDocument);
+
         } catch (Exception e) {
             throw new ApplicationException(2000, "文档添加失败" + e.getMessage());
         }
         return documentId;
     }
+
     @Override
     public Integer getBrotherNum(String repositoryId, String categoryId) {
         Integer brotherNum = documentDao.getBrotherNum(repositoryId, categoryId);
@@ -284,13 +295,19 @@ public class DocumentServiceImpl implements DocumentService {
             creatUpdateOplog(node, oldNode);
         }
 
+        String repositoryId = wikiDocument.getRepositoryId();
+        // if (StringUtils.isEmpty(repositoryId)) {
+        //
+        // }
+
         // 更新索引
+        node.setRpyId(wikiDocument.getRepositoryId());
+        wikiDocument.setRepositoryId(repositoryId);
+
         dssClient.update(node);
+
         dssClient.update(wikiDocument);
     }
-
-
-
 
     @Override
     public void deleteDocument(@NotNull String id) {

@@ -113,7 +113,7 @@ public class SaxParseServiceImpl extends DefaultHandler  {
             }
         }
 
-        if(isDocument == true){
+        if(isDocument){
             // 如果当前元素是 Document 的一部分，处理 id 和属性
             if(qName.equals("property") || (qName.equals("id") && !isCollection)){
                 String propName = attributes.getValue("name");
@@ -263,7 +263,7 @@ public class SaxParseServiceImpl extends DefaultHandler  {
             }
             if(isBodyContentId == true ){
                 globalElement.setAttribute("bodyContentId", content);
-                System.out.println("isBodyContentId------" + content);
+                // System.out.println("isBodyContentId------" + content);
             }
         }
 

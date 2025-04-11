@@ -12,28 +12,20 @@ import io.tiklab.sward.node.model.Node;
 import io.tiklab.sward.node.model.NodeQuery;
 import io.tiklab.sward.repository.model.WikiRepository;
 import io.tiklab.sward.support.model.RecentQuery;
-import io.tiklab.sward.support.service.RecentService;
 import io.tiklab.toolkit.beans.BeanMapper;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.core.page.PaginationBuilder;
 import io.tiklab.toolkit.join.JoinTemplate;
-
-
-import io.tiklab.user.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -449,15 +441,15 @@ public class NodeServiceImpl implements NodeService {
      */
     List<Node> setChildrenNode(List<Node> allNodeList, List<Node> nodeList, List<Integer> dimensionList){
         List<Node> residueNodeList = new ArrayList<>();
-        if(allNodeList.size() > 0){
+        if(!allNodeList.isEmpty()){
             for (Node firstLeavelNode : nodeList) {
                 List<Node> childrenList = allNodeList.stream().filter(node -> node.getParent() != null &&
                         node.getParent().getId().equals(firstLeavelNode.getId())).collect(Collectors.toList());
-                if(childrenList.size() > 0){
+                if(!childrenList.isEmpty()){
                     allNodeList.removeAll(childrenList);
                     residueNodeList = allNodeList;
                     firstLeavelNode.setChildren(childrenList);
-                    if(allNodeList.size() > 0){
+                    if(!allNodeList.isEmpty()){
                         setChildrenNode(allNodeList, childrenList, dimensionList);
                     }
                 }else {
@@ -542,4 +534,6 @@ public class NodeServiceImpl implements NodeService {
         return nodePageTree;
     }
 
+
 }
+
