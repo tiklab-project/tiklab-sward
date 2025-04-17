@@ -18,7 +18,7 @@ public class TaskInitDss implements TiklabApplicationRunner {
 
     @Override
     public void run() {
-        initIndex.execute();
+        // initIndex.execute();
     }
 
 

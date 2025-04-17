@@ -54,6 +54,17 @@ public class WikiDocument extends BaseModel{
     @ApiProperty(name="isRele",desc="是否关联事项")
     private Boolean isRele;
 
+    // 版本
+    private String versionId;
+
+    public String getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(String versionId) {
+        this.versionId = versionId;
+    }
+
     public String getRepositoryId() {
         return repositoryId;
     }

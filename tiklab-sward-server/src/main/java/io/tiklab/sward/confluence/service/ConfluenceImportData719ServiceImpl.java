@@ -4,11 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.tiklab.core.exception.ApplicationException;
 import io.tiklab.dal.jpa.JpaTemplate;
 import io.tiklab.dss.client.DssClient;
-import io.tiklab.eam.common.context.LoginContext;
+import io.tiklab.sward.confluence.model.ImportStatus;
 import io.tiklab.sward.document.model.WikiDocument;
 import io.tiklab.sward.document.service.DocumentService;
 import io.tiklab.sward.node.model.Node;
-import io.tiklab.sward.node.model.NodeQuery;
 import io.tiklab.sward.node.service.NodeService;
 import io.tiklab.sward.repository.model.WikiRepository;
 import io.tiklab.sward.repository.service.WikiRepositoryService;
@@ -20,10 +19,8 @@ import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.util.ObjectUtils;
 import org.w3c.dom.Element;
 
 
@@ -64,14 +61,14 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
     private ThreadLocal<ArrayList<Element>> ConfluUserElementList = new ThreadLocal<>();
 
     private ThreadLocal<ArrayList<Element>> SpaceElementList = new ThreadLocal<>();
+
     private ThreadLocal<ArrayList<Element>> DocumentElementList = new ThreadLocal<>();
 
     private ThreadLocal<ArrayList<Element>> DocumentCoreElementList = new ThreadLocal<>();
 
 
     @Override
-    public String writeData(List<Element> elements, Map<String, WikiRepository> CurrentProject, Map<String, Integer> Percent) {
-        String createUserId = LoginContext.getLoginId();
+    public String writeData(List<Element> elements) {
         try {
 
             ArrayList<Element> userElementList = new ArrayList<>();
@@ -112,11 +109,8 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
                 setGlobalUser(userElement);
             }
 
-            // 获取导入知识库的总数
-            int size = spaceElementList.size();
-            Percent.put(createUserId + "total", size);
             for (Element spaceElement : spaceElementList) {
-                setSpace(spaceElement, createUserId, CurrentProject, Percent);
+                setSpace(spaceElement);
             }
             return "succed";
         } catch (Exception e) {
@@ -183,15 +177,13 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
     /**
      * 导入数据库
      * @param element
-     * @param createUserId
-     * @param CurrentProject
-     * @param Percent
      */
-    public void setSpace(Element element, String createUserId, Map<String, WikiRepository> CurrentProject, Map<String, Integer> Percent){
+    public void setSpace(Element element){
         String id = element.getAttribute("id");
         String name = element.getAttribute("name");
         String creationDate = element.getAttribute("creationDate");
         String creator = element.getAttribute("creator");
+
         try {
             WikiRepository wikiRepository = new WikiRepository();
             wikiRepository.setName(name);
@@ -213,20 +205,17 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
             wikiRepository.setStatus("nomal");
             wikiRepository.setLimits("0");
             String repositoryId = wikiRepositoryService.createConfluRepository(wikiRepository);
+
             wikiRepository.setId(repositoryId);
             dssClient.save(wikiRepository);
+
             element.setAttribute("newId", repositoryId);
             setDocument(element);
-            Integer integer = Percent.get(createUserId + "currentNum");
-            if(!ObjectUtils.isEmpty(integer)){
-                integer++;
-                Percent.put(createUserId + "currentNum", integer);
-            }else {
-                Percent.put(createUserId + "currentNum", 1);
-            }
-            CurrentProject.put(createUserId + "wikiRepository",wikiRepository);
 
         }catch (Exception e) {
+
+            ConfluenceImportServiceImpl.setStatus(ImportStatus.error(30,"知识库添加失败!"));
+
             throw new ApplicationException(2000, "知识库添加失败:" + e.getMessage());
         }
     }
@@ -248,6 +237,9 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
      * @param element
      */
     public void setDocument(Element element){
+
+        ConfluenceImportServiceImpl.setStatus(ImportStatus.error(60,"开始导入文档......"));
+
         String spaceId = element.getAttribute("id");
         String newId = element.getAttribute("newId");
         ArrayList<String> documentNameList = new ArrayList<>();
@@ -264,6 +256,8 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
                 String creator = documentElement.getAttribute("creator");
                 String bodyContentId = documentElement.getAttribute("bodyContentId");
                 int documentSort = 0;
+
+                ConfluenceImportServiceImpl.setStatus(ImportStatus.run(60,"导入文档:"+title));
                 if(spaceId.equals(space)){
                     documentSort = documentSort + 1;
                     WikiDocument wikiDocument = new WikiDocument();
@@ -297,6 +291,8 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
 
                 }
             }
+
+            ConfluenceImportServiceImpl.setStatus(ImportStatus.run(85,"文档导入完成!"));
         }
     }
 
@@ -325,6 +321,7 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
                     wikiDocument.setDetailText(doc.text());
                     wikiDocument.setRepositoryId(rpyId);
                     documentService.updateDocument(wikiDocument);
+
                     // 输出 JSON 字符串
                     // logger.info("JSON 字符串: {}", jsonString);
 
@@ -347,7 +344,7 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
      * @return
      */
     public String getUserId(String creator){
-        String userId = new String();
+        String userId = "";
         ArrayList<Element> userElementList = this.UserElementList.get();
         for (Element userElement : userElementList) {
             String conUserId = userElement.getAttribute("conUserId");
@@ -361,3 +358,18 @@ public class ConfluenceImportData719ServiceImpl implements ConfluenceImportData7
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

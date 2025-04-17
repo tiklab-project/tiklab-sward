@@ -11,7 +11,11 @@ import java.util.Map;
  */
 public interface ConfluenceImportData719Service {
 
-
-    String writeData(List<Element> elements, Map<String, WikiRepository> CurrentProject, Map<String, Integer> Percent);
+    /**
+     * 读取配置
+     * @param elements
+     * @return
+     */
+    String writeData(List<Element> elements);
 
 }

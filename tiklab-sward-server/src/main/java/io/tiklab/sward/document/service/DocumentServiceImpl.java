@@ -60,6 +60,8 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     DocumentFocusService documentFocusService;
+
+
     @Autowired
     DssClient dssClient;
 
@@ -233,6 +235,13 @@ public class DocumentServiceImpl implements DocumentService {
         return documentId;
     }
 
+
+    @Override
+    public String createOneDocument(@NotNull @Valid WikiDocument wikiDocument) {
+        WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
+        return documentDao.createDocument(wikiDocumentEntity);
+    }
+
     /**
      * confluence 导入
      * @param wikiDocument
@@ -296,9 +305,6 @@ public class DocumentServiceImpl implements DocumentService {
         }
 
         String repositoryId = wikiDocument.getRepositoryId();
-        // if (StringUtils.isEmpty(repositoryId)) {
-        //
-        // }
 
         // 更新索引
         node.setRpyId(wikiDocument.getRepositoryId());
@@ -307,6 +313,12 @@ public class DocumentServiceImpl implements DocumentService {
         dssClient.update(node);
 
         dssClient.update(wikiDocument);
+    }
+
+    @Override
+    public void updateOneDocument(@NotNull @Valid WikiDocument wikiDocument) {
+        WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
+        documentDao.updateDocument(wikiDocumentEntity);
     }
 
     @Override
@@ -345,6 +357,12 @@ public class DocumentServiceImpl implements DocumentService {
         shareRelationService.deleteShareRelationCondition(shareRelationQuery);
 
 
+    }
+
+    @Override
+    public void deleteOneDocument(@NotNull String id) {
+
+        documentDao.deleteDocument(id);
     }
 
     @Override

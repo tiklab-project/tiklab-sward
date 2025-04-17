@@ -1,5 +1,6 @@
 package io.tiklab.sward.repository.dao;
 
+import io.tiklab.core.utils.UuidGenerator;
 import io.tiklab.sward.repository.entity.WikiRepositoryEntity;
 import io.tiklab.sward.repository.entity.WikiRepositoryFocusEntity;
 import io.tiklab.sward.repository.model.WikiRepositoryQuery;
@@ -11,6 +12,7 @@ import io.tiklab.dal.jpa.criterial.condition.OrQueryCondition;
 import io.tiklab.dal.jpa.criterial.condition.QueryCondition;
 import io.tiklab.dal.jpa.criterial.conditionbuilder.OrQueryBuilders;
 import io.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,10 @@ public class WikiRepositoryDao {
      * @return
      */
     public String createRepository(WikiRepositoryEntity wikiRepositoryEntity) {
+        String entityId = wikiRepositoryEntity.getId();
+        if (StringUtils.isEmpty(entityId)){
+            wikiRepositoryEntity.setId(UuidGenerator.getRandomIdByUUID(12));
+        }
         return jpaTemplate.save(wikiRepositoryEntity,String.class);
     }
 

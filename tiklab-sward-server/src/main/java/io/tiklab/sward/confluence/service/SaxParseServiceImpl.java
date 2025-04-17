@@ -47,8 +47,8 @@ public class SaxParseServiceImpl extends DefaultHandler  {
 
     Integer spaceIdNum = 0;
     boolean isSpaceId = false;
-    String flag = new String();
-    String flagName = new String();
+    String flag = "";
+    String flagName = "";
     boolean isSpaceName = false;
     boolean isCreationDate = false;
 
@@ -69,7 +69,9 @@ public class SaxParseServiceImpl extends DefaultHandler  {
     List<Element> ElementList = new ArrayList<org.w3c.dom.Element>();
 
     String[] propertyName = {"id", "title", "creator", "creationDate", "lastModificationDate"};
+
     String[] spacePropertyName = {"name", "creator", "creationDate"};
+
     private static Element globalElement;
 
     @Override
@@ -151,7 +153,7 @@ public class SaxParseServiceImpl extends DefaultHandler  {
             }
         }
 
-        if(isSpace == true){
+        if(isSpace){
             if(qName.equals("id")){
                 if(spaceIdNum == 1){
                     isSpaceId = true;
@@ -177,7 +179,7 @@ public class SaxParseServiceImpl extends DefaultHandler  {
             }
         }
 
-        if(isUser == true){
+        if(isUser){
             if(qName.equals("property")){
                 if(name.equals("createdDate")){
                     isUserCreateDate = true;

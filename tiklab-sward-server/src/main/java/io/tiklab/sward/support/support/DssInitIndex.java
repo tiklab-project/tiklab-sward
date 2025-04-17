@@ -8,10 +8,12 @@ import io.tiklab.dss.client.DssClient;
 import io.tiklab.sward.document.model.WikiDocument;
 import io.tiklab.sward.document.service.DocumentService;
 import io.tiklab.sward.repository.model.WikiRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 重建索引
@@ -45,10 +47,16 @@ public class DssInitIndex implements IndexInitCallback {
 
         List<WikiDocument> allDocument = documentService.findAllDocument();
         for (WikiDocument wikiDocument : allDocument) {
+            String versionId = wikiDocument.getVersionId();
+            if (!StringUtils.isEmpty(versionId)){
+                continue;
+            }
             Node node = nodeService.findNode(wikiDocument.getId());
-            node.setRpyId(node.getWikiRepository().getId());
-            dssClient.save(node);
-            wikiDocument.setRepositoryId(node.getWikiRepository().getId());
+            if (!Objects.isNull(node)){
+                node.setRpyId(node.getWikiRepository().getId());
+                wikiDocument.setRepositoryId(node.getWikiRepository().getId());
+                dssClient.save(node);
+            }
             dssClient.save(wikiDocument);
         }
     }

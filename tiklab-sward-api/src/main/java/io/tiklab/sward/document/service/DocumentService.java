@@ -28,23 +28,42 @@ public interface DocumentService {
     */
     String createDocument(@NotNull @Valid WikiDocument wikiDocument);
 
+
+    String createOneDocument(@NotNull @Valid WikiDocument wikiDocument);
+
     String createConfluDocument(@NotNull @Valid WikiDocument wikiDocument);
 
     Integer getBrotherNum(String repositoryId, String categoryId);
 
     Integer getMaxSort(String repositoryId, String categoryId);
+
     /**
-    * 更新
+    * 更新文档内容与节点
     * @param wikiDocument
     */
     void updateDocument(@NotNull @Valid WikiDocument wikiDocument);
 
 
     /**
-    * 删除
+     * 更新
+     * @param wikiDocument
+     */
+    void updateOneDocument(@NotNull @Valid WikiDocument wikiDocument);
+
+
+    /**
+    * 删除文档，以及关联关系
     * @param id
     */
     void deleteDocument(@NotNull String id);
+
+    /**
+     * 删除文档
+     * @param id 文档ID
+     */
+    void deleteOneDocument(@NotNull String id);
+
+
     void deleteDocumentCondition(@NotNull @Valid DocumentQuery documentQuery);
 
 

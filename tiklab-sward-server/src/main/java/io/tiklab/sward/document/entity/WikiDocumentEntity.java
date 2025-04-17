@@ -24,6 +24,9 @@ public class WikiDocumentEntity implements Serializable {
     @Column(name = "repository_id")
     private String repositoryId;
 
+    @Column(name = "version_id")
+    private String versionId;
+
     public String getRepositoryId() {
         return repositoryId;
     }
@@ -57,6 +60,13 @@ public class WikiDocumentEntity implements Serializable {
         this.detailText = detailText;
     }
 
+    public String getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(String versionId) {
+        this.versionId = versionId;
+    }
 }
 
 

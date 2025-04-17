@@ -147,7 +147,6 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         WikiRepositoryEntity wikiRepositoryEntity = BeanMapper.map(wikiRepository, WikiRepositoryEntity.class);
         String id = wikiRepositoryDao.createRepository(wikiRepositoryEntity);
 
-
         initRepositoryDmRole(masterId, id);
 
         WikiRepository wikiRepository1 = findRepository(id);
@@ -158,7 +157,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
         //构建索引
         WikiRepository entity = findRepository(id);
-       dssClient.save(entity);
+        dssClient.save(entity);
         return id;
     }
 
@@ -176,15 +175,9 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         String masterId = master.getId();
         initRepositoryDmRole(masterId, id);
 
-        WikiRepository wikiRepository1 = findRepository(id);
-        Map<String, String> content = new HashMap<>();
-        content.put("repositoryId", wikiRepository1.getId());
-        content.put("repositoryName", wikiRepository1.getName());
-        content.put("repositoryIcon", wikiRepository1.getIconUrl());
-
         //构建索引
         WikiRepository entity = findRepository(id);
-//        dssClient.save(entity);
+        dssClient.save(entity);
         return id;
     }
 

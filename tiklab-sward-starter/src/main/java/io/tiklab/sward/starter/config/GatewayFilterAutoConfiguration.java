@@ -99,7 +99,9 @@ public class GatewayFilterAutoConfiguration {
                     "/systemUrl",
                     "/image",
                     "/dfs",
-                    "/document/download/file"
+                    "/document/download/file",
+                    "/import/confluence/analysisEntityXml",
+                    "/import/confluence/importJiraData"
             })
             .get();
     }
