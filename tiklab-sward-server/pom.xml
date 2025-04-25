@@ -151,7 +151,6 @@
             <artifactId>poi-ooxml</artifactId>
             <version>5.2.3</version>
         </dependency>
-
         <!-- PDFBox 生成 PDF -->
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
@@ -168,12 +167,5 @@
             <artifactId>poi-scratchpad</artifactId>
             <version>5.2.3</version>
         </dependency>
-
-        <dependency>
-            <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-postin-client</artifactId>
-            <version>${tiklab-postin.version}</version>
-        </dependency>
-
     </dependencies>
 </project>

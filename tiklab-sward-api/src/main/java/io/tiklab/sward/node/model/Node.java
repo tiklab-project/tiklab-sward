@@ -123,6 +123,16 @@ public class Node extends BaseModel{
     @ApiProperty(name = "recycleDesc")
     private String recycleTime;
 
+    private String approve;
+
+    public String getApprove() {
+        return approve;
+    }
+
+    public void setApprove(String approve) {
+        this.approve = approve;
+    }
+
     public String getRpyId() {
         return rpyId;
     }

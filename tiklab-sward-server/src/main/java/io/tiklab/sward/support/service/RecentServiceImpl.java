@@ -21,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -134,16 +135,14 @@ public class RecentServiceImpl implements RecentService {
     public Recent findOne(String id) {
         RecentEntity recentEntity = recentDao.findRecent(id);
 
-        Recent recent = BeanMapper.map(recentEntity, Recent.class);
-        return recent;
+        return BeanMapper.map(recentEntity, Recent.class);
     }
 
     @Override
     public List<Recent> findList(List<String> idList) {
         List<RecentEntity> recentEntityList =  recentDao.findRecentList(idList);
 
-        List<Recent> recentList =  BeanMapper.mapList(recentEntityList, Recent.class);
-        return recentList;
+        return BeanMapper.mapList(recentEntityList, Recent.class);
     }
 
     @Override
@@ -172,9 +171,17 @@ public class RecentServiceImpl implements RecentService {
 
         List<Recent> recentList = BeanMapper.mapList(recentEntityList, Recent.class);
 
+
+
         joinTemplate.joinQuery(recentList);
 
-        return recentList;
+        List<Recent> review = recentList.stream()
+                .filter(recent -> !Objects.isNull(recent.getNode()))
+                .filter(recent -> recent.getNode().getApprove().equals("complete") || (recent.getNode().getApprove().equals("review")
+                        && !recent.getNode().getMaster().getId().equals(recent.getMaster().getId())))
+                .toList();
+
+        return review;
     }
 
     @Override

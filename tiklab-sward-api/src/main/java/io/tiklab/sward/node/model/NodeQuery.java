@@ -11,86 +11,100 @@ import java.util.List;
 
 @ApiModel
 public class NodeQuery extends BaseModel {
-        @ApiProperty(name ="shareId",desc = "空间id")
-        private String shareId;
 
-        @ApiProperty(name ="id",desc = "node id")
-        private String id;
+    @ApiProperty(name ="shareId",desc = "空间id")
+    private String shareId;
 
-        @ApiProperty(name ="name",desc = "name")
-        private String name;
+    @ApiProperty(name ="id",desc = "node id")
+    private String id;
 
-        @ApiProperty(name ="Ids",desc = "空间id")
-        private Object[] Ids;
+    @ApiProperty(name ="name",desc = "name")
+    private String name;
 
-        @ApiProperty(name ="notIds",desc = "空间id")
-        private Object[] notIds;
+    @ApiProperty(name ="Ids",desc = "空间id")
+    private Object[] Ids;
 
-        @ApiProperty(name ="repositoryId",desc = "空间id")
-        private String repositoryId;
+    @ApiProperty(name ="notIds",desc = "空间id")
+    private Object[] notIds;
 
-        @ApiProperty(name ="repositoryIds",desc = "空间ids")
-        private String[] repositoryIds;
+    @ApiProperty(name ="repositoryId",desc = "空间id")
+    private String repositoryId;
 
-        @ApiProperty(name ="parentId",desc = "父级目录id")
-        private String parentId;
+    @ApiProperty(name ="repositoryIds",desc = "空间ids")
+    private String[] repositoryIds;
 
-        @ApiProperty(name ="parentIds",desc = "父级目录ids")
-        private String[] parentIds;
+    @ApiProperty(name ="parentId",desc = "父级目录id")
+    private String parentId;
 
-        @ApiProperty(name ="dimension",desc = "层级")
-        private Integer dimension;
-        @ApiProperty(name ="dimensions",desc = "层级")
-        private Integer[] dimensions;
+    @ApiProperty(name ="parentIds",desc = "父级目录ids")
+    private String[] parentIds;
 
-        @ApiProperty(name ="parentIsNull",desc = "是否为空")
-        private Boolean parentIsNull;
+    @ApiProperty(name ="dimension",desc = "层级")
+    private Integer dimension;
+    @ApiProperty(name ="dimensions",desc = "层级")
+    private Integer[] dimensions;
 
-        @ApiProperty(name ="treePath",desc = "路径")
-        private String treePath;
+    @ApiProperty(name ="parentIsNull",desc = "是否为空")
+    private Boolean parentIsNull;
 
-        @ApiProperty(name ="masterId",desc = "负责人")
-        private String masterId;
+    @ApiProperty(name ="treePath",desc = "路径")
+    private String treePath;
 
-        @ApiProperty(name ="type",desc = "类型")
-        private String type;
+    @ApiProperty(name ="masterId",desc = "负责人")
+    private String masterId;
 
-        @ApiProperty(name ="status",desc = "类型")
-        private String status = "nomal";
+    @ApiProperty(name ="type",desc = "类型")
+    private String type;
 
-        @ApiProperty(name = "recycle")
-        private String recycle = "0";
+    @ApiProperty(name ="status",desc = "类型")
+    private String status = "nomal";
 
-        @ApiProperty(name ="orderParams",desc = "排序参数")
-        private List<Order> orderParams = OrderBuilders.instance().desc("sort").get();
+    @ApiProperty(name = "recycle")
+    private String recycle = "0";
 
-        @ApiProperty(name ="pageParam",desc = "分页参数")
-        private Page pageParam = new Page();
+    // 审批状态 审批中 review  无法查询 complete
+    private String approve;
 
+    // 审批人id
+    private String approveUserId;
 
-        public List<Order> getOrderParams() {
+    @ApiProperty(name ="orderParams",desc = "排序参数")
+    private List<Order> orderParams = OrderBuilders.instance().desc("sort").get();
+
+    @ApiProperty(name ="pageParam",desc = "分页参数")
+    private Page pageParam = new Page();
+
+    public String getApprove() {
+        return approve;
+    }
+
+    public void setApprove(String approve) {
+        this.approve = approve;
+    }
+
+    public List<Order> getOrderParams() {
             return orderParams;
         }
 
-        public void setOrderParams(List<Order> orderParams) {
-            this.orderParams = orderParams;
-        }
+    public void setOrderParams(List<Order> orderParams) {
+        this.orderParams = orderParams;
+    }
 
-        public Page getPageParam() {
-            return pageParam;
-        }
+    public Page getPageParam() {
+        return pageParam;
+    }
 
-        public void setPageParam(Page pageParam) {
-            this.pageParam = pageParam;
-        }
+    public void setPageParam(Page pageParam) {
+        this.pageParam = pageParam;
+    }
 
-        public String getRepositoryId() {
-            return repositoryId;
-        }
+    public String getRepositoryId() {
+        return repositoryId;
+    }
 
-        public void setRepositoryId(String repositoryId) {
-            this.repositoryId = repositoryId;
-        }
+    public void setRepositoryId(String repositoryId) {
+        this.repositoryId = repositoryId;
+    }
 
 
 
@@ -220,5 +234,13 @@ public class NodeQuery extends BaseModel {
 
     public void setRecycle(String recycle) {
         this.recycle = recycle;
+    }
+
+    public String getApproveUserId() {
+        return approveUserId;
+    }
+
+    public void setApproveUserId(String approveUserId) {
+        this.approveUserId = approveUserId;
     }
 }

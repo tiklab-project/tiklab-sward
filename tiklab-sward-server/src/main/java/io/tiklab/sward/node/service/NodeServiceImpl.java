@@ -2,10 +2,13 @@ package io.tiklab.sward.node.service;
 
 import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
 import io.tiklab.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
+import io.tiklab.sward.document.approve.model.ApproveRpy;
+import io.tiklab.sward.document.approve.model.ApproveRpyQuery;
+import io.tiklab.sward.document.approve.service.ApproveRpyService;
 import io.tiklab.sward.category.model.WikiCategoryQuery;
 import io.tiklab.sward.category.service.WikiCategoryService;
-import io.tiklab.sward.document.model.DocumentQuery;
-import io.tiklab.sward.document.service.DocumentService;
+import io.tiklab.sward.document.document.model.DocumentQuery;
+import io.tiklab.sward.document.document.service.DocumentService;
 import io.tiklab.sward.node.dao.NodeDao;
 import io.tiklab.sward.node.entity.NodeEntity;
 import io.tiklab.sward.node.model.Node;
@@ -35,9 +38,11 @@ import java.util.stream.Collectors;
  */
 @Service
 public class NodeServiceImpl implements NodeService {
+
     private static Logger logger = LoggerFactory.getLogger(DocumentService.class);
 
     private final Lock lock = new ReentrantLock();
+
     @Autowired
     NodeDao nodeDao;
 
@@ -50,6 +55,9 @@ public class NodeServiceImpl implements NodeService {
     @Autowired
     WikiCategoryService wikiCategoryService;
 
+    @Autowired(required = false)
+    ApproveRpyService approveRpyService;
+
     @Override
     public String createNode(@NotNull @Valid Node node) {
         lock.lock();
@@ -61,6 +69,13 @@ public class NodeServiceImpl implements NodeService {
             WikiRepository wikiRepository = node.getWikiRepository();
             String repositoryId = wikiRepository.getId();
 
+
+            if (!Objects.isNull(approveRpyService)){
+                List<ApproveRpy> approveRpyList = approveRpyService.findApproveRpyList(new ApproveRpyQuery(repositoryId));
+                if (!approveRpyList.isEmpty() && ("markdown".equals(node.getDocumentType()) || "document".equals(node.getDocumentType()))){
+                    node.setApprove("review");
+                }
+            }
 
             Node parent = node.getParent();
             if(parent != null){
@@ -100,16 +115,13 @@ public class NodeServiceImpl implements NodeService {
         }
     }
 
-    /**
-     * confluence 导入
-     * @param node
-     * @return
-     */
+
     @Override
     public String createConfluNode(@NotNull @Valid Node node){
         NodeEntity nodeEntity = BeanMapper.map(node, NodeEntity.class);
         return nodeDao.createNode(nodeEntity);
     }
+
     @Override
     public void updateNode(@NotNull @Valid Node node) {
         String moveToId = node.getMoveToId();
@@ -237,7 +249,7 @@ public class NodeServiceImpl implements NodeService {
     // 更新下级
     public void updateChildrenDimensionAndTreePath(String id, Integer distance, String treePath){
         List<NodeEntity> allChildrenNodeList = nodeDao.findAllChildrenNodeList(id);
-        if(allChildrenNodeList.size() > 0){
+        if(!allChildrenNodeList.isEmpty()){
             for (NodeEntity nodeEntity : allChildrenNodeList) {
                 // wikiCategory 下
                 Integer dimension = nodeEntity.getDimension();
@@ -313,11 +325,11 @@ public class NodeServiceImpl implements NodeService {
         nodeQuery.setRepositoryId(repositoryId);
 
         List<Node> nodeList = findNodeList(nodeQuery);
-        if(nodeList.size() > 0){
-            List<Node> categoryList = nodeList.stream().filter(item -> item.getType().equals("category")).collect(Collectors.toList());
-            if(categoryList.size() > 0){
-                List<String> categoryIdList = categoryList.stream().map(item -> item.getId()).collect(Collectors.toList());
-                String[] categoryIds = categoryIdList.toArray(new String[categoryIdList.size()]);
+        if(!nodeList.isEmpty()){
+            List<Node> categoryList = nodeList.stream().filter(item -> item.getType().equals("category")).toList();
+            if(!categoryList.isEmpty()){
+                List<String> categoryIdList = categoryList.stream().map(Node::getId).toList();
+                String[] categoryIds = categoryIdList.toArray(new String[0]);
                 WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
                 wikiCategoryQuery.setIds(categoryIds);
                 wikiCategoryQuery.setRepositoryId(repositoryId);
@@ -326,10 +338,9 @@ public class NodeServiceImpl implements NodeService {
                 nodeList.removeAll(categoryIdList);
             }
 
-            if(nodeList.size() > 0){
+            if(!nodeList.isEmpty()){
                 // 删除所有文档
-                List<String> documentIdList = nodeList.stream().map(item -> item.getId()).collect(Collectors.toList());
-                String[] documentIds = documentIdList.toArray(new String[documentIdList.size()]);
+                String[] documentIds = nodeList.stream().map(Node::getId).toArray(String[]::new);
                 DocumentQuery documentQuery = new DocumentQuery();
                 documentQuery.setIds(documentIds);
                 documentQuery.setRepositoryId(repositoryId);
@@ -342,16 +353,14 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public Node findOne(String id) {
         NodeEntity nodeEntity = nodeDao.findNode(id);
-        Node node = BeanMapper.map(nodeEntity, Node.class);
-        return node;
+        return BeanMapper.map(nodeEntity, Node.class);
     }
 
     @Override
     public List<Node> findList(List<String> idList) {
         List<NodeEntity> nodeEntityList =  nodeDao.findNodeList(idList);
 
-        List<Node> nodeList =  BeanMapper.mapList(nodeEntityList, Node.class);
-        return nodeList;
+        return BeanMapper.mapList(nodeEntityList, Node.class);
     }
 
     @Override
@@ -414,15 +423,29 @@ public class NodeServiceImpl implements NodeService {
      */
     @Override
     public List<Node> findNodePageTree(NodeQuery nodeQuery) {
-        List<Node> nodeList = new ArrayList<>();
+        String repositoryId = nodeQuery.getRepositoryId();
+        if (!Objects.isNull(approveRpyService)){
+            List<ApproveRpy> approveRpyList = approveRpyService.findApproveRpyList(new ApproveRpyQuery(repositoryId));
+            if (!approveRpyList.isEmpty()){
+                nodeQuery.setApprove("complete");
+            }
+        }
+
         List<Node> allNodeList = findNodeList(nodeQuery);
+
         // 一般深度是[1, 2] 或者 [3, 4]
         Integer[] dimensions = nodeQuery.getDimensions();
         Arrays.sort(dimensions);
         List<Integer> dimensionList = new ArrayList<>(Arrays.asList(dimensions));
         Integer minDimensions = dimensionList.get(0);
-        nodeList = allNodeList.stream().filter(node -> node.getDimension().equals(minDimensions))
+        List<Node> nodeList = allNodeList.stream().filter(node -> node.getDimension().equals(minDimensions))
                 .collect(Collectors.toList());
+        nodeList.forEach(node -> {
+            String id = node.getMaster().getId();
+            if (id.equals(nodeQuery.getApproveUserId())){
+                node.setApprove("complete");
+            }});
+
         //删除已被使用的node
         if(!nodeList.isEmpty()){
             allNodeList.removeAll(nodeList);

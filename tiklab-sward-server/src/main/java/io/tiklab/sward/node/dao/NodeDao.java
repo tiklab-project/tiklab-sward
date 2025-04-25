@@ -3,6 +3,7 @@ package io.tiklab.sward.node.dao;
 
 import io.tiklab.core.exception.SystemException;
 import io.tiklab.core.order.Order;
+import io.tiklab.core.order.OrderBuilders;
 import io.tiklab.core.order.OrderTypeEnum;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.dal.jpa.JpaTemplate;
@@ -95,52 +96,11 @@ public class NodeDao {
     }
 
     public List<NodeEntity> findNodeList(NodeQuery nodeQuery) {
-        QueryCondition queryCondition = new QueryCondition();
-
-        QueryBuilders queryBuilders = QueryBuilders.createQuery(NodeEntity.class)
-                .like("name", nodeQuery.getName())
-                .eq("repositoryId", nodeQuery.getRepositoryId())
-                .eq("masterId", nodeQuery.getMasterId())
-                .eq("parentId", nodeQuery.getParentId())
-                .eq("type", nodeQuery.getType())
-                .eq("status", nodeQuery.getStatus())
-                .eq("recycle", nodeQuery.getRecycle())
-                .in("dimension", nodeQuery.getDimensions())
-                .in("id", nodeQuery.getIds())
-                .orders(nodeQuery.getOrderParams());
-
-        if( nodeQuery.getTreePath() != null){
-            OrQueryCondition orQueryCondition = OrQueryBuilders.instance()
-                    .like("treePath", nodeQuery.getTreePath())
-                    .eq("id", nodeQuery.getId())
-                    .get();
-            queryCondition = queryBuilders.or(orQueryCondition).get();
-        }else {
-            queryCondition = queryBuilders.get();
-        }
-
-        return jpaTemplate.findList(queryCondition, NodeEntity.class);
-    }
-
-    public List<NodeEntity> findNodeListByName(NodeQuery nodeQuery) {
-
-        QueryCondition queryCondition = QueryBuilders.createQuery(NodeEntity.class)
-                .eq("name", nodeQuery.getName())
-                .eq("repositoryId", nodeQuery.getRepositoryId())
-                .orders(nodeQuery.getOrderParams())
-                .get();
-
-
-        return jpaTemplate.findList(queryCondition, NodeEntity.class);
-    }
-
-    public Pagination<NodeEntity> findNodePage(NodeQuery nodeQuery) {
-        // QueryCondition queryCondition = new QueryCondition();
-
+        // QueryCondition queryCondition ;
+        //
         // QueryBuilders queryBuilders = QueryBuilders.createQuery(NodeEntity.class)
         //         .like("name", nodeQuery.getName())
         //         .eq("repositoryId", nodeQuery.getRepositoryId())
-        //         .in("repositoryId", nodeQuery.getRepositoryIds())
         //         .eq("masterId", nodeQuery.getMasterId())
         //         .eq("parentId", nodeQuery.getParentId())
         //         .eq("type", nodeQuery.getType())
@@ -148,9 +108,21 @@ public class NodeDao {
         //         .eq("recycle", nodeQuery.getRecycle())
         //         .in("dimension", nodeQuery.getDimensions())
         //         .in("id", nodeQuery.getIds())
-        //         .notIn("id", nodeQuery.getNotIds())
-        //         .orders(nodeQuery.getOrderParams())
-        //         .pagination(nodeQuery.getPageParam());
+        //         .orders(nodeQuery.getOrderParams());
+        //
+        // if (!StringUtils.isEmpty(nodeQuery.getApprove())){
+        //     OrQueryCondition orQueryCondition = OrQueryBuilders.instance()
+        //             .eq("master", nodeQuery.getApproveUserId())
+        //             .eq("approve", "review")
+        //             .get();
+        //
+        //     OrQueryCondition or = OrQueryBuilders.instance()
+        //             .eq("approve", nodeQuery.getApprove())
+        //             .get();
+        //
+        //     queryBuilders = queryBuilders.or(orQueryCondition)
+        //             .or(or);
+        // }
         //
         // if( nodeQuery.getTreePath() != null){
         //     OrQueryCondition orQueryCondition = OrQueryBuilders.instance()
@@ -161,11 +133,29 @@ public class NodeDao {
         // }else {
         //     queryCondition = queryBuilders.get();
         // }
+        // return jpaTemplate.findList(queryCondition, NodeEntity.class);
 
+        NodeCondition condition = findQueryCondition(nodeQuery);
+        return jpaTemplate.getJdbcTemplate().query(condition.getSql(), condition.getObjects(),new BeanPropertyRowMapper<>(NodeEntity.class));
+
+
+    }
+
+    public List<NodeEntity> findNodeListByName(NodeQuery nodeQuery) {
+
+        QueryCondition queryCondition = QueryBuilders.createQuery(NodeEntity.class)
+                .eq("name", nodeQuery.getName())
+                .eq("repositoryId", nodeQuery.getRepositoryId())
+                .orders(nodeQuery.getOrderParams())
+                .get();
+
+        return jpaTemplate.findList(queryCondition, NodeEntity.class);
+    }
+
+    public Pagination<NodeEntity> findNodePage(NodeQuery nodeQuery) {
         NodeCondition condition = findQueryCondition(nodeQuery);
         return jpaTemplate.getJdbcTemplate().findPage(condition.getSql(), condition.getObjects(),
                 nodeQuery.getPageParam(),new BeanPropertyRowMapper<>(NodeEntity.class));
-        // return jpaTemplate.findPage(queryCondition, NodeEntity.class);
     }
 
     public List<NodeEntity> findNodeRecentList(RecentQuery recentQuery) {
@@ -181,7 +171,6 @@ public class NodeDao {
                 .get();
         return jpaTemplate.findList(queryCondition, NodeEntity.class);
     }
-
 
 
     public void updateSortAfterDelete(String repositoryId, String parentId, Integer sort){
@@ -213,6 +202,7 @@ public class NodeDao {
         List<NodeEntity> nodeEntityList = this.jpaTemplate.getJdbcTemplate().query(sql, new BeanPropertyRowMapper<>(NodeEntity.class));
         return nodeEntityList;
     }
+
     public void reduceSortInRepository(String repositoryId, Integer sort){
         try {
             String sql = "UPDATE wiki_node SET sort = sort - 1 WHERE repository_id ='" + repositoryId + "' and sort > " + sort + " and parent_id IS NULL";
@@ -306,8 +296,10 @@ public class NodeDao {
         }
 
         if (!Objects.isNull(query.getDimensions())){
-            sql = sql.concat(" and dimension = ?");
-            params.add(query.getDimensions());
+            String ids = Arrays.stream(query.getDimensions())
+                    .map(id -> "'" + id + "'")
+                    .collect(Collectors.joining(","));
+            sql = sql.concat(" and dimension in (" + ids + ") ");
         }
 
         if (!Objects.isNull(query.getType())){
@@ -336,16 +328,25 @@ public class NodeDao {
         }
 
         if (!Objects.isNull(query.getRepositoryIds()) && query.getRepositoryIds().length !=0 ){
-            String ids = Arrays.stream(query.getRepositoryIds())
-                    .map(id -> "'" + id + "'")
-                    .collect(Collectors.joining(","));
+            String ids = String.join(",", query.getRepositoryIds());
             sql = sql.concat(" and repository_id in (" + ids + ") ");
         }
 
+        if (!StringUtils.isEmpty(query.getApprove())){
+            sql = sql.concat(" and ( approve = ?  or ( approve = 'review' and master = ? ))");
+            params.add(query.getApprove());
+            params.add(query.getApproveUserId());
+        }
+
+        if (!StringUtils.isEmpty(query.getTreePath())){
+            sql = sql.concat(" or (tree_path like '%" + query.getTreePath() + "%' and id = ?)");
+            params.add(query.getId());
+        }
 
         if (query.getOrderParams() != null && !query.getOrderParams().isEmpty()) {
             sql += " order by " + orderBy(query.getOrderParams(), NodeEntity.class);
         }
+
         return new NodeCondition(sql,params.toArray());
 
     }

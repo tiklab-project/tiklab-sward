@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import io.tiklab.security.logging.logging.model.Logging;
 import io.tiklab.security.logging.logging.model.LoggingType;
 import io.tiklab.security.logging.logging.service.LoggingByTempService;
-import io.tiklab.sward.category.service.WikiCategoryService;
-import io.tiklab.sward.document.service.DocumentService;
 import io.tiklab.sward.node.model.Node;
 import io.tiklab.sward.node.service.NodeService;
 import io.tiklab.sward.repository.dao.WikiRepositoryDao;

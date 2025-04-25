@@ -75,6 +75,8 @@ public interface NodeService {
     * @return
     */
     List<Node> findNodeList(NodeQuery nodeQuery);
+
+
     List<Node> findNodeListByName(NodeQuery nodeQuery);
     /**
     * 按分页查询

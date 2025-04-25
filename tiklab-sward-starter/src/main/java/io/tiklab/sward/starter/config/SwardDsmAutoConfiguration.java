@@ -35,7 +35,8 @@ public class SwardDsmAutoConfiguration {
                 //kANASS
                 "kanass_1.0.0",
                 "backups_1.0.0",
-                "doc_1.0.0"
+                "doc_1.0.0",
+                "approve_1.0.0"
         });
         dsmConfig.newVersion("1.0.1", new String[]{
                 "kanass_1.0.1",

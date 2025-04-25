@@ -2,19 +2,16 @@ package io.tiklab.sward.support.service;
 
 import io.tiklab.core.page.Page;
 import io.tiklab.core.page.Pagination;
-import io.tiklab.sward.document.model.DocumentQuery;
+import io.tiklab.sward.document.document.model.DocumentQuery;
 import io.tiklab.sward.node.model.Node;
 import io.tiklab.sward.node.model.NodeQuery;
 import io.tiklab.sward.node.service.NodeService;
 import io.tiklab.sward.repository.service.WikiRepositoryService;
 import io.tiklab.core.exception.ApplicationException;
 import io.tiklab.dss.client.DssClient;
-import io.tiklab.dss.common.document.model.CountResponse;
-import io.tiklab.dss.common.document.model.PageCondition;
-import io.tiklab.dss.common.document.model.PageResponse;
 import io.tiklab.dss.common.document.model.TopResponse;
-import io.tiklab.sward.document.model.WikiDocument;
-import io.tiklab.sward.document.service.DocumentService;
+import io.tiklab.sward.document.document.model.WikiDocument;
+import io.tiklab.sward.document.document.service.DocumentService;
 import io.tiklab.sward.repository.model.WikiRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,11 +88,12 @@ public class SearchServiceImpl implements SearchService {
 
     /**
      * 根据关键字查找文档与知识库
-     * @param keyword
+     * @param documentQuery
      * @return
      */
     @Override
-    public HashMap<String, List<Object>> searchWikiDocumentForTop(String keyword) {
+    public HashMap<String, List<Object>> searchWikiDocumentForTop(DocumentQuery documentQuery) {
+        String keyword = documentQuery.getName();
         HashMap<String, List<Object>> ObjectHashMap = new HashMap<>();
         List<WikiDocument> documentList = new ArrayList<>();
         Map map = new HashMap();
@@ -108,9 +106,13 @@ public class SearchServiceImpl implements SearchService {
                     Map<String, String> documentObject1 = (Map<String, String>) documentObject;
                     String id = documentObject1.get("id");
                     WikiDocument wikiDocument = documentService.findDocument(id);
-                    if(wikiDocument != null){
-                        documentList.add(wikiDocument);
+                    Node documentNode = wikiDocument.getNode();
+                    String approve = documentNode.getApprove();
+                    String userId = documentNode.getMaster().getId();
+                    if (approve.equals("review") && !documentQuery.getUserId().equals(userId)){
+                        continue;
                     }
+                    documentList.add(wikiDocument);
                 }catch (Exception e) {
                     throw new ApplicationException(e);
                 }
@@ -127,9 +129,16 @@ public class SearchServiceImpl implements SearchService {
         if (dataList1 != null && !dataList1.isEmpty()) {
             for (Node node : dataList1) {
                 WikiDocument wikiDocument = documentService.findDocument(node.getId());
-                if(wikiDocument != null){
-                    documentList.add(wikiDocument);
+                if (Objects.isNull(wikiDocument)){
+                    continue;
                 }
+                Node documentNode = wikiDocument.getNode();
+                String approve = documentNode.getApprove();
+                String userId = documentNode.getMaster().getId();
+                if (approve.equals("review") && !documentQuery.getUserId().equals(userId)){
+                    continue;
+                }
+                documentList.add(wikiDocument);
             }
         }
         List<Object> list = documentList.stream()
@@ -182,9 +191,16 @@ public class SearchServiceImpl implements SearchService {
                     Map<String, String> documentObject1 = (Map<String, String>) documentObject;
                     String id = documentObject1.get("id");
                     WikiDocument wikiDocument = documentService.findDocument(id);
-                    if(!Objects.isNull(wikiDocument)){
-                        documentList.add(wikiDocument);
+                    if (Objects.isNull(wikiDocument)){
+                        continue;
                     }
+                    Node documentNode = wikiDocument.getNode();
+                    String approve = documentNode.getApprove();
+                    String userId = documentNode.getMaster().getId();
+                    if (approve.equals("review") && !documentQuery.getUserId().equals(userId)){
+                        continue;
+                    }
+                    documentList.add(wikiDocument);
                 }catch (Exception e) {
                     throw new ApplicationException(e);
                 }
@@ -202,9 +218,16 @@ public class SearchServiceImpl implements SearchService {
         if (dataList1 != null && !dataList1.isEmpty()) {
             for (Node node : dataList1) {
                 WikiDocument wikiDocument = documentService.findDocument(node.getId());
-                if(wikiDocument != null){
-                    documentList.add(wikiDocument);
+                if (Objects.isNull(wikiDocument)){
+                    continue;
                 }
+                Node documentNode = wikiDocument.getNode();
+                String approve = documentNode.getApprove();
+                String userId = documentNode.getMaster().getId();
+                if (approve.equals("review") && !documentQuery.getUserId().equals(userId)){
+                    continue;
+                }
+                documentList.add(wikiDocument);
             }
         }
 

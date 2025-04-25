@@ -60,11 +60,12 @@ public class ConfluenceDataBuilder {
         }
         List<String> list = new ArrayList<>();
         for (ConfluenceData data : dataList) {
-            String build = buildFromHtml(data,map);
-            if (StringUtils.isEmpty(build)){
+            Object build = buildFromHtml(data,map);
+            if (Objects.isNull(build)){
                 continue;
             }
-            list.add(build);
+            String jsonString = JSON.toJSONString(build, SerializerFeature.DisableCircularReferenceDetect);
+            list.add(jsonString);
         }
         String result = String.join(",", list);
         return "["+result+"]";
@@ -75,48 +76,48 @@ public class ConfluenceDataBuilder {
      * @param data htm对象
      * @return 字符串
      */
-    private static String buildFromHtml(ConfluenceData data, Map<String,String> map){
+    private static Object buildFromHtml(ConfluenceData data, Map<String,String> map){
         String label = data.getLabel();
         switch (label) {
             case "h1" -> {
-                SwardHead swardHead = new SwardHead("h1",new SwardText(data.getContent()));
-                return JSONObject.toJSONString(swardHead);
+                return new SwardHead("h1",new SwardText(data.getContent()));
+                // return JSONObject.toJSONString(swardHead);
             }
             case "h2" -> {
-                SwardHead swardHead = new SwardHead("h2",new SwardText(data.getContent()));
-                return JSONObject.toJSONString(swardHead);
+                return new SwardHead("h2",new SwardText(data.getContent()));
+                // return JSONObject.toJSONString(swardHead);
             }
             case "h3" -> {
-                SwardHead swardHead = new SwardHead("h3",new SwardText(data.getContent()));
-                return JSONObject.toJSONString(swardHead);
+                return new SwardHead("h3",new SwardText(data.getContent()));
+                // return JSONObject.toJSONString(swardHead);
             }
             case "h4" -> {
-                SwardHead swardHead = new SwardHead("h4",new SwardText(data.getContent()));
-                return JSONObject.toJSONString(swardHead);
+                return new SwardHead("h4",new SwardText(data.getContent()));
+                // return JSONObject.toJSONString(swardHead);
             }
             case "h5" -> {
-                SwardHead swardHead = new SwardHead("h5",new SwardText(data.getContent()));
-                return JSONObject.toJSONString(swardHead);
+                return new SwardHead("h5",new SwardText(data.getContent()));
+                // return JSONObject.toJSONString(swardHead);
             }
             case "h6" -> {
-                SwardHead swardHead = new SwardHead("h6",new SwardText(data.getContent()));
-                return JSONObject.toJSONString(swardHead);
+                return new SwardHead("h6",new SwardText(data.getContent()));
+                // return JSONObject.toJSONString(swardHead);
             }
             case "p" -> {
-                SwardParagraph swardHead = findSwardP(data,map);
-                return JSONObject.toJSONString(swardHead);
+                return findSwardP(data,map);
+                // return JSONObject.toJSONString(swardHead);
             }
             case "ol" -> {
-                SwardNumberedList swardHead = findSwardNumberedList(data);
-                return JSONObject.toJSONString(swardHead);
+                return findSwardNumberedList(data,map);
+                // return JSONObject.toJSONString(swardHead);
             }
             case "ul" -> {
-                SwardBulletedList swardHead = findSwardBulletedList(data);
-                return JSONObject.toJSONString(swardHead);
+                return findSwardBulletedList(data,map);
+                // return JSONObject.toJSONString(swardHead);
             }
             case "table" -> {
-                SwardTable swardHead = findSwardTable(data);
-                return JSON.toJSONString(swardHead, SerializerFeature.DisableCircularReferenceDetect);
+                return findSwardTable(data,map);
+                // return JSON.toJSONString(swardHead, SerializerFeature.DisableCircularReferenceDetect);
             }
             default -> {
                 return null;
@@ -129,7 +130,7 @@ public class ConfluenceDataBuilder {
      * @param data 数据
      * @return 列表
      */
-    private static SwardNumberedList findSwardNumberedList(ConfluenceData data) {
+    private static SwardNumberedList findSwardNumberedList(ConfluenceData data, Map<String,String> map) {
         List<ConfluenceData> dataChild = data.getChild();
         List<Object> children = new ArrayList<>();
 
@@ -138,12 +139,24 @@ public class ConfluenceDataBuilder {
             if (!child.getLabel().equals("li")){
                 continue;
             }
-            List<Object> numberedChildren = new ArrayList<>();
-            SwardNumberedChildren swardNumberedChildren = new SwardNumberedChildren(content);
-            numberedChildren.add(swardNumberedChildren);
+            if (!Objects.isNull(child.getChild()) && !child.getChild().isEmpty()){
+                List<Object> numberedChildren = new ArrayList<>();
+                for (ConfluenceData confluenceData : child.getChild()) {
+                    Object object = buildFromHtml(confluenceData, map);
+                    if (!Objects.isNull(object)){
+                        numberedChildren.add(object);
+                    }
+                }
+                SwardNumberedList swardNumberedList = new SwardNumberedList("list-item", numberedChildren);
+                children.add(swardNumberedList);
+            }else {
+                List<Object> numberedChildren = new ArrayList<>();
+                SwardNumberedChildren swardNumberedChildren = new SwardNumberedChildren(content);
+                numberedChildren.add(swardNumberedChildren);
 
-            SwardNumberedList swardNumberedList = new SwardNumberedList("list-item", numberedChildren);
-            children.add(swardNumberedList);
+                SwardNumberedList swardNumberedList = new SwardNumberedList("list-item", numberedChildren);
+                children.add(swardNumberedList);
+            }
         }
         return new SwardNumberedList(children);
     }
@@ -153,7 +166,7 @@ public class ConfluenceDataBuilder {
      * @param data 数据
      * @return 列表
      */
-    private static SwardBulletedList findSwardBulletedList(ConfluenceData data) {
+    private static SwardBulletedList findSwardBulletedList(ConfluenceData data,Map<String,String> map) {
 
         List<Object> children = new ArrayList<>();
 
@@ -163,14 +176,24 @@ public class ConfluenceDataBuilder {
             if (!child.getLabel().equals("li")){
                 continue;
             }
-            String content = child.getContent();
-
-            List<Object> numberedChildren = new ArrayList<>();
-            SwardNumberedChildren swardNumberedChildren = new SwardNumberedChildren(content);
-            numberedChildren.add(swardNumberedChildren);
-
-            SwardNumberedList swardNumberedList = new SwardNumberedList("list-item", numberedChildren);
-            children.add(swardNumberedList);
+            if (!Objects.isNull(child.getChild()) && !child.getChild().isEmpty()){
+                List<Object> numberedChildren = new ArrayList<>();
+                for (ConfluenceData confluenceData : child.getChild()) {
+                    Object object = buildFromHtml(confluenceData, map);
+                    if (!Objects.isNull(object)){
+                        numberedChildren.add(object);
+                    }
+                }
+                SwardNumberedList swardNumberedList = new SwardNumberedList("list-item", numberedChildren);
+                children.add(swardNumberedList);
+            }else {
+                String content = child.getContent();
+                List<Object> numberedChildren = new ArrayList<>();
+                SwardNumberedChildren swardNumberedChildren = new SwardNumberedChildren(content);
+                numberedChildren.add(swardNumberedChildren);
+                SwardNumberedList swardNumberedList = new SwardNumberedList("list-item", numberedChildren);
+                children.add(swardNumberedList);
+            }
         }
         return new SwardBulletedList(children);
     }
@@ -180,7 +203,7 @@ public class ConfluenceDataBuilder {
      * @param data 数据
      * @return 列表
      */
-    private static SwardTable findSwardTable(ConfluenceData data) {
+    private static SwardTable findSwardTable(ConfluenceData data,Map<String,String> map) {
         List<ConfluenceData> dataChild = data.getChild();
         List<Object> tableList = new ArrayList<>();
         for (ConfluenceData confluenceData : dataChild) {
@@ -188,20 +211,23 @@ public class ConfluenceDataBuilder {
             List<ConfluenceData> cowList = confluenceData.getChild();
             if (label.equals("colgroup")){
                 List<Object> list = new ArrayList<>();
-                String uuid = "row_"+UuidGenerator.getRandomIdByUUID(24);
-                String with = 100/cowList.size() + "%";
                 for (ConfluenceData cow : cowList) {
                     String cowLabel = cow.getLabel();
                     if (cowLabel.equals("col")){
                         String key = "row_"+UuidGenerator.getRandomIdByUUID(24);
-                        // List<Object> childList = new ArrayList<>();
                         List<Object> textList = new ArrayList<>();
                         textList.add(new SwardParagraph(new SwardText("")));
 
                         SwardTableGroup swardTableGroup = new SwardTableGroup(textList,"table-col",key,"10.00%");
                         list.add(swardTableGroup);
+                    }else {
+                        Object object = buildFromHtml(cow, map);
+                        if (!Objects.isNull(object)){
+                            list.add(object);
+                        }
                     }
                 }
+                String uuid = "row_"+UuidGenerator.getRandomIdByUUID(24);
                 SwardTableRow swardTableRow = new SwardTableRow(list,"table-colgroup",uuid);
                 tableList.add(swardTableRow);
             }
@@ -212,19 +238,38 @@ public class ConfluenceDataBuilder {
                     String uuid = "row_"+UuidGenerator.getRandomIdByUUID(24);
                     if (cowLabel.equals("th") || cowLabel.equals("tr")){
                         List<ConfluenceData> dataList = cow.getChild();
-
                         for (ConfluenceData cell : dataList) {
-                            SwardTableContent swardTableContent = new SwardTableContent();
-                            List<Object> textList = new ArrayList<>();
-                            textList.add(new SwardParagraph(new SwardText(cell.getContent())));
-                            swardTableContent.setChildren(textList);
+                            if (Objects.isNull(cell.getChild()) || cell.getChild().isEmpty()){
+                                SwardTableContent swardTableContent = new SwardTableContent();
+                                List<Object> textList = new ArrayList<>();
+                                textList.add(new SwardParagraph(new SwardText(cell.getContent())));
+                                swardTableContent.setChildren(textList);
 
-                            List<Object> childList = new ArrayList<>();
-                            childList.add(swardTableContent);
+                                List<Object> childList = new ArrayList<>();
+                                childList.add(swardTableContent);
 
-                            String key = "cell_"+UuidGenerator.getRandomIdByUUID(24);
-                            SwardTableCell swardTableGroup = new SwardTableCell(childList,"table-cell",key);
-                            list.add(swardTableGroup);
+                                String key = "cell_"+UuidGenerator.getRandomIdByUUID(24);
+                                SwardTableCell swardTableGroup = new SwardTableCell(childList,"table-cell",key);
+                                list.add(swardTableGroup);
+                            }else {
+                                List<Object> childList = new ArrayList<>();
+                                List<Object> textList = new ArrayList<>();
+                                for (ConfluenceData confluenceData1 : cell.getChild()) {
+                                    Object object = buildFromHtml(confluenceData1, map);
+                                    if (!Objects.isNull(object)){
+                                        textList.add(object);
+                                    }
+                                }
+                                SwardTableContent swardTableContent = new SwardTableContent();
+                                // textList.add(new SwardParagraph(new SwardText(cell.getContent())));
+                                swardTableContent.setChildren(textList);
+
+                                childList.add(swardTableContent);
+
+                                String key = "cell_"+UuidGenerator.getRandomIdByUUID(24);
+                                SwardTableCell swardTableGroup = new SwardTableCell(childList,"table-cell",key);
+                                list.add(swardTableGroup);
+                            }
                         }
                     }
                     SwardTableRow swardTableRow = new SwardTableRow(list,"table-row",uuid);
@@ -251,54 +296,62 @@ public class ConfluenceDataBuilder {
 
         for (ConfluenceData confluenceData : dataChild) {
             String label = confluenceData.getLabel();
-            if (label.equals("br")){
-                SwardParagraph swardParagraph = new SwardParagraph(new SwardText(" "));
-                tableList.add(swardParagraph);
-            }
-            if (label.equals("ac:image")){
-                List<ConfluenceData> dataList = confluenceData.getChild();
-                for (ConfluenceData image : dataList) {
-                    String imageLabel = image.getLabel();
-                    if (imageLabel.equals("ri:attachment")){
-                        List<Object> textList = new ArrayList<>();
-                        textList.add(new SwardText(" "));
-                        String content = image.getContent();
-                        String s = map.get(content);
-                        if (!StringUtils.isEmpty(s)){
-                            content = "/image/"+s;
+            switch (label) {
+                case "br" -> {
+                    SwardParagraph swardParagraph = new SwardParagraph(new SwardText(" "));
+                    tableList.add(swardParagraph);
+                }
+                case "ac:image" -> {
+                    List<ConfluenceData> dataList = confluenceData.getChild();
+                    for (ConfluenceData image : dataList) {
+                        String imageLabel = image.getLabel();
+                        if (imageLabel.equals("ri:attachment")) {
+                            List<Object> textList = new ArrayList<>();
+                            textList.add(new SwardText(" "));
+                            String content = image.getContent();
+                            String s = map.get(content);
+                            if (!StringUtils.isEmpty(s)) {
+                                content = "/image/" + s;
+                            }
+                            SwardImage swardImage = new SwardImage(content, textList);
+                            tableList.add(swardImage);
                         }
-                        SwardImage swardImage = new SwardImage(content,textList);
-                        tableList.add(swardImage);
                     }
                 }
-            }
-
-            if (label.equals("ac:structured-macro")){
-                List<ConfluenceData> dataList = confluenceData.getChild();
-                for (ConfluenceData image : dataList) {
-                    String imageLabel = image.getLabel();
-                    if (imageLabel.equals("ac:parameter")){
-                        List<ConfluenceData> dataList1 = image.getChild();
-                        if (Objects.isNull(dataList1) || dataList1.isEmpty()) {
-                            continue;
-                        }
-                        for (ConfluenceData image1 : dataList1) {
-                            String imageLabel1 = image1.getLabel();
-                            if (imageLabel1.equals("ri:attachment")){
-                                List<Object> textList = new ArrayList<>();
-                                textList.add(new SwardText(" "));
-                                String content = image1.getContent();
-                                String s = map.get(content);
-                                if (!StringUtils.isEmpty(s)){
-                                    content = s;
+                case "ac:structured-macro" -> {
+                    List<ConfluenceData> dataList = confluenceData.getChild();
+                    for (ConfluenceData image : dataList) {
+                        String imageLabel = image.getLabel();
+                        if (imageLabel.equals("ac:parameter")) {
+                            List<ConfluenceData> dataList1 = image.getChild();
+                            if (Objects.isNull(dataList1) || dataList1.isEmpty()) {
+                                continue;
+                            }
+                            for (ConfluenceData image1 : dataList1) {
+                                String imageLabel1 = image1.getLabel();
+                                if (imageLabel1.equals("ri:attachment")) {
+                                    List<Object> textList = new ArrayList<>();
+                                    textList.add(new SwardText(" "));
+                                    String content = image1.getContent();
+                                    String s = map.get(content);
+                                    if (!StringUtils.isEmpty(s)) {
+                                        content = s;
+                                    }
+                                    SwardAttachment swardImage = new SwardAttachment(textList, image1.getContent(), content);
+                                    tableList.add(swardImage);
                                 }
-                                SwardAttachment swardImage = new SwardAttachment(textList,image1.getContent(),content);
-                                tableList.add(swardImage);
                             }
                         }
                     }
                 }
+                default -> {
+                    Object object = buildFromHtml(confluenceData, map);
+                    if (!Objects.isNull(object)) {
+                        tableList.add(object);
+                    }
+                }
             }
+
         }
         if (tableList.isEmpty()){
             SwardParagraph swardParagraph = new SwardParagraph(new SwardText(" "));
@@ -307,15 +360,6 @@ public class ConfluenceDataBuilder {
         return new SwardParagraph(tableList);
     }
 
-
-    public static void main(String[] args) {
-        String html ="<h1 class=\"auto-cursor-target\">一级标题</h1><table><colgroup><col /><col /></colgroup><tbody><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>4</td></tr></tbody></table><p class=\"auto-cursor-target\"><br /></p><p class=\"auto-cursor-target\">表格</p><table class=\"relative-table wrapped\" style=\"width: 31.9083%;\"><colgroup><col style=\"width: 29.3774%;\" /><col style=\"width: 27.821%;\" /><col style=\"width: 42.8016%;\" /></colgroup><tbody><tr><th>1</th><th>2</th><th>3</th></tr><tr><td>4</td><td>5</td><td>6</td></tr></tbody></table><p><br /></p><p>多级表格</p><p><br /></p><table class=\"relative-table\" style=\"width: 27.0011%;\"><colgroup><col style=\"width: 30.5439%;\" /><col style=\"width: 30.5439%;\" /><col style=\"width: 38.9121%;\" /></colgroup><tbody><tr><th><p class=\"auto-cursor-target\"><br /></p><table><tbody><tr><th>1</th><th>2</th></tr><tr><td>3</td><td>4</td></tr></tbody></table><p class=\"auto-cursor-target\">1</p><p class=\"auto-cursor-target\"><br /></p></th><th>2</th><th>3</th></tr><tr><td>1</td><td>2</td><td>3</td></tr></tbody></table><p><br /></p><p>无序列表</p><ul><li>&nbsp;1</li><li><p class=\"auto-cursor-target\">&nbsp;2</p></li><li><p class=\"auto-cursor-target\"><br /></p><table><colgroup><col /><col /></colgroup><tbody><tr><th>1</th><th>3</th></tr><tr><td>2</td><td>4</td></tr></tbody></table><p class=\"auto-cursor-target\"><br /></p></li></ul><p class=\"auto-cursor-target\">有序列表</p><ol><li>&nbsp;1</li><li><p class=\"auto-cursor-target\">&nbsp;2</p><table><colgroup><col /><col /></colgroup><tbody><tr><th>1</th><th>2</th></tr><tr><td>1</td><td>2</td></tr><tr><td>1</td><td>2</td></tr></tbody></table><p class=\"auto-cursor-target\"><br /></p></li><li>&nbsp;3</li></ol>";
-        ConfluenceData confluenceData = buildFromHtml(html);
-        String s = buildFromHtmlList(confluenceData, new HashMap<>());
-
-        System.out.println(s);
-
-    }
 
 }
 

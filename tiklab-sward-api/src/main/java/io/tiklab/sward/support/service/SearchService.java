@@ -1,7 +1,7 @@
 package io.tiklab.sward.support.service;
 
-import io.tiklab.sward.document.model.DocumentQuery;
-import io.tiklab.sward.document.model.WikiDocument;
+import io.tiklab.sward.document.document.model.DocumentQuery;
+import io.tiklab.sward.document.document.model.WikiDocument;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,10 +36,10 @@ public interface SearchService {
 
     /**
      * 搜索
-     * @param keyword 关键字
+     * @param documentQuery 关键字
      * @return 结果
      */
-    HashMap<String, List<Object>> searchWikiDocumentForTop(String keyword);
+    HashMap<String, List<Object>> searchWikiDocumentForTop(DocumentQuery documentQuery);
 
 
     List<WikiDocument> searchRepositoryDocument(DocumentQuery documentQuery);

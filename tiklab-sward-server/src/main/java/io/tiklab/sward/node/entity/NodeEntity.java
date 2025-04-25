@@ -78,6 +78,17 @@ public class NodeEntity implements Serializable {
     @Column(name = "recycle_user_id")
     private String recycleUserId;
 
+    @Column(name = "approve")
+    private String approve;
+
+    public String getApprove() {
+        return approve;
+    }
+
+    public void setApprove(String approve) {
+        this.approve = approve;
+    }
+
     public String getId() {
         return id;
     }

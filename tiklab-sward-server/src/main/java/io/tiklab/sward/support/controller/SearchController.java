@@ -1,16 +1,13 @@
 package io.tiklab.sward.support.controller;
 
 
-import io.tiklab.dss.common.document.model.*;
-import io.tiklab.sward.document.model.DocumentQuery;
+import io.tiklab.sward.document.document.model.DocumentQuery;
 import io.tiklab.sward.support.service.SearchService;
 import io.tiklab.core.Result;
 import io.tiklab.core.exception.ApplicationException;
-import io.tiklab.sward.document.model.WikiDocument;
+import io.tiklab.sward.document.document.model.WikiDocument;
 import io.tiklab.sward.repository.model.WikiRepository;
 import io.tiklab.postin.annotation.Api;
-import io.tiklab.postin.annotation.ApiMethod;
-import io.tiklab.postin.annotation.ApiParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,14 +60,14 @@ public class SearchController {
     @RequestMapping(path="/searchForTop",method = RequestMethod.POST)
     //@ApiMethod(name = "searchForTop",desc = "根据关键字搜索")
     //@ApiParam(name = "keyword",desc = "关键字",required = true)
-    public Result<HashMap<String, List<Object>>> searchForTop(@NotNull String keyword){
-        HashMap<String, List<Object>> stringListHashMap = searchService.searchWikiDocumentForTop(keyword);
+    public Result<HashMap<String, List<Object>>> searchForTop(@RequestBody @NotNull @Valid DocumentQuery documentQuery){
+        HashMap<String, List<Object>> stringListHashMap = searchService.searchWikiDocumentForTop(documentQuery);
 
         return Result.ok(stringListHashMap);
     }
 
     @RequestMapping(path="/searchRepositoryDocument",method = RequestMethod.POST)
-    public Result<List<WikiDocument>> searchForTop(@RequestBody @NotNull @Valid DocumentQuery documentQuery){
+    public Result<List<WikiDocument>> searchForDocumentTop(@RequestBody @NotNull @Valid DocumentQuery documentQuery){
         List<WikiDocument> wikiDocuments = searchService.searchRepositoryDocument(documentQuery);
 
         return Result.ok(wikiDocuments);

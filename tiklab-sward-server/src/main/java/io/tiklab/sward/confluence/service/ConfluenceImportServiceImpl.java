@@ -9,8 +9,8 @@ import io.tiklab.sward.confluence.config.ConfluenceDataUpload;
 import io.tiklab.sward.confluence.config.ConfluenceVersionConfig;
 import io.tiklab.sward.confluence.handler.*;
 import io.tiklab.sward.confluence.model.*;
-import io.tiklab.sward.document.model.WikiDocument;
-import io.tiklab.sward.document.service.DocumentService;
+import io.tiklab.sward.document.document.model.WikiDocument;
+import io.tiklab.sward.document.document.service.DocumentService;
 import io.tiklab.sward.node.model.Node;
 import io.tiklab.sward.node.service.NodeService;
 import io.tiklab.sward.repository.model.WikiRepository;
@@ -29,13 +29,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,9 +46,6 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
 
     @Autowired
     JpaTemplate jpaTemplate;
-
-    @Autowired
-    ConfluenceImportData719Service confluenceImportData719Service;
 
     @Autowired
     private TransactionTemplate transactionTemplate;
@@ -75,29 +68,62 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
     @Autowired
     DssClient dssClient;
 
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static ImportStatus status = new ImportStatus();
 
-    public static void setStatus(ImportStatus importStatus) {
-        status = importStatus;
+    private static String Log ;
+
+    private void Log(String message){
+        if (StringUtils.isEmpty(Log)){
+            Log = message;
+        }else {
+            Log = Log +"\n" + message;
+        }
     }
+
 
     @Override
     public ImportStatus findCfInputSchedule() {
+        status.setMessage(Log);
         return status;
     }
 
     @Override
     public void importJiraData(String confluenceAddress) {
-        transactionTemplate.execute((status) -> {
-            // 在这里执行需要在事务中的操作
-            List<ConfluenceSpace> confluenceSpaces = analysis(confluenceAddress);
-            createRepository(confluenceSpaces);
-            return "ok";
-        });
-
+        status = ImportStatus.run(1,"开始导入......");
+        Log= null;
+        Log("开始导入......");
+        try {
+            transactionTemplate.execute((message) -> {
+                // 在这里执行需要在事务中的操作
+                try {
+                    Thread.sleep(3000);
+                    List<ConfluenceSpace> confluenceSpaces = analysis(confluenceAddress);
+                    Thread.sleep(3000);
+                    createRepository(confluenceSpaces);
+                    Log("导入完成。");
+                    status = ImportStatus.ok("导入完成。");
+                }catch (Exception e){
+                    status = ImportStatus.error(1,"导入失败。");
+                    Log("导入失败："+e.getMessage());
+                    try {
+                        FileUtils.deleteDirectory(new File(confluenceAddress));
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    throw new RuntimeException(e.getMessage());
+                }
+                try {
+                    FileUtils.deleteDirectory(new File(confluenceAddress));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                return "ok";
+            });
+        }catch (Exception e){
+            status = ImportStatus.error(1,"导入失败。");
+        }
     }
 
     @Override
@@ -144,13 +170,13 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
             // 界面内容
             BodyContentHandler bodyContentHandler = new BodyContentHandler();
             parser.parse(entityAddress, bodyContentHandler);
-            List<ConfluenceBody> allBodyList = ConfluenceDataConfig.instance().elementBodyListNoContent(bodyContentHandler.getElementList());
+            List<ConfluenceBody> allBodyList = ConfluenceDataConfig.instance().elementBodyList(bodyContentHandler.getElementList());
 
             AttachmentHandler attachmentHandler = new AttachmentHandler();
             parser.parse(entityAddress, attachmentHandler);
             List<ConfluenceAttachment> allAttachmentList = ConfluenceDataConfig.instance().elementAttachmentList(attachmentHandler.getElementList(),confluenceAddress);
 
-
+            Thread.sleep(1000);
             allSpaceList.forEach(space -> {
                 String id = space.getId();
                 List<ConfluencePage> pagelist = allPageList.stream()
@@ -185,30 +211,40 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
     @Override
     public List<ConfluenceSpace> analysis(String confluenceAddress){
         String entityAddress = confluenceAddress + "/entities.xml" ;
-
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
+
+            Log("解析空间......");
 
             // 空间
             SpaceHandler spaceHandler = new SpaceHandler();
             parser.parse(entityAddress, spaceHandler);
             List<ConfluenceSpace> allSpaceList = ConfluenceDataConfig.instance().elementSpaceList(spaceHandler.getElementList());
+            Log("空间解析完成!");
 
             // 界面
+            Log("解析页面......");
             PageHandler pageHandler = new PageHandler();
             parser.parse(entityAddress, pageHandler);
             List<ConfluencePage> allPageList = ConfluenceDataConfig.instance().elementPageList(pageHandler.getElementList());
+            Log("页面解析完成!");
 
             // 界面内容
+            Log("解析页面内容......");
             BodyContentHandler bodyContentHandler = new BodyContentHandler();
             parser.parse(entityAddress, bodyContentHandler);
             List<ConfluenceBody> allBodyList = ConfluenceDataConfig.instance().elementBodyList(bodyContentHandler.getElementList());
+            Log("页面内容解析完成!");
 
+            Log("解析附件......");
             AttachmentHandler attachmentHandler = new AttachmentHandler();
             parser.parse(entityAddress, attachmentHandler);
             List<ConfluenceAttachment> allAttachmentList = ConfluenceDataConfig.instance().elementAttachmentList(attachmentHandler.getElementList(),confluenceAddress);
+            Log("附件解析完成!");
+
             // 转换附件
+            Log("转换附件......");
             for (ConfluenceAttachment attachment : allAttachmentList) {
                 File file = new File(attachment.getPath());
                 String name = attachment.getName();
@@ -218,10 +254,18 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
                 String address = file.getParent() + "/" + name;
                 // 转义文件
                 writeFile(file.getAbsolutePath(),address);
-                String upload = dataUpload.upload(new File(address));
-                attachment.setAddress(upload);
+                logger.info("write file：{}",address);
+                try {
+                    String upload = dataUpload.upload(new File(address));
+                    attachment.setAddress(upload);
+                }catch (Exception e){
+                    // Log("附件"+name+"转换失败!");
+                    // attachment.setAddress(attachment.getName());
+                    throw new ApplicationException(e.getMessage());
+                }
             }
-
+            Log("附件转换完成!");
+            Log("开始导入......");
             allSpaceList.forEach(space -> {
                 String id = space.getId();
                 List<ConfluencePage> pagelist = allPageList.stream()
@@ -249,7 +293,7 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
             });
         return allSpaceList;
         }catch (Exception e){
-            throw new ApplicationException(e);
+            throw new ApplicationException(e.getMessage());
         }
     }
 
@@ -297,7 +341,7 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
         try (InputStream in = new FileInputStream(sourcePath);
              OutputStream out = new FileOutputStream(targetPath)) {
 
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[4096];
             int length;
 
             // 一边读一边写
@@ -309,7 +353,6 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
         }
     }
 
-
     /**
      * 创建知识库
      * @param confluenceSpaces 知识库
@@ -318,6 +361,7 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
         for (ConfluenceSpace space : confluenceSpaces) {
             try {
                 WikiRepository wikiRepository = new WikiRepository();
+                Log("导入知识库:"+space.getName());
                 wikiRepository.setName(space.getName());
                 User user = new User("111111");
                 wikiRepository.setMaster(user);
@@ -336,14 +380,13 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
                 List<ConfluencePage> pageList = space.getPageList();
                 // 导入文档
                 createDocument(pageList,repositoryId);
-
+                Log("知识库 "+space.getName()+"导入完成!");
             }catch (Exception e) {
                 throw new ApplicationException(2000, "知识库添加失败:" + e.getMessage());
             }
         }
 
     }
-
 
     /**
      * 导入文档
@@ -355,6 +398,7 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
             WikiDocument wikiDocument = new WikiDocument();
             Node node = new Node();
             node.setName(page.getName());
+            Log("创建文档:"+page.getName());
             node.setCreateTime(page.getCreateTime());
             node.setDimension(1);
             node.setSort(documentSort);

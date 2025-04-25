@@ -6,7 +6,6 @@ import io.tiklab.core.exception.ApplicationException;
 import io.tiklab.sward.confluence.model.ConfluenceSpace;
 import io.tiklab.sward.confluence.model.ConfluenceVersion;
 import io.tiklab.sward.confluence.model.ImportStatus;
-import io.tiklab.sward.confluence.service.ConfluenceImportData719Service;
 import io.tiklab.sward.confluence.service.ConfluenceImportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,9 +30,6 @@ public class ConfluenceImportController {
 
     @Autowired
     ConfluenceImportService confluenceImportService;
-
-    @Autowired
-    ConfluenceImportData719Service confluenceImportData719Service;
 
     @Value("${unzip.path}")
     String unzipAddress;
