@@ -96,44 +96,6 @@ public class NodeDao {
     }
 
     public List<NodeEntity> findNodeList(NodeQuery nodeQuery) {
-        // QueryCondition queryCondition ;
-        //
-        // QueryBuilders queryBuilders = QueryBuilders.createQuery(NodeEntity.class)
-        //         .like("name", nodeQuery.getName())
-        //         .eq("repositoryId", nodeQuery.getRepositoryId())
-        //         .eq("masterId", nodeQuery.getMasterId())
-        //         .eq("parentId", nodeQuery.getParentId())
-        //         .eq("type", nodeQuery.getType())
-        //         .eq("status", nodeQuery.getStatus())
-        //         .eq("recycle", nodeQuery.getRecycle())
-        //         .in("dimension", nodeQuery.getDimensions())
-        //         .in("id", nodeQuery.getIds())
-        //         .orders(nodeQuery.getOrderParams());
-        //
-        // if (!StringUtils.isEmpty(nodeQuery.getApprove())){
-        //     OrQueryCondition orQueryCondition = OrQueryBuilders.instance()
-        //             .eq("master", nodeQuery.getApproveUserId())
-        //             .eq("approve", "review")
-        //             .get();
-        //
-        //     OrQueryCondition or = OrQueryBuilders.instance()
-        //             .eq("approve", nodeQuery.getApprove())
-        //             .get();
-        //
-        //     queryBuilders = queryBuilders.or(orQueryCondition)
-        //             .or(or);
-        // }
-        //
-        // if( nodeQuery.getTreePath() != null){
-        //     OrQueryCondition orQueryCondition = OrQueryBuilders.instance()
-        //             .like("treePath", nodeQuery.getTreePath())
-        //             .eq("id", nodeQuery.getId())
-        //             .get();
-        //     queryCondition = queryBuilders.or(orQueryCondition).get();
-        // }else {
-        //     queryCondition = queryBuilders.get();
-        // }
-        // return jpaTemplate.findList(queryCondition, NodeEntity.class);
 
         NodeCondition condition = findQueryCondition(nodeQuery);
         return jpaTemplate.getJdbcTemplate().query(condition.getSql(), condition.getObjects(),new BeanPropertyRowMapper<>(NodeEntity.class));
@@ -332,6 +294,12 @@ public class NodeDao {
             sql = sql.concat(" and repository_id in (" + ids + ") ");
         }
 
+        if (!query.getTimeList().isEmpty()){
+            sql = sql.concat(" and create_time > ? and create_time < ?");
+            params.add(query.getTimeList().get(0));
+            params.add(query.getTimeList().get(1));
+        }
+
         if (!StringUtils.isEmpty(query.getApprove())){
             sql = sql.concat(" and ( approve = ?  or ( approve = 'review' and master = ? ))");
             params.add(query.getApprove());
@@ -339,7 +307,7 @@ public class NodeDao {
         }
 
         if (!StringUtils.isEmpty(query.getTreePath())){
-            sql = sql.concat(" or (tree_path like '%" + query.getTreePath() + "%' and id = ?)");
+            sql = sql.concat(" and (tree_path like '%" + query.getTreePath() + "%' or id = ?)");
             params.add(query.getId());
         }
 

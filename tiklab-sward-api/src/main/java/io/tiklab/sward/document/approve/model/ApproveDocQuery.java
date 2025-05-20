@@ -22,6 +22,9 @@ public class ApproveDocQuery {
     // 文档Id
     private String documentId;
 
+    // 文档列表
+    private List<String> documentList = new ArrayList<>();
+
     // 创建人
     private String userId;
 
@@ -31,11 +34,21 @@ public class ApproveDocQuery {
     // 审批人
     private String approveUserId;
 
+
+
     @ApiProperty(name ="orderParams",desc = "排序参数")
     private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
 
     @ApiProperty(name ="pageParam",desc = "分页参数")
     private Page pageParam = new Page();
+
+    public List<String> getDocumentList() {
+        return documentList;
+    }
+
+    public void setDocumentList(List<String> documentList) {
+        this.documentList = documentList;
+    }
 
     public List<String> getStatusList() {
         return statusList;

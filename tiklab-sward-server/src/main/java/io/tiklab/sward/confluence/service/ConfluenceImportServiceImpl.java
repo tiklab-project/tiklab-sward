@@ -259,8 +259,7 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
                     String upload = dataUpload.upload(new File(address));
                     attachment.setAddress(upload);
                 }catch (Exception e){
-                    // Log("附件"+name+"转换失败!");
-                    // attachment.setAddress(attachment.getName());
+                    Log("附件"+name+"转换失败!");
                     throw new ApplicationException(e.getMessage());
                 }
             }
@@ -382,6 +381,7 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
                 createDocument(pageList,repositoryId);
                 Log("知识库 "+space.getName()+"导入完成!");
             }catch (Exception e) {
+                e.printStackTrace();
                 throw new ApplicationException(2000, "知识库添加失败:" + e.getMessage());
             }
         }
@@ -416,7 +416,6 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
             wikiDocument.setNode(node);
             ConfluenceBody body = page.getBody();
             String content = body.getContent();
-
 
             Map<String,String> map = new HashMap<>();
             List<ConfluenceAttachment> attachmentIdList = page.getAttachmentIdList();

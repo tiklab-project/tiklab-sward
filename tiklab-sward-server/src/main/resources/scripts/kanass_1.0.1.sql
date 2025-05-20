@@ -171,8 +171,8 @@ INSERT INTO pcs_prc_role_function (id, role_id, function_id) VALUES ('e47a9b3e4d
 INSERT INTO pcs_prc_dm_role_user (id, dmRole_id, domain_id, user_id) VALUES ('9e973dbe3ecf', 'bfa59d952c64', '7904ebd674d2', '111111');
 INSERT INTO pcs_prc_dm_role_user (id, dmRole_id, domain_id, user_id) VALUES ('947b0df65022', 'ffcb15cc5283', '7904ebd674d2', '111111');
 
-INSERT INTO pcs_prc_dm_role (id, domain_id, role_id, business_type) VALUES ('bfa59d952c64', '7904ebd674d2', '1fac7297bd6c', 0);
-INSERT INTO pcs_prc_dm_role (id, domain_id, role_id, business_type) VALUES ('e5f12d1372da', '7904ebd674d2', '070c9ac2734a', 0);
+INSERT INTO pcs_prc_dm_role (id, domain_id, role_id, business_type) VALUES ('e5f12d1372da', '7904ebd674d2', '1fac7297bd6c', 0);
+INSERT INTO pcs_prc_dm_role (id, domain_id, role_id, business_type) VALUES ('bfa59d952c64', '7904ebd674d2', '070c9ac2734a', 0);
 INSERT INTO pcs_prc_dm_role (id, domain_id, role_id, business_type) VALUES ('ffcb15cc5283', '7904ebd674d2', 'c7e77e842563', 2);
 
 

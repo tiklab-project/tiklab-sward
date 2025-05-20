@@ -2,13 +2,13 @@ package io.tiklab.sward.confluence.config;
 
 import io.tiklab.core.exception.ApplicationException;
 import io.tiklab.dfs.client.DfsClient;
-import io.tiklab.dfs.common.object.model.PutRequest;
+import io.tiklab.dfs.common.model.object.PutRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.io.File;
-import java.nio.file.Files;
+import java.io.FileInputStream;
 
 @Component
 public class ConfluenceDataUpload {
@@ -30,16 +30,16 @@ public class ConfluenceDataUpload {
                 fileType = fileName.substring(lastIndex + 1);
             }
 
-            // 读取文件内容到字节数组
-            byte[] content = Files.readAllBytes(file.toPath());
-
+            FileInputStream fis = new FileInputStream(file);
             logger.info("upload dfs file {}", file.getAbsolutePath());
+            PutRequest request = new PutRequest( fileName, fileType,fis);
+            String objectId = dfsClient.put(request);
 
-            PutRequest request = new PutRequest(content, fileName, fileType);
-            return dfsClient.put(request);
+            fis.close();
+            return objectId;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ApplicationException("附件超过最大限制，附件导入失败！");
+            throw new ApplicationException("附件导入失败！");
         }
     }
 

@@ -65,7 +65,9 @@ soular:
     address: http://192.168.10.15:8080
   address: http://192.168.10.15:8080
 
-
+sward:
+  doc:
+    limit: 100
 
 #license
 licences:

@@ -3,8 +3,9 @@ package io.tiklab.sward.document.export.builder;
 import io.tiklab.core.exception.SystemException;
 import io.tiklab.core.utils.UuidGenerator;
 import io.tiklab.dfs.client.DfsClient;
-import io.tiklab.dfs.common.object.model.DfsObject;
-import io.tiklab.dfs.common.object.model.DfsObjectMeta;
+import io.tiklab.dfs.common.model.object.DfsObject;
+import io.tiklab.dfs.common.model.object.DfsObjectMeta;
+import io.tiklab.dfs.common.model.object.FindRequest;
 import io.tiklab.sward.document.export.model.*;
 import io.tiklab.sward.richText.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -127,30 +129,49 @@ public class DocToWordBuilder {
                 if (child instanceof SwardText swardText) {
                     wordHead = new WordHead(swardText.getText(), 22, 1);
                 }
+
+                if (child instanceof SwardListChildren swardListChildren) {
+                    wordHead = new WordHead(swardListChildren.getText(), 22, 1);
+                }
             }
             case "h2" -> {
                 if (child instanceof SwardText swardText) {
                     wordHead = new WordHead(swardText.getText(), 19, 2);
+                }
+                if (child instanceof SwardListChildren swardListChildren) {
+                    wordHead = new WordHead(swardListChildren.getText(), 19, 2);
                 }
             }
             case "h3" -> {
                 if (child instanceof SwardText swardText) {
                     wordHead = new WordHead(swardText.getText(), 16, 3);
                 }
+                if (child instanceof SwardListChildren swardListChildren) {
+                    wordHead = new WordHead(swardListChildren.getText(), 16, 3);
+                }
             }
             case "h4" -> {
                 if (child instanceof SwardText swardText) {
                     wordHead = new WordHead(swardText.getText(), 13, 4);
+                }
+                if (child instanceof SwardListChildren swardListChildren) {
+                    wordHead = new WordHead(swardListChildren.getText(), 13, 4);
                 }
             }
             case "h5" -> {
                 if (child instanceof SwardText swardText) {
                     wordHead = new WordHead(swardText.getText(), 10, 5);
                 }
+                if (child instanceof SwardListChildren swardListChildren) {
+                    wordHead = new WordHead(swardListChildren.getText(), 10, 5);
+                }
             }
             case "h6" -> {
                 if (child instanceof SwardText swardText) {
                     wordHead = new WordHead(swardText.getText(), 8, 6);
+                }
+                if (child instanceof SwardListChildren swardListChildren) {
+                    wordHead = new WordHead(swardListChildren.getText(), 8, 6);
                 }
             }
         }
@@ -168,6 +189,9 @@ public class DocToWordBuilder {
                 for (Object paragraphChild : paragraph.getChildren()) {
                     if (paragraphChild instanceof SwardText swardText){
                         WordText wordText = new WordText(swardText.getText(), 10);
+                        list.add(wordText);
+                    } else if (paragraphChild instanceof SwardListChildren swardListChildren) {
+                        WordText wordText = new WordText(swardListChildren.getText(), 10);
                         list.add(wordText);
                     }else {
                         Object object = docToWordBuilder(child);
@@ -304,23 +328,24 @@ public class DocToWordBuilder {
             wordImage.setPath(url);
             wordImage.setFileName(UuidGenerator.getRandomIdByUUID(12)+".png");
         } else {
-            DfsObject dfsObject = dfsClient.find(url.replace("/image/", ""));
-            byte[] content = dfsObject.getContent();
-            DfsObjectMeta objectMeta = dfsObject.getObjectMeta();
-            String fileName = objectMeta.getFileName();
-            String filePath = dataHome + "/export/"+fileName;
-
             try {
-                Path path = Paths.get(filePath);
-                Files.write(path, content);
+                String objectId = url.replace("/image/", "");
+
+                DfsObjectMeta dfsObjectMeta = dfsClient.findMeta(objectId);
+                String fileName = dfsObjectMeta.getFileName();
+                String filePath = dataHome + "/export/"+fileName;
+                FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+                FindRequest findRequest = new FindRequest(objectId,fileOutputStream);
+                dfsClient.find(findRequest);
+
+                wordImage.setPath(filePath);
+                wordImage.setFileName(fileName);
             }catch (Exception e){
                 throw new SystemException("图片写入失败："+e);
             }
-            wordImage.setPath(filePath);
-            wordImage.setFileName(fileName);
         }
-        wordImage.setHeight((swardImage.getHeight()));
-        wordImage.setWidth( (swardImage.getWidth()));
+        // wordImage.setHeight((swardImage.getHeight()));
+        // wordImage.setWidth( (swardImage.getWidth()));
         return wordImage;
     }
 

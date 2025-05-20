@@ -1,5 +1,6 @@
 package io.tiklab.sward.document.document.controller;
 
+import io.tiklab.sward.annotation.EnableSwardStatistics;
 import io.tiklab.sward.support.model.RecentQuery;
 import io.tiklab.sward.document.document.model.WikiDocument;
 import io.tiklab.sward.document.document.model.DocumentQuery;
@@ -41,6 +42,7 @@ public class DocumentController {
      * @pi.request-type:json
      * @pi.param: model=WikiDocument
      */
+    @EnableSwardStatistics
     @RequestMapping(path="/createDocument",method = RequestMethod.POST)
     //@ApiMethod(name = "createDocument",desc = "创建文档")
     //@ApiParam(name = "document",desc = "document",required = true)
@@ -57,6 +59,7 @@ public class DocumentController {
      * @pi.request-type:json
      * @pi.param: model=WikiDocument
      */
+    @EnableSwardStatistics(type = "edit")
     @RequestMapping(path="/updateDocument",method = RequestMethod.POST)
     //@ApiMethod(name = "updateDocument",desc = "修改文档")
     //@ApiParam(name = "document",desc = "document",required = true)
@@ -92,6 +95,7 @@ public class DocumentController {
      * @pi.request-type:formdata
      * @pi.param: name=id;dataType=string;value=id;
      */
+    @EnableSwardStatistics(type = "read")
     @RequestMapping(path="/findDocument",method = RequestMethod.POST)
     //@ApiMethod(name = "findDocument",desc = "通过id查询文档")
     //@ApiParam(name = "id",desc = "id",required = true)

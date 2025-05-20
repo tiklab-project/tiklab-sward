@@ -5,15 +5,15 @@ import java.util.List;
 
 public class SwardImage {
 
-    private List<Object> children = new ArrayList<>();
+    private List<Object> children;
 
     private String type = "image";
 
     private String url;
 
-    private Integer width = 100;
+    private Integer width;
 
-    private Integer height = 80;
+    private Integer height;
 
     public SwardImage() {
     }

@@ -1,6 +1,7 @@
 package io.tiklab.sward.document.export.controller;
 
 import io.tiklab.postin.annotation.Api;
+import io.tiklab.sward.annotation.EnableSwardStatistics;
 import io.tiklab.sward.document.export.model.DocExport;
 import io.tiklab.sward.document.export.service.DocumentExportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ public class DocumentExportController {
         }
     }
 
+    @EnableSwardStatistics(type = "export")
     @RequestMapping(path="/exportWord",method = RequestMethod.GET)
     public void exportWord(@NotNull String docId, HttpServletResponse response) throws IOException {
         DocExport export = documentExportService.exportWord(docId);

@@ -1,5 +1,8 @@
 package io.tiklab.sward.confluence.model;
 
+import io.tiklab.sward.richText.model.SwardText;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConfluenceData {
@@ -8,7 +11,17 @@ public class ConfluenceData {
 
     private String content;
 
+    private List<Object> contentList = new ArrayList<>();
+
     private List<ConfluenceData> child;
+
+    public List<Object> getContentList() {
+        return contentList;
+    }
+
+    public void setContentList(List<Object> contentList) {
+        this.contentList = contentList;
+    }
 
     // Getter 和 Setter
 

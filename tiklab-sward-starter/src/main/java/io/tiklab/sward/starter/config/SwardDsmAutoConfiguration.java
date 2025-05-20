@@ -79,7 +79,8 @@ public class SwardDsmAutoConfiguration {
         });
         dsmConfig.newVersion("1.1.0", new String[]{
                 "user_1.1.0",
-                "sward_1.1.0"
+                "sward_1.1.0",
+                "sward-privilege_1.1.0"
         });
         dsmConfig.newVersion("1.1.1", new String[]{
                 "user_1.1.1"

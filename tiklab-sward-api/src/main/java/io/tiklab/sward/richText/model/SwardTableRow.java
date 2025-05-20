@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SwardTableRow {
 
-    private List<Object> children = new ArrayList<>();
+    private List<Object> children;
 
     private Object data;
 

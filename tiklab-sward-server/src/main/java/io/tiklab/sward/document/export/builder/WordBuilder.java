@@ -213,6 +213,9 @@ public class WordBuilder {
                 addList(lists,para);
             } else if (object instanceof WordTable wordTable) {
                 addTable(wordTable);
+            }else if (object instanceof WordParagraph wordParagraph) {
+                List<Object> list1 = wordParagraph.getList();
+                addList(list1,para);
             }
         }
     }

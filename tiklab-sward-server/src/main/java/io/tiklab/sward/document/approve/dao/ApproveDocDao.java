@@ -153,6 +153,10 @@ public class ApproveDocDao {
             queryBuilders = queryBuilders.in("status", query.getStatusList().toArray());
         }
 
+        if (!query.getDocumentList().isEmpty()){
+            queryBuilders = queryBuilders.in("documentId", query.getDocumentList().toArray());
+        }
+
         QueryCondition queryCondition = queryBuilders.orders(query.getOrderParams())
                 .pagination(query.getPageParam())
                 .get();

@@ -7,6 +7,7 @@ import io.tiklab.core.page.Page;
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ApiModel
@@ -55,6 +56,10 @@ public class NodeQuery extends BaseModel {
 
     @ApiProperty(name ="type",desc = "类型")
     private String type;
+
+    // 时间范围
+    private List<String> timeList = new ArrayList<>();
+
 
     @ApiProperty(name ="status",desc = "类型")
     private String status = "nomal";
@@ -107,6 +112,13 @@ public class NodeQuery extends BaseModel {
     }
 
 
+    public List<String> getTimeList() {
+        return timeList;
+    }
+
+    public void setTimeList(List<String> timeList) {
+        this.timeList = timeList;
+    }
 
     public Boolean getParentIsNull() {
         return parentIsNull;

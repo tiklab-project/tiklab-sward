@@ -171,12 +171,11 @@ public class RecentServiceImpl implements RecentService {
 
         List<Recent> recentList = BeanMapper.mapList(recentEntityList, Recent.class);
 
-
-
         joinTemplate.joinQuery(recentList);
 
         List<Recent> review = recentList.stream()
                 .filter(recent -> !Objects.isNull(recent.getNode()))
+                .filter(recent -> !Objects.isNull(recent.getNode().getApprove()))
                 .filter(recent -> recent.getNode().getApprove().equals("complete") || (recent.getNode().getApprove().equals("review")
                         && !recent.getNode().getMaster().getId().equals(recent.getMaster().getId())))
                 .toList();
