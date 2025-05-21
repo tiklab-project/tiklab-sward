@@ -1,7 +1,6 @@
 package io.tiklab.sward.starter.config;
 
-
-import io.tiklab.dsm.config.model.DsmConfig;
+import io.tiklab.dsm.model.DsmConfig;
 import io.tiklab.dsm.support.DsmConfigBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
