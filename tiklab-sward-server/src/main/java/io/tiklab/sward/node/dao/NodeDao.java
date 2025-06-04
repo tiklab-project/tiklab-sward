@@ -3,20 +3,18 @@ package io.tiklab.sward.node.dao;
 
 import io.tiklab.core.exception.SystemException;
 import io.tiklab.core.order.Order;
-import io.tiklab.core.order.OrderBuilders;
 import io.tiklab.core.order.OrderTypeEnum;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.dal.jpa.JpaTemplate;
 import io.tiklab.dal.jpa.annotation.Column;
 import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
-import io.tiklab.dal.jpa.criterial.condition.OrQueryCondition;
 import io.tiklab.dal.jpa.criterial.condition.QueryCondition;
-import io.tiklab.dal.jpa.criterial.conditionbuilder.OrQueryBuilders;
 import io.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import io.tiklab.sward.node.entity.NodeEntity;
 import io.tiklab.sward.node.model.NodeQuery;
 import io.tiklab.sward.support.entity.RecentEntity;
 import io.tiklab.sward.support.model.RecentQuery;
+import io.tiklab.sward.support.util.DatabaseVersionUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +72,7 @@ public class NodeDao {
     public void deleteNodeCondition(DeleteCondition deleteCondition){
         jpaTemplate.delete(deleteCondition);
     }
+
     /**
      * 查找
      * @param id
@@ -96,11 +95,8 @@ public class NodeDao {
     }
 
     public List<NodeEntity> findNodeList(NodeQuery nodeQuery) {
-
         NodeCondition condition = findQueryCondition(nodeQuery);
         return jpaTemplate.getJdbcTemplate().query(condition.getSql(), condition.getObjects(),new BeanPropertyRowMapper<>(NodeEntity.class));
-
-
     }
 
     public List<NodeEntity> findNodeListByName(NodeQuery nodeQuery) {
@@ -229,7 +225,7 @@ public class NodeDao {
         return num;
     }
 
-    NodeCondition findQueryCondition(NodeQuery query) {
+    NodeCondition findQueryPgsqlCondition(NodeQuery query) {
 
         List<Object> params = new ArrayList<>();
         String sql = "select wiki_node.* from wiki_node where 1=1";
@@ -319,6 +315,103 @@ public class NodeDao {
 
     }
 
+    NodeCondition findMysqlPgsqlCondition(NodeQuery query) {
+
+        List<Object> params = new ArrayList<>();
+        String sql = "select wiki_node.* from wiki_node where 1=1";
+
+        if (!StringUtils.isBlank(query.getName())){
+            sql = sql.concat(" and LOWER(name) LIKE '%"+query.getName()+"%'");
+        }
+
+        if (!Objects.isNull(query.getIds()) && query.getIds().length !=0 ){
+            String ids = Arrays.stream(query.getIds())
+                    .map(id -> "'" + id + "'")
+                    .collect(Collectors.joining(","));
+            sql = sql.concat(" and id in (" + ids + ") ");
+        }
+
+        if (!Objects.isNull(query.getNotIds()) && query.getNotIds().length !=0 ){
+            String ids = Arrays.stream(query.getNotIds())
+                    .map(id -> "'" + id + "'")
+                    .collect(Collectors.joining(","));
+            sql = sql.concat(" and not id in (" + ids + ") ");
+        }
+
+        if (!Objects.isNull(query.getRecycle())){
+            sql = sql.concat(" and recycle = ?");
+            params.add(query.getRecycle());
+        }
+
+        if (!Objects.isNull(query.getDimensions())){
+            String ids = Arrays.stream(query.getDimensions())
+                    .map(id -> "'" + id + "'")
+                    .collect(Collectors.joining(","));
+            sql = sql.concat(" and dimension in (" + ids + ") ");
+        }
+
+        if (!Objects.isNull(query.getType())){
+            sql = sql.concat(" and type = ?");
+            params.add(query.getType());
+        }
+
+        if (!Objects.isNull(query.getParentId())){
+            sql = sql.concat(" and parent_id = ?");
+            params.add(query.getParentId());
+        }
+
+        if (!Objects.isNull(query.getStatus())){
+            sql = sql.concat(" and status = ?");
+            params.add(query.getStatus());
+        }
+
+        if (!Objects.isNull(query.getMasterId())){
+            sql = sql.concat(" and master_id = ?");
+            params.add(query.getMasterId());
+        }
+
+        if (!Objects.isNull(query.getRepositoryId())){
+            sql = sql.concat(" and repository_id = ?");
+            params.add(query.getRepositoryId());
+        }
+
+        if (!Objects.isNull(query.getRepositoryIds()) && query.getRepositoryIds().length !=0 ){
+            String ids = String.join(",", query.getRepositoryIds());
+            sql = sql.concat(" and repository_id in (" + ids + ") ");
+        }
+
+        if (!query.getTimeList().isEmpty()){
+            sql = sql.concat(" and create_time > ? and create_time < ?");
+            params.add(query.getTimeList().get(0));
+            params.add(query.getTimeList().get(1));
+        }
+
+        if (!StringUtils.isEmpty(query.getApprove())){
+            sql = sql.concat(" and ( approve = ?  or ( approve = 'review' and master = ? ))");
+            params.add(query.getApprove());
+            params.add(query.getApproveUserId());
+        }
+
+        if (!StringUtils.isEmpty(query.getTreePath())){
+            sql = sql.concat(" and (tree_path like '%" + query.getTreePath() + "%' or id = ?)");
+            params.add(query.getId());
+        }
+
+        if (query.getOrderParams() != null && !query.getOrderParams().isEmpty()) {
+            sql += " order by " + orderBy(query.getOrderParams(), NodeEntity.class);
+        }
+
+        return new NodeCondition(sql,params.toArray());
+
+    }
+
+    NodeCondition findQueryCondition(NodeQuery query) {
+        if (DatabaseVersionUtil.isMysql()) {
+            return findMysqlPgsqlCondition(query);
+        }
+        return findQueryPgsqlCondition(query);
+    }
+
     public <T> String orderBy (List<Order> orders, Class<T> clazz, String... alias) {
         StringBuilder sqlDesc = new StringBuilder();
         for (int i = 0; i < orders.size(); i++) {
@@ -384,3 +477,14 @@ class NodeCondition{
         this.objects = objects;
     }
 }
+
+
+
+
+
+
+
+
+
+
+

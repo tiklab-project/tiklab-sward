@@ -1,53 +1,38 @@
 package io.tiklab.sward.starter.config;
 
 import io.tiklab.eam.author.Authenticator;
-import io.tiklab.eam.client.author.config.AuthorConfig;
-import io.tiklab.eam.client.author.config.AuthorConfigBuilder;
-import io.tiklab.eam.client.author.handler.AuthorHandler;
-import io.tiklab.gateway.router.Router;
-import io.tiklab.gateway.router.RouterBuilder;
-import io.tiklab.gateway.router.config.RouterConfig;
-import io.tiklab.gateway.router.config.RouterConfigBuilder;
-import org.springframework.beans.factory.annotation.Value;
+import io.tiklab.eam.client.author.handler.DefaultAuthorHandler;
+import io.tiklab.gateway.config.GatewayConfig;
+import io.tiklab.gateway.config.IgnoreConfig;
+import io.tiklab.gateway.config.IgnoreConfigBuilder;
+import io.tiklab.gateway.handler.author.AuthorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class GatewayFilterAutoConfiguration {
 
-    //网关filter
-    @Value("${soular.address:null}")
-    String EasAuthAddress;
-
-    @Value("${soular.embbed.enable:false}")
-    Boolean enableEam;
-
     @Bean
-    Router router(RouterConfig routerConfig){
-        return RouterBuilder.newRouter(routerConfig);
+    AuthorHandler authorHandler(Authenticator authenticator, IgnoreConfig ignoreConfig){
+        DefaultAuthorHandler authorHandler = new DefaultAuthorHandler();
+        authorHandler.setAuthenticator(authenticator);
+        authorHandler.setIgnoreConfig(ignoreConfig);
+        return authorHandler;
     }
 
     @Bean
-    RouterConfig routerConfig(){
-        String[] s = {};
+    GatewayConfig gatewayConfig(IgnoreConfig ignoreConfig){
+        GatewayConfig gatewayConfig = new GatewayConfig();
+        gatewayConfig.setIgnoreConfig(ignoreConfig);
 
-        return RouterConfigBuilder.instance()
-                .preRoute(s, EasAuthAddress)
-                .get();
-    }
-
-    @Bean
-    AuthorHandler authorFilter(Authenticator authenticator, AuthorConfig ignoreConfig){
-        return new AuthorHandler()
-                .setAuthenticator(authenticator)
-                .setAuthorConfig(ignoreConfig);
+        return gatewayConfig;
     }
 
 
     @Bean
-    public AuthorConfig authorConfig(){
-        return AuthorConfigBuilder.instance()
-            .ignoreTypes(new String[]{
+    public IgnoreConfig authorConfig(){
+        return IgnoreConfigBuilder.instance()
+                .ignoreTypes(new String[]{
                     ".ico",
                     ".jpg",
                     ".jpeg",

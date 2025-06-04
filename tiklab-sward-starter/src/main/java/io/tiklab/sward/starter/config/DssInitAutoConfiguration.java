@@ -1,7 +1,6 @@
 package io.tiklab.sward.starter.config;
 
-
-import io.tiklab.dss.init.config.model.DssConfig;
+import io.tiklab.dss.init.model.DssConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

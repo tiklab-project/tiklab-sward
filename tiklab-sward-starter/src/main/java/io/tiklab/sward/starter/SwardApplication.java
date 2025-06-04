@@ -1,7 +1,7 @@
 package io.tiklab.sward.starter;
 
 import io.tiklab.sward.starter.annotation.EnableSward;
-import io.tiklab.core.property.PropertyAndYamlSourceFactory;
+import io.tiklab.toolkit.property.PropertyAndYamlSourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

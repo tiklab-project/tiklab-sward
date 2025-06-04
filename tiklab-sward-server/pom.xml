@@ -167,5 +167,9 @@
             <artifactId>poi-scratchpad</artifactId>
             <version>5.2.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+        </dependency>
     </dependencies>
 </project>

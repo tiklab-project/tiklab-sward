@@ -212,9 +212,9 @@ public class DocumentServiceImpl implements DocumentService {
             for (String nodeName : nodeNameList) {
                 if(nodeName.length() > 6){
                     String substring = nodeName.substring(6, nodeName.length()-1);
-                    int num1 = Integer.parseInt(substring);
-                    if(num1 > num){
-                        num = num1;
+                    // 判断是否是数字
+                    if (substring.matches("\\d+") && Integer.parseInt(substring) > num) {
+                        num = Integer.parseInt(substring);
                     }
                 }
             }
