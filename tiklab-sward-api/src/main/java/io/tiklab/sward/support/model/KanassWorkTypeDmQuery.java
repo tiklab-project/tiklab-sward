@@ -14,7 +14,7 @@ import java.util.List;
  * 项目下事项类型搜索条件模型
  */
 @ApiModel
-public class WorkTypeDmQuery implements Serializable{
+public class KanassWorkTypeDmQuery implements Serializable{
 
         @ApiProperty(name ="projectId",desc = "项目id，精准匹配")
         private String projectId;
@@ -24,8 +24,6 @@ public class WorkTypeDmQuery implements Serializable{
 
         @ApiProperty(name ="code",desc = "事项类型id，精准匹配")
         private String code;
-
-
 
         @ApiProperty(name ="codes",desc = "事项类型id，精准匹配")
         private String[] codes;

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/updateMySql")
-@Api(name = "UpdateMySqlController",desc = "UpdateMySqlController")
+// @Api(name = "UpdateMySqlController",desc = "UpdateMySqlController")
 public class UpdateMySqlController {
 
     private static Logger logger = LoggerFactory.getLogger(UpdateMySqlController.class);

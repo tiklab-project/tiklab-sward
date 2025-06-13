@@ -1,9 +1,9 @@
 package io.tiklab.sward.repository.service;
 
-import io.tiklab.sward.support.model.Project;
+import io.tiklab.sward.support.model.kanassProject;
 
 import java.util.List;
 
 public interface KanassService {
-    List<Project> findAllProject();
+    List<kanassProject> findAllProject();
 }

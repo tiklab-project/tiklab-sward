@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/icon")
-@Api(name = "IconController",desc = "IconController")
+//@Api(name = "IconController",desc = "IconController")
 public class IconController {
 
     private static Logger logger = LoggerFactory.getLogger(IconController.class);

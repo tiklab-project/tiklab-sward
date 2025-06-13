@@ -2,10 +2,6 @@
 app:
   name: sward
 
-spring:
-  profiles:
-    active: test
-
 #web config
 server:
   port: 8080
@@ -17,10 +13,10 @@ jdbc:
   password: darth2020
 
 #soular
-soular:
-  embbed:
-    enable: true
-  address: http://soular-ce.test.tiklab.net
+auth:
+  type: local
+  soular:
+    address: http://soular-ce.test.tiklab.net
 
 #enable mysql
 postgresql:
@@ -69,17 +65,5 @@ dss:
     group: g1
     index: index1
 
-#zip config
-unzip:
-  path: ${DATA_HOME}/unzip/Jira
-
-#license
-licences:
-   path: ${DATA_HOME}/licences
-
-base:
+external:
   url: http://sward-ce.test.tiklab.net
-
-backups:
-  time: 0 0 2 * * ?
-  dir: /data/sward

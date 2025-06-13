@@ -25,7 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/category")
-@Api(name = "CategoryController",desc = "知识库目录分类管理")
+//@Api(name = "CategoryController",desc = "知识库目录分类管理")
 public class WikiCategoryController {
 
     private static Logger logger = LoggerFactory.getLogger(WikiCategoryController.class);

@@ -25,7 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/repositoryFocus")
-@Api(name = "RepositoryFocusController",desc = "RepositoryFocusController")
+//@Api(name = "RepositoryFocusController",desc = "RepositoryFocusController")
 public class WikiRepositoryFocusController {
 
     private static Logger logger = LoggerFactory.getLogger(WikiRepositoryFocusController.class);

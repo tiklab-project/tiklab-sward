@@ -36,6 +36,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * confluence 数据导入服务
@@ -50,7 +51,7 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
     @Autowired
     private TransactionTemplate transactionTemplate;
 
-    @Value("${unzip.path}")
+    @Value("${DATA_HOME}/unzip/confluence")
     String unzipAddress;
 
     @Autowired
@@ -181,17 +182,17 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
                 String id = space.getId();
                 List<ConfluencePage> pagelist = allPageList.stream()
                         .filter(page -> page.getSpaceId().equals(id))
-                        .toList();
+                        .collect(Collectors.toList());
                 pagelist.forEach(page ->{
                     List<ConfluenceBody> bodyList = allBodyList.stream()
                             .filter(body -> page.getId().equals(body.getPageId()))
-                            .toList();
+                            .collect(Collectors.toList());
                     if (!bodyList.isEmpty()){
                         page.setBody(bodyList.get(0));
                     }
                     List<ConfluenceAttachment> attachmentList = allAttachmentList.stream()
                             .filter(attachment -> attachment.getPageId().equals(page.getId()))
-                            .toList();
+                            .collect(Collectors.toList());
                     if (!attachmentList.isEmpty()){
                         page.setAttachmentIdList(attachmentList);
                     }
@@ -199,7 +200,7 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
                 List<ConfluencePage> list = pagelist.stream()
                         .filter(page -> !Objects.isNull(page.getBody()))
                         .filter(page -> !StringUtils.isEmpty(page.getBody().getContent()))
-                        .toList();
+                        .collect(Collectors.toList());
                 space.setPageList(list);
             });
         return allSpaceList;
@@ -269,17 +270,17 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
                 String id = space.getId();
                 List<ConfluencePage> pagelist = allPageList.stream()
                         .filter(page -> page.getSpaceId().equals(id))
-                        .toList();
+                        .collect(Collectors.toList());
                 pagelist.forEach(page ->{
                     List<ConfluenceBody> bodyList = allBodyList.stream()
                             .filter(body -> page.getId().equals(body.getPageId()))
-                            .toList();
+                            .collect(Collectors.toList());
                     if (!bodyList.isEmpty()){
                         page.setBody(bodyList.get(0));
                     }
                     List<ConfluenceAttachment> attachmentList = allAttachmentList.stream()
                             .filter(attachment -> attachment.getPageId().equals(page.getId()))
-                            .toList();
+                            .collect(Collectors.toList());
                     if (!attachmentList.isEmpty()){
                         page.setAttachmentIdList(attachmentList);
                     }
@@ -287,7 +288,7 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
                 List<ConfluencePage> list = pagelist.stream()
                         .filter(page -> !Objects.isNull(page.getBody()))
                         .filter(page -> !StringUtils.isEmpty(page.getBody().getContent()))
-                        .toList();
+                        .collect(Collectors.toList());
                 space.setPageList(list);
             });
         return allSpaceList;

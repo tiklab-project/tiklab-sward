@@ -23,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/documentFocus")
-@Api(name = "DocumentFocusController",desc = "DocumentFocusController")
+//  @Api(name = "DocumentFocusController",desc = "DocumentFocusController")
 public class DocumentFocusController {
 
     private static Logger logger = LoggerFactory.getLogger(DocumentFocusController.class);

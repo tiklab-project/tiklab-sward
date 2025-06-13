@@ -1,7 +1,7 @@
 package io.tiklab.sward.repository.service;
 
 
-import io.tiklab.sward.support.model.Project;
+import io.tiklab.sward.support.model.kanassProject;
 import io.tiklab.sward.support.service.SystemUrlService;
 import io.tiklab.dal.jpa.JpaTemplate;
 import io.tiklab.sward.support.model.SystemUrl;
@@ -37,11 +37,11 @@ public class KanassServiceImpl implements KanassService {
     }
 
     @Override
-    public List<Project> findAllProject() {
+    public List<kanassProject> findAllProject() {
         HttpHeaders httpHeaders = httpRequestUtil.initHeaders(MediaType.APPLICATION_JSON, null);
         String systemUrl = getSystemUrl();
-        List<Project> projectList = httpRequestUtil.requestPostList(httpHeaders, systemUrl + "/api/project/findAllProject", null, Project.class);
+        List<kanassProject> kanassProjectList = httpRequestUtil.requestPostList(httpHeaders, systemUrl + "/api/project/findAllProject", null, kanassProject.class);
 
-        return projectList;
+        return kanassProjectList;
     }
 }

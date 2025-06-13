@@ -26,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/node")
-@Api(name = "NodeController",desc = "知识库目录分类管理")
+//@Api(name = "NodeController",desc = "知识库目录分类管理")
 public class NodeController {
 
     private static Logger logger = LoggerFactory.getLogger(NodeController.class);

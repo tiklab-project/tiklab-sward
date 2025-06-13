@@ -20,6 +20,7 @@
         <tiklab-dal.version>1.0.2</tiklab-dal.version>
         <tiklab-dsm.version>1.0.2</tiklab-dsm.version>
         <tiklab-dfs.version>1.0.2</tiklab-dfs.version>
+        <tiklab-kanass.version>1.0.2</tiklab-kanass.version>
         <tiklab-dcs.version>1.0.2</tiklab-dcs.version>
         <tiklab-dss.version>1.0.2</tiklab-dss.version>
         <tiklab-toolkit.version>1.0.2</tiklab-toolkit.version>

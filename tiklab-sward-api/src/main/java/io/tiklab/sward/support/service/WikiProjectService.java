@@ -3,7 +3,8 @@ package io.tiklab.sward.support.service;
 
 import io.tiklab.sward.support.model.*;
 import io.tiklab.core.page.Pagination;
-import io.tiklab.sward.support.model.*;
+import io.tiklab.user.dmUser.model.DmUser;
+import io.tiklab.user.dmUser.model.DmUserQuery;
 
 import java.util.List;
 
@@ -12,13 +13,20 @@ import java.util.List;
 */
 public interface WikiProjectService {
 
-    List<Project> findAllProject();
+    Pagination<kanassProject> findKanassProjectPage(kanassProjectQuery  kanassProjectQuery);
 
-    Pagination<WorkItem> findWorkItemPage(WorkItemQuery workItemQuery);
 
-    List<WikiWorkType> findWorkTypeList(WikiWorkItemQuery wikiWorkItemQuery);
+    List<kanassProject> findKanassProjectList(kanassProjectQuery  kanassProjectQuery);
 
-    List<WikiDmUser> findDmUserList(WikiWorkItemQuery wikiWorkItemQuery);
+    Pagination<KanassWorkItem> findKanassWorkItemPage(KanassWorkItemQuery kanassWorkItemQuery);
 
-    WorkItem findWorkItem(String workItemId);
+    List<KanassWorkItem> findKanassWorkItemList(KanassWorkItemQuery kanassWorkItemQuery);
+
+    List<KanassItemType> findKanassWorkTypeList(KanassWorkTypeDmQuery kanassWorkTypeDmQuery);
+
+    Pagination<DmUser> findDmUserPage(DmUserQuery dmUserQuery);
+
+    List<DmUser> findDmUserList(DmUserQuery dmUserQuery);
+
+    KanassWorkItem findKanassWorkItem(String workItemId);
 }

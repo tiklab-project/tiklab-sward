@@ -12,6 +12,7 @@ import io.tiklab.toolkit.join.annotation.FindOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -62,7 +63,7 @@ public class DocumentVersionDao {
     public List<DocumentVersionEntity> findDocumentVersionList(List<String> idList){
         List<DocumentVersionEntity> versionEntityList = jpaTemplate.findList(DocumentVersionEntity.class, idList);
         if (Objects.isNull(versionEntityList) || versionEntityList.isEmpty()) {
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return versionEntityList;
     }
@@ -76,7 +77,7 @@ public class DocumentVersionDao {
     public List<DocumentVersionEntity> findAllDocumentVersion(){
         List<DocumentVersionEntity> versionEntityList = jpaTemplate.findAll(DocumentVersionEntity.class);
         if (Objects.isNull(versionEntityList) || versionEntityList.isEmpty()) {
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return versionEntityList;
     }
@@ -95,7 +96,7 @@ public class DocumentVersionDao {
         List<DocumentVersionEntity> versionEntityList = jpaTemplate.findList(queryCondition, DocumentVersionEntity.class);
 
         if (Objects.isNull(versionEntityList) || versionEntityList.isEmpty()) {
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return versionEntityList;
     }

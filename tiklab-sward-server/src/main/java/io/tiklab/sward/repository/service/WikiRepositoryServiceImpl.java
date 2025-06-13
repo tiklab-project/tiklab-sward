@@ -82,7 +82,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     @Autowired
     LoggingByTempService loggingByTemplService;
 
-    @Value("${base.url:null}")
+    @Value("${external.url:null}")
     String baseUrl;
 
     void creatDynamic( Map<String, String> content){
@@ -296,7 +296,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         if(wikiRepository != null){
             String repositoryIds = "('" + id + "')";
             List<Node> childrenNodeList = nodeService.findChildrenNodeList(repositoryIds);
-            List<Node> document = childrenNodeList.stream().filter(node -> node.getType().equals("document")).toList();
+            List<Node> document = childrenNodeList.stream().filter(node -> node.getType().equals("document")).collect(Collectors.toList());
 
             int size = document.size();
             wikiRepository.setDocumentNum(size);
@@ -355,7 +355,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         DmUserQuery dmUserQuery = new DmUserQuery();
         dmUserQuery.setUserId(userId);
         List<DmUser> dmUserList = dmUserService.findDmUserList(dmUserQuery);
-        List<String> collect = dmUserList.stream().map(DmUser::getDomainId).toList();
+        List<String> collect = dmUserList.stream().map(DmUser::getDomainId).collect(Collectors.toList());
         String[] arr = collect.toArray(new String[collect.size()]);
         wikiRepositoryQuery.setRepositoryIds(arr);
 
@@ -428,10 +428,10 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
             for (WikiRepository wikiRepository : wikiRepositoryList) {
                 String id = wikiRepository.getId();
                 List<Node> document = childrenNodeList.stream().filter
-                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("document")).toList();
+                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("document")).collect(Collectors.toList());
 
                 List<Node> category = childrenNodeList.stream().filter
-                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("category")).toList();
+                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("category")).collect(Collectors.toList());
 
                 wikiRepository.setDocumentNum(document.size());
                 wikiRepository.setCategoryNum(category.size());
@@ -455,10 +455,10 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
             for (WikiRepository wikiRepository : wikiRepositoryList) {
                 String id = wikiRepository.getId();
                 List<Node> document = childrenNodeList.stream().filter
-                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("document")).toList();
+                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("document")).collect(Collectors.toList());
 
                 List<Node> category = childrenNodeList.stream().filter
-                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("category")).toList();
+                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("category")).collect(Collectors.toList());
 
                 wikiRepository.setDocumentNum(document.size());
                 wikiRepository.setCategoryNum(category.size());

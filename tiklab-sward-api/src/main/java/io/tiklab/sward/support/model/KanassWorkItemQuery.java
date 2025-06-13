@@ -15,7 +15,7 @@ import java.util.List;
  */
 @ApiModel
 @Join
-public class WorkItemQuery implements Serializable {
+public class KanassWorkItemQuery implements Serializable {
 
     @ApiProperty(name ="projectId",desc = "所属项目ID，精确匹配")
     private String projectId;

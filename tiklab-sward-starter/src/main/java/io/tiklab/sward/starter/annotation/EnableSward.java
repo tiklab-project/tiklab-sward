@@ -1,6 +1,6 @@
 package io.tiklab.sward.starter.annotation;
 
-import io.tiklab.sward.starter.SwardAutoConfiguration;
+import io.tiklab.sward.starter.config.SwardAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

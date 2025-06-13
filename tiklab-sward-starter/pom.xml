@@ -265,12 +265,12 @@
         </dependency>
         <dependency>
             <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-postgresql-starter</artifactId>
+            <artifactId>tiklab-postgresql-spring-boot-starter</artifactId>
             <version>${tiklab-postgresql.version}</version>
         </dependency>
         <dependency>
             <groupId>io.tiklab</groupId>
-            <artifactId>tiklab-install-starter</artifactId>
+            <artifactId>tiklab-install-spring-boot-starter</artifactId>
             <version>${tiklab-install.version}</version>
         </dependency>
         <dependency>

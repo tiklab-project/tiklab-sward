@@ -1,8 +1,10 @@
-package io.tiklab.sward.starter;
+package io.tiklab.sward.starter.config;
 
 import io.tiklab.dfs.boot.starter.annotation.EnableDfsInit;
 import io.tiklab.dsm.boot.starter.annotation.EnableDsm;
 import io.tiklab.dss.boot.starter.annotation.EnableDssInit;
+import io.tiklab.install.spring.boot.starter.EnableInstallServer;
+import io.tiklab.postgresql.spring.boot.starter.EnablePostgresql;
 import io.tiklab.sward.EnableSwardServer;
 import io.tiklab.dal.boot.starter.annotation.EnableDal;
 import io.tiklab.dcs.boot.starter.annotation.EnableDcsClient;
@@ -17,7 +19,6 @@ import io.tiklab.gateway.boot.starter.annotation.EnableGateway;
 import io.tiklab.licence.boot.starter.annotation.EnableLicenceServer;
 import io.tiklab.messsage.boot.starter.annotation.EnableMessageServer;
 import io.tiklab.openapi.boot.starter.annotation.EnableOpenApi;
-import io.tiklab.postgresql.EnablePostgresql;
 import io.tiklab.postin.client.EnablePostInClient;
 import io.tiklab.privilege.boot.starter.annotation.EnablePrivilegeServer;
 import io.tiklab.rpc.boot.starter.annotation.EnableRpc;
@@ -44,6 +45,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableDcsServer
 @EnableRpc
 @EnableGateway
+@EnableInstallServer
 @EnablePostgresql
 //pcs
 @EnableEamClient
@@ -60,6 +62,9 @@ import org.springframework.context.annotation.Configuration;
 @EnablePostInClient
 @EnableOpenApi
 @ComponentScan({"io.tiklab.sward"})
+
 public class SwardAutoConfiguration {
+
     private static Logger logger = LoggerFactory.getLogger(SwardAutoConfiguration.class);
+
 }

@@ -18,7 +18,7 @@ import java.io.InputStream;
 
 @RestController
 @RequestMapping("/importDate")
-@Api(name = "ImportDateController",desc = "导入第三方数据数据")
+//@Api(name = "ImportDateController",desc = "导入第三方数据数据")
 public class ImportDataController {
     // @Autowired
     CfImportDataService cfImportDataService;

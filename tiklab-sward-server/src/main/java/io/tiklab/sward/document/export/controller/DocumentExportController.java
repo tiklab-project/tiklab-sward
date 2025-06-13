@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequestMapping("/documentExport")
-@Api(name = "DocumentExportController",desc = "文档导出管理")
+// @Api(name = "DocumentExportController",desc = "文档导出管理")
 public class DocumentExportController {
 
 

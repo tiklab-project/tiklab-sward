@@ -25,7 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/systemUrl")
-@Api(name = "SystemUrlController",desc = "SystemUrlController")
+//@Api(name = "SystemUrlController",desc = "SystemUrlController")
 public class SystemUrlController {
 
     private static Logger logger = LoggerFactory.getLogger(SystemUrlController.class);

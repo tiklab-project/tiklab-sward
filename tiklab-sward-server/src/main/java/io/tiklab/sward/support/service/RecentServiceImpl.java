@@ -178,7 +178,7 @@ public class RecentServiceImpl implements RecentService {
                 .filter(recent -> !Objects.isNull(recent.getNode().getApprove()))
                 .filter(recent -> recent.getNode().getApprove().equals("complete") || (recent.getNode().getApprove().equals("review")
                         && !recent.getNode().getMaster().getId().equals(recent.getMaster().getId())))
-                .toList();
+                .collect(Collectors.toList());
 
         return review;
     }

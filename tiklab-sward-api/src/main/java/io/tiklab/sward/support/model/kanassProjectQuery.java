@@ -13,7 +13,7 @@ import java.util.List;
  * 项目查询模型
  */
 @ApiModel
-public class ProjectQuery implements Serializable {
+public class kanassProjectQuery implements Serializable {
 
     /**
      * @pi.name: projectName
@@ -97,7 +97,7 @@ public class ProjectQuery implements Serializable {
     @ApiProperty(name ="pageParam",desc = "分页参数")
     private Page pageParam = new Page();
 
-    public ProjectQuery() {
+    public kanassProjectQuery() {
     }
 
     public String getProjectName() {

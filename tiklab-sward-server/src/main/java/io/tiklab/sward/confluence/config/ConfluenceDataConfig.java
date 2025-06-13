@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConfluenceDataConfig {
 
@@ -64,7 +65,7 @@ public class ConfluenceDataConfig {
         }
         return pageList.stream()
                 .filter(page -> !StringUtils.isEmpty(page.getName()))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     /**
@@ -84,7 +85,7 @@ public class ConfluenceDataConfig {
         }
         return bodyList.stream()
                 .filter(body -> !StringUtils.isEmpty(body.getContent()))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     /**
@@ -104,7 +105,7 @@ public class ConfluenceDataConfig {
         }
         return bodyList.stream()
                 .filter(body -> !StringUtils.isEmpty(body.getContent()))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     /**
@@ -133,7 +134,7 @@ public class ConfluenceDataConfig {
             bodyList.add(confluenceAttachment);
         }
         return bodyList.stream()
-                .toList();
+                .collect(Collectors.toList());
     }
 
     // 转换时间

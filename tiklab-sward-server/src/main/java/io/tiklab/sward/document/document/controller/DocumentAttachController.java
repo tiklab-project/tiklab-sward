@@ -23,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/documentAttach")
-@Api(name = "DocumentAttachController",desc = "文档附件管理")
+// @Api(name = "DocumentAttachController",desc = "文档附件管理")
 public class DocumentAttachController {
 
     private static Logger logger = LoggerFactory.getLogger(DocumentAttachController.class);

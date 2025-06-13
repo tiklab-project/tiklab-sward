@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/setting")
-@Api(name = "SettingStaticsController",desc = "SettingStaticsController")
+//@Api(name = "SettingStaticsController",desc = "SettingStaticsController")
 public class SettingStaticsController {
     private static Logger logger = LoggerFactory.getLogger(SettingStaticsController.class);
 

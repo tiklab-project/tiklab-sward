@@ -99,7 +99,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Autowired
     LoggingService loggingService;
 
-    @Value("${base.url:null}")
+    @Value("${external.url:null}")
     String baseUrl;
 
     @Autowired
@@ -203,7 +203,7 @@ public class DocumentServiceImpl implements DocumentService {
         nodeQuery.setName("未命名文档");
         nodeQuery.setRepositoryId(node.getWikiRepository().getId());
         List<Node> nodeList = nodeService.findNodeList(nodeQuery);
-        List<String> nodeNameList = nodeList.stream().map(Node::getName).toList();
+        List<String> nodeNameList = nodeList.stream().map(Node::getName).collect(Collectors.toList());
         int num = 0;
 
         String documentType = node.getDocumentType();
@@ -317,9 +317,14 @@ public class DocumentServiceImpl implements DocumentService {
         node.setRpyId(wikiDocument.getRepositoryId());
         wikiDocument.setRepositoryId(repositoryId);
 
-        dssClient.update(node);
+        try {
 
-        dssClient.update(wikiDocument);
+            dssClient.update(node);
+
+            dssClient.update(wikiDocument);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

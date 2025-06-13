@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/search")
-@Api(name = "SearchController",desc = "搜索管理")
+//@Api(name = "SearchController",desc = "搜索管理")
 public class SearchController {
 
     private static Logger logger = LoggerFactory.getLogger(SearchController.class);

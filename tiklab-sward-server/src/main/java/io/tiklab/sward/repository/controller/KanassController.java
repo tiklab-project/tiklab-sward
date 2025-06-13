@@ -1,9 +1,8 @@
 package io.tiklab.sward.repository.controller;
 
 import io.tiklab.sward.repository.service.KanassService;
-import io.tiklab.sward.support.model.Project;
+import io.tiklab.sward.support.model.kanassProject;
 import io.tiklab.postin.annotation.Api;
-import io.tiklab.postin.annotation.ApiMethod;
 import io.tiklab.core.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/project")
-@Api(name = "KanassController",desc = "项目管理")
+//@Api(name = "KanassController",desc = "项目管理")
 public class KanassController {
 
     private static Logger logger = LoggerFactory.getLogger(KanassController.class);
@@ -35,10 +34,10 @@ public class KanassController {
      */
     @RequestMapping(path="/findAllProject",method = RequestMethod.POST)
     //@ApiMethod(name = "findAllProject",desc = "查找所有项目")
-    public Result<List<Project>> findAllProject(){
-        List<Project> projectList = kanassService.findAllProject();
+    public Result<List<kanassProject>> findAllProject(){
+        List<kanassProject> kanassProjectList = kanassService.findAllProject();
 
-        return Result.ok(projectList);
+        return Result.ok(kanassProjectList);
     }
 
 

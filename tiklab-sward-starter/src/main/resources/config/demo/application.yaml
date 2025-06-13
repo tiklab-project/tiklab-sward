@@ -1,9 +1,6 @@
 #application config
 app:
   name: sward
-spring:
-  profiles:
-    active: demo
 
 #web config
 server:
@@ -25,16 +22,15 @@ postgresql:
     password: darth2020
     address: ${DATA_HOME}/postgresql
 
-#soular
-soular:
-  embbed:
-  enable: false
-  address: http://soular-ce.demoee.tiklab.net
+
+auth:
+  type: local
+  soular:
+    address: http://soular-ce.demoee.tiklab.net
 
 DATA_HOME: /opt/tiklab/sward
 
 #dfs config
-#dfs.service.enabled=false
 dfs:
   server:
     enabled: true
@@ -47,7 +43,6 @@ dfs:
 
 
 #dss config
-#dss.service.enabled=false
 dss:
   server:
     enabled: true
@@ -58,17 +53,6 @@ dss:
     group: g1
     index: index1
 
-#zip config
-unzip:
-  path: ${DATA_HOME}/unzip/Jira
 
-#license
-licences:
-   path: ${DATA_HOME}/licences
-
-base:
+external:
   url: http://sward-ce.demoee.tiklab.net
-
-backups:
-  time: 0 0 2 * * ?
-  dir: /data/sward

@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/document")
-@Api(name = "DocumentController",desc = "文档管理")
+// @Api(name = "DocumentController",desc = "文档管理")
 public class DocumentController {
 
     private static Logger logger = LoggerFactory.getLogger(DocumentController.class);

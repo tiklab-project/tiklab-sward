@@ -18,10 +18,11 @@ jdbc:
   password: darth2020
 
 #soular
-soular:
-  embbed:
-    enable: true
-  address: http://soular-ce.test.tiklab.net
+auth:
+  type: local
+  soular:
+    address: http://soular-ce.tiklab.net
+
 
 #enable mysql
 postgresql:
@@ -34,7 +35,7 @@ postgresql:
     password: darth2020
     address: ${DATA_HOME}/postgresql
 
-DATA_HOME: ${user.home}/tiklab/sward
+DATA_HOME: ${user.home}/tiklab/tiklab-sward
 
 #dfs config
 dfs:
@@ -70,17 +71,5 @@ dss:
     group: g1
     index: index1
 
-#zip config
-unzip:
-  path: ${DATA_HOME}/unzip/Jira
-
-#license
-licences:
-  path: ${DATA_HOME}/licences
-
-base:
+external:
   url: http://sward-ce.test.tiklab.net
-
-backups:
-  time: 0 0 2 * * ?
-  dir: /data/sward

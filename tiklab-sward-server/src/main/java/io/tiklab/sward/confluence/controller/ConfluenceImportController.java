@@ -1,6 +1,5 @@
 package io.tiklab.sward.confluence.controller;
 
-import io.tiklab.postin.annotation.Api;
 import io.tiklab.core.Result;
 import io.tiklab.core.exception.ApplicationException;
 import io.tiklab.sward.confluence.model.ConfluenceSpace;
@@ -25,13 +24,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/import/confluence")
-@Api(name = "ConfluenceImportController",desc = "Confluence数据导入")
+// @Api(name = "ConfluenceImportController",desc = "Confluence数据导入")
 public class ConfluenceImportController {
 
     @Autowired
     ConfluenceImportService confluenceImportService;
 
-    @Value("${unzip.path}")
+    @Value("${DATA_HOME}/unzip/confluence")
     String unzipAddress;
 
     @RequestMapping(path="/uploadFile",method = RequestMethod.POST)

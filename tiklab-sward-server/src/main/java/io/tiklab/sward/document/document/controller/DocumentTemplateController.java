@@ -23,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/documentTemplate")
-@Api(name = "DocumentTemplateController",desc = "文档模板管理")
+// @Api(name = "DocumentTemplateController",desc = "文档模板管理")
 public class DocumentTemplateController {
 
     private static Logger logger = LoggerFactory.getLogger(DocumentTemplateController.class);

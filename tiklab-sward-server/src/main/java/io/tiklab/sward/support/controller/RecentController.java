@@ -25,7 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/recent")
-@Api(name = "RecentController",desc = "RecentController")
+//@Api(name = "RecentController",desc = "RecentController")
 public class RecentController {
 
     private static Logger logger = LoggerFactory.getLogger(RecentController.class);

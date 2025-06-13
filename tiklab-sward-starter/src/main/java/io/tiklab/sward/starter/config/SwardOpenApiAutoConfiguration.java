@@ -26,6 +26,17 @@ public class SwardOpenApiAutoConfiguration {
                 "/repository/findAllRepository",
                 "/repository/findList",
                 "/dmUser/findDmUserList",
+
+                "/repository/updateRepository",
+                "/repository/deleteRepository",
+                "/repository/findRepository",
+                "/repository/findAllRepository",
+                "/repository/findRepositoryListByUser",
+                "/repository/findRepositoryPage",
+                "/repository/findRecentRepositoryList",
+                "/repository/findFocusRepositoryList",
+                "/repository/createRepository",
+
         };
         return AllowConfigBuilder.instance()
                 .allowUrls(s)

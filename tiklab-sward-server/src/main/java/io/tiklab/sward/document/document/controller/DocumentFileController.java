@@ -38,7 +38,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/document")
-@Api(name = "DocumentController",desc = "文档管理")
+//@Api(name = "DocumentController",desc = "文档管理")
 public class DocumentFileController {
 
     @Autowired(required = false)

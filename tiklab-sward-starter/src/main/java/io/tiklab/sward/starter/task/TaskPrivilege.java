@@ -1,15 +1,13 @@
 package io.tiklab.sward.starter.task;
 
-import io.tiklab.eam.client.author.config.TiklabApplicationRunner;
+import io.tiklab.install.runner.TiklabApplicationRunner;
 import io.tiklab.privilege.dmRole.model.DmRole;
 import io.tiklab.privilege.dmRole.model.DmRoleQuery;
 import io.tiklab.privilege.dmRole.service.DmRoleService;
-import io.tiklab.privilege.dmRole.service.DmRoleServiceImpl;
 import io.tiklab.privilege.role.model.Role;
 import io.tiklab.privilege.role.model.RoleQuery;
 import io.tiklab.privilege.role.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

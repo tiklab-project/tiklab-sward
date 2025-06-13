@@ -7,7 +7,7 @@ import io.tiklab.postin.annotation.ApiProperty;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
-public class WikiWorkItem {
+public class KanassWikiWorkItem {
     @ApiProperty(name="id",desc="唯一标识")
     private java.lang.String id;
 

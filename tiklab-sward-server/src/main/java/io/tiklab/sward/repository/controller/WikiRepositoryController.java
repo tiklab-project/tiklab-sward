@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/repository")
-@Api(name = "WikiRepositoryController",desc = "")
+@Api(name = "知识库控制器",desc = "知识库控制器")
 public class WikiRepositoryController {
 
     private static Logger logger = LoggerFactory.getLogger(WikiRepositoryController.class);
@@ -44,7 +44,7 @@ public class WikiRepositoryController {
      * @pi.param: model=WikiRepository
      */
     @RequestMapping(path="/createRepository",method = RequestMethod.POST)
-    @ApiMethod(name = "createRepository",desc = "创建知识库")
+    @ApiMethod(name = "创建知识库",desc = "创建知识库")
     @ApiParam(name = "wikiRepository",desc = "wikiRepository",required = true)
     public Result<String> createRepository(@RequestBody @NotNull @Valid WikiRepository wikiRepository){
         String id = wikiRepositoryService.createRepository(wikiRepository);
@@ -60,7 +60,7 @@ public class WikiRepositoryController {
      * @pi.param: model=WikiRepository
      */
     @RequestMapping(path="/updateRepository",method = RequestMethod.POST)
-    @ApiMethod(name = "updateRepository",desc = "更新知识库")
+    @ApiMethod(name = "更新知识库",desc = "更新知识库")
     @ApiParam(name = "wikiRepository",desc = "wikiRepository",required = true)
     public Result<Void> updateRepository(@RequestBody @NotNull @Valid WikiRepository wikiRepository){
         wikiRepositoryService.updateRepository(wikiRepository);
@@ -77,7 +77,7 @@ public class WikiRepositoryController {
      * @pi.param: name=id;dataType=string;value=id;
      */
     @RequestMapping(path="/deleteRepository",method = RequestMethod.POST)
-    @ApiMethod(name = "deleteRepository",desc = "删除知识库")
+    @ApiMethod(name = "删除知识库",desc = "删除知识库")
     @ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteRepository(@NotNull String id){
         wikiRepositoryService.deleteRepository(id);
@@ -93,7 +93,7 @@ public class WikiRepositoryController {
      * @pi.param: name=id;dataType=string;value=id;
      */
     @RequestMapping(path="/findRepository",method = RequestMethod.POST)
-    @ApiMethod(name = "findRepository",desc = "根据Id查询知识库")
+    @ApiMethod(name = "根据Id查询知识库",desc = "根据Id查询知识库")
     @ApiParam(name = "id",desc = "id",required = true)
     public Result<WikiRepository> findRepository(@NotNull String id){
         WikiRepository wikiRepository = wikiRepositoryService.findRepository(id);
@@ -118,7 +118,7 @@ public class WikiRepositoryController {
      * @pi.request-type:none
      */
     @RequestMapping(path="/findAllRepository",method = RequestMethod.POST)
-    @ApiMethod(name = "findAllRepository",desc = "查找所有知识库")
+    @ApiMethod(name = "查询所有知识库",desc = "查询所有知识库")
     public Result<List<WikiRepository>> findAllRepository(){
         List<WikiRepository> wikiRepositoryList = wikiRepositoryService.findAllRepository();
 
@@ -133,7 +133,7 @@ public class WikiRepositoryController {
      * @pi.param: model= moWikiRepositoryQuery
      */
     @RequestMapping(path = "/findRepositoryListByUser",method = RequestMethod.POST)
-    @ApiMethod(name = "findRepositoryListByUser",desc = "根据当前用户可查看的所有知识库")
+    @ApiMethod(name = "根据当前用户可查看的所有知识库",desc = "根据当前用户可查看的所有知识库")
     @ApiParam(name = "wikiRepositoryQuery",desc = "wikiRepositoryQuery",required = true)
     public Result<List<WikiRepository>> findRepositoryListByUser(@RequestBody @Valid @NotNull WikiRepositoryQuery wikiRepositoryQuery){
         List<WikiRepository> wikiRepositoryList = wikiRepositoryService.findRepositoryListByUser(wikiRepositoryQuery);
@@ -149,7 +149,7 @@ public class WikiRepositoryController {
      * @pi.param: model= WikiRepositoryQuery
      */
     @RequestMapping(path = "/findRepositoryPage",method = RequestMethod.POST)
-    @ApiMethod(name = "findRepositoryPage",desc = "按分页查找知识库")
+    @ApiMethod(name = "按分页查找知识库",desc = "按分页查找知识库")
     @ApiParam(name = "wikiRepositoryQuery",desc = "wikiRepositoryQuery",required = true)
     public Result<Pagination<WikiRepository>> findRepositoryPage(@RequestBody @Valid @NotNull WikiRepositoryQuery wikiRepositoryQuery){
         Pagination<WikiRepository> pagination = wikiRepositoryService.findRepositoryPage(wikiRepositoryQuery);
@@ -165,7 +165,7 @@ public class WikiRepositoryController {
      * @pi.param: model=WikiRepositoryQuery
      */
     @RequestMapping(path = "/findRecentRepositoryList",method = RequestMethod.POST)
-    @ApiMethod(name = "findRecentRepositoryList",desc = "按最近点击的知识库")
+    @ApiMethod(name = "按最近点击的知识库",desc = "按最近点击的知识库")
     @ApiParam(name = "documentRecentQuery",desc = "documentRecentQuery",required = true)
     public Result<List<WikiRepository>> findRecentRepositoryList(@RequestBody @Valid @NotNull WikiRepositoryQuery documentRecentQuery){
         List<WikiRepository> pagination = wikiRepositoryService.findRecentRepositoryList(documentRecentQuery);
@@ -191,7 +191,7 @@ public class WikiRepositoryController {
      * @pi.param: model=WikiRepositoryQuery
      */
     @RequestMapping(path = "/findFocusRepositoryList",method = RequestMethod.POST)
-    @ApiMethod(name = "findFocusRepositoryList",desc = "按我关注的知识库")
+    @ApiMethod(name = "按我关注的知识库",desc = "按我关注的知识库")
     @ApiParam(name = "wikiRepositoryQuery",desc = "wikiRepositoryQuery",required = true)
     public Result<List<WikiRepository>> findFocusRepositoryList(@RequestBody @Valid @NotNull WikiRepositoryQuery wikiRepositoryQuery){
         List<WikiRepository> pagination = wikiRepositoryService.findFocusRepositoryList(wikiRepositoryQuery);

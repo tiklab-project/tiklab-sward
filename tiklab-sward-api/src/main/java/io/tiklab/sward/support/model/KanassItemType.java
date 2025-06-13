@@ -1,27 +1,18 @@
 package io.tiklab.sward.support.model;
 
 
-import io.tiklab.toolkit.beans.annotation.Mapper;
+import io.tiklab.postin.annotation.ApiProperty;
 import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
-import io.tiklab.core.BaseModel;
-import io.tiklab.toolkit.join.annotation.Join;
 import io.tiklab.toolkit.join.annotation.JoinQuery;
-import io.tiklab.postin.annotation.ApiModel;
-import io.tiklab.postin.annotation.ApiProperty;
 
-/**
- * 项目下事项类型模型
- */
-@ApiModel
-@Join
-@Mapper
-public class WorkTypeDm extends BaseModel {
+import javax.validation.constraints.NotNull;
 
+public class KanassItemType {
     @ApiProperty(name="id",desc="id")
     private String id;
 
-    @ApiProperty(name="projectId",desc="所属项目")
+    @ApiProperty(name="projectId",desc="项目id")
     private String projectId;
 
     @ApiProperty(name="workType",desc="事项类型")
@@ -30,7 +21,6 @@ public class WorkTypeDm extends BaseModel {
     })
     @JoinQuery(key = "id")
     private WorkType workType;
-
 
     public String getId() {
         return id;
@@ -48,6 +38,7 @@ public class WorkTypeDm extends BaseModel {
         this.projectId = projectId;
     }
 
+
     public WorkType getWorkType() {
         return workType;
     }
@@ -55,5 +46,4 @@ public class WorkTypeDm extends BaseModel {
     public void setWorkType(WorkType workType) {
         this.workType = workType;
     }
-
 }

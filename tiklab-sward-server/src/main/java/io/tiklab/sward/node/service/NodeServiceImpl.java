@@ -326,9 +326,9 @@ public class NodeServiceImpl implements NodeService {
 
         List<Node> nodeList = findNodeList(nodeQuery);
         if(!nodeList.isEmpty()){
-            List<Node> categoryList = nodeList.stream().filter(item -> item.getType().equals("category")).toList();
+            List<Node> categoryList = nodeList.stream().filter(item -> item.getType().equals("category")).collect(Collectors.toList());
             if(!categoryList.isEmpty()){
-                List<String> categoryIdList = categoryList.stream().map(Node::getId).toList();
+                List<String> categoryIdList = categoryList.stream().map(Node::getId).collect(Collectors.toList());
                 String[] categoryIds = categoryIdList.toArray(new String[0]);
                 WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
                 wikiCategoryQuery.setIds(categoryIds);

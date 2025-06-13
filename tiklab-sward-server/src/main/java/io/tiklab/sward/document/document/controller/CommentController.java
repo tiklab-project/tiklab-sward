@@ -23,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/comment")
-@Api(name = "CommentController",desc = "文档评论管理")
+//@Api(name = "CommentController",desc = "文档评论管理")
 public class CommentController {
 
     private static Logger logger = LoggerFactory.getLogger(CommentController.class);

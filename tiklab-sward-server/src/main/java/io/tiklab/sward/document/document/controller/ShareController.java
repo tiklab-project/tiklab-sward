@@ -25,7 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/share")
-@Api(name = "ShareController",desc = "文档分享管理")
+//@Api(name = "ShareController",desc = "文档分享管理")
 public class ShareController {
 
     private static Logger logger = LoggerFactory.getLogger(ShareController.class);

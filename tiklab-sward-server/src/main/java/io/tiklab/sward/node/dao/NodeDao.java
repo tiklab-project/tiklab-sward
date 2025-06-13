@@ -286,8 +286,8 @@ public class NodeDao {
         }
 
         if (!Objects.isNull(query.getRepositoryIds()) && query.getRepositoryIds().length !=0 ){
-            String ids = String.join(",", query.getRepositoryIds());
-            sql = sql.concat(" and repository_id in (" + ids + ") ");
+            String ids = String.join("','", query.getRepositoryIds());
+            sql = sql.concat(" and repository_id in ('" + ids + "') ");
         }
 
         if (!query.getTimeList().isEmpty()){

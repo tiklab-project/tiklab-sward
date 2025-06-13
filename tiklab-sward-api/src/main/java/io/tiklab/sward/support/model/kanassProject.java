@@ -20,7 +20,7 @@ import java.sql.Date;
 @ApiModel
 @Mapper
 @Join
-public class Project extends BaseModel{
+public class kanassProject extends BaseModel{
 
     /**
      * @pi.name: id

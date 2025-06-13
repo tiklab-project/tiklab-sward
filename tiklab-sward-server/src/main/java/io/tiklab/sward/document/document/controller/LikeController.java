@@ -23,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/like")
-@Api(name = "LikeController",desc = "点赞管理")
+//@Api(name = "LikeController",desc = "点赞管理")
 public class LikeController {
 
     private static Logger logger = LoggerFactory.getLogger(LikeController.class);

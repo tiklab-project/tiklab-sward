@@ -23,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/shareRelation")
-@Api(name = "ShareRelationController",desc = "文档分享管理")
+//@Api(name = "ShareRelationController",desc = "文档分享管理")
 public class ShareRelationController {
 
     private static Logger logger = LoggerFactory.getLogger(ShareRelationController.class);

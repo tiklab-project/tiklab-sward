@@ -1,20 +1,32 @@
 package io.tiklab.sward.support.service;
 
 
+import com.alibaba.fastjson.JSONObject;
+import io.tiklab.core.exception.ApplicationException;
+import io.tiklab.core.page.PaginationBuilder;
+import io.tiklab.kanass.project.project.model.Project;
+import io.tiklab.kanass.project.project.model.ProjectQuery;
+import io.tiklab.kanass.project.project.service.ProjectService;
+import io.tiklab.kanass.workitem.model.WorkItem;
+import io.tiklab.kanass.workitem.model.WorkItemQuery;
+import io.tiklab.kanass.workitem.model.WorkTypeDm;
+import io.tiklab.kanass.workitem.model.WorkTypeDmQuery;
+import io.tiklab.kanass.workitem.service.WorkItemService;
+import io.tiklab.kanass.workitem.service.WorkTypeDmService;
 import io.tiklab.sward.support.model.*;
 import io.tiklab.sward.support.util.HttpRequestUtil;
 import io.tiklab.core.page.Pagination;
+import io.tiklab.sward.support.util.SwardRpc;
 import io.tiklab.user.dmUser.model.DmUser;
 import io.tiklab.user.dmUser.model.DmUserQuery;
+import io.tiklab.user.dmUser.service.DmUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * kanass 的项目与事项接口查找
@@ -27,104 +39,164 @@ public class WikiProjectServiceImpl implements WikiProjectService {
     @Autowired
     HttpRequestUtil httpRequestUtil;
 
-    String getSystemUrl(){
+    String findSystemUrl(){
         SystemUrlQuery systemUrlQuery = new SystemUrlQuery();
         systemUrlQuery.setName("kanass");
         List<SystemUrl> systemUrlList = systemUrlService.findSystemUrlList(systemUrlQuery);
-        String url = systemUrlList.get(0).getSystemUrl();
-        return url;
+
+        if (Objects.isNull(systemUrlList) || systemUrlList.isEmpty()){
+            throw new ApplicationException("当前未配置kanass系统地址，请在系统设置-->集成与开发-->服务集成中添加Kanass系统地址! ");
+        }
+        return systemUrlList.get(0).getSystemUrl();
+    }
+
+    @Override
+    public Pagination<kanassProject> findKanassProjectPage(kanassProjectQuery  kanassProjectQuery) {
+        SwardRpc swardRpc = SwardRpc.instance();
+        ProjectService serviceRpc = swardRpc.findServiceRpc(ProjectService.class, findSystemUrl());
+        ProjectQuery projectQuery = copyFields(kanassProjectQuery, new ProjectQuery());
+        Pagination<Project> projectPage = serviceRpc.findProjectPage(projectQuery);
+        List<Project> dataList = projectPage.getDataList();
+        List<kanassProject> kanassProjectList = new ArrayList<>();
+        for (Project project : dataList) {
+            kanassProject kanassProject = copyFields(project, new kanassProject());
+            kanassProjectList.add(kanassProject);
+        }
+        return PaginationBuilder.build(projectPage,kanassProjectList);
     }
 
 
     @Override
-    public List<Project> findAllProject() {
-
-        HttpHeaders httpHeaders = httpRequestUtil.initHeaders(MediaType.APPLICATION_JSON, null);
-        String systemUrl = getSystemUrl();
-        List<Project> allProject = httpRequestUtil.requestPostList(httpHeaders, systemUrl + "/api/project/findAllProject", null, Project.class);
-
-        return allProject;
+    public List<kanassProject> findKanassProjectList(kanassProjectQuery  kanassProjectQuery) {
+        SwardRpc swardRpc = SwardRpc.instance();
+        ProjectService serviceRpc = swardRpc.findServiceRpc(ProjectService.class, findSystemUrl());
+        ProjectQuery projectQuery = copyFields(kanassProjectQuery, new ProjectQuery());
+        List<Project> dataList = serviceRpc.findProjectList(projectQuery);
+        List<kanassProject> kanassProjectList = new ArrayList<>();
+        for (Project project : dataList) {
+            kanassProject kanassProject = copyFields(project, new kanassProject());
+            kanassProjectList.add(kanassProject);
+        }
+        return kanassProjectList;
     }
 
     @Override
-    public Pagination<WorkItem> findWorkItemPage(WorkItemQuery workItemQuery) {
-        HttpHeaders httpHeaders = httpRequestUtil.initHeaders(MediaType.APPLICATION_JSON, null);
-        String systemUrl = getSystemUrl();
-        Pagination<WorkItem> workItemPage = httpRequestUtil.requestPostPage(httpHeaders, systemUrl + "/api/workItem/findWorkItemPage", workItemQuery, WorkItem.class);
+    public Pagination<KanassWorkItem> findKanassWorkItemPage(KanassWorkItemQuery kanassWorkItemQuery) {
+        SwardRpc swardRpc = SwardRpc.instance();
+        WorkItemService serviceRpc = swardRpc.findServiceRpc(WorkItemService.class, findSystemUrl());
+        WorkItemQuery workItemQuery = copyFields(kanassWorkItemQuery, new WorkItemQuery());
+        Pagination<WorkItem> workItemPage = serviceRpc.findWorkItemPage(workItemQuery);
 
-
-        return workItemPage;
+        List<KanassWorkItem> workItemList = new ArrayList<>();
+        List<WorkItem> dataList = workItemPage.getDataList();
+        for (WorkItem workItem : dataList) {
+            KanassWorkItem kanassWorkItem = copyFields(workItem, new KanassWorkItem());
+            workItemList.add(kanassWorkItem);
+        }
+        return PaginationBuilder.build(workItemPage,workItemList);
     }
 
+
     @Override
-    public List<WikiWorkType> findWorkTypeList(WikiWorkItemQuery wikiWorkItemQuery) {
-        WorkTypeDmQuery workTypeDmQuery = new WorkTypeDmQuery();
-        workTypeDmQuery.setProjectId(wikiWorkItemQuery.getProjectId());
+    public List<KanassWorkItem> findKanassWorkItemList(KanassWorkItemQuery kanassWorkItemQuery) {
+        WorkItemService serviceRpc = SwardRpc.instance().findServiceRpc(WorkItemService.class, findSystemUrl());
+        WorkItemQuery workItemQuery = copyFields(kanassWorkItemQuery, new WorkItemQuery());
+        List<WorkItem> dataList = serviceRpc.findWorkItemList(workItemQuery);
+        List<KanassWorkItem> workItemList = new ArrayList<>();
+        for (WorkItem workItem : dataList) {
+            KanassWorkItem kanassWorkItem = copyFields(workItem, new KanassWorkItem());
+            workItemList.add(kanassWorkItem);
+        }
+        return workItemList;
+    }
 
-        HttpHeaders httpHeaders = httpRequestUtil.initHeaders(MediaType.APPLICATION_JSON, null);
-        String systemUrl = getSystemUrl();
-        List<WorkTypeDm> workTypeDmList = httpRequestUtil.requestPostList(httpHeaders, systemUrl + "/api/workTypeDm/findWorkTypeDmList", workTypeDmQuery, WorkTypeDm.class);
 
+    @Override
+    public List<KanassItemType> findKanassWorkTypeList(KanassWorkTypeDmQuery kanassWorkTypeDmQuery) {
+        WorkTypeDmService serviceRpc = SwardRpc.instance().findServiceRpc(WorkTypeDmService.class, findSystemUrl());
 
-        List<WikiWorkType> wikiWorkTypeList = new ArrayList<>();
+        WorkTypeDmQuery workTypeDmQuery = copyFields(kanassWorkTypeDmQuery, new WorkTypeDmQuery());
+
+        List<WorkTypeDm> workTypeDmList = serviceRpc.findWorkTypeDmList(workTypeDmQuery);
+        List<KanassItemType> kanassItemTypeList = new ArrayList<>();
         for (WorkTypeDm workTypeDm : workTypeDmList) {
-            WikiWorkType wikiWorkType = new WikiWorkType();
-            wikiWorkType.setProjectId(workTypeDm.getProjectId());
-            wikiWorkType.setName(workTypeDm.getWorkType().getName());
-            wikiWorkType.setId(workTypeDm.getWorkType().getId());
-
-            wikiWorkTypeList.add(wikiWorkType);
+            KanassItemType kanassItemType = copyFields(workTypeDm, new KanassItemType());
+            kanassItemTypeList.add(kanassItemType);
         }
 
-        return wikiWorkTypeList;
+        return kanassItemTypeList;
     }
 
     @Override
-    public List<WikiDmUser> findDmUserList(WikiWorkItemQuery wikiWorkItemQuery) {
-        DmUserQuery dmUserQuery = new DmUserQuery();
-        dmUserQuery.setDomainId(wikiWorkItemQuery.getProjectId());
-
-        HttpHeaders httpHeaders = httpRequestUtil.initHeaders(MediaType.APPLICATION_JSON, null);
-        String systemUrl = getSystemUrl();
-        List<DmUser> dmUserList = httpRequestUtil.requestPostList(httpHeaders, systemUrl + "/api/dmUser/findDmUserList", dmUserQuery, DmUser.class);
-
-        List<WikiDmUser> wikiDmUserList = new ArrayList<>();
-        for (DmUser dmUser : dmUserList) {
-            WikiDmUser wikiDmUser = new WikiDmUser();
-            wikiDmUser.setProjectId(dmUser.getDomainId());
-            wikiDmUser.setName(dmUser.getUser().getName());
-            wikiDmUser.setId(dmUser.getUser().getId());
-
-            wikiDmUserList.add(wikiDmUser);
-        }
-
-        return wikiDmUserList;
+    public Pagination<DmUser> findDmUserPage(DmUserQuery dmUserQuery) {
+        DmUserService serviceRpc = SwardRpc.instance().findServiceRpc(DmUserService.class, findSystemUrl());
+        return serviceRpc.findDmUserPage(dmUserQuery);
     }
 
     @Override
-    public WorkItem findWorkItem(String workItemId) {
-        HttpHeaders httpHeaders = httpRequestUtil.initHeaders(MediaType.APPLICATION_JSON, null);
-        String systemUrl = getSystemUrl();
-        MultiValueMap param = new LinkedMultiValueMap<>();
-        param.add("id",workItemId);
-        WorkItem workItem = httpRequestUtil.requestPost(httpHeaders, systemUrl + "/api/workItem/findWorkItem", param, WorkItem.class);
+    public List<DmUser> findDmUserList(DmUserQuery dmUserQuery) {
+        DmUserService serviceRpc = SwardRpc.instance().findServiceRpc(DmUserService.class, findSystemUrl());
+        return serviceRpc.findDmUserList(dmUserQuery);
+    }
 
-//
-//        WikiWorkItem wikiWorkItem = new WikiWorkItem();
-//        if(!ObjectUtils.isEmpty(workItem)){
-//
-//            wikiWorkItem.setId(workItem.getId());
-//            wikiWorkItem.setTitle(workItem.getTitle());
-//            wikiWorkItem.setProjectName(workItem.getProject().getProjectName());
-//            wikiWorkItem.setProjectId(workItem.getProject().getId());
-//            wikiWorkItem.setWorkTypeName(workItem.getWorkTypeSys().getName());
-//            wikiWorkItem.setWorkStatusName(workItem.getWorkStatusNode().getName());
-//        }else {
-//            wikiWorkItem.setTitle("事项已被删除");
-//        }
+    @Override
+    public KanassWorkItem findKanassWorkItem(String workItemId) {
+        WorkItemService serviceRpc = SwardRpc.instance().findServiceRpc(WorkItemService.class, findSystemUrl());
+        WorkItem workItem = serviceRpc.findWorkItem(workItemId);
+        return copyFields(workItem, new KanassWorkItem());
+    }
 
 
-        return workItem;
+    public static <S, T> T copyFields(S source, T target) {
+        String jsonString = JSONObject.toJSONString(source);
+       return (T) JSONObject.parseObject(jsonString, target.getClass());
+
+
+        // if (source == null || target == null) {
+        //     throw new IllegalArgumentException("source 和 target 不能为空");
+        // }
+        //
+        // // 将 target 的字段缓存起来，提高效率
+        // Map<String, Field> targetFieldMap = new HashMap<>();
+        // Class<?> targetClass = target.getClass();
+        // for (Field field : targetClass.getDeclaredFields()) {
+        //     field.setAccessible(true);
+        //     targetFieldMap.put(field.getName(), field);
+        // }
+        //
+        // Class<?> sourceClass = source.getClass();
+        // for (Field sourceField : sourceClass.getDeclaredFields()) {
+        //     sourceField.setAccessible(true);
+        //     Object value;
+        //     try {
+        //         value = sourceField.get(source);
+        //         if (value == null) {
+        //             continue;
+        //         }
+        //         Field targetField = targetFieldMap.get(sourceField.getName());
+        //         if (targetField != null && targetField.getName().equals(sourceField.getName())) {
+        //
+        //             Class<?> componentType = targetField.getType();
+        //             if (componentType.isAssignableFrom(String.class) || componentType.isAssignableFrom(Integer.class)){
+        //                 targetField.set(target, value);
+        //             } else {
+        //                 targetField.set(target, value);
+        //             }
+        //
+        //             // Class<?> type = sourceField.getType();
+        //
+        //             targetField.set(target, value);
+        //         }
+        //
+        //         // if (targetField != null && targetField.getType().isAssignableFrom(sourceField.getType())) {
+        //         //     targetField.set(target, value);
+        //         // }
+        //
+        //     } catch (IllegalAccessException e) {
+        //         throw new RuntimeException("字段访问异常: " + sourceField.getName(), e);
+        //     }
+        // }
+        // return target;
     }
 
 

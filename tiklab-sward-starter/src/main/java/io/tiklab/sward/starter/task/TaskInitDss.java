@@ -1,7 +1,7 @@
 package io.tiklab.sward.starter.task;
 
 
-import io.tiklab.eam.client.author.config.TiklabApplicationRunner;
+import io.tiklab.install.runner.TiklabApplicationRunner;
 import io.tiklab.sward.support.support.DssInitIndex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

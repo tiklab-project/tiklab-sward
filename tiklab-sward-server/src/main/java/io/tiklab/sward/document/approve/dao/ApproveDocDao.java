@@ -13,6 +13,7 @@ import io.tiklab.toolkit.join.annotation.FindOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -70,7 +71,7 @@ public class ApproveDocDao {
     public List<ApproveDocEntity> findAllApproveDocEntity(){
         List<ApproveDocEntity> entityList = jpaTemplate.findAll(ApproveDocEntity.class);
         if (Objects.isNull(entityList)){
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return entityList;
     }
@@ -85,7 +86,7 @@ public class ApproveDocDao {
     public List<ApproveDocEntity> findApproveDocEntityList(List<String> idList){
         List<ApproveDocEntity> entityList = jpaTemplate.findList(ApproveDocEntity.class, idList);
         if (Objects.isNull(entityList)){
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return entityList;
     }
@@ -129,7 +130,7 @@ public class ApproveDocDao {
         QueryCondition queryCondition = queryBuilders.orders(query.getOrderParams()).get();
         List<ApproveDocEntity> entityList = jpaTemplate.findList(queryCondition, ApproveDocEntity.class);
         if (Objects.isNull(entityList)){
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return entityList;
     }

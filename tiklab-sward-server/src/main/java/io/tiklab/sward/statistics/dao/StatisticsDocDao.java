@@ -75,7 +75,7 @@ public class StatisticsDocDao {
     public List<StatisticsDocEntity> findAllStatisticsDocEntity(){
         List<StatisticsDocEntity> entityList = jpaTemplate.findAll(StatisticsDocEntity.class);
         if (Objects.isNull(entityList)){
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return entityList;
     }
@@ -89,7 +89,7 @@ public class StatisticsDocDao {
     public List<StatisticsDocEntity> findStatisticsDocEntityList(List<String> idList){
         List<StatisticsDocEntity> entityList = jpaTemplate.findList(StatisticsDocEntity.class, idList);
         if (Objects.isNull(entityList)){
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return entityList;
     }

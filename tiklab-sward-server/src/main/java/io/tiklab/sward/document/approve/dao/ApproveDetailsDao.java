@@ -12,6 +12,7 @@ import io.tiklab.toolkit.join.annotation.FindOne;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -69,7 +70,7 @@ public class ApproveDetailsDao {
     public List<ApproveDetailsEntity> findAllApproveDetailsEntity(){
         List<ApproveDetailsEntity> entityList = jpaTemplate.findAll(ApproveDetailsEntity.class);
         if (Objects.isNull(entityList)){
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return entityList;
     }
@@ -84,7 +85,7 @@ public class ApproveDetailsDao {
     public List<ApproveDetailsEntity> findApproveDetailsEntityList(List<String> idList){
         List<ApproveDetailsEntity> entityList = jpaTemplate.findList(ApproveDetailsEntity.class, idList);
         if (Objects.isNull(entityList)){
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return entityList;
     }
@@ -104,7 +105,7 @@ public class ApproveDetailsDao {
                 .get();
         List<ApproveDetailsEntity> entityList = jpaTemplate.findList(queryCondition, ApproveDetailsEntity.class);
         if (Objects.isNull(entityList)){
-            return Collections.emptyList();
+            return new ArrayList<>();
         }
         return entityList;
     }
