@@ -1,5 +1,4 @@
 package io.tiklab.sward.document.approve.service;
-
 import io.tiklab.core.page.Pagination;
 import io.tiklab.sward.document.approve.model.ApproveDoc;
 import io.tiklab.sward.document.approve.model.ApproveDocQuery;
@@ -15,7 +14,7 @@ public interface ApproveDocService {
 
     /**
      * 创建文档审批
-     * @param approveDoc 
+     * @param approveDoc
      * @return Id
      */
     String createApproveDoc(ApproveDoc approveDoc);
@@ -23,30 +22,24 @@ public interface ApproveDocService {
 
     /**
      * 更新文档审批
-     * @param approveDoc 
+     * @param approveDoc
      */
     void updateApproveDoc(ApproveDoc approveDoc);
 
     /**
-     * 更新文档审批
-     * @param approveDoc
-     */
-    void revokeApprove(ApproveDoc approveDoc);
-
-    /**
      * 删除文档审批
-     * @param approveId Id
+     * @param approveDocId Id
      */
-    void deleteApproveDoc(String approveId);
+    void deleteApproveDoc(String approveDocId);
     
     
     /**
      * 根据文档审批Id获取文档审批
-     * @param approveId 文档审批Id
+     * @param approveDocId 文档审批Id
      * @return 文档审批
      */
     @FindOne
-    ApproveDoc findApproveDoc(String approveId);
+    ApproveDoc findApproveDoc(String approveDocId);
     
     
     /**

@@ -1,10 +1,14 @@
 package io.tiklab.sward.document.approve.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.tiklab.sward.document.document.model.WikiDocument;
 import io.tiklab.toolkit.beans.annotation.Mapper;
 import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
 import io.tiklab.toolkit.join.annotation.Join;
-import io.tiklab.toolkit.join.annotation.JoinQuery;
+import io.tiklab.toolkit.join.annotation.JoinField;
+
+import java.sql.Timestamp;
 
 @Mapper
 @Join
@@ -14,21 +18,8 @@ public class ApproveRpy {
 
     private String rpyId;
 
-    @Mappings({
-            @Mapping(source = "approveRule.id",target = "ruleId")
-    })
-    @JoinQuery(key = "id")
-    private ApproveRule approveRule;
-
-    private String createTime;
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Timestamp createTime;
 
     public String getId() {
         return id;
@@ -46,11 +37,11 @@ public class ApproveRpy {
         this.rpyId = rpyId;
     }
 
-    public ApproveRule getApproveRule() {
-        return approveRule;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setApproveRule(ApproveRule approveRule) {
-        this.approveRule = approveRule;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 }

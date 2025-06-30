@@ -5,36 +5,17 @@ import io.tiklab.core.order.OrderBuilders;
 import io.tiklab.core.page.Page;
 import io.tiklab.postin.annotation.ApiProperty;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 public class ApproveDocQuery {
 
-    private String type;
+    private String approveId;
 
-    // 审批状态
+
+    private String docId;
+
+
     private String status;
-
-    // 审批状态
-    private List<String> statusList = new ArrayList<>();
-
-    // 文档Id
-    private String documentId;
-
-    // 文档列表
-    private List<String> documentList = new ArrayList<>();
-
-    // 创建人
-    private String userId;
-
-    // 仓库Id
-    private String rpyId;
-
-    // 审批人
-    private String approveUserId;
-
-
 
     @ApiProperty(name ="orderParams",desc = "排序参数")
     private List<Order> orderParams = OrderBuilders.instance().asc("id").get();
@@ -42,60 +23,12 @@ public class ApproveDocQuery {
     @ApiProperty(name ="pageParam",desc = "分页参数")
     private Page pageParam = new Page();
 
-    public List<String> getDocumentList() {
-        return documentList;
+    public String getDocId() {
+        return docId;
     }
 
-    public void setDocumentList(List<String> documentList) {
-        this.documentList = documentList;
-    }
-
-    public List<String> getStatusList() {
-        return statusList;
-    }
-
-    public void setStatusList(List<String> statusList) {
-        this.statusList = statusList;
-    }
-
-    public String getRpyId() {
-        return rpyId;
-    }
-
-    public void setRpyId(String rpyId) {
-        this.rpyId = rpyId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(String documentId) {
-        this.documentId = documentId;
+    public void setDocId(String docId) {
+        this.docId = docId;
     }
 
     public List<Order> getOrderParams() {
@@ -114,11 +47,20 @@ public class ApproveDocQuery {
         this.pageParam = pageParam;
     }
 
-    public String getApproveUserId() {
-        return approveUserId;
+    public String getApproveId() {
+        return approveId;
     }
 
-    public void setApproveUserId(String approveUserId) {
-        this.approveUserId = approveUserId;
+    public void setApproveId(String approveId) {
+        this.approveId = approveId;
+    }
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

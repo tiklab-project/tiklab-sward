@@ -1,5 +1,6 @@
 package io.tiklab.sward.support.support;
 
+import io.tiklab.dsm.support.DsmProcessTask;
 import io.tiklab.dss.init.executer.IndexInitCallback;
 import io.tiklab.sward.node.model.Node;
 import io.tiklab.sward.node.service.NodeService;
@@ -19,7 +20,9 @@ import java.util.Objects;
  * 重建索引
  */
 @Component
-public class DssInitIndex implements IndexInitCallback {
+public class DssInitIndex implements DsmProcessTask {
+
+
     @Autowired
     DssClient dssClient;
 
@@ -40,7 +43,7 @@ public class DssInitIndex implements IndexInitCallback {
         dssClient.deleteAll(WikiRepository.class);
         dssClient.deleteAll(WikiDocument.class);
 
-        List<WikiRepository> allRepository = wikiRepositoryService.findAllRepository();
+        List<WikiRepository> allRepository = wikiRepositoryService.findAllRepositoryNoQuery();
         for (WikiRepository wikiRepository : allRepository) {
             dssClient.save(wikiRepository);
         }
@@ -51,7 +54,7 @@ public class DssInitIndex implements IndexInitCallback {
             if (!StringUtils.isEmpty(versionId)){
                 continue;
             }
-            Node node = nodeService.findNode(wikiDocument.getId());
+            Node node = nodeService.findNodeNoQuery(wikiDocument.getId());
             if (!Objects.isNull(node)){
                 node.setRpyId(node.getWikiRepository().getId());
                 wikiDocument.setRepositoryId(node.getWikiRepository().getId());

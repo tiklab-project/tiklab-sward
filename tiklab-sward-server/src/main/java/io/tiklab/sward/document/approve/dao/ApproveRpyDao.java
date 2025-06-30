@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,6 +88,7 @@ public class ApproveRpyDao {
         }
         return entityList;
     }
+    
 
 
     /**
@@ -97,9 +97,9 @@ public class ApproveRpyDao {
      * @return 审批详情列表
      */
     public List<ApproveRpyEntity> findApproveRpyEntityList(ApproveRpyQuery query){
+
         QueryCondition queryCondition = QueryBuilders.createQuery(ApproveRpyEntity.class)
                 .eq("rpyId", query.getRpyId())
-                .eq("ruleId", query.getRuleId())
                 .orders(query.getOrderParams())
                 .get();
         List<ApproveRpyEntity> entityList = jpaTemplate.findList(queryCondition, ApproveRpyEntity.class);
@@ -118,7 +118,6 @@ public class ApproveRpyDao {
     public Pagination<ApproveRpyEntity> findApproveRpyEntityPage(ApproveRpyQuery query){
         QueryCondition queryCondition = QueryBuilders.createQuery(ApproveRpyEntity.class)
                 .eq("rpyId", query.getRpyId())
-                .eq("ruleId", query.getRuleId())
                 .orders(query.getOrderParams())
                 .pagination(query.getPageParam())
                 .get();

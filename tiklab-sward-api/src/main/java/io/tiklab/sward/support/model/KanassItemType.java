@@ -4,7 +4,8 @@ package io.tiklab.sward.support.model;
 import io.tiklab.postin.annotation.ApiProperty;
 import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
-import io.tiklab.toolkit.join.annotation.JoinQuery;
+import io.tiklab.toolkit.join.annotation.JoinField;
+
 
 import javax.validation.constraints.NotNull;
 
@@ -19,7 +20,7 @@ public class KanassItemType {
     @Mappings({
             @Mapping(source = "workType.id",target = "workTypeId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private WorkType workType;
 
     public String getId() {

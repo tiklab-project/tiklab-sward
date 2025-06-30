@@ -11,8 +11,7 @@ import io.tiklab.security.logging.logging.service.LoggingByTempService;
 import io.tiklab.security.logging.logging.service.LoggingService;
 import io.tiklab.sward.document.approve.dao.ApproveDocDao;
 import io.tiklab.sward.document.approve.entity.ApproveDocEntity;
-import io.tiklab.sward.document.approve.model.ApproveDocQuery;
-import io.tiklab.sward.document.approve.service.ApproveDocService;
+import io.tiklab.sward.document.approve.model.ApproveQuery;
 import io.tiklab.sward.document.document.dao.DocumentDao;
 import io.tiklab.sward.document.document.model.*;
 import io.tiklab.dal.jpa.JpaTemplate;
@@ -55,16 +54,15 @@ import java.util.stream.Collectors;
 @Service
 public class DocumentServiceImpl implements DocumentService {
     private static Logger logger = LoggerFactory.getLogger(DocumentService.class);
-    // 新建锁
-    private final Lock lock = new ReentrantLock();
+
     @Autowired
     JpaTemplate jpaTemplate;
+
     @Autowired
     DocumentDao documentDao;
 
     @Autowired
     DocumentFocusService documentFocusService;
-
 
     @Autowired
     DssClient dssClient;
@@ -96,14 +94,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Autowired
     ShareRelationService shareRelationService;
 
-    @Autowired
-    LoggingService loggingService;
-
     @Value("${external.url:null}")
     String baseUrl;
-
-    @Autowired
-    ApproveDocDao approveDocDao;
 
     /**
      * 创建动态
@@ -458,19 +450,6 @@ public class DocumentServiceImpl implements DocumentService {
         if(!ObjectUtils.isEmpty(wikiDocument)){
             Node node = nodeService.findNode(id);
             wikiDocument.setNode(node);
-
-            ApproveDocQuery approveDocQuery = new ApproveDocQuery();
-            approveDocQuery.setDocumentId(id);
-            approveDocQuery.setStatusList(new ArrayList<>(Arrays.asList("pending", "review")));
-            List<ApproveDocEntity> approveDocEntityList = approveDocDao.findApproveDocEntityList(approveDocQuery);
-            if (approveDocEntityList.isEmpty()){
-                if (node.getMaster().getId().equals(LoginContext.getLoginId())){
-                    node.setApprove("complete");
-                }
-            } else {
-                node.setApprove("review");
-            }
-
             joinTemplate.joinQuery(wikiDocument);
 
             CommentQuery commentQuery = new CommentQuery();

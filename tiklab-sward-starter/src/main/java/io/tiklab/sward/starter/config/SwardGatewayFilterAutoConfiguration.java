@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class GatewayFilterAutoConfiguration {
+public class SwardGatewayFilterAutoConfiguration {
 
     @Bean
     AuthorHandler authorHandler(Authenticator authenticator, IgnoreConfig ignoreConfig){

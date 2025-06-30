@@ -11,7 +11,8 @@ import io.tiklab.postin.annotation.ApiProperty;
 import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
 import io.tiklab.toolkit.join.annotation.Join;
-import io.tiklab.toolkit.join.annotation.JoinQuery;
+
+import io.tiklab.toolkit.join.annotation.JoinField;
 import io.tiklab.user.user.model.User;
 
 @ApiModel
@@ -29,14 +30,14 @@ public class DocumentFocus extends BaseModel {
     @Mappings({
             @Mapping(source = "node.id",target = "documentId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private Node node;
 
     @ApiProperty(name="master",desc="知识库",eg="@selectOne")
     @Mappings({
             @Mapping(source = "master.id",target = "masterId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User master;
 
 
@@ -52,7 +53,7 @@ public class DocumentFocus extends BaseModel {
     @Mappings({
             @Mapping(source = "wikiRepository.id",target = "repositoryId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private WikiRepository wikiRepository;
 
     public String getId() {

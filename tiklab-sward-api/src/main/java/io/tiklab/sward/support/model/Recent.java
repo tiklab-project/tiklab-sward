@@ -8,9 +8,10 @@ import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
 import io.tiklab.core.BaseModel;
 import io.tiklab.toolkit.join.annotation.Join;
-import io.tiklab.toolkit.join.annotation.JoinQuery;
+
 import io.tiklab.sward.repository.model.WikiRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.tiklab.toolkit.join.annotation.JoinField;
 import io.tiklab.user.user.model.User;
 
 import javax.validation.constraints.NotNull;
@@ -41,7 +42,7 @@ public class Recent extends BaseModel {
     @Mappings({
             @Mapping(source = "master.id",target = "masterId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User master;
 
 
@@ -49,14 +50,14 @@ public class Recent extends BaseModel {
     @Mappings({
             @Mapping(source = "wikiRepository.id",target = "repositoryId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private WikiRepository wikiRepository;
 
     @ApiProperty(name="node",desc="知识库",eg="@selectOne")
     @Mappings({
             @Mapping(source = "node.id",target = "modelId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private Node node;
 
     @ApiProperty(name="recentTime",desc="recentTime")

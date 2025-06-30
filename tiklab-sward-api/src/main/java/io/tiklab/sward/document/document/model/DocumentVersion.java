@@ -4,7 +4,8 @@ import io.tiklab.toolkit.beans.annotation.Mapper;
 import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
 import io.tiklab.toolkit.join.annotation.Join;
-import io.tiklab.toolkit.join.annotation.JoinQuery;
+
+import io.tiklab.toolkit.join.annotation.JoinField;
 import io.tiklab.user.user.model.User;
 
 import java.io.Serializable;
@@ -26,14 +27,14 @@ public class DocumentVersion implements Serializable {
     @Mappings({
             @Mapping(source = "user.id",target = "userId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User user;
 
     //
     @Mappings({
             @Mapping(source = "wikiDocument.id",target = "textDocumentId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private WikiDocument wikiDocument;
 
     // 创建时间

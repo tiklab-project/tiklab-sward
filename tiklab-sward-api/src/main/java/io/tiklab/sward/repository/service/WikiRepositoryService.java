@@ -59,6 +59,10 @@ public interface WikiRepositoryService {
     */
     @FindAll
     List<WikiRepository> findAllRepository();
+
+
+    List<WikiRepository> findAllRepositoryNoQuery();
+
     List<WikiRepository> findRepositoryList(WikiRepositoryQuery wikiRepositoryQuery);
     /**
     * 查询列表

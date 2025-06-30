@@ -6,9 +6,10 @@ import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
 import io.tiklab.core.BaseModel;
 import io.tiklab.toolkit.join.annotation.Join;
-import io.tiklab.toolkit.join.annotation.JoinQuery;
+
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
+import io.tiklab.toolkit.join.annotation.JoinField;
 
 /**
  * 项目下事项类型模型
@@ -28,7 +29,7 @@ public class KanassWorkTypeDm extends BaseModel {
     @Mappings({
             @Mapping(source = "workType.id",target = "workTypeId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private WorkType workType;
 
 

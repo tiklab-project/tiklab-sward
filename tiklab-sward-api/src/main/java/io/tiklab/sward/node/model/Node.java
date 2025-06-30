@@ -13,7 +13,8 @@ import io.tiklab.toolkit.beans.annotation.Mapper;
 import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
 import io.tiklab.toolkit.join.annotation.Join;
-import io.tiklab.toolkit.join.annotation.JoinQuery;
+
+import io.tiklab.toolkit.join.annotation.JoinField;
 import io.tiklab.user.user.model.User;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class Node extends BaseModel{
     @Mappings({
             @Mapping(source = "wikiRepository.id",target = "repositoryId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private WikiRepository wikiRepository;
 
     @DocumentField(queryField = true)
@@ -58,13 +59,13 @@ public class Node extends BaseModel{
     @Mappings({
             @Mapping(source = "master.id",target = "master")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User master;
 
     @Mappings({
             @Mapping(source = "parent.id",target = "parentId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private Node parent;
 
 
@@ -105,7 +106,7 @@ public class Node extends BaseModel{
     @Mappings({
             @Mapping(source = "archivedUser.id",target = "archivedUserId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User archivedUser;
 
     @ApiProperty(name = "archivedDesc")
@@ -117,7 +118,7 @@ public class Node extends BaseModel{
     @Mappings({
             @Mapping(source = "recycleUser.id",target = "recycleUserId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User recycleUser;
 
     @ApiProperty(name = "recycleDesc")

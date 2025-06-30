@@ -2,9 +2,11 @@ package io.tiklab.sward.document.approve.entity;
 
 import io.tiklab.dal.jpa.annotation.*;
 
+import java.sql.Timestamp;
+
 @Entity
-@Table(name="wiki_approve_details")
-public class ApproveDetailsEntity {
+@Table(name="wiki_approve_user")
+public class ApproveUserEntity {
 
     @Id
     @GeneratorValue(length = 12)
@@ -20,19 +22,14 @@ public class ApproveDetailsEntity {
     @Column(name = "user_id")
     private String userId;
 
-    @Column(name = "describe")
-    private String describe;
+    @Column(name = "message")
+    private String message;
 
     @Column(name = "create_time")
-    private String createTime;
+    private Timestamp createTime;
 
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
+    @Column(name = "update_time")
+    private Timestamp updateTime;
 
     public String getId() {
         return id;
@@ -66,11 +63,27 @@ public class ApproveDetailsEntity {
         this.userId = userId;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getMessage() {
+        return message;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public Timestamp getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Timestamp updateTime) {
+        this.updateTime = updateTime;
     }
 }

@@ -11,45 +11,14 @@ public class ApproveDocEntity {
     @Column(name = "id",length = 12)
     private String id;
 
-    @Column(name = "title")
-    private String title;
-
-    @Column(name = "type")
-    private String type;
+    @Column(name = "approve_id")
+    private String approveId;
 
     @Column(name = "status")
     private String status;
 
     @Column(name = "document_id")
     private String documentId;
-
-    @Column(name = "user_ids")
-    private String userIds;
-
-    @Column(name = "create_time")
-    private String createTime;
-
-    @Column(name = "rpy_id")
-    private String rpyId;
-
-    @Column(name = "user_id")
-    private String userId;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
 
     public String getId() {
         return id;
@@ -59,20 +28,12 @@ public class ApproveDocEntity {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getApproveId() {
+        return approveId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setApproveId(String approveId) {
+        this.approveId = approveId;
     }
 
     public String getStatus() {
@@ -89,21 +50,5 @@ public class ApproveDocEntity {
 
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
-    }
-
-    public String getUserIds() {
-        return userIds;
-    }
-
-    public void setUserIds(String userIds) {
-        this.userIds = userIds;
-    }
-
-    public String getRpyId() {
-        return rpyId;
-    }
-
-    public void setRpyId(String rpyId) {
-        this.rpyId = rpyId;
     }
 }

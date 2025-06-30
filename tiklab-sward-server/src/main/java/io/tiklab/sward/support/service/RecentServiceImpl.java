@@ -84,7 +84,9 @@ public class RecentServiceImpl implements RecentService {
 
             int size = recentList2.size();
             if(size > 0){
-                List<Recent> recentList3 = recentList2.stream().filter(recent1 -> recent1.getModelId().equals(modelId)).collect(Collectors.toList());
+                List<Recent> recentList3 = recentList2.stream()
+                        .filter(recent1 -> recent1.getModelId().equals(modelId))
+                        .collect(Collectors.toList());
                 if(recentList3.size() > 0){
                     Recent recent1 = recentList3.get(0);
                     id = recent1.getId();
@@ -149,7 +151,7 @@ public class RecentServiceImpl implements RecentService {
     public Recent findRecent(@NotNull String id) {
         Recent recent = findOne(id);
 
-        joinTemplate.joinQuery(recent);
+        joinTemplate.joinQuery(recent,new  String[]{"wikiRepository","master","node"});
 
         return recent;
     }
@@ -160,7 +162,7 @@ public class RecentServiceImpl implements RecentService {
 
         List<Recent> recentList =  BeanMapper.mapList(recentEntityList, Recent.class);
 
-        joinTemplate.joinQuery(recentList);
+        joinTemplate.joinQuery(recentList,new  String[]{"wikiRepository","master","node"});
 
         return recentList;
     }
@@ -171,7 +173,7 @@ public class RecentServiceImpl implements RecentService {
 
         List<Recent> recentList = BeanMapper.mapList(recentEntityList, Recent.class);
 
-        joinTemplate.joinQuery(recentList);
+        joinTemplate.joinQuery(recentList,new  String[]{"wikiRepository","master","node"});
 
         List<Recent> review = recentList.stream()
                 .filter(recent -> !Objects.isNull(recent.getNode()))
@@ -189,7 +191,7 @@ public class RecentServiceImpl implements RecentService {
 
         List<Recent> recentList = BeanMapper.mapList(pagination.getDataList(), Recent.class);
 
-        joinTemplate.joinQuery(recentList);
+        joinTemplate.joinQuery(recentList,new  String[]{"wikiRepository","master","node"});
 
         return PaginationBuilder.build(pagination, recentList);
     }

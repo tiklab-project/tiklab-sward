@@ -2,6 +2,8 @@ package io.tiklab.sward.document.approve.entity;
 
 import io.tiklab.dal.jpa.annotation.*;
 
+import java.sql.Timestamp;
+
 @Entity
 @Table(name="wiki_approve_rpy")
 public class ApproveRpyEntity {
@@ -14,19 +16,8 @@ public class ApproveRpyEntity {
     @Column(name = "rpy_id")
     private String rpyId;
 
-    @Column(name = "rule_id")
-    private String ruleId;
-
     @Column(name = "create_time")
-    private String createTime;
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
+    private Timestamp createTime;
 
     public String getId() {
         return id;
@@ -44,11 +35,11 @@ public class ApproveRpyEntity {
         this.rpyId = rpyId;
     }
 
-    public String getRuleId() {
-        return ruleId;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setRuleId(String ruleId) {
-        this.ruleId = ruleId;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 }

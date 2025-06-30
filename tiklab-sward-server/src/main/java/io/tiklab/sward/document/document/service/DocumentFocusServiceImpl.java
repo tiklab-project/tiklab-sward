@@ -87,7 +87,7 @@ public class DocumentFocusServiceImpl implements DocumentFocusService {
     public DocumentFocus findDocumentFocus(@NotNull String id) {
         DocumentFocus wikiDocumentFocus = findOne(id);
 
-        joinTemplate.joinQuery(wikiDocumentFocus);
+        joinTemplate.joinQuery(wikiDocumentFocus,new String[]{"wikiRepository","node","master"});
 
         return wikiDocumentFocus;
     }
@@ -98,7 +98,7 @@ public class DocumentFocusServiceImpl implements DocumentFocusService {
 
         List<DocumentFocus> wikiDocumentFocusList =  BeanMapper.mapList(wikiDocumentFocusEntityList, DocumentFocus.class);
 
-        joinTemplate.joinQuery(wikiDocumentFocusList);
+        joinTemplate.joinQuery(wikiDocumentFocusList,new String[]{"wikiRepository","node","master"});
 
         return wikiDocumentFocusList;
     }
@@ -109,7 +109,7 @@ public class DocumentFocusServiceImpl implements DocumentFocusService {
 
         List<DocumentFocus> wikiDocumentFocusList = BeanMapper.mapList(wikiDocumentFocusEntityList, DocumentFocus.class);
 
-        joinTemplate.joinQuery(wikiDocumentFocusList);
+        joinTemplate.joinQuery(wikiDocumentFocusList,new String[]{"wikiRepository","node","master"});
 
         return wikiDocumentFocusList;
     }
@@ -120,7 +120,7 @@ public class DocumentFocusServiceImpl implements DocumentFocusService {
 
         List<DocumentFocus> wikiDocumentFocusList = BeanMapper.mapList(pagination.getDataList(), DocumentFocus.class);
 
-        joinTemplate.joinQuery(wikiDocumentFocusList);
+        joinTemplate.joinQuery(wikiDocumentFocusList,new String[]{"wikiRepository","node","master"});
 
         return PaginationBuilder.build(pagination, wikiDocumentFocusList);
     }

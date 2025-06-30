@@ -62,12 +62,17 @@ public interface NodeService {
     */
     Node findNode(@NotNull String id);
 
+    Node findNodeNoQuery(@NotNull String id);
+
     /**
     * 查找所有
     * @return
     */
     @FindAll
     List<Node> findAllNode();
+
+
+    List<Node> findAllNodeNoQuery();
 
     /**
     * 查询列表

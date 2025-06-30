@@ -6,9 +6,10 @@ import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
 import io.tiklab.core.BaseModel;
 import io.tiklab.toolkit.join.annotation.Join;
-import io.tiklab.toolkit.join.annotation.JoinQuery;
+
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
+import io.tiklab.toolkit.join.annotation.JoinField;
 import io.tiklab.user.user.model.User;
 
 import javax.validation.constraints.NotNull;
@@ -36,14 +37,14 @@ public class KanassWorkItem extends BaseModel {
     @Mappings({
             @Mapping(source = "project.id",target = "projectId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private kanassProject kanassProject;
 
     @ApiProperty(name="workTypeSys",desc="所属系统的事项类型")
     @Mappings({
             @Mapping(source = "workTypeSys.id",target = "workTypeSysId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private WorkType workTypeSys;
 
 
@@ -51,21 +52,21 @@ public class KanassWorkItem extends BaseModel {
     @Mappings({
             @Mapping(source = "workStatusNode.id",target = "workStatusNodeId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private StateNode workStatusNode;
 
     @ApiProperty(name="builder",desc="创建人")
     @Mappings({
             @Mapping(source = "builder.id",target = "builderId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User builder;
 
     @ApiProperty(name="assigner",desc="经办人")
     @Mappings({
             @Mapping(source = "assigner.id",target = "assignerId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User assigner;
 
     public String getId() {

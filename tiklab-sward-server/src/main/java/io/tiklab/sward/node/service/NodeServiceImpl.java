@@ -4,7 +4,7 @@ import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
 import io.tiklab.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.tiklab.sward.document.approve.model.ApproveRpy;
 import io.tiklab.sward.document.approve.model.ApproveRpyQuery;
-import io.tiklab.sward.document.approve.service.ApproveRpyService;
+import io.tiklab.sward.document.approve.service.ApproveService;
 import io.tiklab.sward.category.model.WikiCategoryQuery;
 import io.tiklab.sward.category.service.WikiCategoryService;
 import io.tiklab.sward.document.document.model.DocumentQuery;
@@ -55,9 +55,6 @@ public class NodeServiceImpl implements NodeService {
     @Autowired
     WikiCategoryService wikiCategoryService;
 
-    @Autowired(required = false)
-    ApproveRpyService approveRpyService;
-
     @Override
     public String createNode(@NotNull @Valid Node node) {
         lock.lock();
@@ -68,14 +65,6 @@ public class NodeServiceImpl implements NodeService {
 
             WikiRepository wikiRepository = node.getWikiRepository();
             String repositoryId = wikiRepository.getId();
-
-
-            if (!Objects.isNull(approveRpyService)){
-                List<ApproveRpy> approveRpyList = approveRpyService.findApproveRpyList(new ApproveRpyQuery(repositoryId));
-                if (!approveRpyList.isEmpty() && ("markdown".equals(node.getDocumentType()) || "document".equals(node.getDocumentType()))){
-                    node.setApprove("review");
-                }
-            }
 
             Node parent = node.getParent();
             if(parent != null){
@@ -367,7 +356,16 @@ public class NodeServiceImpl implements NodeService {
     public Node findNode(@NotNull String id) {
         Node node = findOne(id);
 
-        joinTemplate.joinQuery(node);
+        joinTemplate.joinQuery(node,new String[]{"wikiRepository","master","parent","archivedUser","recycleUser"});
+
+        return node;
+    }
+
+    @Override
+    public Node findNodeNoQuery(@NotNull String id) {
+        Node node = findOne(id);
+
+        // joinTemplate.joinQuery(node);
 
         return node;
     }
@@ -378,7 +376,18 @@ public class NodeServiceImpl implements NodeService {
 
         List<Node> nodeList =  BeanMapper.mapList(nodeEntityList, Node.class);
 
-        joinTemplate.joinQuery(nodeList);
+        // joinTemplate.joinQuery(nodeList);
+
+        return nodeList;
+    }
+
+    @Override
+    public List<Node> findAllNodeNoQuery() {
+        List<NodeEntity> nodeEntityList =  nodeDao.findAllNode();
+
+        List<Node> nodeList =  BeanMapper.mapList(nodeEntityList, Node.class);
+
+        joinTemplate.joinQuery(nodeList,new String[]{"wikiRepository","master","parent","archivedUser","recycleUser"});
 
         return nodeList;
     }
@@ -389,7 +398,7 @@ public class NodeServiceImpl implements NodeService {
 
         List<Node> nodeList = BeanMapper.mapList(nodeEntityList, Node.class);
 
-        joinTemplate.joinQuery(nodeList);
+        joinTemplate.joinQuery(nodeList,new String[]{"wikiRepository","master","parent","archivedUser","recycleUser"});
 
         return nodeList;
     }
@@ -400,7 +409,7 @@ public class NodeServiceImpl implements NodeService {
 
         List<Node> nodeList = BeanMapper.mapList(nodeEntityList, Node.class);
 
-        joinTemplate.joinQuery(nodeList);
+        joinTemplate.joinQuery(nodeList,new String[]{"wikiRepository","master","parent","archivedUser","recycleUser"});
 
         return nodeList;
     }
@@ -411,7 +420,7 @@ public class NodeServiceImpl implements NodeService {
 
         List<Node> nodeList = BeanMapper.mapList(pagination.getDataList(), Node.class);
 
-        joinTemplate.joinQuery(nodeList);
+        joinTemplate.joinQuery(nodeList,new String[]{"wikiRepository","master","parent","archivedUser","recycleUser"});
 
         return PaginationBuilder.build(pagination, nodeList);
     }
@@ -424,12 +433,6 @@ public class NodeServiceImpl implements NodeService {
     @Override
     public List<Node> findNodePageTree(NodeQuery nodeQuery) {
         String repositoryId = nodeQuery.getRepositoryId();
-        if (!Objects.isNull(approveRpyService)){
-            List<ApproveRpy> approveRpyList = approveRpyService.findApproveRpyList(new ApproveRpyQuery(repositoryId));
-            if (!approveRpyList.isEmpty()){
-                nodeQuery.setApprove("complete");
-            }
-        }
 
         List<Node> allNodeList = findNodeList(nodeQuery);
 
@@ -494,7 +497,7 @@ public class NodeServiceImpl implements NodeService {
 
         List<Node> nodeList = BeanMapper.mapList(nodeEntityList, Node.class);
 
-        joinTemplate.joinQuery(nodeList);
+        joinTemplate.joinQuery(nodeList,new String[]{"wikiRepository","master","parent","archivedUser","recycleUser"});
 
         return nodeList;
     }
@@ -505,7 +508,7 @@ public class NodeServiceImpl implements NodeService {
 
         List<Node> nodeList = BeanMapper.mapList(nodeEntityList, Node.class);
 
-        joinTemplate.joinQuery(nodeList);
+        joinTemplate.joinQuery(nodeList,new String[]{"wikiRepository","master","parent","archivedUser","recycleUser"});
 
         return nodeList;
     }

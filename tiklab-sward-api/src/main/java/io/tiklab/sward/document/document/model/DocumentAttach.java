@@ -7,7 +7,8 @@ import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
 import io.tiklab.core.BaseModel;
 import io.tiklab.toolkit.join.annotation.Join;
-import io.tiklab.toolkit.join.annotation.JoinQuery;
+import io.tiklab.toolkit.join.annotation.JoinField;
+
 
 import javax.validation.constraints.NotNull;
 
@@ -24,12 +25,12 @@ public class DocumentAttach extends BaseModel{
     @Mappings({
             @Mapping(source = "document.id",target = "documentId")
     })
-    @JoinQuery(key = "fileName")
+    @JoinField(key = "fileName")
     private WikiDocument wikiDocument;
 
     @NotNull
     @ApiProperty(name="attachment",desc="附件",required = true)
-    @JoinQuery(key = "fileName")
+    @JoinField(key = "fileName")
     private String attachment;
 
     @ApiProperty(name="sort",desc="sort")

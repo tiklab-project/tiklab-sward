@@ -7,7 +7,8 @@ import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
 import io.tiklab.core.BaseModel;
 import io.tiklab.toolkit.join.annotation.Join;
-import io.tiklab.toolkit.join.annotation.JoinQuery;
+
+import io.tiklab.toolkit.join.annotation.JoinField;
 import io.tiklab.user.user.model.User;
 
 import javax.validation.constraints.NotNull;
@@ -29,7 +30,7 @@ public class Like extends BaseModel{
     @Mappings({
             @Mapping(source = "likeUser.id",target = "likeUser")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User likeUser;
 
     @ApiProperty(name="likeType",desc="点赞类型  doc文档 com 评论")

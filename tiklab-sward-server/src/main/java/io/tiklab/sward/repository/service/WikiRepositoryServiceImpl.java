@@ -318,6 +318,16 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     }
 
     @Override
+    public List<WikiRepository> findAllRepositoryNoQuery() {
+        List<WikiRepositoryEntity> wikiRepositoryEntityList =  wikiRepositoryDao.findAllRepository();
+
+        List<WikiRepository> wikiRepositoryList =  BeanMapper.mapList(wikiRepositoryEntityList, WikiRepository.class);
+
+        // joinTemplate.joinQuery(wikiRepositoryList);
+        return wikiRepositoryList;
+    }
+
+    @Override
     public List<WikiRepository> findRepositoryList(WikiRepositoryQuery wikiRepositoryQuery) {
         List<WikiRepositoryEntity> wikiRepositoryEntityList =  wikiRepositoryDao.findRepositoryList(wikiRepositoryQuery);
 

@@ -10,7 +10,8 @@ import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
 import io.tiklab.core.BaseModel;
 import io.tiklab.toolkit.join.annotation.Join;
-import io.tiklab.toolkit.join.annotation.JoinQuery;
+import io.tiklab.toolkit.join.annotation.JoinField;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.tiklab.user.user.model.User;
 
@@ -40,7 +41,7 @@ public class WikiRepository extends BaseModel{
     @Mappings({
             @Mapping(source = "master.id",target = "master")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User master;
 
     //权限范围 0 全部可见 1成员可见
@@ -73,7 +74,7 @@ public class WikiRepository extends BaseModel{
     @Mappings({
             @Mapping(source = "archivedUser.id",target = "archivedUserId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User archivedUser;
 
     @ApiProperty(name = "archivedDesc")
@@ -85,7 +86,7 @@ public class WikiRepository extends BaseModel{
     @Mappings({
             @Mapping(source = "recycleUser.id",target = "recycleUserId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User recycleUser;
 
     @ApiProperty(name = "recycleDesc")

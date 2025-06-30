@@ -8,7 +8,8 @@ import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
 import io.tiklab.core.BaseModel;
 import io.tiklab.toolkit.join.annotation.Join;
-import io.tiklab.toolkit.join.annotation.JoinQuery;
+
+import io.tiklab.toolkit.join.annotation.JoinField;
 import io.tiklab.user.user.model.User;
 
 import javax.validation.constraints.NotNull;
@@ -28,7 +29,7 @@ public class Comment extends BaseModel{
     @Mappings({
             @Mapping(source = "wikiDocument.id",target = "documentId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private WikiDocument wikiDocument;
 
     @ApiProperty(name="parentCommentId",desc="父评论id")
@@ -41,7 +42,7 @@ public class Comment extends BaseModel{
     @Mappings({
             @Mapping(source = "user.id",target = "userId")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User user;
 
     @ApiProperty(name="createTime",desc="创建时间")
@@ -56,7 +57,7 @@ public class Comment extends BaseModel{
     @Mappings({
             @Mapping(source = "aimAtUser.id",target = "aimAtUser")
     })
-    @JoinQuery(key = "id")
+    @JoinField(key = "id")
     private User aimAtUser;
 
     //第一层评论id
