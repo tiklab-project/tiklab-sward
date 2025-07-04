@@ -4,6 +4,7 @@ import io.tiklab.dsm.model.DsmConfig;
 import io.tiklab.dsm.model.DsmVersion;
 import io.tiklab.dsm.support.DsmVersionBuilder;
 import io.tiklab.sward.support.support.DssInitIndex;
+import io.tiklab.sward.support.util.task.TaskInitDss;
 import io.tiklab.sward.support.util.task.TaskPrivilege;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -67,6 +68,13 @@ public class SwardDsmAutoConfiguration {
                 .task(privilege)
                 .get();
         versionList.add(dsmVersionPrivilege);
+
+        DsmVersion message_109 = DsmVersionBuilder.instance()
+                .version("message_1.0.9")
+                .db(new String[]{
+                        "message_1.0.9",
+                }).get();
+        versionList.add(message_109);
 
         return versionList;
     }
