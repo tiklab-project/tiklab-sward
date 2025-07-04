@@ -280,7 +280,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
         List<WikiRepository> wikiRepositoryList =  BeanMapper.mapList(wikiRepositoryEntityList, WikiRepository.class);
 
-        joinTemplate.joinQuery(wikiRepositoryList);
+        joinTemplate.joinQuery(wikiRepositoryList,new String[]{"archivedUser","master","recycleUser"});
 
         return wikiRepositoryList;
     }
@@ -301,7 +301,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
             int size = document.size();
             wikiRepository.setDocumentNum(size);
             wikiRepository.setCategoryNum(childrenNodeList.size() - size);
-            joinTemplate.joinQuery(wikiRepository);
+            joinTemplate.joinQuery(wikiRepository,new String[]{"archivedUser","master","recycleUser"});
         }
 
         return wikiRepository;
@@ -313,7 +313,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
         List<WikiRepository> wikiRepositoryList =  BeanMapper.mapList(wikiRepositoryEntityList, WikiRepository.class);
 
-        joinTemplate.joinQuery(wikiRepositoryList);
+        joinTemplate.joinQuery(wikiRepositoryList,new String[]{"archivedUser","master","recycleUser"});
         return wikiRepositoryList;
     }
 
@@ -323,7 +323,6 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
         List<WikiRepository> wikiRepositoryList =  BeanMapper.mapList(wikiRepositoryEntityList, WikiRepository.class);
 
-        // joinTemplate.joinQuery(wikiRepositoryList);
         return wikiRepositoryList;
     }
 
@@ -333,7 +332,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
         List<WikiRepository> wikiRepositoryList =  BeanMapper.mapList(wikiRepositoryEntityList, WikiRepository.class);
 
-        joinTemplate.joinQuery(wikiRepositoryList);
+        joinTemplate.joinQuery(wikiRepositoryList,new String[]{"archivedUser","master","recycleUser"});
         return wikiRepositoryList;
     }
 
@@ -353,7 +352,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
         List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(wikiRepositoryEntityList, WikiRepository.class);
 
-        joinTemplate.joinQuery(wikiRepositoryList);
+        joinTemplate.joinQuery(wikiRepositoryList,new String[]{"archivedUser","master","recycleUser"});
 
         return wikiRepositoryList;
     }
@@ -373,7 +372,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
         List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(pagination.getDataList(), WikiRepository.class);
 
-        joinTemplate.joinQuery(wikiRepositoryList);
+        joinTemplate.joinQuery(wikiRepositoryList,new String[]{"archivedUser","master","recycleUser"});
 
         return PaginationBuilder.build(pagination, wikiRepositoryList);
     }
@@ -384,7 +383,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         wikiRepositoryQuery.setMasterId(createUserId);
         List<WikiRepositoryEntity> recentRepositoryList = wikiRepositoryDao.findRecentRepositoryList(wikiRepositoryQuery);
         List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(recentRepositoryList, WikiRepository.class);
-        joinTemplate.joinQuery(wikiRepositoryList);
+        joinTemplate.joinQuery(wikiRepositoryList,new String[]{"archivedUser","master","recycleUser"});
 
         return  wikiRepositoryList;
     }
@@ -397,7 +396,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         long aTime1 = System.currentTimeMillis();
         List<WikiRepositoryEntity> recentRepositoryList = wikiRepositoryDao.findRecentRepositoryList(wikiRepositoryQuery);
         List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(recentRepositoryList, WikiRepository.class);
-        joinTemplate.joinQuery(wikiRepositoryList);
+        joinTemplate.joinQuery(wikiRepositoryList,new String[]{"archivedUser","master","recycleUser"});
         long bTime1 = System.currentTimeMillis();
 
         logger.info("joinQuery cost time:{}",bTime1-aTime1);
@@ -475,7 +474,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
             }
 
         }
-        joinTemplate.joinQuery(wikiRepositoryList);
+        joinTemplate.joinQuery(wikiRepositoryList,new String[]{"archivedUser","master","recycleUser"});
 
         return wikiRepositoryList;
     }

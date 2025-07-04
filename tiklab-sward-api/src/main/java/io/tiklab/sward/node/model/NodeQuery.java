@@ -42,6 +42,7 @@ public class NodeQuery extends BaseModel {
 
     @ApiProperty(name ="dimension",desc = "层级")
     private Integer dimension;
+
     @ApiProperty(name ="dimensions",desc = "层级")
     private Integer[] dimensions;
 
@@ -50,6 +51,9 @@ public class NodeQuery extends BaseModel {
 
     @ApiProperty(name ="treePath",desc = "路径")
     private String treePath;
+
+    @ApiProperty(name ="docTypes",desc = "类型列表")
+    private String[] docTypes;
 
     @ApiProperty(name ="masterId",desc = "负责人")
     private String masterId;
@@ -78,6 +82,14 @@ public class NodeQuery extends BaseModel {
 
     @ApiProperty(name ="pageParam",desc = "分页参数")
     private Page pageParam = new Page();
+
+    public String[] getDocTypes() {
+        return docTypes;
+    }
+
+    public void setDocTypes(String[] docTypes) {
+        this.docTypes = docTypes;
+    }
 
     public String getApprove() {
         return approve;

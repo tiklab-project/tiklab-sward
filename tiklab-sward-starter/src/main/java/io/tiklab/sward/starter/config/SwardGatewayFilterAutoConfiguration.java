@@ -67,7 +67,9 @@ public class SwardGatewayFilterAutoConfiguration {
                     "/message/messageItem/syncDeleteMessage",
                     "/init/install/findStatus",
                     "/openapi/doc",
-                    "/actuator/shutdown"
+                    "/actuator/shutdown",
+                    "/wiki/kanass",
+                    "/node/findNodeList"
             })
             .ignorePreUrls(new String[]{
                     "/apis/list",
@@ -84,9 +86,11 @@ public class SwardGatewayFilterAutoConfiguration {
                     "/systemUrl",
                     "/image",
                     "/dfs",
+                    "/wiki/kanass",
                     "/document/download/file",
                     "/import/confluence/analysisEntityXml",
-                    "/import/confluence/importJiraData"
+                    "/import/confluence/importJiraData",
+                    "/node/findNodeList"
             })
             .get();
     }

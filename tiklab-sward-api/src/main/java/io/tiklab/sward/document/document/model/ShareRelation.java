@@ -30,8 +30,6 @@ public class ShareRelation extends BaseModel{
     @ApiProperty(name="nodeIds",desc="id")
     private String[] nodeIds;
 
-
-
     @ApiProperty(name="node",desc="文档",required = true)
     @Mappings({
             @Mapping(source = "node.id",target = "nodeId")

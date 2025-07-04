@@ -27,6 +27,7 @@ CREATE TABLE wiki_approve_user(
   update_time timestamp ,
   status VARCHAR(64) ,
   user_id VARCHAR(64) ,
+  doc_id VARCHAR(64) ,
   message VARCHAR(600)
 );
 
@@ -38,3 +39,15 @@ CREATE TABLE wiki_approve_rpy(
 );
 
 
+DROP TABLE IF EXISTS wiki_share;
+
+CREATE TABLE wiki_share(
+    id VARCHAR(12) PRIMARY KEY,
+    auth_code varchar(6),
+    name varchar(256),
+    create_time timestamp,
+    rpy_id VARCHAR(12),
+    type VARCHAR(12),
+    user_id VARCHAR(12),
+    limits VARCHAR(8)
+);

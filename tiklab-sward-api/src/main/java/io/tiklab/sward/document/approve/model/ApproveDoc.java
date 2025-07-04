@@ -1,6 +1,7 @@
 package io.tiklab.sward.document.approve.model;
 
 import io.tiklab.sward.document.document.model.WikiDocument;
+import io.tiklab.sward.node.model.Node;
 import io.tiklab.toolkit.beans.annotation.Mapper;
 import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
@@ -21,8 +22,18 @@ public class ApproveDoc {
     @JoinField(key = "id")
     private WikiDocument wikiDocument;
 
+    private Node node;
+
     // wait：等待审批 pass：已通过 reject：被拒绝
     private String status;
+
+    public Node getNode() {
+        return node;
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
+    }
 
     public String getId() {
         return id;

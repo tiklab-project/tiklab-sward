@@ -6,6 +6,10 @@ import io.tiklab.sward.document.document.model.Share;
 import io.tiklab.sward.document.document.model.ShareQuery;
 import io.tiklab.sward.node.model.Node;
 import io.tiklab.sward.node.model.NodeQuery;
+import io.tiklab.toolkit.join.annotation.FindAll;
+import io.tiklab.toolkit.join.annotation.FindList;
+import io.tiklab.toolkit.join.annotation.FindOne;
+import io.tiklab.toolkit.join.annotation.JoinProvider;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -14,6 +18,7 @@ import java.util.List;
 /**
 * ShareService
 */
+@JoinProvider(model = Share.class)
 public interface ShareService {
 
     /**
@@ -35,8 +40,10 @@ public interface ShareService {
     */
     void deleteShare(@NotNull String id);
 
+    @FindOne
     Share findOne(@NotNull String id);
 
+    @FindList
     List<Share> findList(List<String> idList);
 
     /**
@@ -50,6 +57,7 @@ public interface ShareService {
     * 查找所有
     * @return
     */
+    @FindAll
     List<Share> findAllShare();
 
     /**

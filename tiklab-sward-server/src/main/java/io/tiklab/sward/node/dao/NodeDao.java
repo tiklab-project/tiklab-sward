@@ -248,6 +248,13 @@ public class NodeDao {
             sql = sql.concat(" and not id in (" + ids + ") ");
         }
 
+        if (!Objects.isNull(query.getDocTypes()) && query.getDocTypes().length !=0 ){
+            String ids = Arrays.stream(query.getDocTypes())
+                    .map(id -> "'" + id + "'")
+                    .collect(Collectors.joining(","));
+            sql = sql.concat(" and document_type in (" + ids + ") ");
+        }
+
         if (!Objects.isNull(query.getRecycle())){
             sql = sql.concat(" and recycle = ?");
             params.add(query.getRecycle());
@@ -341,6 +348,13 @@ public class NodeDao {
         if (!Objects.isNull(query.getRecycle())){
             sql = sql.concat(" and recycle = ?");
             params.add(query.getRecycle());
+        }
+
+        if (!Objects.isNull(query.getDocTypes()) && query.getDocTypes().length !=0 ){
+            String ids = Arrays.stream(query.getDocTypes())
+                    .map(id -> "'" + id + "'")
+                    .collect(Collectors.joining(","));
+            sql = sql.concat(" and document_type in (" + ids + ") ");
         }
 
         if (!Objects.isNull(query.getDimensions())){

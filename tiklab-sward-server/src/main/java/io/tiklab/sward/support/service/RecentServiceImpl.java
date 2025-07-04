@@ -42,37 +42,31 @@ public class RecentServiceImpl implements RecentService {
         User user = new User();
         user.setId(LoginContext.getLoginId());
         recent.setMaster(user);
-        String id = new String();
+        String id;
         // 处理之前存储数据多于5条的情况
         String model = recent.getModel();
-        switch (model){
-            case "repository":
-                id = createRecentByCondition(recent, 5);
-                break;
-            case "document":
-                id = createRecentByCondition(recent, 10);
-                break;
-            default:
-                id = createRecentByCondition(recent, 10);
-                break;
-        }
+        id = switch (model) {
+            case "repository" -> createRecentByCondition(recent, 5);
+            case "document" -> createRecentByCondition(recent, 10);
+            default -> createRecentByCondition(recent, 10);
+        };
         return id;
     }
 
     public String createRecentByCondition(Recent recent, int num){
-        String id = new String();
+        String id = "";
         RecentQuery recentQuery = new RecentQuery();
         String modelId = recent.getModelId();
         String model = recent.getModel();
         recentQuery.setModel(model);
         recentQuery.setMasterId(LoginContext.getLoginId());
         List<Recent> recentList = findRecentList(recentQuery);
-        if(recentList.size() > 0){
+        if(!recentList.isEmpty()){
             List<Recent> recentList2  = new ArrayList<>();
             // 如果大于应该存在的条数，删掉多于的
             if(recentList.size() > num){
                 List<Recent> recentList1 = recentList.subList(num, recentList.size());
-                if(recentList1.size() >0){
+                if(!recentList1.isEmpty()){
                     String ids = "(" + recentList1.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
                     recentDao.deleteRecentByIds(ids);
                 }
@@ -87,7 +81,7 @@ public class RecentServiceImpl implements RecentService {
                 List<Recent> recentList3 = recentList2.stream()
                         .filter(recent1 -> recent1.getModelId().equals(modelId))
                         .collect(Collectors.toList());
-                if(recentList3.size() > 0){
+                if(!recentList3.isEmpty()){
                     Recent recent1 = recentList3.get(0);
                     id = recent1.getId();
                     recent.setId(recent1.getId());

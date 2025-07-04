@@ -27,6 +27,12 @@ public interface ApproveService {
      * @param approve 
      */
     void updateApprove(Approve approve);
+
+    /**
+     * 更新仓库审批
+     * @param approveUser
+     */
+    void updateApproveStatus(ApproveUser approveUser);
     
     
     /**

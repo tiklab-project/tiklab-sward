@@ -43,6 +43,16 @@ public class ApproveUser {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp updateTime;
 
+    private String allStatus;
+
+    public String getAllStatus() {
+        return allStatus;
+    }
+
+    public void setAllStatus(String allStatus) {
+        this.allStatus = allStatus;
+    }
+
     public String getId() {
         return id;
     }

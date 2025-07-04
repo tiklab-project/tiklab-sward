@@ -71,16 +71,14 @@ public class DocumentFocusServiceImpl implements DocumentFocusService {
     public DocumentFocus findOne(String id) {
         DocumentFocusEntity wikiDocumentFocusEntity = wikiDocumentFocusDao.findDocumentFocus(id);
 
-        DocumentFocus wikiDocumentFocus = BeanMapper.map(wikiDocumentFocusEntity, DocumentFocus.class);
-        return wikiDocumentFocus;
+        return BeanMapper.map(wikiDocumentFocusEntity, DocumentFocus.class);
     }
 
     @Override
     public List<DocumentFocus> findList(List<String> idList) {
         List<DocumentFocusEntity> wikiDocumentFocusEntityList =  wikiDocumentFocusDao.findDocumentFocusList(idList);
 
-        List<DocumentFocus> wikiDocumentFocusList =  BeanMapper.mapList(wikiDocumentFocusEntityList, DocumentFocus.class);
-        return wikiDocumentFocusList;
+        return BeanMapper.mapList(wikiDocumentFocusEntityList, DocumentFocus.class);
     }
 
     @Override

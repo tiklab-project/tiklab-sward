@@ -365,8 +365,6 @@ public class NodeServiceImpl implements NodeService {
     public Node findNodeNoQuery(@NotNull String id) {
         Node node = findOne(id);
 
-        // joinTemplate.joinQuery(node);
-
         return node;
     }
 
@@ -376,7 +374,7 @@ public class NodeServiceImpl implements NodeService {
 
         List<Node> nodeList =  BeanMapper.mapList(nodeEntityList, Node.class);
 
-        // joinTemplate.joinQuery(nodeList);
+        joinTemplate.joinQuery(nodeList,new String[]{"wikiRepository","master","parent","archivedUser","recycleUser"});
 
         return nodeList;
     }

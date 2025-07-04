@@ -101,7 +101,7 @@ public class ApproveDocDao {
         QueryCondition queryCondition = QueryBuilders.createQuery(ApproveDocEntity.class)
                 .eq("status", query.getStatus())
                 .eq("approveId", query.getApproveId())
-                .eq("docId", query.getDocId())
+                .eq("documentId", query.getDocId())
                 .orders(query.getOrderParams())
                 .get();
         List<ApproveDocEntity> entityList = jpaTemplate.findList(queryCondition, ApproveDocEntity.class);
@@ -121,7 +121,7 @@ public class ApproveDocDao {
         QueryCondition queryCondition = QueryBuilders.createQuery(ApproveDocEntity.class)
                 .eq("status", query.getStatus())
                 .eq("approveId", query.getApproveId())
-                .eq("docId", query.getDocId())
+                .eq("documentId", query.getDocId())
                 .orders(query.getOrderParams())
                 .pagination(query.getPageParam())
                 .get();

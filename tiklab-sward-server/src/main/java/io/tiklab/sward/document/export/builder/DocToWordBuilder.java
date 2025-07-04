@@ -328,12 +328,22 @@ public class DocToWordBuilder {
             wordImage.setPath(url);
             wordImage.setFileName(UuidGenerator.getRandomIdByUUID(12)+".png");
         } else {
+
+            String fileName;
+            String objectId;
             try {
-                String objectId = url.replace("/image/", "");
+                objectId = url.replace("/image/", "");
 
                 DfsObjectMeta dfsObjectMeta = dfsClient.findMeta(objectId);
-                String fileName = dfsObjectMeta.getFileName();
+
+                fileName = objectId + "_" + dfsObjectMeta.getFileName();
+            }catch (Exception e){
+                throw new SystemException("下载图片："+e);
+            }
+
+            try {
                 String filePath = dataHome + "/export/"+fileName;
+
                 FileOutputStream fileOutputStream = new FileOutputStream(filePath);
                 FindRequest findRequest = new FindRequest(objectId,fileOutputStream);
                 dfsClient.find(findRequest);

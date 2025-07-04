@@ -26,7 +26,7 @@ public class Approve {
     // 文档类型   项目 project  文档 document
     private String type;
 
-    // 审核状态  待审核 pending , 审核中 review , 通过 complete
+    // 审核状态  待审核 pending , 审核中 review , 完成 complete
     private String status;
 
     // 仓库Id
@@ -59,6 +59,28 @@ public class Approve {
 
     // 文档信息
     private List<ApproveDoc> approveDocList;
+
+    // 所有评审数量
+    private Integer allApproveNumber;
+
+    // 已评审数量
+    private Integer alreadyApproveNumber;
+
+    public Integer getAllApproveNumber() {
+        return allApproveNumber;
+    }
+
+    public void setAllApproveNumber(Integer allApproveNumber) {
+        this.allApproveNumber = allApproveNumber;
+    }
+
+    public Integer getAlreadyApproveNumber() {
+        return alreadyApproveNumber;
+    }
+
+    public void setAlreadyApproveNumber(Integer alreadyApproveNumber) {
+        this.alreadyApproveNumber = alreadyApproveNumber;
+    }
 
     public String getId() {
         return id;
