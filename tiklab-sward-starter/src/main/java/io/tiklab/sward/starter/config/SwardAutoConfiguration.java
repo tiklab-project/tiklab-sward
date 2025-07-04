@@ -92,12 +92,6 @@ public class SwardAutoConfiguration {
 
     private static Logger logger = LoggerFactory.getLogger(SwardAutoConfiguration.class);
 
-}
-
-
-@Configuration
-class SwardBackupsConfiguration {
-
 
     @Value("${DATA_HOME}")
     private String dataHome;
@@ -108,12 +102,6 @@ class SwardBackupsConfiguration {
                 .addPath(DFS,dataHome+"/files")
                 .get();
     }
-
-}
-
-
-@Configuration
-class SwardFileConfigure {
 
     @Bean
     public MultipartConfigElement multipartConfig() {
@@ -126,11 +114,6 @@ class SwardFileConfigure {
         return factory.createMultipartConfig();
     }
 
-}
-
-
-@Configuration
-class SwardPostInClientConfiguration {
 
     @Bean
     PostInClientConfig postInClientConfig(ParamConfig paramConfig){
@@ -156,51 +139,5 @@ class SwardPostInClientConfiguration {
 }
 
 
-@Component
-class TaskInitDss implements DsmProcessTask {
 
-    @Autowired
-    DssInitIndex initIndex;
-
-
-    // @Override
-    public void execute() {
-        initIndex.execute();
-    }
-}
-
-@Component
-class TaskPrivilege implements DsmProcessTask  {
-
-    @Autowired
-    RoleService roleService;
-
-    @Autowired
-    DmRoleService dmRoleService;
-
-
-    public void run() {
-        String roleId = "2";
-        RoleQuery roleQuery = new RoleQuery();
-        roleQuery.setParentId(roleId);
-        roleQuery.setType("2");
-        roleQuery.setScope(2);
-        List<Role> roleList = roleService.findRoleList(roleQuery);
-        for (Role role : roleList) {
-            DmRoleQuery dmRoleQuery = new DmRoleQuery();
-            dmRoleQuery.setRoleId(role.getId());
-            List<DmRole> dmRoleList = dmRoleService.findDmRoleListNoQuery(dmRoleQuery);
-
-            for (DmRole dmRole : dmRoleList) {
-                dmRoleService.deleteDmRole(dmRole.getId());
-            }
-        }
-        roleService.deleteRole(roleId);
-    }
-
-    // @Override
-    public void execute() {
-        run();
-    }
-}
 

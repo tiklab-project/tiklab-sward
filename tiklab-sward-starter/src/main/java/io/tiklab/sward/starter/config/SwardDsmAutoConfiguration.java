@@ -4,6 +4,7 @@ import io.tiklab.dsm.model.DsmConfig;
 import io.tiklab.dsm.model.DsmVersion;
 import io.tiklab.dsm.support.DsmVersionBuilder;
 import io.tiklab.sward.support.support.DssInitIndex;
+import io.tiklab.sward.support.util.task.TaskPrivilege;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
