@@ -1,7 +1,6 @@
 package io.tiklab.sward.support.support;
 
 import io.tiklab.dsm.support.DsmProcessTask;
-import io.tiklab.dss.init.executer.IndexInitCallback;
 import io.tiklab.sward.node.model.Node;
 import io.tiklab.sward.node.service.NodeService;
 import io.tiklab.sward.repository.service.WikiRepositoryService;

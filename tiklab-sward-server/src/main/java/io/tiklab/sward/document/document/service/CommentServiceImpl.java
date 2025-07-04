@@ -89,7 +89,7 @@ public class CommentServiceImpl implements CommentService {
     public Comment findComment(@NotNull String id) {
         Comment comment = findOne(id);
 
-        joinTemplate.joinQuery(comment);
+        joinTemplate.joinQuery(comment,new String[]{"wikiDocument","user","aimAtUser"});
         return comment;
     }
 
@@ -99,7 +99,7 @@ public class CommentServiceImpl implements CommentService {
 
         List<Comment> commentList =  BeanMapper.mapList(commentEntityList,Comment.class);
 
-        joinTemplate.joinQuery(commentList);
+        joinTemplate.joinQuery(commentList,new String[]{"wikiDocument","user","aimAtUser"});
         return commentList;
     }
 
@@ -109,7 +109,7 @@ public class CommentServiceImpl implements CommentService {
 
         List<Comment> commentList = BeanMapper.mapList(commentEntityList,Comment.class);
 
-        joinTemplate.joinQuery(commentList);
+        joinTemplate.joinQuery(commentList,new String[]{"wikiDocument","user","aimAtUser"});
 
         return commentList;
     }
@@ -120,7 +120,7 @@ public class CommentServiceImpl implements CommentService {
         Pagination<CommentEntity> pagination = commentDao.findCommentPage(commentQuery);
 
         List<Comment> commentList = BeanMapper.mapList(pagination.getDataList(),Comment.class);
-        joinTemplate.joinQuery(commentList);
+        joinTemplate.joinQuery(commentList,new String[]{"wikiDocument","user","aimAtUser"});
 
         for (Comment comment : commentList) {
             String id = comment.getId();
@@ -139,12 +139,11 @@ public class CommentServiceImpl implements CommentService {
         Pagination<CommentEntity> pagination = commentDao.findCommentPage(commentQuery);
 
         List<Comment> commentList = BeanMapper.mapList(pagination.getDataList(),Comment.class);
-        joinTemplate.joinQuery(commentList);
+        joinTemplate.joinQuery(commentList,new String[]{"wikiDocument","user","aimAtUser"});
 
         if(!commentList.isEmpty()){
             String commentIds = "(" + commentList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
             List<CommentEntity> commentChildrenList = commentDao.findCommentChildren(commentIds);
-            joinTemplate.joinQuery(commentChildrenList);
             for (Comment comment : commentList) {
                 String id = comment.getId();
 //            commentQuery.setFirstCommentNull(false);
@@ -152,7 +151,7 @@ public class CommentServiceImpl implements CommentService {
                 List<CommentEntity> listEntity = commentChildrenList.stream().filter(chidrenComment -> chidrenComment.getParentCommentId().equals(id)).collect(Collectors.toList());
 
                 List<Comment> comments = BeanMapper.mapList(listEntity, Comment.class);
-                joinTemplate.joinQuery(comments);
+                joinTemplate.joinQuery(comments,new String[]{"wikiDocument","user","aimAtUser"});
                 comment.setCommentList(comments);
             }
         }
@@ -168,7 +167,7 @@ public class CommentServiceImpl implements CommentService {
         Pagination<CommentEntity> pagination = commentDao.findCommentPage(commentQuery);
 
         List<Comment> commentList = BeanMapper.mapList(pagination.getDataList(),Comment.class);
-        joinTemplate.joinQuery(commentList);
+        joinTemplate.joinQuery(commentList,new String[]{"wikiDocument","user","aimAtUser"});
 
 
         List<Comment> fistOneComment = findComment(commentList);
@@ -221,7 +220,7 @@ public class CommentServiceImpl implements CommentService {
 //                    }
                 }
                 List<Like> likes = BeanMapper.mapList(likeList, Like.class);
-                joinTemplate.joinQuery(likes);
+                joinTemplate.joinQuery(likes,new String[]{"likeUser"});
                 List<User> userList = likes.stream().map(Like::getLikeUser).collect(Collectors.toList());
                 if (!userList.isEmpty()){
                     //取点赞人名字

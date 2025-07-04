@@ -12,13 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwardGatewayFilterAutoConfiguration {
 
-    @Bean
-    AuthorHandler authorHandler(Authenticator authenticator, IgnoreConfig ignoreConfig){
-        DefaultAuthorHandler authorHandler = new DefaultAuthorHandler();
-        authorHandler.setAuthenticator(authenticator);
-        authorHandler.setIgnoreConfig(ignoreConfig);
-        return authorHandler;
-    }
 
     @Bean
     GatewayConfig gatewayConfig(IgnoreConfig ignoreConfig){

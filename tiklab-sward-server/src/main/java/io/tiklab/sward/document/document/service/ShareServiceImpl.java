@@ -214,9 +214,9 @@ public class ShareServiceImpl implements ShareService {
             throw new SystemException("该分享不存在！");
         }
         if (share.getLimits().equals("private")){
-            return "true";
+            return "false";
         }
-        return "false";
+        return "true";
     }
 
     @Override
