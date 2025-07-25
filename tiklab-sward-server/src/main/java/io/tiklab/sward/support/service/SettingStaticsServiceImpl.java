@@ -14,7 +14,7 @@ import io.tiklab.sward.repository.model.WikiRepositoryQuery;
 import io.tiklab.sward.repository.service.WikiRepositoryService;
 import io.tiklab.user.directory.service.UserDirService;
 import io.tiklab.user.orga.service.OrgaService;
-import io.tiklab.user.user.service.UserService;
+import io.tiklab.user.user.service.UserProcessor;
 import io.tiklab.user.usergroup.service.UserGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +27,9 @@ import java.util.List;
  */
 @Service
 public class SettingStaticsServiceImpl implements SettingStaticsService{
+
     @Autowired
-    UserService userService;
+    UserProcessor userService;
 
     @Autowired
     OrgaService orgaService;

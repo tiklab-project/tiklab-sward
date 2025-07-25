@@ -6,17 +6,17 @@ app:
 server:
   port: 10000
 
-#jdbc:
-#  driverClassName: org.postgresql.Driver
-#  url: jdbc:postgresql://172.10.1.10:5432/tiklab_sward?stringtype=unspecified
-#  username: postgres
-#  password: darth2020
-
 jdbc:
-  driverClassName: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://172.10.1.10:3306/tiklab_sward?characterEncoding=utf8&useSSL=false
-  username: root
+  driverClassName: org.postgresql.Driver
+  url: jdbc:postgresql://172.10.1.10:5432/tiklab_sward?stringtype=unspecified
+  username: postgres
   password: darth2020
+
+#jdbc:
+#  driverClassName: com.mysql.cj.jdbc.Driver
+#  url: jdbc:mysql://172.10.1.10:3306/tiklab_sward?characterEncoding=utf8&useSSL=false
+#  username: root
+#  password: darth2020
 
 postgresql:
   type: local

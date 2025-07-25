@@ -31,7 +31,8 @@ import io.tiklab.user.dmUser.model.DmUser;
 import io.tiklab.user.dmUser.model.DmUserQuery;
 import io.tiklab.user.dmUser.service.DmUserService;
 import io.tiklab.user.user.model.User;
-import io.tiklab.user.user.service.UserService;
+import io.tiklab.user.user.service.UserProcessor;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +75,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     DssClient dssClient;
 
     @Autowired
-    UserService userService;
+    UserProcessor userService;
 
     @Autowired
     WikiRepositoryFocusService wikiRepositoryFocusService;
@@ -340,7 +341,10 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     @Override
     public List<WikiRepository> findRepositoryListByUser(WikiRepositoryQuery wikiRepositoryQuery) {
 
-        String userId = LoginContext.getLoginId();
+        String userId = wikiRepositoryQuery.getUserId();
+        if(StringUtils.isEmpty(userId)){
+            userId = LoginContext.getLoginId();
+        }
         DmUserQuery dmUserQuery = new DmUserQuery();
         dmUserQuery.setUserId(userId);
         List<DmUser> dmUserList = dmUserService.findDmUserList(dmUserQuery);
@@ -360,12 +364,14 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     @Override
     public Pagination<WikiRepository> findRepositoryPage(WikiRepositoryQuery wikiRepositoryQuery) {
 
-        String userId = LoginContext.getLoginId();
+        String userId = wikiRepositoryQuery.getUserId();
+        if(StringUtils.isEmpty(userId)){
+            userId = LoginContext.getLoginId();
+        }
         DmUserQuery dmUserQuery = new DmUserQuery();
         dmUserQuery.setUserId(userId);
         List<DmUser> dmUserList = dmUserService.findDmUserList(dmUserQuery);
-        List<String> collect = dmUserList.stream().map(DmUser::getDomainId).collect(Collectors.toList());
-        String[] arr = collect.toArray(new String[collect.size()]);
+        String[] arr = dmUserList.stream().map(DmUser::getDomainId).toArray(String[]::new);
         wikiRepositoryQuery.setRepositoryIds(arr);
 
         Pagination<WikiRepositoryEntity>  pagination = wikiRepositoryDao.findRepositoryPage(wikiRepositoryQuery);

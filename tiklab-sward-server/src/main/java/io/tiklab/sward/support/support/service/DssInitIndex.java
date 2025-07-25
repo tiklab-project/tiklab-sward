@@ -1,4 +1,4 @@
-package io.tiklab.sward.support.support;
+package io.tiklab.sward.support.support.service;
 
 import io.tiklab.dsm.support.DsmProcessTask;
 import io.tiklab.sward.node.model.Node;

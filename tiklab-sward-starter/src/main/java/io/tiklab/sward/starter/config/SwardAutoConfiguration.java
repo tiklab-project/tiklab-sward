@@ -2,19 +2,12 @@ package io.tiklab.sward.starter.config;
 
 import io.tiklab.dfs.boot.starter.annotation.EnableDfsInit;
 import io.tiklab.dsm.boot.starter.annotation.EnableDsm;
-import io.tiklab.dsm.support.DsmProcessTask;
 import io.tiklab.dss.boot.starter.annotation.EnableDssInit;
 import io.tiklab.install.spring.boot.starter.EnableInstallServer;
 import io.tiklab.postgresql.spring.boot.starter.EnablePostgresql;
 import io.tiklab.postin.client.openapi.ParamConfig;
 import io.tiklab.postin.client.openapi.ParamConfigBuilder;
 import io.tiklab.postin.client.openapi.PostInClientConfig;
-import io.tiklab.privilege.dmRole.model.DmRole;
-import io.tiklab.privilege.dmRole.model.DmRoleQuery;
-import io.tiklab.privilege.dmRole.service.DmRoleService;
-import io.tiklab.privilege.role.model.Role;
-import io.tiklab.privilege.role.model.RoleQuery;
-import io.tiklab.privilege.role.service.RoleService;
 import io.tiklab.security.backups.config.BackupsConfig;
 import io.tiklab.sward.EnableSwardServer;
 import io.tiklab.dal.boot.starter.annotation.EnableDal;
@@ -34,25 +27,21 @@ import io.tiklab.postin.client.EnablePostInClient;
 import io.tiklab.privilege.boot.starter.annotation.EnablePrivilegeServer;
 import io.tiklab.rpc.boot.starter.annotation.EnableRpc;
 import io.tiklab.security.boot.stater.annotation.EnableSecurityServer;
-import io.tiklab.sward.support.support.DssInitIndex;
 import io.tiklab.toolkit.boot.starter.annotation.EnableToolkit;
 import io.tiklab.user.boot.starter.annotation.EnableUserClient;
 import io.tiklab.user.boot.starter.annotation.EnableUserServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.util.unit.DataSize;
 
 import javax.servlet.MultipartConfigElement;
 
 import java.util.HashMap;
-import java.util.List;
 
 import static io.tiklab.security.backups.util.BackupsFinal.DFS;
 

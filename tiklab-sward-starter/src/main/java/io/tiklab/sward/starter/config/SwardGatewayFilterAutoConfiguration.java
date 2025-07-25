@@ -62,6 +62,10 @@ public class SwardGatewayFilterAutoConfiguration {
                     "/openapi/doc",
                     "/actuator/shutdown",
                     "/wiki/kanass",
+                    "/node/findNodeList",
+                    "/import/confluence/uploadFile",
+                    "/import/confluence/analysisEntityXml",
+                    "/import/confluence/importJiraData",
                     "/node/findNodeList"
             })
             .ignorePreUrls(new String[]{
@@ -81,9 +85,6 @@ public class SwardGatewayFilterAutoConfiguration {
                     "/dfs",
                     "/wiki/kanass",
                     "/document/download/file",
-                    "/import/confluence/analysisEntityXml",
-                    "/import/confluence/importJiraData",
-                    "/node/findNodeList"
             })
             .get();
     }

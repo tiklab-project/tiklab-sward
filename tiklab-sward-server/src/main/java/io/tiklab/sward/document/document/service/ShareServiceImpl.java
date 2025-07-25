@@ -204,7 +204,7 @@ public class ShareServiceImpl implements ShareService {
         if (!share.getAuthCode().equals(shareQuery.getAuthCode())){
             throw new SystemException("密码错误！");
         }
-        return share.getId();
+        return "true";
     }
 
     @Override

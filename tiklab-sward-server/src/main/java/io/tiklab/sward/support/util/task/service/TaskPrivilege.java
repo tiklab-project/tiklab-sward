@@ -1,4 +1,4 @@
-package io.tiklab.sward.support.util.task;
+package io.tiklab.sward.support.util.task.service;
 
 import io.tiklab.dsm.support.DsmProcessTask;
 import io.tiklab.privilege.dmRole.model.DmRole;

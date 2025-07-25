@@ -8,10 +8,6 @@ import io.tiklab.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.tiklab.security.logging.logging.model.Logging;
 import io.tiklab.security.logging.logging.model.LoggingType;
 import io.tiklab.security.logging.logging.service.LoggingByTempService;
-import io.tiklab.security.logging.logging.service.LoggingService;
-import io.tiklab.sward.document.approve.dao.ApproveDocDao;
-import io.tiklab.sward.document.approve.entity.ApproveDocEntity;
-import io.tiklab.sward.document.approve.model.ApproveQuery;
 import io.tiklab.sward.document.document.dao.DocumentDao;
 import io.tiklab.sward.document.document.model.*;
 import io.tiklab.dal.jpa.JpaTemplate;
@@ -29,7 +25,7 @@ import io.tiklab.sward.support.model.RecentQuery;
 import io.tiklab.sward.support.service.RecentService;
 import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.user.user.model.User;
-import io.tiklab.user.user.service.UserService;
+import io.tiklab.user.user.service.UserProcessor;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +67,7 @@ public class DocumentServiceImpl implements DocumentService {
     JoinTemplate joinTemplate;
 
     @Autowired
-    UserService userService;
+    UserProcessor userService;
 
     @Autowired
     RecentService recentService;

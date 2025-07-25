@@ -1,7 +1,7 @@
-package io.tiklab.sward.support.util.task;
+package io.tiklab.sward.support.util.task.service;
 
 import io.tiklab.dsm.support.DsmProcessTask;
-import io.tiklab.sward.support.support.DssInitIndex;
+import io.tiklab.sward.support.support.service.DssInitIndex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

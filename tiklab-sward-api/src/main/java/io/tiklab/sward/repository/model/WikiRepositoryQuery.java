@@ -39,6 +39,28 @@ public class WikiRepositoryQuery extends BaseModel {
     @ApiProperty(name ="recycle",desc = "是否逻辑删除")
     private String recycle = "0";
 
+    // 用户id
+    private String userId;
+
+    // 收藏
+    private String collect;
+
+    public String getCollect() {
+        return collect;
+    }
+
+    public void setCollect(String collect) {
+        this.collect = collect;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public List<Order> getOrderParams() {
         return orderParams;
     }

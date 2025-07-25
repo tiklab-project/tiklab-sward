@@ -184,6 +184,7 @@ public class WikiRepositoryDao {
             return;
         }
     }
+
     public void deleteRepository(DeleteCondition deleteCondition){
         jpaTemplate.delete(deleteCondition);
     }
@@ -226,7 +227,7 @@ public class WikiRepositoryDao {
                 .get();
         QueryCondition queryCondition = queryBuilders.or(orQueryBuildCondition)
                 .eq("master", wikiRepositoryQuery.getMasterId())
-                .like("name", wikiRepositoryQuery.getName())
+                .like("name", wikiRepositoryQuery.getName(),false)
                 .eq("status", wikiRepositoryQuery.getStatus())
                 .eq("recycle", wikiRepositoryQuery.getRecycle())
                 .orders(wikiRepositoryQuery.getOrderParams())
@@ -237,16 +238,16 @@ public class WikiRepositoryDao {
 
     public Pagination<WikiRepositoryEntity> findRepositoryPage(WikiRepositoryQuery wikiRepositoryQuery) {
 
-        QueryBuilders queryBuilders = QueryBuilders.createQuery(WikiRepositoryEntity.class, "rs");
-        OrQueryCondition orQueryBuildCondition = OrQueryBuilders.instance()
-                .eq("limits",0)
-                .in("id", wikiRepositoryQuery.getRepositoryIds())
-                .get();
-        QueryCondition queryCondition = queryBuilders.or(orQueryBuildCondition)
-                .eq("status", wikiRepositoryQuery.getStatus())
-                .eq("recycle", wikiRepositoryQuery.getRecycle())
-                .orders(wikiRepositoryQuery.getOrderParams())
+        QueryCondition queryCondition =  QueryBuilders.createQuery(WikiRepositoryEntity.class, "wr")
+                .leftJoin(WikiRepositoryFocusEntity.class,"rf","rf.repositoryId=wr.id")
+                .like("wr.name", wikiRepositoryQuery.getName(),false)
+                .eq("rf.masterId", wikiRepositoryQuery.getCollect())
+                .eq("wr.master", wikiRepositoryQuery.getMasterId())
+                .eq("wr.status", wikiRepositoryQuery.getStatus())
+                .eq("wr.recycle", wikiRepositoryQuery.getRecycle())
+                .in("wr.id", wikiRepositoryQuery.getRepositoryIds())
                 .pagination(wikiRepositoryQuery.getPageParam())
+                .orders(wikiRepositoryQuery.getOrderParams())
                 .get();
         return jpaTemplate.findPage(queryCondition, WikiRepositoryEntity.class);
     }
@@ -267,7 +268,7 @@ public class WikiRepositoryDao {
     public List<WikiRepositoryEntity> findFocusRepositoryList(WikiRepositoryQuery wikiRepositoryQuery){
         QueryCondition queryBuilders =  QueryBuilders.createQuery(WikiRepositoryEntity.class, "wr")
                 .leftJoin(WikiRepositoryFocusEntity.class,"rf","rf.repositoryId=wr.id")
-                .like("wr.name", wikiRepositoryQuery.getName())
+                .like("wr.name", wikiRepositoryQuery.getName(),false)
                 .eq("rf.masterId", wikiRepositoryQuery.getMasterId())
                 .eq("wr.status", wikiRepositoryQuery.getStatus())
                 .eq("wr.recycle", wikiRepositoryQuery.getRecycle())
