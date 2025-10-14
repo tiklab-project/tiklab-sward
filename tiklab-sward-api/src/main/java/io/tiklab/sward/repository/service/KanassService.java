@@ -1,6 +1,6 @@
 package io.tiklab.sward.repository.service;
 
-import io.tiklab.sward.support.model.kanassProject;
+import io.tiklab.sward.support.support.model.kanassProject;
 
 import java.util.List;
 

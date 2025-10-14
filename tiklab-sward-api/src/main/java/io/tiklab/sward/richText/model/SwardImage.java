@@ -1,6 +1,5 @@
 package io.tiklab.sward.richText.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SwardImage {
@@ -11,9 +10,9 @@ public class SwardImage {
 
     private String url;
 
-    private Integer width;
+    private String width;
 
-    private Integer height;
+    private String height;
 
     public SwardImage() {
     }
@@ -51,19 +50,19 @@ public class SwardImage {
         this.url = url;
     }
 
-    public Integer getWidth() {
+    public String getWidth() {
         return width;
     }
 
-    public void setWidth(Integer width) {
+    public void setWidth(String width) {
         this.width = width;
     }
 
-    public Integer getHeight() {
+    public String getHeight() {
         return height;
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(String height) {
         this.height = height;
     }
 }

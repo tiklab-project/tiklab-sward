@@ -23,17 +23,12 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/documentTemplate")
-// @Api(name = "DocumentTemplateController",desc = "文档模板管理")
 public class DocumentTemplateController {
-
-    private static Logger logger = LoggerFactory.getLogger(DocumentTemplateController.class);
 
     @Autowired
     private DocumentTemplateService documentTemplateService;
 
     @RequestMapping(path="/createDocumentTemplate",method = RequestMethod.POST)
-    //@ApiMethod(name = "createDocumentTemplate",desc = "创建文档模板")
-    //@ApiParam(name = "documentTemplate",desc = "documentTemplate",required = true)
     public Result<String> createDocumentTemplate(@RequestBody @NotNull @Valid DocumentTemplate documentTemplate){
         String id = documentTemplateService.createDocumentTemplate(documentTemplate);
 
@@ -41,8 +36,6 @@ public class DocumentTemplateController {
     }
 
     @RequestMapping(path="/updateDocumentTemplate",method = RequestMethod.POST)
-    //@ApiMethod(name = "updateDocumentTemplate",desc = "修改文档模板")
-    //@ApiParam(name = "documentTemplate",desc = "documentTemplate",required = true)
     public Result<Void> updateDocumentTemplate(@RequestBody @NotNull @Valid DocumentTemplate documentTemplate){
         documentTemplateService.updateDocumentTemplate(documentTemplate);
 
@@ -50,8 +43,6 @@ public class DocumentTemplateController {
     }
 
     @RequestMapping(path="/deleteDocumentTemplate",method = RequestMethod.POST)
-    //@ApiMethod(name = "deleteDocumentTemplate",desc = "删除文档模板")
-    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<Void> deleteDocumentTemplate(@NotNull String id){
         documentTemplateService.deleteDocumentTemplate(id);
 
@@ -59,8 +50,6 @@ public class DocumentTemplateController {
     }
 
     @RequestMapping(path="/findDocumentTemplate",method = RequestMethod.POST)
-    //@ApiMethod(name = "findDocumentTemplate",desc = "通过id查询文档模板")
-    //@ApiParam(name = "id",desc = "id",required = true)
     public Result<DocumentTemplate> findDocumentTemplate(@NotNull String id){
         DocumentTemplate documentTemplate = documentTemplateService.findDocumentTemplate(id);
 
@@ -68,7 +57,6 @@ public class DocumentTemplateController {
     }
 
     @RequestMapping(path="/findAllDocumentTemplate",method = RequestMethod.POST)
-    //@ApiMethod(name = "findAllDocumentTemplate",desc = "查询所有文档模板")
     public Result<List<DocumentTemplate>> findAllDocumentTemplate(){
         List<DocumentTemplate> documentTemplateList = documentTemplateService.findAllDocumentTemplate();
 
@@ -76,8 +64,6 @@ public class DocumentTemplateController {
     }
 
     @RequestMapping(path = "/findDocumentTemplateList",method = RequestMethod.POST)
-    //@ApiMethod(name = "findDocumentTemplateList",desc = "通过查询对象查询文档模板")
-    //@ApiParam(name = "documentTemplateQuery",desc = "documentTemplateQuery",required = true)
     public Result<List<DocumentTemplate>> findDocumentTemplateList(@RequestBody @Valid @NotNull DocumentTemplateQuery documentTemplateQuery){
         List<DocumentTemplate> documentTemplateList = documentTemplateService.findDocumentTemplateList(documentTemplateQuery);
 
@@ -85,8 +71,6 @@ public class DocumentTemplateController {
     }
 
     @RequestMapping(path = "/findDocumentTemplatePage",method = RequestMethod.POST)
-    //@ApiMethod(name = "findDocumentTemplatePage",desc = "通过查询对象分页查询文档目模板")
-    //@ApiParam(name = "documentTemplateQuery",desc = "documentTemplateQuery",required = true)
     public Result<Pagination<DocumentTemplate>> findDocumentTemplatePage(@RequestBody @Valid @NotNull DocumentTemplateQuery documentTemplateQuery){
         Pagination<DocumentTemplate> pagination = documentTemplateService.findDocumentTemplatePage(documentTemplateQuery);
 

@@ -1,32 +1,29 @@
 package io.tiklab.sward.category.service;
 
-import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
-import io.tiklab.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
-import io.tiklab.sward.category.model.WikiCategory;
-import io.tiklab.sward.category.entity.WikiCategoryEntity;
-import io.tiklab.sward.category.model.WikiCategoryQuery;
-import io.tiklab.sward.document.document.model.DocumentQuery;
-import io.tiklab.sward.node.model.Node;
-import io.tiklab.sward.node.model.NodeQuery;
-import io.tiklab.sward.node.service.NodeService;
-import io.tiklab.sward.support.model.RecentQuery;
-import io.tiklab.sward.support.service.RecentService;
-import io.tiklab.toolkit.beans.BeanMapper;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.core.page.PaginationBuilder;
-import io.tiklab.toolkit.join.JoinTemplate;
+import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
+import io.tiklab.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.sward.category.dao.WikiCategoryDao;
+import io.tiklab.sward.category.entity.WikiCategoryEntity;
+import io.tiklab.sward.category.model.WikiCategory;
+import io.tiklab.sward.category.model.WikiCategoryQuery;
+import io.tiklab.sward.document.document.model.DocumentQuery;
 import io.tiklab.sward.document.document.service.DocumentService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.tiklab.sward.node.node.model.Node;
+import io.tiklab.sward.node.node.model.NodeQuery;
+import io.tiklab.sward.node.node.service.NodeService;
+import io.tiklab.sward.support.support.model.RecentQuery;
+import io.tiklab.sward.support.support.service.RecentService;
+import io.tiklab.toolkit.beans.BeanMapper;
+import io.tiklab.toolkit.join.JoinTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -37,7 +34,7 @@ import java.util.stream.Collectors;
 @Service
 @Exporter
 public class WikiCategoryServiceImpl implements WikiCategoryService {
-    private static Logger logger = LoggerFactory.getLogger(DocumentService.class);
+
     // 新建锁
     private final Lock lock = new ReentrantLock();
 
@@ -98,9 +95,9 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
         // 删除所有下级文档, 以及文档关联的数据
         List<Node> allChildrenNodeList = nodeService.findAllChildrenNodeList(id);
         List<Node> categoryList = allChildrenNodeList.stream().filter(item -> item.getType().equals("category")).collect(Collectors.toList());
-        List<String> categoryIdList = categoryList.stream().map(item -> item.getId()).collect(Collectors.toList());
+        List<String> categoryIdList = categoryList.stream().map(Node::getId).collect(Collectors.toList());
         categoryIdList.add(id);
-        if(categoryIdList.size() > 0){
+        if(!categoryIdList.isEmpty()){
             String[] categoryIds = categoryIdList.toArray(new String[categoryIdList.size()]);
             WikiCategoryQuery wikiCategoryQuery = new WikiCategoryQuery();
             wikiCategoryQuery.setIds(categoryIds);
@@ -111,8 +108,8 @@ public class WikiCategoryServiceImpl implements WikiCategoryService {
 
         // 删除所有文档
         allChildrenNodeList.removeAll(categoryIdList);
-        List<String> documentIdList = allChildrenNodeList.stream().map(item -> item.getId()).collect(Collectors.toList());
-        if(documentIdList.size() > 0){
+        List<String> documentIdList = allChildrenNodeList.stream().map(Node::getId).collect(Collectors.toList());
+        if(!documentIdList.isEmpty()){
             String[] documentIds = documentIdList.toArray(new String[documentIdList.size()]);
             DocumentQuery documentQuery = new DocumentQuery();
             documentQuery.setIds(documentIds);

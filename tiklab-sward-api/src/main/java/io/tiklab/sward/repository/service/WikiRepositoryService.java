@@ -26,6 +26,10 @@ public interface WikiRepositoryService {
     */
     String createRepository(@NotNull @Valid WikiRepository wikiRepository);
 
+
+    String createRepositoryByValidCreateUser(@NotNull @Valid WikiRepository wikiRepository);
+
+
     String createConfluRepository(@NotNull @Valid WikiRepository wikiRepository);
 
     /**
@@ -33,6 +37,12 @@ public interface WikiRepositoryService {
     * @param wikiRepository
     */
     void updateRepository(@NotNull @Valid WikiRepository wikiRepository);
+
+    /**
+     * 更新
+     * @param wikiRepository
+     */
+    void updateRepositoryNoMessage(@NotNull @Valid WikiRepository wikiRepository);
 
     /**
     * 删除
@@ -86,4 +96,8 @@ public interface WikiRepositoryService {
 
 
     Map<String, Integer> findRepositoryNum(WikiRepositoryQuery wikiRepositoryQuery);
+
+
+    Map<String, Integer> findRepositoryDocNumber();
+
 }

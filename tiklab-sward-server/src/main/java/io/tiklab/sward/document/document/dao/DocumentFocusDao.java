@@ -8,7 +8,7 @@ import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
 import io.tiklab.dal.jpa.criterial.condition.QueryCondition;
 import io.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import io.tiklab.sward.document.document.model.DocumentFocusQuery;
-import io.tiklab.sward.node.entity.NodeEntity;
+import io.tiklab.sward.node.node.entity.NodeEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

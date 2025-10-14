@@ -4,22 +4,22 @@ import io.tiklab.sward.document.document.dao.CommentDao;
 import io.tiklab.sward.document.document.dao.LikeDao;
 import io.tiklab.sward.document.document.entity.CommentEntity;
 import io.tiklab.sward.document.document.entity.LikeEntity;
-import io.tiklab.sward.document.document.model.Comment;
-import io.tiklab.sward.document.document.model.CommentQuery;
-import io.tiklab.sward.document.document.model.Like;
-import io.tiklab.sward.document.document.model.LikeQuery;
+import io.tiklab.sward.document.document.model.*;
 import io.tiklab.toolkit.beans.BeanMapper;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.core.page.PaginationBuilder;
 import io.tiklab.toolkit.join.JoinTemplate;
 import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.user.user.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +61,20 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteComment(@NotNull String id) {
+
+        Comment comment = findComment(id);
+        WikiDocument wikiDocument = comment.getWikiDocument();
+
+        CommentQuery commentQuery = new CommentQuery();
+        commentQuery.setParentCommentId(id);
+        List<Comment> commentList = findCommentList(commentQuery);
+
+        CommentQuery allCommentQuery = new CommentQuery();
+        allCommentQuery.setDocumentId(wikiDocument.getId());
+        List<CommentEntity> allCommentList = commentDao.findCommentList(allCommentQuery);
+
+        deleteCommentChild(commentList,allCommentList);
+
         commentDao.deleteComment(id);
     }
 
@@ -135,29 +149,59 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Pagination<Comment> findCommentTreePage(CommentQuery commentQuery) {
+
+        List<CommentEntity> allCommentList = commentDao.findCommentList(commentQuery);
+
         commentQuery.setFirstCommentNull(true);
         Pagination<CommentEntity> pagination = commentDao.findCommentPage(commentQuery);
 
         List<Comment> commentList = BeanMapper.mapList(pagination.getDataList(),Comment.class);
         joinTemplate.joinQuery(commentList,new String[]{"wikiDocument","user","aimAtUser"});
 
-        if(!commentList.isEmpty()){
-            String commentIds = "(" + commentList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
-            List<CommentEntity> commentChildrenList = commentDao.findCommentChildren(commentIds);
-            for (Comment comment : commentList) {
-                String id = comment.getId();
-//            commentQuery.setFirstCommentNull(false);
-//            commentQuery.setFirstOneCommentId(id);
-                List<CommentEntity> listEntity = commentChildrenList.stream().filter(chidrenComment -> chidrenComment.getParentCommentId().equals(id)).collect(Collectors.toList());
-
-                List<Comment> comments = BeanMapper.mapList(listEntity, Comment.class);
-                joinTemplate.joinQuery(comments,new String[]{"wikiDocument","user","aimAtUser"});
-                comment.setCommentList(comments);
-            }
+        for (Comment comment : commentList) {
+            List<Comment> resultCommentList = new ArrayList<>();
+            findCommentChild(comment,allCommentList,resultCommentList);
+            resultCommentList.sort(Comparator.comparing(Comment::getCreateTime).reversed());
+            comment.setCommentList(resultCommentList);
         }
 
-
         return PaginationBuilder.build(pagination,commentList);
+    }
+
+
+    private void findCommentChild(Comment comment,List<CommentEntity> allCommentList,List<Comment> resultCommentList){
+        String id = comment.getId();
+        List<CommentEntity> listEntity = allCommentList.stream()
+                .filter(chidrenComment -> !StringUtils.isEmpty(chidrenComment.getParentCommentId()))
+                .filter(chidrenComment -> chidrenComment.getParentCommentId().equals(id))
+                .collect(Collectors.toList());
+        List<Comment> comments = BeanMapper.mapList(listEntity, Comment.class);
+        joinTemplate.joinQuery(comments,new String[]{"user","aimAtUser"});
+
+        for (Comment comment1 : comments) {
+            findCommentChild(comment1,allCommentList,resultCommentList);
+        }
+        // comment.setCommentList(comments);
+        resultCommentList.addAll(comments);
+    }
+
+    private void deleteCommentChild(List<Comment> commentList,List<CommentEntity> allCommentList){
+        for (Comment comment : commentList) {
+            String id = comment.getId();
+            List<CommentEntity> listEntity = allCommentList.stream()
+                    .filter(chidrenComment -> !StringUtils.isEmpty(chidrenComment.getParentCommentId()))
+                    .filter(chidrenComment -> chidrenComment.getParentCommentId().equals(id))
+                    .collect(Collectors.toList());
+            if (listEntity.isEmpty()){
+                commentDao.deleteComment(id);
+            }else {
+                List<Comment> comments = BeanMapper.mapList(listEntity,Comment.class);
+                // joinTemplate.joinQuery(comments,new String[]{"wikiDocument","user","aimAtUser"});
+                deleteCommentChild(comments,allCommentList);
+            }
+            commentDao.deleteComment(id);
+        }
+
     }
 
 

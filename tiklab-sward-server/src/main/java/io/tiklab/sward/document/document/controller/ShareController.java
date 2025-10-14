@@ -3,13 +3,9 @@ package io.tiklab.sward.document.document.controller;
 import io.tiklab.sward.document.document.model.Share;
 import io.tiklab.sward.document.document.model.ShareQuery;
 import io.tiklab.sward.document.document.service.ShareService;
-import io.tiklab.postin.annotation.Api;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.core.Result;
-import io.tiklab.sward.node.model.Node;
-import io.tiklab.sward.node.model.NodeQuery;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.tiklab.sward.node.node.model.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,8 +23,6 @@ import java.util.List;
 @RequestMapping("/share")
 //@Api(name = "ShareController",desc = "文档分享管理")
 public class ShareController {
-
-    private static Logger logger = LoggerFactory.getLogger(ShareController.class);
 
     @Autowired
     private ShareService shareService;
@@ -104,38 +98,11 @@ public class ShareController {
         return Result.ok(share1);
     }
 
-    @RequestMapping(path="/cutHaveOrNotAuthCode",method = RequestMethod.POST)
-    //@ApiMethod(name = "cutHaveOrNotAuthCode",desc = "切换有无验证码")
-    //@ApiParam(name = "shareQuery",desc = "shareQuery",required = true)
-    public Result<Share> cutHaveOrNotAuthCode( @RequestBody @NotNull @Valid ShareQuery shareQuery){
-        Share share= shareService.cutHaveOrNotAuthCode(shareQuery);
-
-        return Result.ok(share);
-    }
-
-    @RequestMapping(path="/verifyAuthCode",method = RequestMethod.POST)
-    //@ApiMethod(name = "verifyAuthCode",desc = "验证验证码是否正确")
-    //@ApiParam(name = "shareQuery",desc = "shareQuery",required = true)
-    public Result<String> verifyAuthCode(@RequestBody @NotNull @Valid ShareQuery shareQuery){
-        String share= shareService.verifyAuthCode(shareQuery);
-
-        return Result.ok(share);
-    }
-
-    @RequestMapping(path="/judgeAuthCode",method = RequestMethod.POST)
-    //@ApiMethod(name = "judgeAuthCode",desc = "判断是否需要验证码")
-    //@ApiParam(name = "shareLink",desc = "shareLink",required = true)
-    public Result<String> judgeAuthCode(@NotNull String shareLink){
-        String share= shareService.judgeAuthCode(shareLink);
-
-        return Result.ok(share);
-    }
-
     @RequestMapping(path="/findShareCategory",method = RequestMethod.POST)
     //@ApiMethod(name = "findShareCategory",desc = "获取分享的目录")
     //@ApiParam(name = "shareLink",desc = "shareLink",required = true)
-    public Result<List<Node> > findShareCategory(@RequestBody @NotNull @Valid  NodeQuery nodeQuery){
-        List<Node> shareCategory = shareService.findShareCategory(nodeQuery);
+    public Result<List<Node> > findShareCategory(@NotNull @Valid  String id){
+        List<Node> shareCategory = shareService.findShareCategory(id);
 
         return Result.ok(shareCategory);
     }

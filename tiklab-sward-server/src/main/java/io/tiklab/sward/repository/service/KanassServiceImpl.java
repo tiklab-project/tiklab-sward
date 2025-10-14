@@ -1,11 +1,11 @@
 package io.tiklab.sward.repository.service;
 
 
-import io.tiklab.sward.support.model.kanassProject;
-import io.tiklab.sward.support.service.SystemUrlService;
+import io.tiklab.sward.support.support.model.kanassProject;
+import io.tiklab.sward.support.support.service.SystemUrlService;
 import io.tiklab.dal.jpa.JpaTemplate;
-import io.tiklab.sward.support.model.SystemUrl;
-import io.tiklab.sward.support.model.SystemUrlQuery;
+import io.tiklab.sward.support.support.model.SystemUrl;
+import io.tiklab.sward.support.support.model.SystemUrlQuery;
 import io.tiklab.sward.support.util.HttpRequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +30,7 @@ public class KanassServiceImpl implements KanassService {
 
     String getSystemUrl(){
         SystemUrlQuery systemUrlQuery = new SystemUrlQuery();
-        systemUrlQuery.setName("kanass");
+        // systemUrlQuery.setName("kanass");
         List<SystemUrl> systemUrlList = systemUrlService.findSystemUrlList(systemUrlQuery);
         String url = systemUrlList.get(0).getSystemUrl();
         return url;

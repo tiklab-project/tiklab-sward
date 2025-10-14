@@ -1,6 +1,6 @@
 package io.tiklab.sward.document.document.dao;
 
-import io.tiklab.sward.support.entity.RecentEntity;
+import io.tiklab.sward.support.support.entity.RecentEntity;
 import io.tiklab.sward.document.document.entity.WikiDocumentEntity;
 import io.tiklab.sward.document.document.model.DocumentQuery;
 import io.tiklab.core.page.Pagination;
@@ -8,7 +8,7 @@ import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
 import io.tiklab.dal.jpa.criterial.condition.QueryCondition;
 import io.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
 import io.tiklab.dal.jpa.JpaTemplate;
-import io.tiklab.sward.support.model.RecentQuery;
+import io.tiklab.sward.support.support.model.RecentQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

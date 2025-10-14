@@ -6,9 +6,7 @@ import io.tiklab.core.order.OrderTypeEnum;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.dal.jpa.JpaTemplate;
 import io.tiklab.dal.jpa.annotation.Column;
-import io.tiklab.dal.jpa.criterial.condition.QueryCondition;
-import io.tiklab.dal.jpa.criterial.conditionbuilder.QueryBuilders;
-import io.tiklab.sward.node.entity.NodeEntity;
+import io.tiklab.sward.node.node.entity.NodeEntity;
 import io.tiklab.sward.statistics.entity.StatisticsDocEntity;
 import io.tiklab.sward.statistics.model.StatisticsByGroup;
 import io.tiklab.sward.statistics.model.StatisticsDocQuery;
@@ -228,34 +226,35 @@ public class StatisticsDocDao {
     StatisticsCondition findQueryConditionByGroup(StatisticsDocQuery query) {
 
         List<Object> params = new ArrayList<>();
-        String sql = "select "+query.getGroupBy()+", count(*) as number from wiki_document_statistics where 1=1";
+        String sql = "select " + query.getGroupBy() + ", count(*) as number FROM wiki_document_statistics AS ds " +
+                "LEFT JOIN wiki_node AS wn ON ds.document_id = wn.id where 1=1 AND wn.id IS NOT NULL";
 
         if (!Objects.isNull(query.getType())){
-            sql = sql.concat(" and type = ?");
+            sql = sql.concat(" and ds.type = ?");
             params.add(query.getType());
         }
 
         if (!Objects.isNull(query.getUserId())){
-            sql = sql.concat(" and user_id = ?");
+            sql = sql.concat(" and ds.user_id = ?");
             params.add(query.getUserId());
         }
 
         if (!Objects.isNull(query.getRpyId())){
-            sql = sql.concat(" and rpy_id = ?");
+            sql = sql.concat(" and ds.rpy_id = ?");
             params.add(query.getRpyId());
         }
 
         if (!Objects.isNull(query.getDocumentId())){
-            sql = sql.concat(" and document_id = ?");
+            sql = sql.concat(" and ds.document_id = ?");
             params.add(query.getDocumentId());
         }
 
         if (!query.getTimeList().isEmpty()){
-            sql = sql.concat(" and create_time > ? and create_time < ?");
+            sql = sql.concat(" and ds.create_time > ? and ds.create_time < ?");
             params.add(query.getTimeList().get(0));
             params.add(query.getTimeList().get(1));
         }
-        sql = sql.concat(" group by ").concat(query.getGroupBy());
+        sql = sql.concat(" group by ds.").concat(query.getGroupBy());
         return new StatisticsCondition(sql,params.toArray());
 
     }

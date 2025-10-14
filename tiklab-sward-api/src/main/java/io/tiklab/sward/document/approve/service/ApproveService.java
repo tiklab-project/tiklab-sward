@@ -56,8 +56,13 @@ public interface ApproveService {
      */
     @FindOne
     Approve findApprove(String approveId);
-    
-    
+
+    /**
+     * 撤销审批
+     * @param approveId 审批ID
+     */
+    void revokeApprove(String approveId);
+
     /**
      * 获取所有仓库审批
      * @return 仓库审批列表

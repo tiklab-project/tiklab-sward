@@ -1,11 +1,8 @@
 package io.tiklab.sward.starter.config;
 
-import io.tiklab.eam.author.Authenticator;
-import io.tiklab.eam.client.author.handler.DefaultAuthorHandler;
 import io.tiklab.gateway.config.GatewayConfig;
 import io.tiklab.gateway.config.IgnoreConfig;
 import io.tiklab.gateway.config.IgnoreConfigBuilder;
-import io.tiklab.gateway.handler.author.AuthorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -37,7 +34,8 @@ public class SwardGatewayFilterAutoConfiguration {
                     ".json",
                     ".xml",
                     ".ftl",
-                    ".svg"
+                    ".svg",
+                    "docx"
             })
             .ignoreUrls(new String[]{
                     "/",
@@ -66,7 +64,10 @@ public class SwardGatewayFilterAutoConfiguration {
                     "/import/confluence/uploadFile",
                     "/import/confluence/analysisEntityXml",
                     "/import/confluence/importJiraData",
-                    "/node/findNodeList"
+                    "/node/findNodeList",
+                    "/comment/findCommentTreePage",
+                    "/share/findShare",
+                    "/repository/createRepositoryByValidCreateUser"
             })
             .ignorePreUrls(new String[]{
                     "/apis/list",

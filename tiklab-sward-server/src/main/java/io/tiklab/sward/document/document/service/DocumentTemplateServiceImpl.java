@@ -52,16 +52,14 @@ public class DocumentTemplateServiceImpl implements DocumentTemplateService {
     public DocumentTemplate findOne(String id) {
         DocumentTemplateEntity documentTemplateEntity = documentTemplateDao.findDocumentTemplate(id);
 
-        DocumentTemplate documentTemplate = BeanMapper.map(documentTemplateEntity, DocumentTemplate.class);
-        return documentTemplate;
+        return BeanMapper.map(documentTemplateEntity, DocumentTemplate.class);
     }
 
     @Override
     public List<DocumentTemplate> findList(List<String> idList) {
         List<DocumentTemplateEntity> documentTemplateEntityList =  documentTemplateDao.findDocumentTemplateList(idList);
 
-        List<DocumentTemplate> documentTemplateList =  BeanMapper.mapList(documentTemplateEntityList,DocumentTemplate.class);
-        return documentTemplateList;
+        return  BeanMapper.mapList(documentTemplateEntityList,DocumentTemplate.class);
     }
 
     @Override

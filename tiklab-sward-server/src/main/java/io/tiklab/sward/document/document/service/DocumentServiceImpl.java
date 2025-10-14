@@ -3,27 +3,29 @@ package io.tiklab.sward.document.document.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.tiklab.core.exception.ApplicationException;
+import io.tiklab.core.page.Pagination;
+import io.tiklab.core.page.PaginationBuilder;
+import io.tiklab.dal.jpa.JpaTemplate;
 import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
 import io.tiklab.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
+import io.tiklab.dss.client.DssClient;
+import io.tiklab.eam.common.context.LoginContext;
+import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.security.logging.logging.model.Logging;
 import io.tiklab.security.logging.logging.model.LoggingType;
 import io.tiklab.security.logging.logging.service.LoggingByTempService;
 import io.tiklab.sward.document.document.dao.DocumentDao;
-import io.tiklab.sward.document.document.model.*;
-import io.tiklab.dal.jpa.JpaTemplate;
-import io.tiklab.dss.client.DssClient;
-import io.tiklab.eam.common.context.LoginContext;
 import io.tiklab.sward.document.document.entity.WikiDocumentEntity;
-import io.tiklab.sward.node.model.Node;
-import io.tiklab.sward.node.model.NodeQuery;
-import io.tiklab.sward.node.service.NodeService;
+import io.tiklab.sward.document.document.model.*;
+import io.tiklab.sward.node.node.model.Node;
+import io.tiklab.sward.node.node.model.NodeQuery;
+import io.tiklab.sward.node.node.service.NodeService;
+import io.tiklab.sward.support.message.model.SwardMessage;
+import io.tiklab.sward.support.message.service.SwardSendMessageService;
+import io.tiklab.sward.support.support.model.RecentQuery;
+import io.tiklab.sward.support.support.service.RecentService;
 import io.tiklab.toolkit.beans.BeanMapper;
-import io.tiklab.core.page.Pagination;
-import io.tiklab.core.page.PaginationBuilder;
 import io.tiklab.toolkit.join.JoinTemplate;
-import io.tiklab.sward.support.model.RecentQuery;
-import io.tiklab.sward.support.service.RecentService;
-import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.user.user.model.User;
 import io.tiklab.user.user.service.UserProcessor;
 import org.apache.commons.lang3.StringUtils;
@@ -38,10 +40,13 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import static io.tiklab.sward.support.constant.MessageConstant.SW_DOC_CREATE;
 
 /**
 * DocumentServiceImpl
@@ -87,11 +92,11 @@ public class DocumentServiceImpl implements DocumentService {
     @Autowired
     NodeService nodeService;
 
-    @Autowired
-    ShareRelationService shareRelationService;
-
     @Value("${external.url:null}")
     String baseUrl;
+
+    @Autowired
+    SwardSendMessageService swardSendMessageService;
 
     /**
      * 创建动态
@@ -213,6 +218,7 @@ public class DocumentServiceImpl implements DocumentService {
         try {
             nodeId = nodeService.createNode(node);
             wikiDocument.setId(nodeId);
+            wikiDocument.setRepositoryId(node.getWikiRepository().getId());
             WikiDocumentEntity wikiDocumentEntity = BeanMapper.map(wikiDocument, WikiDocumentEntity.class);
             documentId = documentDao.createDocument(wikiDocumentEntity);
         } catch (Exception e) {
@@ -227,6 +233,25 @@ public class DocumentServiceImpl implements DocumentService {
         dssClient.save(wikiDocument);
         // 添加动态
         createDynamic(node);
+
+
+        Node finalNode = node;
+        String loginId = LoginContext.getLoginId();
+        new Thread(() -> {
+            try {
+                SwardMessage swardMessage = new SwardMessage();
+                swardMessage.setRpyId(finalNode.getWikiRepository().getId());
+                swardMessage.setUserId(loginId);
+                swardMessage.setNodeId(documentId);
+                swardMessage.setNodeName(finalNode.getName());
+                swardMessage.setNoticeId(SW_DOC_CREATE);
+                swardMessage.setSendType(SW_DOC_CREATE);
+                swardSendMessageService.sendDmMessage(swardMessage);
+            }catch (Exception e){
+                logger.error("发送消息失败", e);
+                e.printStackTrace();
+            }
+        }).start();
         return documentId;
     }
 
@@ -351,10 +376,10 @@ public class DocumentServiceImpl implements DocumentService {
         documentAttachQuery.setDocumentId(id);
         documentAttachService.deleteDocumentAttachCondition(documentAttachQuery);
 
-        // 删除分享的文档记录
-        ShareRelationQuery shareRelationQuery = new ShareRelationQuery();
-        shareRelationQuery.setNodeId(id);
-        shareRelationService.deleteShareRelationCondition(shareRelationQuery);
+        // // 删除分享的文档记录
+        // ShareRelationQuery shareRelationQuery = new ShareRelationQuery();
+        // shareRelationQuery.setNodeId(id);
+        // shareRelationService.deleteShareRelationCondition(shareRelationQuery);
 
 
     }
@@ -411,10 +436,10 @@ public class DocumentServiceImpl implements DocumentService {
             likeQuery.setToWhomIds(ids);
             likeService.deleteLikeCondition(likeQuery);
 
-            // 删除分享的文档记录
-            ShareRelationQuery shareRelationQuery = new ShareRelationQuery();
-            shareRelationQuery.setNodeIds(ids);
-            shareRelationService.deleteShareRelationCondition(shareRelationQuery);
+            // // 删除分享的文档记录
+            // ShareRelationQuery shareRelationQuery = new ShareRelationQuery();
+            // shareRelationQuery.setNodeIds(ids);
+            // shareRelationService.deleteShareRelationCondition(shareRelationQuery);
         }
 
     }
@@ -446,7 +471,11 @@ public class DocumentServiceImpl implements DocumentService {
         if(!ObjectUtils.isEmpty(wikiDocument)){
             Node node = nodeService.findNode(id);
             wikiDocument.setNode(node);
-            joinTemplate.joinQuery(wikiDocument);
+            joinTemplate.joinQuery(wikiDocument,new String[]{"node"});
+
+            if (StringUtils.isEmpty(wikiDocument.getRepositoryId())){
+                wikiDocument.setRepositoryId(node.getWikiRepository().getId());
+            }
 
             CommentQuery commentQuery = new CommentQuery();
             commentQuery.setDocumentId(id);

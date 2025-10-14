@@ -4,8 +4,7 @@ import io.tiklab.core.page.Pagination;
 
 import io.tiklab.sward.document.document.model.Share;
 import io.tiklab.sward.document.document.model.ShareQuery;
-import io.tiklab.sward.node.model.Node;
-import io.tiklab.sward.node.model.NodeQuery;
+import io.tiklab.sward.node.node.model.Node;
 import io.tiklab.toolkit.join.annotation.FindAll;
 import io.tiklab.toolkit.join.annotation.FindList;
 import io.tiklab.toolkit.join.annotation.FindOne;
@@ -23,84 +22,69 @@ public interface ShareService {
 
     /**
     * 创建
-    * @param share
-    * @return
+    * @param share 分享信息
+    * @return 分享ID
     */
     String createShare(@NotNull @Valid Share share);
 
     /**
     * 更新
-    * @param share
+    * @param share 分享信息
     */
     void updateShare(@NotNull @Valid Share share);
 
     /**
     * 删除
-    * @param id
+    * @param id id
     */
     void deleteShare(@NotNull String id);
 
-    @FindOne
-    Share findOne(@NotNull String id);
 
     @FindList
     List<Share> findList(List<String> idList);
 
     /**
     * 查找
-    * @param id
-    * @return
+    * @param id id
+    * @return 分享信息
     */
+    @FindOne
     Share findShare(@NotNull String id);
 
     /**
     * 查找所有
-    * @return
+    * @return 分享信息
     */
     @FindAll
     List<Share> findAllShare();
 
     /**
     * 查询列表
-    * @param shareQuery
-    * @return
+    * @param shareQuery 查询条件
+    * @return 分享信息
     */
     List<Share> findShareList(ShareQuery shareQuery);
 
     /**
     * 按分页查询
-    * @param shareQuery
-    * @return
+    * @param shareQuery 查询条件
+    * @return 分享信息
     */
     Pagination<Share> findSharePage(ShareQuery shareQuery);
 
     /**
      * 创建分享并返回链接和验证码
-     * @param share
-     * @return
+     * @param share 分享信息
+     * @return 分享信息
      */
     Share addShare(Share share);
 
     /**
-     * 切换是否需要验证码
-     * @param shareQuery
-     * @return
+     * 获取分享的文件
+     * @param id ID
+     * @return 分享的信息
      */
-    Share cutHaveOrNotAuthCode(ShareQuery shareQuery);
+    List<Node> findShareCategory(String id);
 
-    /**
-     * 验证验证码是否正确
-     * @param shareQuery
-     * @return
-     */
-    String verifyAuthCode(ShareQuery shareQuery);
 
-    /**
-     * 判断是否需要验证码
-     * @param shareLink
-     * @return
-     */
-    String judgeAuthCode(String shareLink);
-
-    List<Node> findShareCategory(NodeQuery nodeQuery);
 }

@@ -36,7 +36,7 @@ public class SwardOpenApiAutoConfiguration {
                 "/repository/findRecentRepositoryList",
                 "/repository/findFocusRepositoryList",
                 "/repository/createRepository",
-
+                "/repository/createRepositoryByValidCreateUser"
         };
         return AllowConfigBuilder.instance()
                 .allowUrls(s)

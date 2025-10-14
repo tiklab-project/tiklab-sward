@@ -2,7 +2,7 @@ package io.tiklab.sward.document.document.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.tiklab.sward.node.model.Node;
+import io.tiklab.sward.node.node.model.Node;
 import io.tiklab.sward.repository.model.WikiRepository;
 import io.tiklab.toolkit.beans.annotation.Mapper;
 import io.tiklab.core.BaseModel;

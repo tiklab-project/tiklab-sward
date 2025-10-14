@@ -4,7 +4,7 @@ import io.tiklab.core.utils.UuidGenerator;
 import io.tiklab.sward.repository.entity.WikiRepositoryEntity;
 import io.tiklab.sward.repository.entity.WikiRepositoryFocusEntity;
 import io.tiklab.sward.repository.model.WikiRepositoryQuery;
-import io.tiklab.sward.support.entity.RecentEntity;
+import io.tiklab.sward.support.support.entity.RecentEntity;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.dal.jpa.JpaTemplate;
 import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
@@ -18,7 +18,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -260,6 +262,7 @@ public class WikiRepositoryDao {
                 .eq("wr.status", wikiRepositoryQuery.getStatus())
                 .eq("wr.recycle", wikiRepositoryQuery.getRecycle())
                 .like("wr.name", wikiRepositoryQuery.getName())
+                .in("wr.id", wikiRepositoryQuery.getRepositoryIds())
                 .orders(wikiRepositoryQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, WikiRepositoryEntity.class);
@@ -276,4 +279,38 @@ public class WikiRepositoryDao {
                 .get();
         return jpaTemplate.findList(queryBuilders, WikiRepositoryEntity.class);
     }
+
+    public List<String> findRpyPubilcIdList(){
+        String sql = "SELECT id FROM wiki_repository WHERE limits = '0'";
+        return jpaTemplate.getJdbcTemplate().queryForList(sql, String.class);
+    }
+
+
+    public Map<String, Integer> findRepositoryDocNumber(){
+        String sql = "SELECT \n" +
+                "    r.id AS id,\n" +
+                "    COUNT(d.id) AS number\n" +
+                "FROM wiki_repository r\n" +
+                "LEFT JOIN wiki_node d ON d.repository_id = r.id\n" +
+                "AND d.type='document'\n" +
+                "GROUP BY r.id;";
+
+        List<Map<String, Object>> list = jpaTemplate.getNamedParameterJdbcTemplate().queryForList(sql, new HashMap<>());
+
+        return list.stream()
+                .collect(Collectors.toMap(
+                        row -> String.valueOf(row.get("id")),   // key
+                        row -> ((Number) row.get("number")).intValue()     // value
+                ));
+    }
+
+
+
+
+
+
+
+
+
+
 }

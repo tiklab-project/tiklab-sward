@@ -1,12 +1,12 @@
 package io.tiklab.sward.document.export.service;
 
 import io.tiklab.core.exception.ApplicationException;
+import io.tiklab.sward.document.document.model.WikiDocument;
+import io.tiklab.sward.document.document.service.DocumentService;
 import io.tiklab.sward.document.export.builder.DocBuilder;
 import io.tiklab.sward.document.export.builder.DocToWordBuilder;
 import io.tiklab.sward.document.export.model.DocExport;
-import io.tiklab.sward.document.document.model.WikiDocument;
-import io.tiklab.sward.document.document.service.DocumentService;
-import io.tiklab.sward.node.model.Node;
+import io.tiklab.sward.node.node.model.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -38,8 +38,8 @@ public class DocumentExportServiceImpl implements DocumentExportService {
 
             String details = document.getDetails();
             Node node = document.getNode();
-            String name = node.getName()+".docx";
-
+            String rawName = node.getName();
+            String name = rawName.replaceAll("[\\\\/:*?\"<>|]", "_")+".docx";
             String s = dataHome + "/export/";
             new File(s).mkdirs();
 

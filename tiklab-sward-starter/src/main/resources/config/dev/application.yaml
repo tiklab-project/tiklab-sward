@@ -70,8 +70,8 @@ auth:
 
 sward:
   doc:
-    limit: 100
+    limit: 3000
 
 external:
-  url: http://192.168.10.7:8060
+  url: http://192.168.10.16:3040
 

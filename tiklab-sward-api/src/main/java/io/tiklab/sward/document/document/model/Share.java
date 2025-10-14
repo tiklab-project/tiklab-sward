@@ -20,45 +20,64 @@ import java.util.Date;
 @Join
 public class Share extends BaseModel{
 
-    @ApiProperty(name="id",desc="id")
     private String id;
 
-    @ApiProperty(name="nodeIds",desc="id")
-    private String[] nodeIds;
-
-    @ApiProperty(name="authCode",desc="验证码")
-    private String authCode;
-
-    @ApiProperty(name="limits",desc="可见范围")
-    private String limits;
-
-    @ApiProperty(name="createTime",desc="创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp createTime;
 
-    @ApiProperty(name="wikiRepository",desc="知识库",eg="@selectOne")
+    // 知识库
     @Mappings({
             @Mapping(source = "wikiRepository.id",target = "rpyId")
     })
     @JoinField(key = "id")
     private WikiRepository wikiRepository;
 
-
+    // 分享人
     @Mappings({
             @Mapping(source = "user.id",target = "userId")
     })
     @JoinField(key = "id")
     private User user;
 
+    // 分享名称
     private String name;
 
-    private String type;
+    // 1.外部分享 2.知识库内分享
+    private Integer type;
 
-    public String getType() {
+    // 认证类型 1. 无密码 2.密码访问
+    private Integer authType;
+
+    // 分享密码
+    private String password;
+
+    // 分享列表
+    private String shareIds;
+
+    // 成员列表
+    private String userIds;
+
+    public Integer getAuthType() {
+        return authType;
+    }
+
+    public void setAuthType(Integer authType) {
+        this.authType = authType;
+    }
+
+    public String getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(String userIds) {
+        this.userIds = userIds;
+    }
+
+    public Integer getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -102,29 +121,19 @@ public class Share extends BaseModel{
         return createTime;
     }
 
-    public String getAuthCode() {
-        return authCode;
+    public String getPassword() {
+        return password;
     }
 
-    public void setAuthCode(String authCode) {
-        this.authCode = authCode;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String[] getNodeIds() {
-        return nodeIds;
+    public String getShareIds() {
+        return shareIds;
     }
 
-    public void setNodeIds(String[] nodeIds) {
-        this.nodeIds = nodeIds;
+    public void setShareIds(String shareIds) {
+        this.shareIds = shareIds;
     }
-
-    public String getLimits() {
-        return limits;
-    }
-
-    public void setLimits(String limits) {
-        this.limits = limits;
-    }
-
-
 }

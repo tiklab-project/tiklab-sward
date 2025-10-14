@@ -1,6 +1,6 @@
 package io.tiklab.sward.document.document.model;
 
-import io.tiklab.sward.node.model.Node;
+import io.tiklab.sward.node.node.model.Node;
 import io.tiklab.dss.annotation.Document;
 import io.tiklab.dss.annotation.DocumentField;
 import io.tiklab.dss.annotation.DocumentId;

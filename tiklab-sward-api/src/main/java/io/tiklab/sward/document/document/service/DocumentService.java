@@ -1,6 +1,6 @@
 package io.tiklab.sward.document.document.service;
 
-import io.tiklab.sward.support.model.RecentQuery;
+import io.tiklab.sward.support.support.model.RecentQuery;
 import io.tiklab.sward.document.document.model.WikiDocument;
 import io.tiklab.sward.document.document.model.DocumentQuery;
 import io.tiklab.core.page.Pagination;

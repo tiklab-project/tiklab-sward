@@ -1,16 +1,14 @@
 package io.tiklab.sward.document.document.service;
 
+import io.tiklab.core.page.Pagination;
+import io.tiklab.core.page.PaginationBuilder;
 import io.tiklab.eam.common.context.LoginContext;
+import io.tiklab.sward.document.document.dao.DocumentFocusDao;
+import io.tiklab.sward.document.document.entity.DocumentFocusEntity;
 import io.tiklab.sward.document.document.model.DocumentFocus;
 import io.tiklab.sward.document.document.model.DocumentFocusQuery;
 import io.tiklab.toolkit.beans.BeanMapper;
-import io.tiklab.core.page.Pagination;
-import io.tiklab.core.page.PaginationBuilder;
 import io.tiklab.toolkit.join.JoinTemplate;
-import io.tiklab.sward.document.document.dao.DocumentFocusDao;
-import io.tiklab.sward.document.document.entity.DocumentFocusEntity;
-
-
 import io.tiklab.user.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +26,10 @@ import java.util.List;
 public class DocumentFocusServiceImpl implements DocumentFocusService {
 
     @Autowired
-    DocumentFocusDao wikiDocumentFocusDao;
+    public DocumentFocusDao wikiDocumentFocusDao;
 
     @Autowired
-    JoinTemplate joinTemplate;
+    public JoinTemplate joinTemplate;
 
     @Override
     public String createDocumentFocus(@NotNull @Valid DocumentFocus wikiDocumentFocus) {
@@ -118,7 +116,9 @@ public class DocumentFocusServiceImpl implements DocumentFocusService {
 
         List<DocumentFocus> wikiDocumentFocusList = BeanMapper.mapList(pagination.getDataList(), DocumentFocus.class);
 
-        joinTemplate.joinQuery(wikiDocumentFocusList,new String[]{"wikiRepository","node","master"});
+        joinTemplate.joinQuery(wikiDocumentFocusList,new String[]{"node"});
+
+        joinTemplate.joinQuery(wikiDocumentFocusList,new String[]{"wikiRepository","master"});
 
         return PaginationBuilder.build(pagination, wikiDocumentFocusList);
     }

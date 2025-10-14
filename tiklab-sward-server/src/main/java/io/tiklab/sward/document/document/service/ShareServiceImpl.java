@@ -4,12 +4,10 @@ import io.tiklab.core.exception.SystemException;
 import io.tiklab.sward.document.document.dao.ShareDao;
 import io.tiklab.sward.document.document.model.Share;
 import io.tiklab.sward.document.document.model.ShareQuery;
-import io.tiklab.sward.document.document.model.ShareRelation;
-import io.tiklab.sward.document.document.model.ShareRelationQuery;
 import io.tiklab.sward.document.document.entity.ShareEntity;
-import io.tiklab.sward.node.model.Node;
-import io.tiklab.sward.node.model.NodeQuery;
-import io.tiklab.sward.node.service.NodeService;
+import io.tiklab.sward.node.node.model.Node;
+import io.tiklab.sward.node.node.model.NodeQuery;
+import io.tiklab.sward.node.node.service.NodeService;
 import io.tiklab.sward.repository.model.WikiRepository;
 import io.tiklab.toolkit.beans.BeanMapper;
 import io.tiklab.core.page.Pagination;
@@ -20,14 +18,11 @@ import io.tiklab.user.user.model.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 /**
 * 分享接口
@@ -38,9 +33,6 @@ public class ShareServiceImpl implements ShareService {
 
     @Autowired
     ShareDao shareDao;
-
-    @Autowired
-    ShareRelationService shareRelationService;
 
     @Autowired
     JoinTemplate joinTemplate;
@@ -63,23 +55,8 @@ public class ShareServiceImpl implements ShareService {
     }
 
     @Override
-    @Transactional
     public void deleteShare(@NotNull String id) {
         shareDao.deleteShare(id);
-
-        ShareRelationQuery shareRelationQuery = new ShareRelationQuery();
-        shareRelationQuery.setShareId(id);
-        List<ShareRelation> shareRelationList = shareRelationService.findShareRelationList(shareRelationQuery);
-        for (ShareRelation relation : shareRelationList) {
-            shareRelationService.deleteShareRelation(relation.getId());
-        }
-    }
-
-    @Override
-    public Share findOne(String id) {
-        ShareEntity shareEntity = shareDao.findShare(id);
-
-        return BeanMapper.map(shareEntity, Share.class);
     }
 
     @Override
@@ -91,7 +68,9 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public Share findShare(@NotNull String id) {
-        Share share = findOne(id);
+        ShareEntity shareEntity = shareDao.findShare(id);
+
+        Share share = BeanMapper.map(shareEntity, Share.class);
 
         joinTemplate.joinQuery(share,new String[]{"wikiRepository","user"});
         return share;
@@ -147,112 +126,42 @@ public class ShareServiceImpl implements ShareService {
         if (StringUtils.isEmpty(name)){
             throw new SystemException("分享名称不能为空!");
         }
-
-        if (share.getLimits().equals("private") && StringUtils.isEmpty(share.getAuthCode())) {
-            //随机生成验证码
-            int authCode = ThreadLocalRandom.current().nextInt(1000,10000);
-            share.setAuthCode(String.valueOf(authCode));
-        }
         share.setCreateTime(new Timestamp(System.currentTimeMillis()));
         ShareEntity shareEntity = BeanMapper.map(share, ShareEntity.class);
-        ShareRelation shareRelation = new ShareRelation();
-        shareRelation.setNodeIds(share.getNodeIds());
-
         String shareId = shareDao.createShare(shareEntity);
         share.setId(shareId);
-        shareRelation.setShareId(shareId);
-        shareRelationService.createShareDocumentCategory(shareRelation);
         return share;
     }
 
     @Override
-    public Share cutHaveOrNotAuthCode(ShareQuery shareQuery) {
-        ShareEntity share = shareDao.findShare(shareQuery.getId());
-        //切换验证码到有
-        String authCode = share.getAuthCode();
-        if (shareQuery.getLimits().equals("private")) {
-            //验证码
-            if (StringUtils.isEmpty(authCode)) {
-                //随机生成验证码
-                int newAuthCode = ThreadLocalRandom.current().nextInt(1000,10000);
-                share.setAuthCode(String.valueOf(newAuthCode));
-                shareDao.updateShare(share);
-                return BeanMapper.map(share, Share.class);
-            } else {
-                return null;
+    public List<Node> findShareCategory(String id) {
+
+        Share share = findShare(id);
+
+        List<Node> nodeList = new ArrayList<>();
+        String shareIds = share.getShareIds();
+        String[] split = shareIds.split(",");
+        for (String docId : split) {
+            if (StringUtils.isEmpty(docId)) {
+                continue;
             }
-        } else {
-            if (!StringUtils.isEmpty(authCode)) {
-                share.setAuthCode("");
-                shareDao.updateShare(share);
-                return BeanMapper.map(share, Share.class);
-            }else {
-                return null;
+            Node node = nodeService.findNode(docId);
+            if (Objects.isNull(node)) {
+                continue;
             }
+            NodeQuery nodeQuery = new NodeQuery();
+            nodeQuery.setParentId(node.getId());
+            List<Node> childNodeList = nodeService.findNodeList(nodeQuery);
+            node.setChildren(childNodeList);
+            setChildrenNode(childNodeList);
+
+            nodeList.add(node);
         }
+
+        return nodeList;
     }
 
-    @Override
-    public String verifyAuthCode(ShareQuery shareQuery) {
-
-        String id = shareQuery.getShareLink();
-        Share share = findOne(id);
-        if (Objects.isNull(share)){
-            throw new SystemException("该分享不存在！");
-        }
-
-        if (!share.getAuthCode().equals(shareQuery.getAuthCode())){
-            throw new SystemException("密码错误！");
-        }
-        return "true";
-    }
-
-    @Override
-    public String judgeAuthCode(String shareLink) {
-        ShareEntity share = shareDao.findShare(shareLink);
-        if (Objects.isNull(share)){
-            throw new SystemException("该分享不存在！");
-        }
-        if (share.getLimits().equals("private")){
-            return "true";
-        }
-        return "false";
-    }
-
-    @Override
-    public List<Node> findShareCategory(NodeQuery nodeQuery) {
-        List<Node> firstNodeList = new ArrayList<>();
-        String shareId = nodeQuery.getShareId();
-        ShareRelationQuery shareRelationQuery = new ShareRelationQuery();
-        shareRelationQuery.setShareId(shareId);
-        List<ShareRelation> shareRelationList = shareRelationService.findShareRelationList(shareRelationQuery);
-        if(shareRelationList.isEmpty()){
-           return new ArrayList<>();
-        }
-
-        ShareRelation relation = shareRelationList.get(0);
-        Share share = findOne(shareId);
-
-        Node node = nodeService.findNode(relation.getNode().getId());
-        firstNodeList.add(node);
-        if (share.getType().equals("document")){
-            return firstNodeList;
-        }
-
-        // nodeQuery.setParentId(relation.getNode().getId());
-        // List<Node> nodeList = nodeService.findNodeList(nodeQuery);
-        // firstNodeList = nodeList.stream().filter(item -> item.getDimension().equals(1)).collect(Collectors.toList());
-        // if(!nodeList.isEmpty()){
-        //     setChildrenNode(firstNodeList);
-        // }
-        setChildrenNode(firstNodeList);
-
-
-        return firstNodeList;
-
-    }
-
-    void setChildrenNode(List<Node> allNodeList){
+    private void setChildrenNode(List<Node> allNodeList){
         for (Node node : allNodeList) {
             NodeQuery nodeQuery = new NodeQuery();
             nodeQuery.setParentId(node.getId());

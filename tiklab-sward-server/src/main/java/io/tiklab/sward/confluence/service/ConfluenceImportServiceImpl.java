@@ -11,8 +11,8 @@ import io.tiklab.sward.confluence.handler.*;
 import io.tiklab.sward.confluence.model.*;
 import io.tiklab.sward.document.document.model.WikiDocument;
 import io.tiklab.sward.document.document.service.DocumentService;
-import io.tiklab.sward.node.model.Node;
-import io.tiklab.sward.node.service.NodeService;
+import io.tiklab.sward.node.node.model.Node;
+import io.tiklab.sward.node.node.service.NodeService;
 import io.tiklab.sward.repository.model.WikiRepository;
 import io.tiklab.sward.repository.service.WikiRepositoryService;
 import io.tiklab.sward.repository.util.UncompressUtil;
@@ -140,7 +140,8 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
         File file = new File(versionAddress);
         ConfluenceVersion confluenceVersion = ConfluenceVersionConfig.parseExportDescriptor(file);
         String versionNumber = confluenceVersion.getVersionNumber();
-        if (versionNumber.equals("7.4.18")){
+        if (versionNumber.contains("7.4.18")){
+            // 使用的是7.4.18 的版本
             confluenceVersion.setSupport(true);
         }else {
             FileUtils.deleteQuietly(new File(unzipAddress));

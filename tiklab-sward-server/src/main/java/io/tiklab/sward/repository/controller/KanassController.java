@@ -1,8 +1,7 @@
 package io.tiklab.sward.repository.controller;
 
 import io.tiklab.sward.repository.service.KanassService;
-import io.tiklab.sward.support.model.kanassProject;
-import io.tiklab.postin.annotation.Api;
+import io.tiklab.sward.support.support.model.kanassProject;
 import io.tiklab.core.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

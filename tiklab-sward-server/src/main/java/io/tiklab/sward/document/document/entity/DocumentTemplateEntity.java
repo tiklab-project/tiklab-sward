@@ -16,12 +16,14 @@ public class DocumentTemplateEntity implements Serializable {
     @GeneratorValue(length = 8)
     @Column(name = "id",length = 8)
     private String id;
+
+    @Column(name = "type")
+    private String type;
+
     //名称
     @Column(name = "name",length = 32,notNull = true)
     private String name;
-    //描述
-    @Column(name = "description",length = 64,notNull = true)
-    private String description;
+
     //详情
     @Column(name = "details",length = 32)
     private String details;
@@ -29,8 +31,17 @@ public class DocumentTemplateEntity implements Serializable {
     @Column(name = "detail_text",length = 32)
     private String detailText;
 
-    @Column(name = "icon_url",length = 32,notNull = true)
+    @Column(name = "icon_url",length = 32)
     private String iconUrl;
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getId() {
         return id;
@@ -46,14 +57,6 @@ public class DocumentTemplateEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getDetails() {

@@ -3,7 +3,7 @@ package io.tiklab.sward.document.document.service;
 import io.tiklab.dal.jpa.criterial.condition.DeleteCondition;
 import io.tiklab.dal.jpa.criterial.conditionbuilder.DeleteBuilders;
 import io.tiklab.sward.document.document.dao.ShareRelationDao;
-import io.tiklab.sward.node.model.Node;
+import io.tiklab.sward.node.node.model.Node;
 import io.tiklab.toolkit.beans.BeanMapper;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.core.page.PaginationBuilder;

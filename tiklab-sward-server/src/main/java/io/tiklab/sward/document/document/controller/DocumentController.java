@@ -1,10 +1,9 @@
 package io.tiklab.sward.document.document.controller;
 
 import io.tiklab.sward.annotation.EnableSwardStatistics;
-import io.tiklab.sward.support.model.RecentQuery;
+import io.tiklab.sward.support.support.model.RecentQuery;
 import io.tiklab.sward.document.document.model.WikiDocument;
 import io.tiklab.sward.document.document.model.DocumentQuery;
-import io.tiklab.postin.annotation.Api;
 import io.tiklab.sward.document.document.service.DocumentService;
 import io.tiklab.core.page.Pagination;
 import io.tiklab.core.Result;

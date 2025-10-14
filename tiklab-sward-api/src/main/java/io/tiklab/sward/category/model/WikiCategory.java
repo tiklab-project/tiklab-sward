@@ -1,6 +1,6 @@
 package io.tiklab.sward.category.model;
 
-import io.tiklab.sward.node.model.Node;
+import io.tiklab.sward.node.node.model.Node;
 import io.tiklab.postin.annotation.ApiModel;
 import io.tiklab.postin.annotation.ApiProperty;
 import io.tiklab.toolkit.beans.annotation.Mapper;

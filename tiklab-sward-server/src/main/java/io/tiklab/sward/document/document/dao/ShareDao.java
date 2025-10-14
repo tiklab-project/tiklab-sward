@@ -80,7 +80,6 @@ public class ShareDao{
                 .eq("type", shareQuery.getType())
                 .like("name", shareQuery.getName(),false)
                 .eq("rpyId", shareQuery.getRpyId())
-                .eq("authCode", shareQuery.getAuthCode())
                 .orders(shareQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, ShareEntity.class);
@@ -91,7 +90,6 @@ public class ShareDao{
                 .eq("type", shareQuery.getType())
                 .like("name", shareQuery.getName(),false)
                 .eq("rpyId", shareQuery.getRpyId())
-                .eq("authCode", shareQuery.getAuthCode())
                 .orders(shareQuery.getOrderParams())
                 .pagination(shareQuery.getPageParam())
                 .get();

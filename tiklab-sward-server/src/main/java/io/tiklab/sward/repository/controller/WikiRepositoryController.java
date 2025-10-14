@@ -52,6 +52,16 @@ public class WikiRepositoryController {
         return Result.ok(id);
     }
 
+
+    @RequestMapping(path="/createRepositoryByValidCreateUser",method = RequestMethod.POST)
+    // @ApiMethod(name = "创建知识库",desc = "创建知识库")
+    // @ApiParam(name = "createRepositoryByValidCreateUser",desc = "wikiRepository",required = true)
+    public Result<String> createRepositoryByValidCreateUser(@RequestBody @NotNull @Valid WikiRepository wikiRepository){
+        String id = wikiRepositoryService.createRepositoryByValidCreateUser(wikiRepository);
+
+        return Result.ok(id);
+    }
+
     /**
      * @pi.name:更新项目
      * @pi.url:/repository/updateRepository

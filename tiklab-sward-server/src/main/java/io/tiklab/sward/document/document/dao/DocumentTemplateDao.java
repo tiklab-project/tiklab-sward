@@ -77,7 +77,8 @@ public class DocumentTemplateDao{
 
     public List<DocumentTemplateEntity> findDocumentTemplateList(DocumentTemplateQuery documentTemplateQuery) {
         QueryCondition queryCondition = QueryBuilders.createQuery(DocumentTemplateEntity.class)
-                .like("name", documentTemplateQuery.getName())
+                .like("name", documentTemplateQuery.getName(),false)
+                .eq("type", documentTemplateQuery.getType())
                 .orders(documentTemplateQuery.getOrderParams())
                 .get();
         return jpaTemplate.findList(queryCondition, DocumentTemplateEntity.class);
@@ -85,7 +86,8 @@ public class DocumentTemplateDao{
 
     public Pagination<DocumentTemplateEntity> findDocumentTemplatePage(DocumentTemplateQuery documentTemplateQuery) {
         QueryCondition queryCondition = QueryBuilders.createQuery(DocumentTemplateEntity.class)
-                .like("name", documentTemplateQuery.getName())
+                .like("name", documentTemplateQuery.getName(),false)
+                .eq("type", documentTemplateQuery.getType())
                 .orders(documentTemplateQuery.getOrderParams())
                 .pagination(documentTemplateQuery.getPageParam())
                 .get();

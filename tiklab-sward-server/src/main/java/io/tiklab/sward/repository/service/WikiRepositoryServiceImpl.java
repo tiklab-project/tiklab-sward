@@ -1,32 +1,28 @@
 package io.tiklab.sward.repository.service;
 
-import com.alibaba.fastjson.JSONObject;
-import io.tiklab.security.logging.logging.model.Logging;
-import io.tiklab.security.logging.logging.model.LoggingType;
-import io.tiklab.security.logging.logging.service.LoggingByTempService;
-import io.tiklab.sward.node.model.Node;
-import io.tiklab.sward.node.service.NodeService;
+import io.tiklab.core.exception.SystemException;
+import io.tiklab.core.page.Pagination;
+import io.tiklab.core.page.PaginationBuilder;
+import io.tiklab.dss.client.DssClient;
+import io.tiklab.eam.common.context.LoginContext;
+import io.tiklab.message.message.model.MessageNoticePatch;
+import io.tiklab.message.message.service.MessageDmNoticeService;
+import io.tiklab.privilege.dmRole.service.DmRoleService;
+import io.tiklab.privilege.role.model.PatchUser;
+import io.tiklab.rpc.annotation.Exporter;
+import io.tiklab.sward.node.node.model.Node;
+import io.tiklab.sward.node.node.service.NodeService;
 import io.tiklab.sward.repository.dao.WikiRepositoryDao;
 import io.tiklab.sward.repository.entity.WikiRepositoryEntity;
 import io.tiklab.sward.repository.model.WikiRepository;
 import io.tiklab.sward.repository.model.WikiRepositoryFocusQuery;
 import io.tiklab.sward.repository.model.WikiRepositoryQuery;
-import io.tiklab.sward.repository.support.MessageTemplateRepository;
-import io.tiklab.sward.repository.support.OpLogTemplateRepository;
-import io.tiklab.sward.support.model.RecentQuery;
-import io.tiklab.sward.support.service.RecentService;
-import io.tiklab.core.order.Order;
-import io.tiklab.core.order.OrderBuilders;
-import io.tiklab.eam.common.context.LoginContext;
+import io.tiklab.sward.support.message.model.SwardMessage;
+import io.tiklab.sward.support.message.service.SwardSendMessageService;
+import io.tiklab.sward.support.support.model.RecentQuery;
+import io.tiklab.sward.support.support.service.RecentService;
 import io.tiklab.toolkit.beans.BeanMapper;
-import io.tiklab.core.page.Pagination;
-import io.tiklab.core.page.PaginationBuilder;
-import io.tiklab.dss.client.DssClient;
 import io.tiklab.toolkit.join.JoinTemplate;
-import io.tiklab.message.message.model.SendMessageNotice;
-import io.tiklab.privilege.dmRole.service.DmRoleService;
-import io.tiklab.privilege.role.model.PatchUser;
-import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.user.dmUser.model.DmUser;
 import io.tiklab.user.dmUser.model.DmUserQuery;
 import io.tiklab.user.dmUser.service.DmUserService;
@@ -36,15 +32,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static io.tiklab.sward.support.constant.MessageConstant.*;
 
 /**
 * 知识库接口
@@ -72,69 +69,20 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     DmRoleService dmRoleService;
 
     @Autowired
-    DssClient dssClient;
+    UserProcessor userService;
 
     @Autowired
-    UserProcessor userService;
+    DssClient dssClient;
 
     @Autowired
     WikiRepositoryFocusService wikiRepositoryFocusService;
 
     @Autowired
-    LoggingByTempService loggingByTemplService;
+    MessageDmNoticeService messageDmNoticeService;
 
-    @Value("${external.url:null}")
-    String baseUrl;
+    @Autowired
+    SwardSendMessageService swardSendMessageService;
 
-    void creatDynamic( Map<String, String> content){
-        Logging log = new Logging();
-        log.setBgroup("sward");
-
-        String createUserId = LoginContext.getLoginId();
-        User user = userService.findOne(createUserId);
-        log.setUser(user);
-        content.put("master", user.getName());
-        content.put("updateTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-
-        LoggingType opLogType = new LoggingType();
-        opLogType.setId(OpLogTemplateRepository.KANASS_LOGTYPE_REPOSITORYADD);
-        log.setActionType(opLogType);
-
-        log.setModule("repository");
-        log.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        content.put("createUserIcon",user.getName().substring( 0, 1));
-        log.setData(JSONObject.toJSONString(content));
-        log.setBaseUrl(baseUrl);
-        log.setAction(content.get("documentName"));
-        log.setLink("/repositorydetail/${repositoryId}/doc/${documentId}");
-        loggingByTemplService.createLog(log);
-
-
-    }
-
-    /**
-     * 发送消息
-     * @param content
-     */
-    void sendMessageForCreat(Map<String, String> content ){
-        SendMessageNotice messageDispatchNotice = new SendMessageNotice();
-
-        String createUserId = LoginContext.getLoginId();
-        User user = userService.findOne(createUserId);
-
-        content.put("master", user.getName());
-        content.put("createUserIcon",user.getName().substring( 0, 1));
-        content.put("sendTime", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-
-        String msg = JSONObject.toJSONString(content);
-        messageDispatchNotice.setId(MessageTemplateRepository.KANASS_MESSAGETEMPLATE_REPOSITORYADD);
-        messageDispatchNotice.setSiteData(msg);
-        messageDispatchNotice.setDingdingData(msg);
-        messageDispatchNotice.setQywechatData(msg);
-        messageDispatchNotice.setEmailData(msg);
-        messageDispatchNotice.setBaseUrl(baseUrl);
-//        sendMessageNoticeService.createMessageItem(messageDispatchNotice);
-    }
     @Override
     public String createRepository(@NotNull @Valid WikiRepository wikiRepository) {
         wikiRepository.setCreateTime(new Timestamp(System.currentTimeMillis()));
@@ -148,15 +96,73 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
         initRepositoryDmRole(masterId, id);
 
-        WikiRepository wikiRepository1 = findRepository(id);
-        Map<String, String> content = new HashMap<>();
-        content.put("repositoryId", wikiRepository1.getId());
-        content.put("repositoryName", wikiRepository1.getName());
-        content.put("repositoryIcon", wikiRepository1.getIconUrl());
+        //构建索引
+        WikiRepository entity = findRepository(id);
+        dssClient.save(entity);
+
+        MessageNoticePatch messageNoticePatch = new MessageNoticePatch();
+        messageNoticePatch.setDomainId(id);
+        messageNoticePatch.setUserList(List.of(masterId));
+        messageDmNoticeService.initMessageDmNotice(messageNoticePatch);
+
+
+        new Thread(() -> {
+            try {
+                SwardMessage swardMessage = new SwardMessage();
+                swardMessage.setRpyId(id);
+                swardMessage.setUserId(masterId);
+                swardMessage.setNoticeId(SW_RPY_CREATE);
+                swardMessage.setSendType(SW_RPY_CREATE);
+                swardSendMessageService.sendMessage(swardMessage);
+            }catch (Exception e){
+                logger.error("发送消息失败", e);
+                e.printStackTrace();
+            }
+        }).start();
+
+        return id;
+    }
+
+    @Override
+    public String createRepositoryByValidCreateUser(@NotNull @Valid WikiRepository wikiRepository) {
+        wikiRepository.setCreateTime(new Timestamp(System.currentTimeMillis()));
+
+        String masterId = wikiRepository.getMaster().getId();
+        User user = userService.findUser(masterId);
+        if (Objects.isNull(user)){
+            throw new SystemException("创建知识库的用户不存在！");
+        }
+        wikiRepository.setMaster(user);
+
+        WikiRepositoryEntity wikiRepositoryEntity = BeanMapper.map(wikiRepository, WikiRepositoryEntity.class);
+        String id = wikiRepositoryDao.createRepository(wikiRepositoryEntity);
+
+        initRepositoryDmRole(masterId, id);
 
         //构建索引
         WikiRepository entity = findRepository(id);
         dssClient.save(entity);
+
+        MessageNoticePatch messageNoticePatch = new MessageNoticePatch();
+        messageNoticePatch.setDomainId(id);
+        messageNoticePatch.setUserList(List.of(masterId));
+        messageDmNoticeService.initMessageDmNotice(messageNoticePatch);
+
+
+        new Thread(() -> {
+            try {
+                SwardMessage swardMessage = new SwardMessage();
+                swardMessage.setRpyId(id);
+                swardMessage.setUserId(masterId);
+                swardMessage.setNoticeId(SW_RPY_CREATE);
+                swardMessage.setSendType(SW_RPY_CREATE);
+                swardSendMessageService.sendMessage(swardMessage);
+            }catch (Exception e){
+                logger.error("发送消息失败", e);
+                e.printStackTrace();
+            }
+        }).start();
+
         return id;
     }
 
@@ -232,12 +238,36 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
     @Override
     public void updateRepository(@NotNull @Valid WikiRepository wikiRepository) {
         WikiRepositoryEntity wikiRepositoryEntity = BeanMapper.map(wikiRepository, WikiRepositoryEntity.class);
-        //        creatDynamic(content);
         wikiRepositoryDao.updateRepository(wikiRepositoryEntity);
+
         WikiRepository wikiRepository1 = findRepository(wikiRepositoryEntity.getId());
-        Map<String, String> content = new HashMap<>();
-        content.put("repositoryId", wikiRepository1.getId());
-        content.put("repositoryName", wikiRepository1.getName());
+
+        dssClient.update(wikiRepository1);
+        String masterId = LoginContext.getLoginId();
+        new Thread(() -> {
+            try {
+                SwardMessage swardMessage = new SwardMessage();
+                swardMessage.setRpyId(wikiRepositoryEntity.getId());
+                swardMessage.setUserId(masterId);
+                swardMessage.setRpyName(wikiRepository1.getName());
+                swardMessage.setNoticeId(SW_RPY_UPDATE);
+                swardMessage.setSendType(SW_RPY_UPDATE);
+                swardSendMessageService.sendMessage(swardMessage);
+            }catch (Exception e){
+                logger.error("发送消息失败", e);
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+
+    @Override
+    public void updateRepositoryNoMessage(@NotNull @Valid WikiRepository wikiRepository) {
+        WikiRepositoryEntity wikiRepositoryEntity = BeanMapper.map(wikiRepository, WikiRepositoryEntity.class);
+        wikiRepositoryDao.updateRepository(wikiRepositoryEntity);
+
+        WikiRepository wikiRepository1 = findRepository(wikiRepositoryEntity.getId());
+
         dssClient.update(wikiRepository1);
     }
 
@@ -247,6 +277,22 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
      */
     @Override
     public void deleteRepository(@NotNull String id) {
+
+        WikiRepository wikiRepository = findRepository(id);
+
+        String masterId = LoginContext.getLoginId();
+        SwardMessage swardMessage = new SwardMessage();
+        swardMessage.setRpyId(id);
+        swardMessage.setUserId(masterId);
+        swardMessage.setRpyName(wikiRepository.getName());
+        swardMessage.setNoticeId(SW_RPY_DELETE);
+        swardMessage.setSendType(SW_RPY_DELETE);
+        try {
+            swardSendMessageService.sendMessage(swardMessage);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("发送消息失败", e);
+        }
 
         // 删除所有节点、和节点关联的所有数据
         nodeService.deleteRepositoryNodeCondition(id);
@@ -265,6 +311,7 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         WikiRepositoryFocusQuery wikiRepositoryFocusQuery = new WikiRepositoryFocusQuery();
         wikiRepositoryFocusQuery.setRepositoryId(id);
         wikiRepositoryFocusService.deleteRepositoryFocusByCondition(wikiRepositoryFocusQuery);
+
     }
 
     @Override
@@ -345,16 +392,34 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         if(StringUtils.isEmpty(userId)){
             userId = LoginContext.getLoginId();
         }
-        DmUserQuery dmUserQuery = new DmUserQuery();
-        dmUserQuery.setUserId(userId);
-        List<DmUser> dmUserList = dmUserService.findDmUserList(dmUserQuery);
-        String[] arr = dmUserList.stream().map(DmUser::getDomainId).toArray(String[]::new);
-        wikiRepositoryQuery.setRepositoryIds(arr);
+
+        String[] rpyIdList = findRepositoryIdListByUser(userId);
+
+        String[] repositoryIds = wikiRepositoryQuery.getRepositoryIds();
+        wikiRepositoryQuery.setRepositoryIds(rpyIdList);
+        if(!Objects.isNull(repositoryIds) && repositoryIds.length > 0){
+            String join = String.join(",", repositoryIds);
+            String[] array = Arrays.stream(rpyIdList)
+                    .filter(join::contains)
+                    .toArray(String[]::new);
+            wikiRepositoryQuery.setRepositoryIds(array);
+        }
 
         // 修改排序参数
-        List<WikiRepositoryEntity> wikiRepositoryEntityList = wikiRepositoryDao.findRepositoryListByUser(wikiRepositoryQuery);
+        List<WikiRepositoryEntity> wikiRepositoryEntityList = wikiRepositoryDao.findRecentRepositoryList(wikiRepositoryQuery);
 
         List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(wikiRepositoryEntityList, WikiRepository.class);
+
+        wikiRepositoryList = new ArrayList<>(
+                wikiRepositoryList.stream()
+                        .collect(Collectors.toMap(
+                                WikiRepository::getId, // 按 id 去重
+                                u -> u,                      // 值为对象
+                                (u1, u2) -> u1,               // 如果重复，保留第一个
+                                LinkedHashMap::new            // 用 LinkedHashMap 保证顺序
+                        ))
+                        .values()
+        );
 
         joinTemplate.joinQuery(wikiRepositoryList,new String[]{"archivedUser","master","recycleUser"});
 
@@ -368,11 +433,9 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         if(StringUtils.isEmpty(userId)){
             userId = LoginContext.getLoginId();
         }
-        DmUserQuery dmUserQuery = new DmUserQuery();
-        dmUserQuery.setUserId(userId);
-        List<DmUser> dmUserList = dmUserService.findDmUserList(dmUserQuery);
-        String[] arr = dmUserList.stream().map(DmUser::getDomainId).toArray(String[]::new);
-        wikiRepositoryQuery.setRepositoryIds(arr);
+
+        String[] rpyIdList = findRepositoryIdListByUser(userId);
+        wikiRepositoryQuery.setRepositoryIds(rpyIdList);
 
         Pagination<WikiRepositoryEntity>  pagination = wikiRepositoryDao.findRepositoryPage(wikiRepositoryQuery);
 
@@ -380,8 +443,36 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
         joinTemplate.joinQuery(wikiRepositoryList,new String[]{"archivedUser","master","recycleUser"});
 
+        Map<String, Integer> repositoryDocNumber = findRepositoryDocNumber();
+
+        wikiRepositoryList.stream().forEach(wikiRepository -> {
+            Integer integer = repositoryDocNumber.get(wikiRepository.getId());
+            if(Objects.isNull(integer)){
+                integer = 0;
+            }
+            wikiRepository.setDocumentNum(integer);
+        });
+
         return PaginationBuilder.build(pagination, wikiRepositoryList);
     }
+
+
+    private String[] findRepositoryIdListByUser(String userId) {
+        DmUserQuery dmUserQuery = new DmUserQuery();
+        dmUserQuery.setUserId(userId);
+        List<DmUser> dmUserList = dmUserService.findDmUserList(dmUserQuery);
+        String[] arr = dmUserList.stream().map(DmUser::getDomainId).toArray(String[]::new);
+        List<String> rpyPubilcIdList = wikiRepositoryDao.findRpyPubilcIdList();
+
+        // 合并并去重
+        List<String> mergedList = Stream.concat(
+                        Arrays.stream(arr),
+                        rpyPubilcIdList.stream()
+                ).distinct() // 去重
+                .collect(Collectors.toList());
+        return mergedList.stream().toArray(String[]::new);
+    }
+
 
     @Override
     public List<WikiRepository> findAllRecentRepositoryList(WikiRepositoryQuery wikiRepositoryQuery) {
@@ -396,65 +487,82 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
     @Override
     public List<WikiRepository> findRecentRepositoryList(WikiRepositoryQuery wikiRepositoryQuery) {
-        String createUserId = LoginContext.getLoginId();
-        wikiRepositoryQuery.setMasterId(createUserId);
 
-        long aTime1 = System.currentTimeMillis();
+        wikiRepositoryQuery.setMasterId(LoginContext.getLoginId());
+
         List<WikiRepositoryEntity> recentRepositoryList = wikiRepositoryDao.findRecentRepositoryList(wikiRepositoryQuery);
-        List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(recentRepositoryList, WikiRepository.class);
-        joinTemplate.joinQuery(wikiRepositoryList,new String[]{"archivedUser","master","recycleUser"});
-        long bTime1 = System.currentTimeMillis();
 
-        logger.info("joinQuery cost time:{}",bTime1-aTime1);
+        recentRepositoryList = new ArrayList<>(
+                recentRepositoryList.stream()
+                        .collect(Collectors.toMap(
+                                WikiRepositoryEntity::getId, // 按 id 去重
+                                u -> u,                      // 值为对象
+                                (u1, u2) -> u1,               // 如果重复，保留第一个
+                                LinkedHashMap::new            // 用 LinkedHashMap 保证顺序
+                        ))
+                        .values()
+        );
+
+        List<WikiRepository> wikiRepositoryList = BeanMapper.mapList(recentRepositoryList, WikiRepository.class);
+        // joinTemplate.joinQuery(wikiRepositoryList,new String[]{"archivedUser","master","recycleUser"});
+
         String repositoryId = wikiRepositoryQuery.getRepositoryId();
         // 如果在切换知识库的时候查找最近项目，去掉当前项目
         if(repositoryId != null){
-
             wikiRepositoryList = wikiRepositoryList.stream().
-                    filter(wikiRepository -> !wikiRepository.getId().equals(repositoryId)).collect(Collectors.toList());
+                    filter(wikiRepository -> !wikiRepository.getId().equals(repositoryId))
+                    .collect(Collectors.toList());
         }
-        List<String> wikiRepositoryIds = wikiRepositoryList.stream().map(WikiRepository::getId).collect(Collectors.toList());
-        wikiRepositoryIds.add(repositoryId);
-        int size = recentRepositoryList.size();
+
+        List<String> wikiRepositoryIds = wikiRepositoryList.stream()
+                .map(WikiRepository::getId)
+                .filter(id -> id != null && !id.isEmpty()) // 去除 null 和 空字符串
+                .distinct() // 去重
+                .collect(Collectors.toList());
+
+        if (!StringUtils.isEmpty(repositoryId)){
+            wikiRepositoryIds.add(repositoryId);
+        }
+        int size = wikiRepositoryIds.size();
 
         // 判断查看的知识库是否小于5个
-        if(size < 5){
-            int lackSize = 5 - size;
-
-            List<Order> order = OrderBuilders.instance().desc("createTime").get();
-            wikiRepositoryQuery.setOrderParams(order);
-            wikiRepositoryQuery.setMasterId(null);
-            List<WikiRepository> repositoryListByUser = findRepositoryListByUser(wikiRepositoryQuery);
-            long cTime1 = System.currentTimeMillis();
-            logger.info("joinQuery cost time:{}",cTime1-bTime1);
-            // 去掉与点击过的重复
-            repositoryListByUser = repositoryListByUser.stream().filter(item -> !wikiRepositoryIds.contains(item.getId())).collect(Collectors.toList());
-
-            if(repositoryListByUser.size() > lackSize){
-                List<WikiRepository> repositoryList = repositoryListByUser.subList(0, lackSize);
-                wikiRepositoryList.addAll(repositoryList);
-            }else {
-                wikiRepositoryList.addAll(repositoryListByUser);
-            }
-        }
-        if(!wikiRepositoryList.isEmpty()){
-            String repositoryIds = "(" + wikiRepositoryList.stream().map(item -> "'" + item.getId() + "'").collect(Collectors.joining(", ")) + ")";
-            List<Node> childrenNodeList = nodeService.findChildrenNodeList(repositoryIds);
-            for (WikiRepository wikiRepository : wikiRepositoryList) {
-                String id = wikiRepository.getId();
-                List<Node> document = childrenNodeList.stream().filter
-                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("document")).collect(Collectors.toList());
-
-                List<Node> category = childrenNodeList.stream().filter
-                        (node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("category")).collect(Collectors.toList());
-
-                wikiRepository.setDocumentNum(document.size());
-                wikiRepository.setCategoryNum(category.size());
-            }
-
+        wikiRepositoryQuery.setMasterId(null);
+        List<WikiRepository> list = new ArrayList<>();
+        if(size <= 5){
+            wikiRepositoryQuery.setRepositoryIds(wikiRepositoryIds.toArray(String[]::new));
+            list = findRepositoryListByUser(wikiRepositoryQuery);
+        }else {
+            List<String> strings = wikiRepositoryIds.subList(0, 5);
+            wikiRepositoryQuery.setRepositoryIds(strings.toArray(String[]::new));
+            List<WikiRepository> listByUser = findRepositoryListByUser(wikiRepositoryQuery);
+            list.addAll(listByUser);
         }
 
-        return wikiRepositoryList;
+        String repositoryIds = "(" + list.stream().map(item -> "'" + item.getId() + "'")
+                .collect(Collectors.joining(", ")) + ")";
+        List<Node> childrenNodeList = nodeService.findChildrenNodeList(repositoryIds);
+        List<WikiRepository> returnList = new ArrayList<>();
+        for (WikiRepository wikiRepository : list) {
+            String id = wikiRepository.getId();
+            if (!StringUtils.isEmpty(repositoryId) &&repositoryId.equals(id)) {
+                continue;
+            }
+
+            List<Node> document = childrenNodeList.stream()
+                    .filter(node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("document"))
+                    .collect(Collectors.toList());
+
+            List<Node> category = childrenNodeList.stream()
+                    .filter(node -> node.getWikiRepository().getId().equals(id) && node.getType().equals("category"))
+                    .collect(Collectors.toList());
+
+            wikiRepository.setDocumentNum(document.size());
+            wikiRepository.setCategoryNum(category.size());
+
+            returnList.add(wikiRepository);
+        }
+
+        return returnList;
     }
 
     @Override
@@ -490,14 +598,22 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
         HashMap<String, Integer> nums = new HashMap<>();
         List<WikiRepositoryEntity> focusRepositoryList = wikiRepositoryDao.findFocusRepositoryList(wikiRepositoryQuery);
         nums.put("focus", focusRepositoryList.size());
-        List<WikiRepository> repositoryListByUser = findRepositoryListByUser(wikiRepositoryQuery);
-        nums.put("create", repositoryListByUser.size());
+
+        Pagination<WikiRepository> repositoryListByUser = findRepositoryPage(wikiRepositoryQuery);
+        nums.put("create", repositoryListByUser.getTotalRecord());
+
         wikiRepositoryQuery.setMasterId(null);
-        List<WikiRepository> repositoryListByUser1 = findRepositoryListByUser(wikiRepositoryQuery);
-        nums.put("all", repositoryListByUser1.size());
+        Pagination<WikiRepository> repositoryListByUser1 = findRepositoryPage(wikiRepositoryQuery);
+        nums.put("all", repositoryListByUser1.getTotalRecord());
         return  nums;
 
     }
+
+    @Override
+    public Map<String, Integer> findRepositoryDocNumber(){
+        return wikiRepositoryDao.findRepositoryDocNumber();
+    }
+
 
 
 }

@@ -20,20 +20,20 @@ public interface DocumentTemplateService {
 
     /**
     * 创建
-    * @param documentTemplate
-    * @return
+    * @param documentTemplate 模版信息
+    * @return 结果
     */
     String createDocumentTemplate(@NotNull @Valid DocumentTemplate documentTemplate);
 
     /**
     * 更新
-    * @param documentTemplate
+    * @param documentTemplate 模版信息
     */
     void updateDocumentTemplate(@NotNull @Valid DocumentTemplate documentTemplate);
 
     /**
     * 删除
-    * @param id
+    * @param id id
     */
     void deleteDocumentTemplate(@NotNull String id);
 
@@ -45,29 +45,29 @@ public interface DocumentTemplateService {
 
     /**
     * 查找
-    * @param id
-    * @return
+    * @param id id
+    * @return 结果
     */
     DocumentTemplate findDocumentTemplate(@NotNull String id);
 
     /**
     * 查找所有
-    * @return
+    * @return 结果
     */
     @FindAll
     List<DocumentTemplate> findAllDocumentTemplate();
 
     /**
     * 查询列表
-    * @param documentTemplateQuery
-    * @return
+    * @param documentTemplateQuery 查询条件
+    * @return 结果
     */
     List<DocumentTemplate> findDocumentTemplateList(DocumentTemplateQuery documentTemplateQuery);
 
     /**
     * 按分页查询
-    * @param documentTemplateQuery
-    * @return
+    * @param documentTemplateQuery 查询条件
+    * @return 结果
     */
     Pagination<DocumentTemplate> findDocumentTemplatePage(DocumentTemplateQuery documentTemplateQuery);
 
