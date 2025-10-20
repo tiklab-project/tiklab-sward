@@ -8,6 +8,7 @@ import io.tiklab.eam.common.context.LoginContext;
 import io.tiklab.message.message.model.MessageNoticePatch;
 import io.tiklab.message.message.service.MessageDmNoticeService;
 import io.tiklab.privilege.dmRole.service.DmRoleService;
+import io.tiklab.privilege.permission.service.PermissionService;
 import io.tiklab.privilege.role.model.PatchUser;
 import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.sward.node.node.model.Node;
@@ -16,6 +17,7 @@ import io.tiklab.sward.repository.dao.WikiRepositoryDao;
 import io.tiklab.sward.repository.entity.WikiRepositoryEntity;
 import io.tiklab.sward.repository.model.WikiRepository;
 import io.tiklab.sward.repository.model.WikiRepositoryFocusQuery;
+import io.tiklab.sward.repository.model.WikiRepositoryPermissions;
 import io.tiklab.sward.repository.model.WikiRepositoryQuery;
 import io.tiklab.sward.support.message.model.SwardMessage;
 import io.tiklab.sward.support.message.service.SwardSendMessageService;
@@ -82,6 +84,10 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
     @Autowired
     SwardSendMessageService swardSendMessageService;
+
+    @Autowired
+    PermissionService permissionService;
+
 
     @Override
     public String createRepository(@NotNull @Valid WikiRepository wikiRepository) {
@@ -445,12 +451,23 @@ public class WikiRepositoryServiceImpl implements WikiRepositoryService {
 
         Map<String, Integer> repositoryDocNumber = findRepositoryDocNumber();
 
+        Map<String, Set<String>> permissions = permissionService.findDomainListPermissions(userId, Arrays.stream(rpyIdList).toList());
+
         wikiRepositoryList.stream().forEach(wikiRepository -> {
             Integer integer = repositoryDocNumber.get(wikiRepository.getId());
             if(Objects.isNull(integer)){
                 integer = 0;
             }
             wikiRepository.setDocumentNum(integer);
+
+            WikiRepositoryPermissions wiPermissions = new WikiRepositoryPermissions();
+            Set<String> strings = permissions.get(wikiRepository.getId());
+
+            if(!Objects.isNull(strings)){
+                String join = String.join(",", strings);
+                wiPermissions.addPipelinePermission(wiPermissions,join);
+            }
+            wikiRepository.setPermissions(wiPermissions);
         });
 
         return PaginationBuilder.build(pagination, wikiRepositoryList);

@@ -4,9 +4,9 @@ import io.tiklab.core.exception.ApplicationException;
 import io.tiklab.sward.document.document.model.WikiDocument;
 import io.tiklab.sward.document.document.service.DocumentService;
 import io.tiklab.sward.document.export.builder.DocBuilder;
-import io.tiklab.sward.document.export.builder.DocToWordBuilder;
+import io.tiklab.sward.document.export.builder.html.DocToHtmlBuilder;
+import io.tiklab.sward.document.export.builder.word.DocToWordBuilder;
 import io.tiklab.sward.document.export.model.DocExport;
-import io.tiklab.sward.node.node.model.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,9 @@ public class DocumentExportServiceImpl implements DocumentExportService {
     @Autowired
     DocToWordBuilder docToWordBuilder;
 
+    @Autowired
+    DocToHtmlBuilder docToHtmlBuilder;
+
     @Value("${DATA_HOME}")
     private String dataHome;
 
@@ -37,17 +40,16 @@ public class DocumentExportServiceImpl implements DocumentExportService {
         try {
 
             String details = document.getDetails();
-            Node node = document.getNode();
-            String rawName = node.getName();
-            String name = rawName.replaceAll("[\\\\/:*?\"<>|]", "_")+".docx";
-            String s = dataHome + "/export/";
-            new File(s).mkdirs();
+            String name = findFileName(document.getNode().getName());
+            String savePath = dataHome + "/export/";
+            File file = new File(savePath);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
 
             List<Object> builder = DocBuilder.builder(details);
-            String path = s + name;
+            String path = savePath + name;
             docToWordBuilder.docToWordBuilderList(builder,path);
-
-            // byte[] bytes = Files.readAllBytes(new File(path).toPath());
             return new DocExport(name,path);
         }catch (Exception e) {
             e.printStackTrace();
@@ -57,8 +59,42 @@ public class DocumentExportServiceImpl implements DocumentExportService {
 
     @Override
     public DocExport exportPdf(String docId) {
+        WikiDocument document = documentService.findDocument(docId);
+        if (Objects.isNull(document)){
+            throw new ApplicationException("文档不存在!");
+        }
         return new DocExport();
     }
 
+
+    public DocExport exportHtml(String docId) {
+        WikiDocument document = documentService.findDocument(docId);
+        if (Objects.isNull(document)){
+            throw new ApplicationException("文档不存在!");
+        }
+        try {
+
+            String details = document.getDetails();
+            String name = findFileName(document.getNode().getName());
+            String savePath = dataHome + "/export/";
+            File file = new File(savePath);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+
+            List<Object> builder = DocBuilder.builder(details);
+            String path = savePath + name;
+            docToHtmlBuilder.docToHtmlBuilderList(builder,path);
+            return new DocExport(name,path);
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new ApplicationException("导出失败");
+        }
+    }
+
+
+    private String  findFileName(String rawName){
+        return rawName.replaceAll("[\\\\/:*?\"<>|]", "_")+".docx";
+    }
 
 }

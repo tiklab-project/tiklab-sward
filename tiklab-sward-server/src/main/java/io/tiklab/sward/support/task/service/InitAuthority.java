@@ -106,19 +106,27 @@ public class InitAuthority implements DsmProcessTask {
             "wi_overview","wi_overview_add_dir","wi_overview_add_doc","wi_overview_add_markdown","wi_overview_upload_local_file",
             "wi_doc","wi_doc_add_dir","wi_doc_update","wi_doc_preview", "wi_doc_download" ,"wi_doc_add_doc","wi_doc_add_markdown","wi_doc_upload_local_file","wi_doc_rename","wi_doc_delete","wi_doc_mv","wi_doc_share","wi_doc_archive","wi_doc_mv_recycle","wi_doc_commit_review","wi_doc_add_version","wi_doc_find_version","wi_doc_import_word","wi_doc_comment","wi_doc_offline",
             "wi_statistics","wi_statistics_delete","wi_statistics_rollback","wi_statistics_run","wi_statistics_contribute",
-            "wi_setting","wi_setting_wiki_setting","wi_setting_wiki_update","wi_setting_wiki_archive","wi_setting_wiki_delete","wi_setting_wiki_mv_recycle","wi_setting_doc_share","wi_setting_doc_share_find","wi_setting_doc_share_delete","wi_setting_doc_review","wi_setting_doc_review_open","wi_setting_doc_review_add","wi_setting_doc_review_delete",
+            "wi_setting","wi_setting_wiki_setting",
+            "wi_setting_wiki_update","wi_setting_wiki_archive",
+            "wi_setting_wiki_delete","wi_setting_wiki_mv_recycle",
+            "wi_setting_doc_share","wi_setting_doc_share_find","wi_setting_doc_share_delete",
+            "wi_setting_doc_review","wi_setting_doc_review_open","wi_setting_doc_review_add",
+            "wi_setting_doc_review_delete",
             "wi_setting_doc_archive","wi_setting_doc_archive_recover","wi_setting_doc_archive_delete","wi_setting_doc_recycle","wi_setting_doc_recycle_recover","wi_setting_doc_recycle_recover","wi_setting_doc_recycle_delete",
 
             "domain_user","domain_role","domain_message",
             // 系统全局设置权限
             "domain_user_add","domain_user_delete","domain_user_update",
-            "domain_role_add","domain_role_delete","domain_role_update","domain_role_user_add","domain_role_user_delete","domain_role_permission_update","domain_role_update_default",
+            "domain_role_add","domain_role_delete","domain_role_update","domain_role_user_add",
+            "domain_role_user_delete","domain_role_permission_update","domain_role_update_default",
             "domain_message_status","domain_message_way","domain_message_user_add","domain_message_user_delete"
     };
 
     private final String[] domainFunctionIds = new String[]{
             "wi_overview","wi_overview_add_dir","wi_overview_add_doc","wi_overview_add_markdown","wi_overview_upload_local_file",
-            "wi_doc","wi_doc_add_dir","wi_doc_update","wi_doc_preview", "wi_doc_download" ,"wi_doc_add_doc","wi_doc_add_markdown","wi_doc_upload_local_file","wi_doc_rename","wi_doc_delete","wi_doc_mv","wi_doc_share","wi_doc_archive","wi_doc_mv_recycle","wi_doc_commit_review","wi_doc_add_version","wi_doc_find_version","wi_doc_import_word","wi_doc_comment","wi_doc_offline",
+            "wi_doc","wi_doc_add_dir","wi_doc_update","wi_doc_preview", "wi_doc_download" ,"wi_doc_add_doc","wi_doc_add_markdown",
+            "wi_doc_upload_local_file","wi_doc_rename","wi_doc_delete","wi_doc_mv","wi_doc_share","wi_doc_archive","wi_doc_mv_recycle",
+            "wi_doc_commit_review","wi_doc_add_version","wi_doc_find_version","wi_doc_import_word","wi_doc_comment","wi_doc_offline",
             "wi_setting","wi_setting_wiki_setting","wi_setting_wiki_update",
     };
 

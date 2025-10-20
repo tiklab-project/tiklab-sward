@@ -1,12 +1,12 @@
-package io.tiklab.sward.document.export.builder;
+package io.tiklab.sward.document.export.builder.html;
 
 import io.tiklab.core.exception.SystemException;
 import io.tiklab.core.utils.UuidGenerator;
 import io.tiklab.dfs.client.DfsClient;
-import io.tiklab.dfs.common.model.object.DfsObject;
 import io.tiklab.dfs.common.model.object.DfsObjectMeta;
 import io.tiklab.dfs.common.model.object.FindRequest;
-import io.tiklab.sward.document.export.model.*;
+import io.tiklab.sward.document.export.builder.word.WordBuilder;
+import io.tiklab.sward.document.export.model.word.*;
 import io.tiklab.sward.richText.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,21 +14,18 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Component
-public class DocToWordBuilder {
+public class DocToHtmlBuilder {
 
     @Autowired(required = false)
     DfsClient dfsClient;
 
     @Value("${DATA_HOME}")
-    private String dataHome;
+    String dataHome;
 
 
     /**
@@ -36,8 +33,7 @@ public class DocToWordBuilder {
      * @param list 对象信息
      * @param path 导出位置
      */
-    public void docToWordBuilderList(List<Object> list,String path){
-
+    public void docToHtmlBuilderList(List<Object> list,String path){
         File file = new File(path);
         String fileName = file.getName().substring(0,file.getName().lastIndexOf("."));
         try {
@@ -51,7 +47,7 @@ public class DocToWordBuilder {
                }
                objectList.add(builder1);
            }
-           addWord(objectList,builder);
+            addHtml(objectList,builder);
            builder.save(path);
        }catch (Exception e){
             e.printStackTrace();
@@ -59,7 +55,7 @@ public class DocToWordBuilder {
        }
     }
 
-    private void addWord(List<?> objectList,WordBuilder builder){
+    private void addHtml(List<?> objectList,WordBuilder builder){
         for (Object object : objectList) {
             if (object instanceof WordTable wordTable){
                 builder.addTable(wordTable);
@@ -72,7 +68,9 @@ public class DocToWordBuilder {
             }else if (object instanceof WordImage wordImage){
                 builder.addImage(wordImage);
             }else if (object instanceof List<?> list){
-                addWord(list,builder);
+                addHtml(list,builder);
+            }else if (object instanceof WordLink wordLink){
+                builder.addLink(wordLink);
             }else if (object instanceof WordCodeBlock wordCodeBlock){
                 builder.addCodeBlock(wordCodeBlock);
             }else if (object instanceof WordList wordList){
@@ -107,7 +105,7 @@ public class DocToWordBuilder {
         } else if (object instanceof SwardCodeBlock codeBlock){
             return codeBlock(codeBlock);
         }else if (object instanceof SwardText swardText){
-            return new WordText(swardText.getText(), 10);
+            return new WordText(swardText.getText(), "10px");
         }else if (object instanceof List<?> list){
             return docToWordBuilder(list.get(0));
         } else {
@@ -188,10 +186,10 @@ public class DocToWordBuilder {
             if (child instanceof SwardParagraph paragraph){
                 for (Object paragraphChild : paragraph.getChildren()) {
                     if (paragraphChild instanceof SwardText swardText){
-                        WordText wordText = new WordText(swardText.getText(), 10);
+                        WordText wordText = new WordText(swardText.getText(), "10px");
                         list.add(wordText);
                     } else if (paragraphChild instanceof SwardListChildren swardListChildren) {
-                        WordText wordText = new WordText(swardListChildren.getText(), 10);
+                        WordText wordText = new WordText(swardListChildren.getText(), "10px");
                         list.add(wordText);
                     }else {
                         Object object = docToWordBuilder(child);
@@ -199,10 +197,10 @@ public class DocToWordBuilder {
                     }
                 }
             } else if (child instanceof SwardText swardText){
-                WordText wordText = new WordText(swardText.getText(), 10);
+                WordText wordText = new WordText(swardText.getText(), "10px");
                 list.add(wordText);
             } else if (child instanceof SwardListChildren listChildren) {
-                WordText wordText = new WordText(listChildren.getText(), 10);
+                WordText wordText = new WordText(listChildren.getText(), "10px");
                 list.add(wordText);
             }else {
                 Object object = docToWordBuilder(child);
@@ -368,7 +366,7 @@ public class DocToWordBuilder {
         List<Object> list = new ArrayList<>();
         for (Object child : codeBlock.getChildren()) {
             if (child instanceof SwardText || child instanceof String){
-                WordText wordText = new WordText(child.toString(), 10);
+                WordText wordText = new WordText(child.toString(), "10px");
                 list.add(wordText);
             }else {
                 Object object = docToWordBuilder(child);

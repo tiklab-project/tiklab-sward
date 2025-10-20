@@ -1,10 +1,25 @@
-package io.tiklab.sward.document.export.model;
+package io.tiklab.sward.document.export.model.word;
 
 import java.util.List;
 
 public class WordCodeBlock {
 
     private List<Object> list;
+
+    private String text;
+
+
+    public WordCodeBlock(String text) {
+        this.text = text;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 
     public WordCodeBlock() {
     }

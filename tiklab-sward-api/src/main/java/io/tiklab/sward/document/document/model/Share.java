@@ -1,11 +1,10 @@
 package io.tiklab.sward.document.document.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.tiklab.core.BaseModel;
 import io.tiklab.postin.annotation.ApiModel;
-import io.tiklab.postin.annotation.ApiProperty;
 import io.tiklab.sward.repository.model.WikiRepository;
 import io.tiklab.toolkit.beans.annotation.Mapper;
-import io.tiklab.core.BaseModel;
 import io.tiklab.toolkit.beans.annotation.Mapping;
 import io.tiklab.toolkit.beans.annotation.Mappings;
 import io.tiklab.toolkit.join.annotation.Join;
@@ -13,7 +12,6 @@ import io.tiklab.toolkit.join.annotation.JoinField;
 import io.tiklab.user.user.model.User;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 @ApiModel
 @Mapper
@@ -56,6 +54,16 @@ public class Share extends BaseModel{
 
     // 成员列表
     private String userIds;
+
+    private SharePermissions permissions;
+
+    public SharePermissions getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(SharePermissions permissions) {
+        this.permissions = permissions;
+    }
 
     public Integer getAuthType() {
         return authType;

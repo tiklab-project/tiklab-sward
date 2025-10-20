@@ -1,6 +1,9 @@
-package io.tiklab.sward.document.export.builder;
+package io.tiklab.sward.document.export.builder.word;
 
-import io.tiklab.sward.document.export.model.*;
+import io.tiklab.sward.document.export.model.word.*;
+import org.apache.catalina.connector.ClientAbortException;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.openxml4j.opc.*;
 import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.xmlbeans.XmlCursor;
@@ -13,9 +16,15 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class WordBuilder {
 
@@ -36,7 +45,7 @@ public class WordBuilder {
     }
 
     // 添加标题
-    public void addHead(WordHead wordHead ) {
+    public void addHead(WordHead wordHead) {
         Integer level = wordHead.getLevel();
         level = Math.max(1, Math.min(level, 6));
 
@@ -74,32 +83,327 @@ public class WordBuilder {
         spacing.setBefore(BigInteger.valueOf(before));
         spacing.setAfter(BigInteger.valueOf(after));
 
-        // 添加文字
-        XWPFRun run = para.createRun();
-        run.setBold(true);
-        run.setFontSize(wordHead.getSize()); // 保留传入字号
-        run.setText(wordHead.getText());
+        List<HeadTextSegment> segments = parseRichText(wordHead.getText());
+
+        for (HeadTextSegment seg : segments) {
+            XWPFRun run = para.createRun();
+            run.setBold(true);
+            run.setFontSize(wordHead.getSize());
+            if (seg.getColor() != null) {
+                run.setColor(seg.getColor()); // 设置字体颜色
+            }
+
+            if (seg.getBackground() != null) {
+                // 获取或创建 CTRPr（Run 的属性节点）
+                // 获取 CTR 对象
+                CTR ctr = run.getCTR();
+                // 获取/创建属性 rPr
+                CTRPr rPr = ctr.isSetRPr() ? ctr.getRPr() : ctr.addNewRPr();
+                // 获取/创建 shading 节点
+                CTShd shd = rPr.addNewShd();
+
+                shd.setFill(seg.getBackground()); // 设置背景填充色
+                shd.setVal(STShd.CLEAR);     // 一般设为 CLEAR 表示正常显示
+            }
+
+            if (StringUtils.isEmpty(seg.getText())){
+                run.setText(" ");
+            }else{
+                run.setText(seg.getText());
+            }
+
+        }
+    }
+
+    private List<HeadTextSegment> parseRichText(String htmlLike) {
+        List<HeadTextSegment> list = new ArrayList<>();
+
+        if (htmlLike == null || htmlLike.isEmpty()) {
+            return list;
+        }
+
+        // 支持单引号或双引号样式： <span style='...'>或<span style="...">
+        Pattern p = Pattern.compile("<span\\s+style\\s*=\\s*(['\"])(.*?)\\1\\s*>(.*?)</span>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        Matcher m = p.matcher(htmlLike);
+
+        int lastEnd = 0;
+        while (m.find()) {
+            // 添加上一个匹配之前的普通文本（如果有）
+            if (m.start() > lastEnd) {
+                String normalText = htmlLike.substring(lastEnd, m.start());
+                if (!normalText.isEmpty()) {
+                    HeadTextSegment t = new HeadTextSegment();
+                    t.setText(normalText);
+                    list.add(t);
+                }
+            }
+
+            String style = m.group(2); // 样式内容，如 color:red;background:yellow
+            String inner = m.group(3); // span 内部文本
+
+            HeadTextSegment seg = new HeadTextSegment();
+            seg.setText(inner == null ? "" : inner);
+
+            // 提取 color/background（简单解析 key:value; 的形式）
+            String[] parts = style.split(";");
+            for (String part : parts) {
+                String ptrim = part.trim();
+                if (ptrim.isEmpty()) continue;
+                String[] kv = ptrim.split(":", 2);
+                if (kv.length != 2) continue;
+                String key = kv[0].trim().toLowerCase();
+                String val = kv[1].trim();
+                // 去掉可能的引号和#号
+                if (val.startsWith("\"") && val.endsWith("\"") || val.startsWith("'") && val.endsWith("'")) {
+                    val = val.substring(1, val.length() - 1);
+                }
+                val = val.replace("#", "");
+                switch (key) {
+                    case "color" -> seg.setColor(val);
+                    case "background", "background-color" -> seg.setBackground(val);
+                    case "font_size" -> seg.setFontSize(val);
+                    case "italic" -> seg.setItalic(Boolean.valueOf(val));
+                    case "strike" -> seg.setStrike(Boolean.valueOf(val));
+                    case "bold" -> seg.setBold(Boolean.valueOf(val));
+                    case "underline" -> seg.setUnderline(Boolean.valueOf(val));
+                    case "code_line" -> seg.setCodeLine(Boolean.valueOf(val));
+                }
+            }
+
+            list.add(seg);
+            lastEnd = m.end();
+        }
+
+        // 添加剩余文本（只有在 lastEnd < length 时才处理）
+        if (lastEnd < htmlLike.length()) {
+            String tail = htmlLike.substring(lastEnd);
+            if (!tail.isEmpty()) {
+                HeadTextSegment t = new HeadTextSegment();
+                t.setText(tail);
+                list.add(t);
+            }
+        }
+        return list;
     }
 
     // 添加普通文本
     public void addText(WordText wordText) {
         XWPFParagraph para = doc.createParagraph();
+        addHtmlText(para,wordText);
+    }
+
+    public void addLink(WordLink wordLink) {
+        String text = wordLink.getText();
+        // 创建超链接 Run
+        XWPFParagraph para = doc.createParagraph();
+
+        List<HeadTextSegment> segments = parseRichText(text);
+
+        for (HeadTextSegment seg : segments) {
+            XWPFRun run = para.createHyperlinkRun(wordLink.getUrl());
+            String replace = seg.getFontSize().replace("px", "");
+            run.setFontSize(Integer.parseInt(replace));
+            if (seg.getColor() != null) {
+                run.setColor(seg.getColor()); // 设置字体颜色
+            }
+
+            if (seg.getBold() != null) {
+                run.setBold(seg.getBold());
+            }
+
+            if (seg.getItalic() != null) {
+                run.setItalic(seg.getItalic());
+            }
+
+            if (seg.getUnderline() != null) {
+                if (seg.getUnderline()) {
+                    run.setUnderline(UnderlinePatterns.SINGLE);
+                }else{
+                    run.setUnderline(UnderlinePatterns.NONE);
+                }
+            }
+
+            if (seg.getStrike() != null) {
+                run.setStrike(seg.getStrike());
+            }
+
+
+            if (seg.getBackground() != null) {
+                // 获取 CTR 对象
+                CTR ctr = run.getCTR();
+                // 获取/创建属性 rPr
+                CTRPr rPr = ctr.isSetRPr() ? ctr.getRPr() : ctr.addNewRPr();
+                // 获取/创建 shading 节点
+                CTShd shd = rPr.addNewShd();
+
+                shd.setFill(seg.getBackground()); // 设置背景填充色
+                shd.setVal(STShd.CLEAR);     // 一般设为 CLEAR 表示正常显示
+            }
+
+            if (StringUtils.isEmpty(seg.getText())){
+                run.setText("");
+            }else{
+                run.setText(seg.getText());
+            }
+
+        }
+
+
+
+    }
+
+    public void addCheckListItem(WordCheckListItem checkListItem) {
+
+        XWPFParagraph para = doc.createParagraph();
         XWPFRun run = para.createRun();
-        run.setText(wordText.getText());
-        run.setBold(wordText.getBlog());
-        run.setFontSize(wordText.getSize());
+
+        // 设置字体（确保显示符号）
+        run.setFontFamily("Wingdings 2");
+
+        // 选择显示空框或勾选框
+        String checkbox = checkListItem.isChecked() ? "☑" : "☐";
+        run.setText(checkbox); // 复选框符号 + 空格
+
+        // 设置普通文本标签（显示中文或英文）
+        addHtmlText(para,new WordText(checkListItem.getText()));
+    }
+
+    public void addAttachment(WordAttachment wordAttachment) {
+        try {
+            Path path = Paths.get(wordAttachment.getFilePath());
+            String fileName = wordAttachment.getFileName();
+            OPCPackage opcPackage = doc.getPackage();
+
+            String safeFileName = fileName.replaceAll("[^a-zA-Z0-9_.-]", "_");
+            // 创建 PartName
+            PackagePartName partName = PackagingURIHelper.createPartName("/word/embeddings/" + safeFileName);
+            // 创建 Part
+            String contentType = Files.probeContentType(path);
+            if (contentType == null) contentType = "application/octet-stream";
+            PackagePart part = opcPackage.createPart(partName, contentType);
+            try (InputStream in = Files.newInputStream(path);
+                 OutputStream out = part.getOutputStream()) {
+                 in.transferTo(out);
+            }
+
+            // 添加内部关系
+            PackageRelationship rel = doc.getPackagePart().addRelationship(
+                    partName, TargetMode.INTERNAL,
+                    "http://schemas.openxmlformats.org/officeDocument/2006/relationships/package"
+            );
+            String relId = rel.getId();
+
+            // 插入可点击文字
+            XWPFParagraph para = doc.createParagraph();
+            XWPFHyperlinkRun hyperlinkRun = para.createHyperlinkRun(relId);
+            hyperlinkRun.setText("附件：" + fileName);
+            hyperlinkRun.setColor("0000FF"); // 蓝色
+            hyperlinkRun.setUnderline(UnderlinePatterns.SINGLE);
+
+        } catch (ClientAbortException e) {
+            // 客户端断开，不处理或记录即可
+            logger.warn("客户端已断开连接", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+            addText(new WordText("无法加载附件：" + wordAttachment.getFileName()));
+        }
+    }
+
+    private void addHtmlText(XWPFParagraph para,WordText wordText){
+        List<HeadTextSegment> segments = parseRichText(wordText.getText());
+
+        for (HeadTextSegment seg : segments) {
+            XWPFRun run = para.createRun();
+            String replace;
+            if (seg.getFontSize() != null) {
+                replace = seg.getFontSize().replace("px", "");
+            }else{
+                replace = wordText.getSize().replace("px", "");
+            }
+            run.setFontSize(Integer.parseInt(replace));
+            if (seg.getColor() != null) {
+                run.setColor(seg.getColor()); // 设置字体颜色
+            }
+
+            if (seg.getBold() != null) {
+                run.setBold(seg.getBold());
+            }
+
+            if (seg.getItalic() != null) {
+                run.setItalic(seg.getItalic());
+            }
+
+            if (seg.getUnderline() != null) {
+                if (seg.getUnderline()) {
+                    run.setUnderline(UnderlinePatterns.SINGLE);
+                }else{
+                    run.setUnderline(UnderlinePatterns.NONE);
+                }
+            }
+
+            if (seg.getStrike() != null) {
+                run.setStrike(seg.getStrike());
+            }
+
+
+            if (seg.getBackground() != null) {
+                // 获取 CTR 对象
+                CTR ctr = run.getCTR();
+                // 获取/创建属性 rPr
+                CTRPr rPr = ctr.isSetRPr() ? ctr.getRPr() : ctr.addNewRPr();
+                // 获取/创建 shading 节点
+                CTShd shd = rPr.addNewShd();
+
+                shd.setFill(seg.getBackground()); // 设置背景填充色
+                shd.setVal(STShd.CLEAR);     // 一般设为 CLEAR 表示正常显示
+            }
+
+            // 代码行
+            if (seg.getCodeLine() != null) {
+                if (seg.getCodeLine()) {
+                    run.setFontFamily("Consolas");
+                    CTR ctr = run.getCTR();
+                    // 获取/创建属性 rPr
+                    CTRPr rPr = ctr.isSetRPr() ? ctr.getRPr() : ctr.addNewRPr();
+                    // 获取/创建 shading 节点
+                    CTShd shd = rPr.addNewShd();
+
+                    shd.setFill(seg.getBackground()); // 设置背景填充色
+                    shd.setFill("EDEDED");
+
+                    seg.setText(" "+seg.getText()+" ");
+                }
+            }
+
+
+            if (StringUtils.isEmpty(seg.getText())){
+                run.setText(" ");
+            }else{
+                run.setText(seg.getText());
+            }
+
+        }
     }
 
     public void addParagraph(WordParagraph wordParagraph){
         XWPFParagraph para = doc.createParagraph();
         for (Object object : wordParagraph.getList()) {
-            if (object instanceof  WordText || object instanceof String) {
-                XWPFRun run = para.createRun();
-                run.setText(object.toString());
-                run.setFontSize(10);
+            if (object instanceof  WordText wordText) {
+                addHtmlText(para,wordText);
+            }
+            if (object instanceof  WordLink wordLink) {
+                addLink(wordLink);
             }
             if (object instanceof  WordImage wordImage) {
-               addImage(wordImage);
+                addImage(wordImage);
+            }
+            if (object instanceof  WordAttachment wordAttachment) {
+                addAttachment(wordAttachment);
+            }
+            if (object instanceof  String s) {
+                XWPFRun run = para.createRun();
+                run.setText(s);
+                run.setFontSize(10);
             }
         }
     }
@@ -136,10 +440,13 @@ public class WordBuilder {
                 addCodeBlock(wordCodeBlock);
             }else if (item instanceof WordParagraph wordParagraph) {
                 addList(wordParagraph.getList(),para);
-            } else if (item instanceof String || item instanceof WordText) {
+            } else if ( item instanceof WordText wordText) {
+                // 处理文本内容
+                addHtmlText(para,wordText);
+            } else if (item instanceof String s) {
                 // 处理文本内容
                 XWPFRun run = para.createRun();
-                run.setText(item.toString());
+                run.setText(s);
             } else {
                 logger.error("未知的有序列表属性:{}", item.getClass().getSimpleName());
             }
@@ -194,11 +501,13 @@ public class WordBuilder {
                 addList(list,para);
             } else if (item instanceof WordParagraph wordParagraph) {
                 addList(wordParagraph.getList(),para);
-            } else if (item instanceof String || item instanceof WordText) {
+            } else if ( item instanceof WordText wordText) {
                 // 处理文本内容
-                XWPFRun run = para.createRun();
-                run.setText(item.toString());
-            } else {
+                addHtmlText(para,wordText);
+            } else if (item instanceof String s) {
+                // 处理文本内容
+                addHtmlText(para,new WordText(s));
+            }else {
                 logger.error("未知的有序列表属性:{}", item.getClass().getSimpleName());
             }
         }
@@ -206,10 +515,12 @@ public class WordBuilder {
 
     public void addList(List<?> list,XWPFParagraph para){
         for (Object object : list) {
-            if (object instanceof String || object instanceof WordText) {
-                XWPFRun run = para.createRun();
-                run.setText(object.toString());
-            }else if (object instanceof List<?> lists) {
+            if ( object instanceof WordText wordText) {
+                addHtmlText(para,wordText);
+            } else if (object instanceof String s) {
+                // XWPFRun run = para.createRun();
+                addHtmlText(para,new WordText(s));
+            } else if (object instanceof List<?> lists) {
                 addList(lists,para);
             } else if (object instanceof WordTable wordTable) {
                 addTable(wordTable);
@@ -284,8 +595,8 @@ public class WordBuilder {
                 XWPFParagraph para = cell.addParagraph();
                 para.setAlignment(ParagraphAlignment.CENTER); // 水平居中
                 cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);  // 设置垂直居中
-                XWPFRun run = para.createRun();
-                run.setText(wordText.getText());
+
+                addHtmlText(para,wordText);
             } else if (item instanceof WordList wordList){
                 addTableList(wordList,cell);
             } else if (item instanceof List<?> list){
@@ -425,12 +736,31 @@ public class WordBuilder {
 
             BufferedImage bufferedImage = ImageIO.read(imageStream);
 
-        // 原始宽高（像素）
-            int imageWidth = bufferedImage.getWidth();
-            int imageHeight = bufferedImage.getHeight();
+            int width = bufferedImage.getWidth();
+            int height = bufferedImage.getHeight();
+
+            // 原始宽高（像素）
+            int imageWidth = wordImage.getWidth();
+            int imageHeight = wordImage.getHeight();
+
+            // 等比补全逻辑
+            if (imageWidth <= 0 && imageHeight <= 0) {
+                // 未指定宽高，使用原图尺寸
+                imageWidth = width;
+                imageHeight = height;
+            } else if (imageWidth > 0 && imageHeight <= 0) {
+                // 只指定宽度
+                double ratio = (double) imageWidth / width;
+                imageHeight = (int) (height * ratio);
+            } else if (imageWidth <= 0) {
+                // 只指定高度
+                double ratio = (double) imageHeight / height;
+                imageWidth = (int) (width * ratio);
+            }
+
 
             // Word 页面可用宽度（单位：EMU），通常 A4 宽度约为 21cm，减去边距大概 15cm
-            int maxWidthEMU = Units.toEMU(450); // 大概是 15cm
+            int maxWidthEMU = Units.toEMU(400); // 大概是 15cm
 
             // 若图片宽度超出限制，则等比缩放
             if (Units.toEMU(imageWidth) > maxWidthEMU) {
@@ -459,32 +789,61 @@ public class WordBuilder {
 
     // 添加代码块
     public void addCodeBlock(WordCodeBlock wordCodeBlock) {
-        XWPFParagraph paragraph = doc.createParagraph();
-        paragraph.setSpacingBefore(200);
-        paragraph.setSpacingAfter(200);
-        paragraph.setAlignment(ParagraphAlignment.LEFT);
-        List<Object> codeLines = wordCodeBlock.getList();
-        for (Object codeLine : codeLines) {
-            codeBlock(paragraph, codeLine);
-        }
-    }
+        XWPFTable table = doc.createTable(1, 1);
+        XWPFTableCell cell = table.getRow(0).getCell(0);
+        XWPFParagraph para = cell.getParagraphs().get(0);
+        XWPFRun run = para.createRun();
+        run.setFontFamily("Consolas");
+        run.setFontSize(10);
 
-    private void codeBlock(XWPFParagraph paragraph,Object o ){
-        if (o instanceof WordParagraph wordParagraph){
-            List<Object> list = wordParagraph.getList();
-            for (Object object : list) {
-                if (object instanceof WordText || object instanceof String){
-                    XWPFRun run = paragraph.createRun();
-                    run.setFontFamily("Courier New"); // 等宽字体
-                    run.setFontSize(10);
-                    run.setText(object.toString());
-                    run.setTextHighlightColor("lightGray");
-                    run.addBreak();
-                }else {
-                    codeBlock(paragraph,object);
-                }
+        String code = wordCodeBlock.getText(); // 多行代码
+        String[] lines = code.split("\n");
+        for (int i = 0; i < lines.length; i++) {
+            run.setText(lines[i]);
+            if (i < lines.length - 1) {
+                run.addBreak(); // 手动换行
             }
         }
+        cell.setColor("EDEDED");
+    }
+
+
+    // 添加引用
+    public void addBlockQuote(WordBlockQuote wordBlockQuote) {
+        XWPFParagraph para = doc.createParagraph();
+
+        // 段落样式设置：左缩进 + 左边框 + 背景灰
+        para.setIndentationLeft(100);
+        para.setSpacingBefore(100);
+        para.setSpacingAfter(100);
+
+        // 左边框加粗效果（通过CTPPr手动控制）
+        CTPPr pPr = para.getCTP().isSetPPr() ? para.getCTP().getPPr() : para.getCTP().addNewPPr();
+        CTPBdr borders = pPr.isSetPBdr() ? pPr.getPBdr() : pPr.addNewPBdr();
+        CTBorder left = borders.isSetLeft() ? borders.getLeft() : borders.addNewLeft();
+        left.setVal(STBorder.SINGLE);
+        left.setSz(BigInteger.valueOf(40)); // 加粗线条
+        left.setColor("999999"); // 灰色边框
+
+        // 整段灰色背景
+        CTShd shd = pPr.isSetShd() ? pPr.getShd() : pPr.addNewShd();
+        shd.setVal(STShd.CLEAR);
+        shd.setColor("auto");
+        shd.setFill("F5F5F5"); // 整段背景灰
+
+        // 内容
+        XWPFRun run = para.createRun();
+        String[] lines = wordBlockQuote.getText().split("\n");
+        for (int i = 0; i < lines.length; i++) {
+            run.setText(lines[i]);
+            if (i < lines.length - 1) {
+                run.addBreak();
+            }
+        }
+
+        run.setFontSize(11);
+        run.setColor("555555");
+        run.setItalic(true);
     }
 
     // 保存 Word 文档

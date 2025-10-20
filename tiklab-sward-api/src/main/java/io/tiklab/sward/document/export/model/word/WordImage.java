@@ -1,6 +1,4 @@
-package io.tiklab.sward.document.export.model;
-
-import java.util.List;
+package io.tiklab.sward.document.export.model.word;
 
 public class WordImage {
 

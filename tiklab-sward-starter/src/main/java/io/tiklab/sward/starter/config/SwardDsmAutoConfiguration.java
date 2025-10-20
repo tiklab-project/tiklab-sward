@@ -28,6 +28,9 @@ public class SwardDsmAutoConfiguration {
     InitAuthority initAuthority;
 
     @Autowired
+    InitAuthorityTwo initAuthorityTwo;
+
+    @Autowired
     InitMessageTask initMessageTask;
 
     @Bean
@@ -38,7 +41,9 @@ public class SwardDsmAutoConfiguration {
         return dsmConfig;
     }
 
-
+    /**
+     * 初始化dsm
+     */
     @Bean
     List<DsmVersion> initDsmConfig() {
 
@@ -48,30 +53,24 @@ public class SwardDsmAutoConfiguration {
         DsmVersion dsmVersion = DsmVersionBuilder.instance()
                 .version("1.0.0")
                 .db(new String[]{
-                    "user_1.0.0",
-                    "privilege_1.0.0",
-                    "app-authorization_1.0.0",
-                    "message_1.0.0",
-                    "oplog_1.0.0",
-                    "todotask_1.0.0",
-                    "doc_1.0.0",
+                        "user_1.0.0",
+                        "privilege_1.0.0",
+                        "app-authorization_1.0.0",
+                        "message_1.0.0",
+                        "oplog_1.0.0",
+                        "todotask_1.0.0",
+                        "openapi_1.0.0",
+                        "doc_1.0.0",
                 })
                 .dfs(new String[]{"data_1.0.0"})
-                .task(dssInitIndex)
                 .get();
         versionList.add(dsmVersion);
 
-        DsmVersion dsmVersionDss = DsmVersionBuilder.instance()
-                .version("sward_dss").db( new String[]{})
-                .task(taskInitDss)
-                .get();
-        versionList.add(dsmVersionDss);
-
-        DsmVersion dsmVersionPrivilege = DsmVersionBuilder.instance()
-                .version("sward_privilege").db( new String[]{})
-                .task(privilege)
-                .get();
-        versionList.add(dsmVersionPrivilege);
+        DsmVersion dsmVersion11 = DsmVersionBuilder.instance()
+                .version("sward-approve").db( new String[]{
+                        "sward-approve"
+                }).get();
+        versionList.add(dsmVersion11);
 
         DsmVersion message_109 = DsmVersionBuilder.instance()
                 .version("message_1.0.9")
@@ -101,7 +100,6 @@ public class SwardDsmAutoConfiguration {
                 }).get();
         versionList.add(sqlDocTep);
 
-
         DsmVersion sql131 = DsmVersionBuilder.instance()
                 .version("privilege-gorup_1.0.0")
                 .db(new String[]{
@@ -116,13 +114,35 @@ public class SwardDsmAutoConfiguration {
                 }).get();
         versionList.add(sql132);
 
-
         DsmVersion sql133 = DsmVersionBuilder.instance()
                 .version("sward-node-add-permission_1.0.0")
                 .db(new String[]{
                         "sward-node-add-permission_1.0.0",
                 }).get();
         versionList.add(sql133);
+
+
+        DsmVersion sql_102 = DsmVersionBuilder.instance()
+                .version("user_2.0.0")
+                .db(new String[]{
+                        "user_2.0.0",
+                }).get();
+        versionList.add(sql_102);
+
+        DsmVersion sql_103 = DsmVersionBuilder.instance()
+                .version("user_2.0.1")
+                .db(new String[]{
+                        "user_2.0.1",
+                }).get();
+        versionList.add(sql_103);
+
+        DsmVersion sql140 = DsmVersionBuilder.instance()
+                .version("message_2.0.0")
+                .db(new String[]{
+                        "message_2.0.0"
+                })
+                .get();
+        versionList.add(sql140);
 
         DsmVersion sql134 = DsmVersionBuilder.instance()
                 .version("sward_2.0.0")
@@ -131,17 +151,56 @@ public class SwardDsmAutoConfiguration {
                 }).get();
         versionList.add(sql134);
 
+        DsmVersion sql135 = DsmVersionBuilder.instance()
+                .version("sward_2.0.1")
+                .db(new String[]{
+                        "sward_2.0.1",
+                }).get();
+        versionList.add(sql135);
+
+        DsmVersion sql136 = DsmVersionBuilder.instance()
+                .version("licence_2.0.0")
+                .db(new String[]{
+                        "licence_2.0.0",
+                }).get();
+        versionList.add(sql136);
+
+        DsmVersion dsmVersionPrivilege = DsmVersionBuilder.instance()
+                .version("sward_privilege").db( new String[]{})
+                .task(privilege)
+                .get();
+        versionList.add(dsmVersionPrivilege);
+
+
         DsmVersion sql998 = DsmVersionBuilder.instance()
-                .version("initAuthority")
-                .task(initAuthority)
+                .version("initMessageTask")
+                .task(initMessageTask)
                 .get();
         versionList.add(sql998);
 
         DsmVersion sql999 = DsmVersionBuilder.instance()
-                .version("initMessageTask")
-                .task(initMessageTask)
+                .version("initAuthority")
+                .task(initAuthority)
                 .get();
         versionList.add(sql999);
+
+        DsmVersion sql1000 = DsmVersionBuilder.instance()
+                .version("initAuthorityTwo")
+                .task(initAuthorityTwo)
+                .get();
+        versionList.add(sql1000);
+
+        DsmVersion dsmVersionDss = DsmVersionBuilder.instance()
+                .version("sward_dss").db( new String[]{})
+                .task(taskInitDss)
+                .get();
+        versionList.add(dsmVersionDss);
+
+        DsmVersion fss = DsmVersionBuilder.instance()
+                .version("sward_init_dss").db( new String[]{})
+                .task(dssInitIndex)
+                .get();
+        versionList.add(fss);
 
         return versionList;
     }

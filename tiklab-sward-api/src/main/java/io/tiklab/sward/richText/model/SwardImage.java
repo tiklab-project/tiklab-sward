@@ -10,9 +10,9 @@ public class SwardImage {
 
     private String url;
 
-    private String width;
+    private String width = "0px";
 
-    private String height;
+    private String height = "0px";
 
     public SwardImage() {
     }

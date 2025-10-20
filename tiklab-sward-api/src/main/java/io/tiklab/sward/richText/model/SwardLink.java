@@ -9,7 +9,7 @@ public class SwardLink  extends BaseModel {
 
     private String url;
 
-    public List<Object> children;
+    private List<Object> children;
 
     private String type = "link";
 

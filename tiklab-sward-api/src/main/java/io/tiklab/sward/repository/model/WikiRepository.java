@@ -92,6 +92,16 @@ public class WikiRepository extends BaseModel{
     @ApiProperty(name = "recycleDesc")
     private String recycleTime;
 
+    private WikiRepositoryPermissions permissions;
+
+    public WikiRepositoryPermissions getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(WikiRepositoryPermissions permissions) {
+        this.permissions = permissions;
+    }
+
     public String getId() {
         return id;
     }

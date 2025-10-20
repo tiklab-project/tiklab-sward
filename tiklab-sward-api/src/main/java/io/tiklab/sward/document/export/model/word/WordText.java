@@ -1,4 +1,4 @@
-package io.tiklab.sward.document.export.model;
+package io.tiklab.sward.document.export.model.word;
 
 public class WordText {
 
@@ -6,12 +6,16 @@ public class WordText {
 
     private Boolean blog = false;
 
-    private Integer size = 10;
+    private String size = "10px";
 
     public WordText() {
     }
 
-    public WordText(String text, Integer size) {
+    public WordText(String text) {
+        this.text = text;
+    }
+
+    public WordText(String text, String size) {
         this.text = text;
         this.size = size;
     }
@@ -32,11 +36,11 @@ public class WordText {
         this.blog = blog;
     }
 
-    public Integer getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(String size) {
         this.size = size;
     }
 

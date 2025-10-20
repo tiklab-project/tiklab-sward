@@ -1,4 +1,4 @@
-package io.tiklab.sward.document.export.model;
+package io.tiklab.sward.document.export.model.word;
 
 public class WordHead {
 

@@ -1,21 +1,17 @@
 package io.tiklab.sward.document.document.controller;
 
 import io.tiklab.dfs.client.DfsClient;
-import io.tiklab.dfs.common.model.object.DfsObject;
 import io.tiklab.dfs.common.model.object.DfsObjectMeta;
 import io.tiklab.dfs.common.model.object.FindRequest;
-import io.tiklab.postin.annotation.Api;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.poi.hslf.usermodel.HSLFSlideShow;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.sl.usermodel.Slide;
 import org.apache.poi.sl.usermodel.SlideShow;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
-import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,9 +27,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/document")
@@ -65,7 +57,7 @@ public class DocumentFileController {
         FileOutputStream fileOutputStream = new FileOutputStream(filePath);
 
         FindRequest findRequest = new FindRequest(objectId,fileOutputStream);
-         dfsClient.find(findRequest);
+        dfsClient.find(findRequest);
 
 
         String utf8FileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8);

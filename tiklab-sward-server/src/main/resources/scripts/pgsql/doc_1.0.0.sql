@@ -474,7 +474,6 @@ INSERT INTO pcs_op_log (id, user_id, module, action_type, content, create_time, 
 INSERT INTO pcs_op_log (id, user_id, module, action_type, content, create_time, bgroup, data, link, abstract_content, action) VALUES ('933a599fb9b2', '111111', 'document', 'SWARD_LOGTYPE_DOCUMENTUPDATENAME', NULL, '2024-11-26 11:17:57.96', 'sward', '{"newValue":"事项页面介绍","createUserId":"111111","documentType":"markdown","createTime":"2024-11-26","createUserIcon":"管","repositoryId":"7904ebd674d2","documentId":"043cd0188d3d","createUserName":"admin","oldValue":"事项模块文档"}', 'http://192.168.10.7:8060/#/repositorydetail/7904ebd674d2/doc/043cd0188d3d', NULL, '事项页面介绍');
 
 INSERT INTO pcs_prc_role (id, name, description, grouper, type, business_type, default_role, scope, parent_id) VALUES ('070c9ac2734a', '项目普通用户', '项目普通用户', 'system', '2', 1, 1, 2, NULL);
-INSERT INTO pcs_prc_role (id, name, description, grouper, type, business_type, default_role, scope, parent_id) VALUES ('1af472d3e62d', '普通用户', '普通用户', 'system', '2', 0, 0, 1, NULL);
 INSERT INTO pcs_prc_role (id, name, description, grouper, type, business_type, default_role, scope, parent_id) VALUES ('1fac7297bd6c', 'admin', '管理员', 'system', '2', 0, 0, 2, '2');
 INSERT INTO pcs_prc_role (id, name, description, grouper, type, business_type, default_role, scope, parent_id) VALUES ('2', 'admin', '管理员', 'system', '2', 1, 0, 1, NULL);
 INSERT INTO pcs_prc_role (id, name, description, grouper, type, business_type, default_role, scope, parent_id) VALUES ('2e018b908ac1', 'admin', '管理员', 'system', '2', 0, 0, 2, NULL);

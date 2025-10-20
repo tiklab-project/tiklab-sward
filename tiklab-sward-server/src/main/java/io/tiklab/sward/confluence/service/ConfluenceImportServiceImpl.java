@@ -140,7 +140,9 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
         File file = new File(versionAddress);
         ConfluenceVersion confluenceVersion = ConfluenceVersionConfig.parseExportDescriptor(file);
         String versionNumber = confluenceVersion.getVersionNumber();
-        if (versionNumber.contains("7.4.18")){
+        // if (versionNumber.contains("7.4") && confluenceVersion.getBuildNumber().equals("8402")){
+        String buildNumber = confluenceVersion.getBuildNumber();
+        if (buildNumber.equals("8501") || buildNumber.equals("8402") ){
             // 使用的是7.4.18 的版本
             confluenceVersion.setSupport(true);
         }else {
@@ -429,6 +431,7 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
             ConfluenceData confluenceData = ConfluenceDataBuilder.buildFromHtml(content);
             String detail = ConfluenceDataBuilder.buildFromHtmlList(confluenceData,map);
             if (StringUtils.isEmpty(detail) || detail.equals("[]")){
+                Log("文档"+ page.getName()+"不支持转换,跳过创建!");
                 continue;
             }
             wikiDocument.setDetails(detail);
@@ -436,7 +439,7 @@ public class ConfluenceImportServiceImpl implements ConfluenceImportService {
             wikiDocument.setDetailText(doc.text());
             documentSort++;
             try {
-                String documentId = documentService.createConfluDocument(wikiDocument);
+                 documentService.createConfluDocument(wikiDocument);
             }catch (Exception e) {
                 throw new ApplicationException(2000, "文档添加失败:" + e.getMessage());
             }

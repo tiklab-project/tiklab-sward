@@ -126,7 +126,22 @@ public class ConfluenceDataBuilder {
 
     public static SwardHead findSwardHead(ConfluenceData data, Map<String,String> map) {
         String label = data.getLabel();
-        return new SwardHead(label,new SwardText(data.getContent()));
+        SwardConfluenceText swardText = new SwardConfluenceText(data.getContent());
+        String size ;
+        switch (label){
+            case "h1" -> {size ="25px";}
+            case "h2" -> {size ="22px";}
+            case "h3" -> {size ="20px";}
+            case "h4" -> {size ="18px";}
+            case "h5" -> {size ="16px";}
+            case "h6" -> {size ="14px";}
+            default -> {size = "14px";}
+        }
+
+        swardText.setFontSize(size);
+        swardText.setBold(true);
+
+        return new SwardHead(label,swardText);
     }
 
     /**
@@ -220,7 +235,7 @@ public class ConfluenceDataBuilder {
                     if (cowLabel.equals("col")){
                         String key = "row_"+UuidGenerator.getRandomIdByUUID(24);
                         List<Object> textList = new ArrayList<>();
-                        textList.add(new SwardParagraph(new SwardText("")));
+                        textList.add(new SwardParagraph(new SwardConfluenceText("")));
 
                         SwardTableGroup swardTableGroup = new SwardTableGroup(textList,"table-col",key,"10.00%");
                         list.add(swardTableGroup);
@@ -246,7 +261,7 @@ public class ConfluenceDataBuilder {
                             if (Objects.isNull(cell.getChild()) || cell.getChild().isEmpty()){
                                 SwardTableContent swardTableContent = new SwardTableContent();
                                 List<Object> textList = new ArrayList<>();
-                                textList.add(new SwardParagraph(new SwardText(cell.getContent())));
+                                textList.add(new SwardParagraph(new SwardConfluenceText(cell.getContent())));
                                 swardTableContent.setChildren(textList);
 
                                 List<Object> childList = new ArrayList<>();
@@ -265,7 +280,7 @@ public class ConfluenceDataBuilder {
                                     }
                                 }
                                 SwardTableContent swardTableContent = new SwardTableContent();
-                                // textList.add(new SwardParagraph(new SwardText(cell.getContent())));
+                                // textList.add(new SwardParagraph(new SwardConfluenceText(cell.getContent())));
                                 swardTableContent.setChildren(textList);
 
                                 childList.add(swardTableContent);
@@ -297,7 +312,7 @@ public class ConfluenceDataBuilder {
             List<Object> contentList = data.getContentList();
             SwardParagraph swardParagraph = new SwardParagraph();
             if (contentList.isEmpty()){
-                swardParagraph = new SwardParagraph(new SwardText(data.getContent()));
+                swardParagraph = new SwardParagraph(new SwardConfluenceText(data.getContent()));
             }else {
                 List<Object> swardTextList = new ArrayList<>(contentList);
                 swardParagraph.setChildren(swardTextList);
@@ -307,7 +322,7 @@ public class ConfluenceDataBuilder {
         }
 
         if (!StringUtils.isEmpty(data.getContent())){
-            SwardParagraph swardParagraph = new SwardParagraph(new SwardText(data.getContent()));
+            SwardParagraph swardParagraph = new SwardParagraph(new SwardConfluenceText(data.getContent()));
             tableList.add(swardParagraph);
         }
 
@@ -315,7 +330,7 @@ public class ConfluenceDataBuilder {
             String label = confluenceData.getLabel();
             switch (label) {
                 case "br" -> {
-                    SwardParagraph swardParagraph = new SwardParagraph(new SwardText(" "));
+                    SwardParagraph swardParagraph = new SwardParagraph(new SwardConfluenceText(" "));
                     tableList.add(swardParagraph);
                 }
                 case "ac:image" -> {
@@ -324,13 +339,15 @@ public class ConfluenceDataBuilder {
                         String imageLabel = image.getLabel();
                         if (imageLabel.equals("ri:attachment")) {
                             List<Object> textList = new ArrayList<>();
-                            textList.add(new SwardText(" "));
+                            textList.add(new SwardConfluenceText(" "));
                             String content = image.getContent();
                             String s = map.get(content);
                             if (!StringUtils.isEmpty(s)) {
                                 content = "/image/" + s;
                             }
                             SwardImage swardImage = new SwardImage(content, textList);
+                            swardImage.setWidth("70%");
+                            // swardImage.setHeight("60%");
                             tableList.add(swardImage);
                         }
                     }
@@ -347,7 +364,7 @@ public class ConfluenceDataBuilder {
                             tableList.add(swardP);
                         }
                         if(imageLabel.equals("strong")){
-                            SwardText swardText = new SwardText(image.getContent());
+                            SwardConfluenceText swardText = new SwardConfluenceText(image.getContent());
                             tableList.add(swardText);
                         }
                     }
@@ -365,7 +382,7 @@ public class ConfluenceDataBuilder {
                                 String imageLabel1 = image1.getLabel();
                                 if (imageLabel1.equals("ri:attachment")) {
                                     List<Object> textList = new ArrayList<>();
-                                    textList.add(new SwardText(" "));
+                                    textList.add(new SwardConfluenceText(" "));
                                     String content = image1.getContent();
                                     String s = map.get(content);
                                     if (!StringUtils.isEmpty(s)) {
@@ -384,7 +401,7 @@ public class ConfluenceDataBuilder {
                         String imageLabel = image.getLabel();
                         if (imageLabel.equals("ri:attachment")) {
                             List<Object> textList = new ArrayList<>();
-                            textList.add(new SwardText(" "));
+                            textList.add(new SwardConfluenceText(" "));
                             String content = image.getContent();
                             String s = map.get(content);
                             if (!StringUtils.isEmpty(s)) {
@@ -405,7 +422,7 @@ public class ConfluenceDataBuilder {
 
         }
         if (tableList.isEmpty()){
-            SwardParagraph swardParagraph = new SwardParagraph(new SwardText(" "));
+            SwardParagraph swardParagraph = new SwardParagraph(new SwardConfluenceText(" "));
             tableList.add(swardParagraph);
         }
         return new SwardParagraph(tableList);
@@ -445,7 +462,7 @@ public class ConfluenceDataBuilder {
                         list.add(swardLink);
                     }
                 } else {
-                    SwardText swardText = new SwardText();
+                    SwardConfluenceText swardText = new SwardConfluenceText();
                     if (hasAncestorTag(node, "strong")) swardText.setBold(true);
                     if (hasAncestorTag(node, "em")) swardText.setItalic(true);
                     if (hasAncestorTag(node, "u")) swardText.setUnderline(true);

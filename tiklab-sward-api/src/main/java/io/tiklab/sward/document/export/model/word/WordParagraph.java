@@ -1,7 +1,6 @@
-package io.tiklab.sward.document.export.model;
+package io.tiklab.sward.document.export.model.word;
 
 import java.util.List;
-import java.util.Objects;
 
 public class WordParagraph {
 

@@ -43,10 +43,11 @@ public class DocBuilder {
         String type = jsonObject.getString("type");
         Boolean bold = jsonObject.getBoolean("bold");
         if (StringUtils.isEmpty(type)){
-            if (Objects.isNull(bold)){
-                return JSONObject.parseObject(jsonString, SwardText.class);
-            }
-            return JSONObject.parseObject(jsonString, SwardListChildren.class);
+            return JSONObject.parseObject(jsonString, SwardText.class);
+            // if (Objects.isNull(bold)){
+            //     return JSONObject.parseObject(jsonString, SwardText.class);
+            // }
+            // return JSONObject.parseObject(jsonString, SwardListChildren.class);
         }
         switch (type) {
             case "head" ->{
@@ -121,17 +122,41 @@ public class DocBuilder {
                 swardImage.setChildren(modelList);
                 return swardImage;
             }
-            case "attachment" ->{
-                SwardAttachment swardAttachment = JSONObject.parseObject(jsonString, SwardAttachment.class);
-                List<Object> modelList = findBuilderModelList(swardAttachment.getChildren());
-                swardAttachment.setChildren(modelList);
-                return swardAttachment;
-            }
+            // case "attachment" ->{
+            //     SwardAttachment swardAttachment = JSONObject.parseObject(jsonString, SwardAttachment.class);
+            //     List<Object> modelList = findBuilderModelList(swardAttachment.getChildren());
+            //     swardAttachment.setChildren(modelList);
+            //     return swardAttachment;
+            // }
             case "code-block" ->{
                 SwardCodeBlock swardCodeBlock = JSONObject.parseObject(jsonString, SwardCodeBlock.class);
                 List<Object> modelList = findBuilderModelList(swardCodeBlock.getChildren());
                 swardCodeBlock.setChildren(modelList);
                 return swardCodeBlock;
+            }
+            case "date" ->{
+                SwardDate swardDate = JSONObject.parseObject(jsonString, SwardDate.class);
+                List<Object> modelList = findBuilderModelList(swardDate.getChildren());
+                swardDate.setChildren(modelList);
+                return swardDate;
+            }
+            case "link" ->{
+                SwardLink swardLink = JSONObject.parseObject(jsonString, SwardLink.class);
+                List<Object> modelList = findBuilderModelList(swardLink.getChildren());
+                swardLink.setChildren(modelList);
+                return swardLink;
+            }
+             case "check-list-item" ->{
+                SwardCheckListItem swardCheckListItem = JSONObject.parseObject(jsonString, SwardCheckListItem.class);
+                List<Object> modelList = findBuilderModelList(swardCheckListItem.getChildren());
+                 swardCheckListItem.setChildren(modelList);
+                return swardCheckListItem;
+            }
+            case "block-quote" ->{
+                SwardBlockQuote swardBlockQuote = JSONObject.parseObject(jsonString, SwardBlockQuote.class);
+                List<Object> modelList = findBuilderModelList(swardBlockQuote.getChildren());
+                swardBlockQuote.setChildren(modelList);
+                return swardBlockQuote;
             }
             default -> {
                 JSONObject parseObject = JSONObject.parseObject(jsonString);

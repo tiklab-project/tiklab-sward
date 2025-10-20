@@ -1,12 +1,10 @@
 package io.tiklab.sward.richText.model;
 
-import io.tiklab.core.BaseModel;
-
 public class SwardText {
 
     private String text;
 
-    public Boolean bold = false;  // 加粗
+    private Boolean bold = false;  // 加粗
 
     private Boolean italic = false; // 斜体
 
@@ -16,7 +14,27 @@ public class SwardText {
 
     private String backgroundColor = "#FFFFFF";  // 背景颜色
 
-    private String color = "#00000";
+    private String color = "#000000";
+
+    private String fontSize = "10px";
+
+    private Boolean codeLine = false;
+
+    public Boolean getCodeLine() {
+        return codeLine;
+    }
+
+    public void setCodeLine(Boolean codeLine) {
+        this.codeLine = codeLine;
+    }
+
+    public String getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(String fontSize) {
+        this.fontSize = fontSize;
+    }
 
     public String getColor() {
         return color;

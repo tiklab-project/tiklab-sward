@@ -2,10 +2,13 @@ package io.tiklab.sward.document.export.model;
 
 public class DocExport {
 
+    // 文件名称
     private String fileName;
 
+    // 文件地址
     private String path;
 
+    // 文件内容
     private byte[] bytes;
 
     public DocExport() {

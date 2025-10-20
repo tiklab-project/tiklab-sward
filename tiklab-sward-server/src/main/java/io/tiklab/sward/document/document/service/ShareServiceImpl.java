@@ -1,19 +1,22 @@
 package io.tiklab.sward.document.document.service;
 
 import io.tiklab.core.exception.SystemException;
+import io.tiklab.core.page.Pagination;
+import io.tiklab.core.page.PaginationBuilder;
+import io.tiklab.eam.common.context.LoginContext;
+import io.tiklab.privilege.permission.service.PermissionService;
+import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.sward.document.document.dao.ShareDao;
-import io.tiklab.sward.document.document.model.Share;
-import io.tiklab.sward.document.document.model.ShareQuery;
 import io.tiklab.sward.document.document.entity.ShareEntity;
+import io.tiklab.sward.document.document.model.Share;
+import io.tiklab.sward.document.document.model.SharePermissions;
+import io.tiklab.sward.document.document.model.ShareQuery;
 import io.tiklab.sward.node.node.model.Node;
 import io.tiklab.sward.node.node.model.NodeQuery;
 import io.tiklab.sward.node.node.service.NodeService;
 import io.tiklab.sward.repository.model.WikiRepository;
 import io.tiklab.toolkit.beans.BeanMapper;
-import io.tiklab.core.page.Pagination;
-import io.tiklab.core.page.PaginationBuilder;
 import io.tiklab.toolkit.join.JoinTemplate;
-import io.tiklab.rpc.annotation.Exporter;
 import io.tiklab.user.user.model.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
 * 分享接口
@@ -39,6 +43,10 @@ public class ShareServiceImpl implements ShareService {
 
     @Autowired
     NodeService nodeService;
+
+    @Autowired
+    PermissionService permissionService;
+
 
     @Override
     public String createShare(@NotNull @Valid Share share) {
@@ -105,6 +113,23 @@ public class ShareServiceImpl implements ShareService {
         List<Share> shareList = BeanMapper.mapList(pagination.getDataList(), Share.class);
 
         joinTemplate.joinQuery(shareList,new String[]{"wikiRepository","user"});
+
+        List<String> stringList = shareList.stream().map(share -> share.getWikiRepository().getId())
+                .collect(Collectors.toList());
+
+        Map<String, Set<String>> permissions = permissionService.findDomainListPermissions(LoginContext.getLoginId(), stringList);
+
+        shareList.forEach(share -> {
+            String id = share.getWikiRepository().getId();
+            SharePermissions sharePermissions = new SharePermissions();
+            Set<String> strings = permissions.get(id);
+
+            if(!Objects.isNull(strings)){
+                String join = String.join(",", strings);
+                sharePermissions.addPipelinePermission(sharePermissions,join);
+            }
+            share.setPermissions(sharePermissions);
+        });
 
         return PaginationBuilder.build(pagination,shareList);
     }
